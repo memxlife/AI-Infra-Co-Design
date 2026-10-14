@@ -1,0 +1,14 @@
+{
+  "commands": [
+    "balance",
+    "rewrite",
+    "refactor",
+    "balance",
+    "rewrite",
+    "rewrite -z",
+    "balance",
+    "refactor -z",
+    "rewrite -z",
+    "balance"
+  ]
+}

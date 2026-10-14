@@ -1,0 +1,11 @@
+# @package _global_
+application:
+  name: epfl-synthesis
+  path: .runs/epfl-synthesis-task
+  editable:
+    files:
+      - recipe.json
+    folders: []
+  boundary_failure_score:
+    score: 0.0
+    summary: forbidden edit outside recipe.json
