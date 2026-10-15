@@ -30,6 +30,8 @@ LDS128, LDS32, FFMA, ALU = 0, 1, 2, 3
 
 
 class WarpModel:
+    _rec = None                                       # a recorder (sim/microtrace.py) while trace_phase runs; None otherwise
+
     def __init__(self, contract: dict, structural: dict):
         hz = float(contract.get("clock_hz_sustained") or 2.4e9)
         sb = contract.get("scoreboard_latency_cycles") or {}
@@ -117,6 +119,7 @@ class WarpModel:
         hist = {"issued": 0, "scoreboard": 0, "not_selected": 0, "lsu": 0, "done": 0}
         t = 0; alive = W; deg = self.degree(stride_words); floor = self.floor(W)
         age = list(range(W))
+        rec = self._rec
         while alive > 0 and t < 50_000_000:
             for s in range(S):
                 issued = False; eligible_seen = 0
@@ -124,20 +127,29 @@ class WarpModel:
                     if sched[w] != s:
                         continue
                     if pc[w] >= n:
+                        if rec: rec.state(t, w, "done")
                         continue
                     cls, dep = prog[pc[w]]
                     # in-order: a warp issues at most one instruction per cycle
                     if last_issue[w] >= t + 0.5 and pc[w] > 0:
                         hist["scoreboard"] += 0; continue
                     if cls == FFMA and step_loads_ready[w][dep] > t:
-                        hist["scoreboard"] += 1; continue
+                        hist["scoreboard"] += 1
+                        if rec: rec.state(t, w, "scoreboard")
+                        continue
                     if cls in (LDS128, LDS32) and (mio_free[s] > t + 0.5 or (self.mio_queue_depth and sum(1 for c in mio_pending[s] if c > t) >= self.mio_queue_depth)):
-                        hist["lsu"] += 1; continue                           # mio_throttle: the sub-partition's dispatch slot (or queue) is not free
+                        hist["lsu"] += 1
+                        if rec: rec.state(t, w, "mio")
+                        continue                                             # mio_throttle: the sub-partition's dispatch slot (or queue) is not free
                     if cls == FFMA and fma_free[s] > t + 0.5:
-                        hist["not_selected"] += 1; continue
+                        hist["not_selected"] += 1
+                        if rec: rec.state(t, w, "ready")
+                        continue
                     eligible_seen += 1
                     if issued:
-                        hist["not_selected"] += 1; continue
+                        hist["not_selected"] += 1
+                        if rec: rec.state(t, w, "ready")
+                        continue
                     # issue
                     if cls in (LDS128, LDS32):
                         mio_free[s] = t + self.mio_issue
@@ -146,6 +158,7 @@ class WarpModel:
                         done_at = lsu_free + self.lat[cls]
                         if self.mio_queue_depth:
                             mio_pending[s] = [c for c in mio_pending[s] if c > t] + [lsu_free]
+                        if rec: rec.load(t, w, s, cls, dep, wf, start, lsu_free, done_at)
                         if dep >= 0:
                             # an A load serves its whole unrolled body: every step of the body depends on it
                             targets = range(dep, min(dep + 4, k_steps)) if cls == LDS128 else (dep,)
@@ -154,6 +167,7 @@ class WarpModel:
                     elif cls == FFMA:
                         fma_free[s] = max(fma_free[s], float(t)) + self.fma_cost
                     pc[w] += 1; last_issue[w] = float(t); hist["issued"] += 1; issued = True
+                    if rec: rec.issue(t, w, s, cls)
                     if pc[w] >= n:
                         alive -= 1
                 # oldest-first within a scheduler: rotate the issued warp to the back so a stuck warp does not starve others
@@ -163,6 +177,15 @@ class WarpModel:
             hist["done"] += sum(1 for w in range(W) if pc[w] >= n)
             t += 1
         return float(t), hist
+
+    def trace_phase(self, rec, *args):
+        """phase() run once more, uncached, with every issue, load and warp state handed to `rec` (the microarchitecture view's
+        trace, notes/microarchitecture_view_design.md §4). Same arguments and result as phase()."""
+        self._rec = rec
+        try:
+            return WarpModel.phase.__wrapped__(self, *args)
+        finally:
+            self._rec = None
 
     def phase_cycles(self, warps_per_block: int, blocks: int, k_steps: int, ffma: int, lds32: int, lds128: int, other: int = 0, stride_words: int = 1) -> float:
         return self.phase(warps_per_block, blocks, k_steps, ffma, lds32, lds128, other, 1, stride_words)[0]
