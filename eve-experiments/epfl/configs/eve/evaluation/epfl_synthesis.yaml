@@ -1,0 +1,9 @@
+# @package _global_
+evaluation:
+  steps:
+    - configs/eve/evaluation/epfl_synthesis/evaluation.sh
+  failure_score:
+    score: 0.0
+    summary: synthesis evaluation failed
+  seed_solver_score: null
+  seed_solver_skip_evaluation: false

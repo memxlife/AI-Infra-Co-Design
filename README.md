@@ -16,6 +16,13 @@ web console in which a computer architect can observe, step, edit, inject, overr
 It runs end to end on the paper's shared-memory tiling template; see [`agentic/README.md`](agentic/README.md)
 for the stage status and how to run it.
 
+## Experiments
+
+[EvE experiments](eve-experiments/) contains task-specific reports, configurations
+and commands for agent-assisted design search. The first experiment compares
+four ways of combining agent evolution and execution history on
+[EPFL logic synthesis](eve-experiments/epfl/).
+
 ## Current paper
 
 [Agentic Progressive Verification for Hardware-Software Co-Design of AI Infrastructure](design-verification/papers/agentic_progressive_verification/paper.tex)

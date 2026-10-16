@@ -1,0 +1,18 @@
+{
+  "commands": [
+    "balance",
+    "rewrite",
+    "refactor",
+    "balance",
+    "rewrite",
+    "rewrite -z",
+    "balance",
+    "refactor -z",
+    "resub -K 6",
+    "resub -K 16",
+    "resub -K 6",
+    "rewrite -z",
+    "balance",
+    "rewrite"
+  ]
+}

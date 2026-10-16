@@ -1,0 +1,12 @@
+defaults:
+  - epfl_common
+  - _self_
+
+label: epfl-D
+loop:
+  produce_optimizer_in_phase2: 2
+  n_optimizer_examples_phase2: 100
+  optimizer_log_inheritance: none
+  sampling:
+    optimizer_examples:
+      _target_: scaling_evolve.algorithms.eve.populations.samplers.optimizer_examples.PerWorkerExcludeSelfSampler
