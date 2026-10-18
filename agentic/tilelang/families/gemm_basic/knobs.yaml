@@ -1,0 +1,55 @@
+# Family gemm_basic: TileLang's examples/gemm/example_gemm.py with its integer knobs lifted to holes.
+# kind int_menu = the solver's; structural = the agent's (changes what the program is). Each knob names the TileLang
+# primitive it binds and the constraint it enters (the names are the contract's constraint ids).
+family: gemm_basic
+source: examples/gemm/example_gemm.py at the pinned commit (PINNED.md)
+func: matmul
+kernel: kernel.py.j2
+knobs:
+  - name: block_M
+    kind: int_menu
+    menu: [64, 128, 256]
+    binds: "alloc_shared((block_M, block_K)), Kernel grid rows"
+    enters: [smem, regs, divisibility, waves]
+    meaning: rows of C per block
+  - name: block_N
+    kind: int_menu
+    menu: [64, 128, 256]
+    binds: "alloc_shared((block_K, block_N)), Kernel grid columns"
+    enters: [smem, regs, divisibility, waves]
+    meaning: columns of C per block
+  - name: block_K
+    kind: int_menu
+    menu: [32, 64, 128]
+    binds: "alloc_shared, Pipelined bound"
+    enters: [smem, divisibility]
+    meaning: slice of K per pipeline step
+  - name: num_stages
+    kind: int_menu
+    menu: [2, 3, 4, 5]
+    binds: "Pipelined(num_stages=)"
+    enters: [smem]
+    meaning: pipeline depth (tiles in flight)
+  - name: threads
+    kind: int_menu
+    menu: [128, 256, 512]
+    binds: "Kernel(threads=)"
+    enters: [regs, threads]
+    meaning: threads per block (TileLang adds a producer warp group on sm_121a)
+  - name: swizzle
+    kind: int_menu
+    menu: [0, 4, 8, 16]
+    binds: "use_swizzle(panel_size=)"
+    enters: []
+    meaning: thread-block traversal panel (0 = TileLang's default order; no use_swizzle line)
+skinny_menus:   # when M < 64 the block_M menu is replaced by this one
+  block_M: [16, 32, 64]
+structural:
+  - name: layout
+    choice: [as inferred]
+    binds: annotate_layout
+    note: the agent's; not a hole in this family (TileLang's layout inference decides)
+  - name: copy_lowering
+    choice: [as inferred]
+    binds: pass config
+    note: on sm_121a TileLang lowers the copies to TMA by itself

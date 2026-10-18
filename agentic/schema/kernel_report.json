@@ -1,0 +1,103 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "agentic/kernel_report",
+  "title": "A TileLang kernel compiled and run on the GPU host: correctness, timing, the ptxas resource report, counters",
+  "type": "object",
+  "required": [
+    "id",
+    "ok",
+    "shape",
+    "holes",
+    "kernel_file",
+    "tilelang",
+    "cuda",
+    "host"
+  ],
+  "additionalProperties": true,
+  "properties": {
+    "id": {
+      "type": "string"
+    },
+    "ok": {
+      "type": "boolean"
+    },
+    "shape": {
+      "type": "object"
+    },
+    "holes": {
+      "type": "object"
+    },
+    "kernel_file": {
+      "type": "string"
+    },
+    "func": {
+      "type": "string"
+    },
+    "tilelang": {
+      "type": "object"
+    },
+    "cuda": {
+      "type": "object"
+    },
+    "host": {
+      "type": "string"
+    },
+    "correct": {
+      "type": "boolean"
+    },
+    "latency_ms": {
+      "type": "number"
+    },
+    "tflops": {
+      "type": "number"
+    },
+    "n_regs": {
+      "type": [
+        "integer",
+        "null"
+      ]
+    },
+    "n_spills": {
+      "type": [
+        "integer",
+        "null"
+      ]
+    },
+    "smem_bytes": {
+      "type": [
+        "integer",
+        "null"
+      ]
+    },
+    "threads": {
+      "type": [
+        "integer",
+        "null"
+      ]
+    },
+    "ncu": {
+      "type": [
+        "object",
+        "null"
+      ]
+    },
+    "kernel_source": {
+      "type": "string"
+    },
+    "contract": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "assignment": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "provenance": {
+      "type": "object"
+    }
+  }
+}

@@ -11,7 +11,7 @@ from pathlib import Path
 import jsonschema
 
 HERE = Path(__file__).resolve().parent
-KINDS = ("contract", "assignment", "verdict", "measurement", "diagnosis", "event", "chip", "kernel")
+KINDS = ("contract", "assignment", "verdict", "measurement", "diagnosis", "event", "chip", "kernel", "kernel_report")
 
 
 @lru_cache(maxsize=None)
