@@ -452,5 +452,42 @@
  "icache_loop_limit_KB": {
   "value": 32,
   "source": "probe: icache.cu, loops of 256 to 16384 independent FFMAs (4 to 256 KB of code), 8 warps: full rate up to 32 KB, then -10 % at 64 KB, -27 % at 128 KB, -50 % at 256 KB. TileLang's kernels here are at most about 24 KB in all and their main loops about 3 KB, so instruction fetch is not modelled"
+ },
+ "tier4_features": {
+  "value": {
+   "cluster_max_blocks": 8,
+   "active_clusters_of_2": 48,
+   "distributed_smem": true,
+   "l2_persisting_max_bytes": 18874368,
+   "access_policy_window_max_bytes": 134217728,
+   "stream_priorities": [
+    0,
+    -5
+   ],
+   "cooperative_launch": true,
+   "concurrent_kernels": true
+  },
+  "source": "probe: tier4_query.cu, device attributes and a real 2-block cluster launch whose blocks read each other's shared memory (101/100 as expected); 8 MB asked of the persisting L2 set-aside gave 9 MB (granularity)"
+ },
+ "l2_persist_window_payoff_us": {
+  "value": {
+   "4MB": [
+    20.3,
+    6.0
+   ],
+   "8MB": [
+    37.7,
+    8.0
+   ],
+   "12MB": [
+    51.0,
+    10.1
+   ],
+   "16MB": [
+    63.4,
+    14.2
+   ]
+  },
+  "source": "probe: l2persist.cu, a decode-style read of W MB of weights after a 64 MB stream of other traffic, without and with a stream access-policy window marking the weights persisting (18 MB set aside): 3.4-5x faster; the window keeps the weights in the L2 across the other traffic"
  }
 }

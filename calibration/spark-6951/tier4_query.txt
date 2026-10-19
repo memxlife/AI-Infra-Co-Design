@@ -1,0 +1,13 @@
+RESULT name=NVIDIA GB10 cc=12.1 sms=48 l2_bytes=25165824 persistingL2CacheMaxSize=18874368 accessPolicyMaxWindowSize=134217728
+RESULT clusterLaunch=1
+RESULT memoryPools=1
+RESULT cooperativeLaunch=1
+RESULT concurrentKernels=1
+RESULT streamPriorities=1
+RESULT pageableUsesHostPageTables=1
+RESULT smemOptin=101376
+RESULT maxActiveClusters_size2=48
+RESULT maxPotentialClusterSize=8
+RESULT cluster_dsmem_read block0_sees=101 block1_sees=100 (expect 101, 100)
+RESULT persistingL2_set_8MB_got=9437184
+RESULT streamPriorityRange=0..-5

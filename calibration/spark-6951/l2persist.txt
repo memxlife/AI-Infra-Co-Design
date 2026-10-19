@@ -1,0 +1,8 @@
+RESULT weights_MB=4 persisting_window=0 median_us=20.3 GBs=206
+RESULT weights_MB=4 persisting_window=1 median_us=6.0 GBs=701
+RESULT weights_MB=8 persisting_window=0 median_us=37.7 GBs=222
+RESULT weights_MB=8 persisting_window=1 median_us=8.0 GBs=1044
+RESULT weights_MB=12 persisting_window=0 median_us=51.0 GBs=247
+RESULT weights_MB=12 persisting_window=1 median_us=10.1 GBs=1248
+RESULT weights_MB=16 persisting_window=0 median_us=63.4 GBs=265
+RESULT weights_MB=16 persisting_window=1 median_us=14.2 GBs=1183
