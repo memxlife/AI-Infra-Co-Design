@@ -454,3 +454,11 @@ session where part of B stayed in the L2. Against today's flushed times the simu
 153.5 µs), while the hardware gains 10 %. A lone 4 KB box under load takes about twice a single line's latency (it
 waits for the slowest of its 32 lines); the simulator's even fair-share queue has no such spread, so it thinks 2 stages
 keep DRAM busy. A spread in box latency under load is the next mechanism to add.
+
+**Decode against cuBLASLt, one session** (`runs/tilelang/decode_stages/vs_cublaslt.py`; cuBLASLt's own harness with a
+new option to clear the L2 before each rep; three interleaved rounds). With the L2 flushed before every call (cold
+weights, as in a decode step): M = 32 cuBLASLt 143.2 µs, best TileLang 142.3 (32x128x64, 4 stages); M = 128 cuBLASLt
+152.4, best TileLang 149.5 (128x128x32, 4 stages), the old pick 200.7. Back-to-back, both sides moved by up to 10 %
+between two runs ten minutes apart (part of B surviving in the L2), so those numbers decide nothing. This supersedes
+the earlier finding that M = 32 could not be matched from TileLang: the space held a kernel that ties cuBLASLt; the
+earlier search did not reach it.

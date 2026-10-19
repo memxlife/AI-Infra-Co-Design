@@ -1,0 +1,12 @@
+M=  32 TileLang 32x128x128 st2 back-to-back  135.1  135.8  135.0  median  135.1 us
+M=  32 TileLang 32x128x128 st2 flushed   146.4  146.4  146.4  median  146.4 us
+M=  32 TileLang 32x128x64 st4 back-to-back  131.1  131.9  132.0  median  131.9 us
+M=  32 TileLang 32x128x64 st4 flushed    142.3  142.3  142.3  median  142.3 us
+M=  32 cuBLASLt back-to-back             136.7  144.9  146.0  median  144.9 us
+M=  32 cuBLASLt flushed                  146.2  143.2  143.2  median  143.2 us
+M= 128 TileLang 128x128x32 st4 back-to-back  151.2  150.7  151.4  median  151.2 us
+M= 128 TileLang 128x128x32 st4 flushed   149.5  149.5  149.5  median  149.5 us
+M= 128 TileLang 256x64x32 st2 back-to-back  184.2  183.7  184.4  median  184.2 us
+M= 128 TileLang 256x64x32 st2 flushed    200.7  200.7  200.8  median  200.7 us
+M= 128 cuBLASLt back-to-back             157.0  155.2  154.3  median  155.2 us
+M= 128 cuBLASLt flushed                  152.4  148.5  153.4  median  152.4 us

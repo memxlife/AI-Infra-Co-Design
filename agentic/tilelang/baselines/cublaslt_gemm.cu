@@ -11,6 +11,13 @@
 
 #define CK(x) do { auto e = (x); if (e != 0) { fprintf(stderr, "error %d at line %d\n", (int)e, __LINE__); exit(1); } } while (0)
 
+// optional 6th argument: clear the L2 before every timed rep by reading a 64 MB buffer (cold weights, as in a decode
+// step where other layers run in between)
+__global__ void flush_rd(const int4* __restrict__ p, size_t n, int* sink) {
+  int4 a = make_int4(0, 0, 0, 0);
+  for (size_t i = (size_t)blockIdx.x * blockDim.x + threadIdx.x; i < n; i += (size_t)gridDim.x * blockDim.x) { int4 v = __ldcg(p + i); a.x ^= v.x; }
+  if (a.x == 0x7654321) sink[0] = 1;
+}
 int main(int argc, char** argv) {
   int M = atoi(argv[1]), N = atoi(argv[2]), K = atoi(argv[3]);
   int warmup = argc > 4 ? atoi(argv[4]) : 20, reps = argc > 5 ? atoi(argv[5]) : 100;
@@ -35,11 +42,14 @@ int main(int argc, char** argv) {
   if (nh == 0) { fprintf(stderr, "no cublasLt algorithm\n"); return 2; }
   float alpha = 1.f, beta = 0.f;
   cudaEvent_t e0, e1; CK(cudaEventCreate(&e0)); CK(cudaEventCreate(&e1));
+  int flush = argc > 6 ? atoi(argv[6]) : 0; int4* fbuf = nullptr; int* fsink = nullptr;
+  if (flush) { CK(cudaMalloc(&fbuf, 64u << 20)); CK(cudaMemset(fbuf, 1, 64u << 20)); CK(cudaMalloc(&fsink, 4)); }
   float best_ms = 1e30f; int best_i = -1;
   for (int i = 0; i < nh; i++) {                       // try every heuristic candidate, keep the fastest: what cublasLt's own tuning would do
     for (int w = 0; w < warmup; w++) CK(cublasLtMatmul(lt, op, &alpha, B, la, A, lb, &beta, C, lc, C, lc, &heur[i].algo, ws, ws_size, 0));
     std::vector<float> t;
     for (int r = 0; r < reps; r++) {
+      if (flush) flush_rd<<<192, 512>>>(fbuf, (64u << 20) / 16, fsink);
       CK(cudaEventRecord(e0)); CK(cublasLtMatmul(lt, op, &alpha, B, la, A, lb, &beta, C, lc, C, lc, &heur[i].algo, ws, ws_size, 0)); CK(cudaEventRecord(e1));
       CK(cudaEventSynchronize(e1)); float ms; CK(cudaEventElapsedTime(&ms, e0, e1)); t.push_back(ms);
     }
