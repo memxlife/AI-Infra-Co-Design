@@ -1,8 +1,8 @@
-"""R7: the loop reacts once, replayed without the GPU. One wrong chip term is injected: the DRAM rate at an eighth of
+"""R7: the loop reacts once, replayed without the GPU. One wrong chip term is injected: the DRAM rate at a sixteenth of
 its measured value (the brief says halve the effective L2, but at 4096^3 every panel pick is tensor-bound in the model,
 so a wrong L2 term changes neither the pick nor its prediction; a wrong DRAM rate does). The model then over-charges the
 DRAM term, the kernel runs faster than predicted, diagnose(model) fires, B_HBM is re-fitted from that one measurement
-(to the rate it proves, 29 -> 37 GB/s), the solver runs again and the new pick runs. Under round 2's terms the re-solve
+(to the rate it proves, 15 -> 37 GB/s), the solver runs again and the new pick runs. Under round 2's terms the re-solve
 moved the pick; under round 3's envelopes one measurement moves the shared rate only to what it proves, and the point
 with the least traffic stays the pick, so the chain is asserted and the pick change is reported, not required.
 Measurements come from the 4096^3 sweep table."""
@@ -40,7 +40,7 @@ def test_r7_loop_reacts_once(tmp_path, monkeypatch):
     import agentic.agents.evaluator.tilelang as ev
     monkeypatch.setattr(ev, "run_kernel", canned(rows))
     chip = load_chip("spark-6951-gb10"); terms = dict(load_terms(chip))
-    terms["B_HBM"] = terms["B_HBM"] / 8                                     # the injected wrong term
+    terms["B_HBM"] = terms["B_HBM"] / 16                                    # the injected wrong term (deep enough that any tie the MILP breaks is over-predicted)
     L = Ledger(str(tmp_path / "r7.db"))
     o = Orchestrator(L, "r7", TileLangFormulator([{"M": 4096, "N": 4096, "K": 4096}], terms=terms), evaluator_backend="tilelang:mock", level=5,
                      params={"discrepancy_tol": 0.02})
