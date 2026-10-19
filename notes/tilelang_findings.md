@@ -375,7 +375,7 @@ the defaults, picks run on the Spark (`runs/tilelang/loso/`):
 | 128x4096x4096 | 10% | 256x64x32, 2 st, 128 th, swz 0 | 257.0 µs | 175.1 µs | 207.9 µs | +23.6% |
 
 Pass both: ['2048']. The defaults fix what they were asked to fix: the 4096³ fold now picks a panel (8) and the pick
-is 2.7 % off the best, and 1024³'s pick moves to a panelled 64x128 kernel 6 % off. They cost bound coverage: the plain
+is 4.4 % off the best, and 1024³'s pick moves to a panelled 64x128 kernel 10 % off. They cost bound coverage: the plain
 re-read count over-charges small-tile, low-panel rows at 4096³ and 8192³ where L2 does absorb part of the re-reads,
 so those folds' bound-broken rates rise to 38 % and 25 %. M=128 stays at +24 %: the padded 256-row tile is priced
 right as work, and the kernel is slow for a reason the model does not hold (64 blocks streaming 36 MB at 139 GB/s with
