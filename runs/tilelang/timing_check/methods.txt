@@ -1,0 +1,8 @@
+== 1024x1024x1024: cuBLASLt (C++ harness, idle method) 34.1 us
+   cp.async 128x256x32 st3 th256 direct err 2.1e-04 | idle   46.6 | busy   44.9 | graph   43.3 | b2b   43.0 | host call    4.7 us
+   cp.async 64x128x32 st3 th256 staged  err 2.1e-04 | idle   35.1 | busy   30.6 | graph   30.7 | b2b   30.5 | host call    4.8 us
+   TMA 128x128x32 st3 th128 staged      err 2.1e-04 | idle   46.6 | busy   42.8 | graph   42.8 | b2b   41.0 | host call    4.9 us
+   TMA 64x128x128 st2 th128 direct      err 2.1e-04 | idle   49.7 | busy   46.9 | graph   46.8 | b2b   45.5 | host call    4.9 us
+== 32x4096x4096: cuBLASLt (C++ harness, idle method) 136.4 us
+   TMA 32x128x128 st2                   err 2.1e-04 | idle  151.2 | busy  147.3 | graph  147.3 | b2b  149.5 | host call    5.0 us
+   TMA 32x128x64 st4                    err 2.1e-04 | idle  146.3 | busy  143.2 | graph  143.4 | b2b  143.1 | host call    4.9 us

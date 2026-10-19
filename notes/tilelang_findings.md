@@ -614,3 +614,22 @@ it is a loads-only variant of the fragment kernel at 1, 48, 96, ... CTAs and 1 t
 on a cold L2; not run in this round. For the record against the fp16 S1 table: M = 32 cold 84 µs against cuBLASLt
 149 and M = 128 cold 128 against 155 are W4A16 against fp16 (0.56 B against 2 B per weight), not the same problem;
 warm, with the 9.4 MB L2-resident, the kernel runs 19 to 25 µs at M = 32.
+
+### Correction (Oct 20 2026): the 1024³ and M=32 gaps to cuBLASLt were timing, not code generation
+
+The findings above say TileLang cannot match cuBLASLt at 1024³ (1.8x, "in the generated mainloop") or at M=32
+(+35 %, "in the copy pipeline"). Both rest on TileLang times taken with `do_bench`, which writes zeros to a 256 MB
+buffer before every timed run. That leaves the L2 full of dirty lines, so each timed kernel first pays their write-back
+to DRAM (`dirty_l2_extra_us` in `calibration/spark-6951/gb10.json`: 12-26 µs for kernels reading 2-8 MB). cuBLASLt was
+timed with plain events. Same session, same kernels (`runs/tilelang/timing_check/`, `runs/tilelang/decode_stages/`):
+
+| Shape | cuBLASLt | TileLang, same timing | Old TileLang number |
+|---|---|---|---|
+| 1024³ | 34.1 µs (events, GPU idle) | 35.1 idle, 30.6 with the launch hidden (cp.async 64x128x32, 3 stages, staged store) | 61.5-62.5 |
+| M = 32, L2 flushed before each call | 143.2 | 142.3 (TMA 32x128x64, 4 stages) | 201.7-206.8 |
+| M = 128, L2 flushed before each call | 152.4 | 149.5 (TMA 128x128x32, 4 stages) | 207.9-258.9 |
+
+The kernel the notes timed at 61.5 µs (cp.async 128x256x32) runs in 43-47 µs. TileLang's Python wrapper costs about
+5 µs of host time per call, 2-4.5 µs of it visible on an idle GPU. So at these three shapes the TileLang space holds
+kernels that tie cuBLASLt; the earlier searches were judged under a timing that charged every kernel for the previous
+flush.
