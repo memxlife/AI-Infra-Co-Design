@@ -146,3 +146,32 @@ too fast. The probes behind that split:
   with no loads), then stays flat to 24 blocks; the final C store also slows from 2.4 to 5.4 µs with 32 blocks storing
   at once. The pure-mma probe shows no such step, so it is something else TileLang's loop shares across SMs. Not
   identified.
+
+### Oct 20, the store path; kernel-level result
+
+- **The chip-level step is the epilogue store of C.** The store alone takes 2.37 µs with one block and 4.64 µs with
+  2 to 24 blocks (flat), 5.5 at 32. `storepat.cu`: the two SMs of a pair (TPC) share one store port (every pattern
+  doubles from 1 to 2 busy SMs, blocks 0 and 1 land on SMs 0 and 1), and the chip has a store limit of its own:
+  0.31-0.38 TB/s for TileLang's stores, 1.4-1.5 TB/s for 16-byte coalesced stores.
+- **TileLang's C store is a real cost on this chip.** It writes 4 bytes per lane, 8 rows x 16 bytes per instruction,
+  so each 32-byte sector is filled in two halves by different instructions: 3.0 µs per 64 KB tile alone against 0.7
+  for coalesced 16-byte stores. At 1024³ the 2 MB of C at ~0.35 TB/s is ~6 µs of a 35-40 µs kernel. Vectorized
+  stores would cut it ~4x (from the probe; not yet tried in a TileLang kernel).
+- **Kernel-level validation** (`kernel_level()` in `agentic/gb10/sim/validate.py`): each wave simulated with its own
+  blocks per SM and busy SMs, plus launch, against the measured kernel time.
+
+| Kernel time, 22 cp.async kernels at 1024³ | Median error | Worst | Within 10 % |
+|---|---:|---:|---:|
+| Whole kernel | 5 % | 16 % | 20 of 22 |
+| Loads only | 6 % | 31 % | 12 of 22 |
+
+  Rank correlation of whole-kernel times 0.80 (the 22 lie within 35-52 µs). The two misses are the smallest tiles
+  with 3-4 blocks per SM (+12 %, +16 %), where the loads-only kernel is also slow in the simulator: the L2 share per
+  SM with 4 resident blocks is the next number to measure.
+
+What the simulator now contains, each piece with its probe: the compiler's issue control bits; tensor pipe 16
+cycles per mma; ldmatrix 34-cycle latency, 4 cycles per x4 on the shared-memory array, 11.7 per warp; barrier 13 + 2
+per warp; copies: one 128-byte line per cycle in the load unit's address stage (register read released there), 350
+cycles to L2, 30.7 B per clock per SM port, 2.08 TB/s chip L2, writes into the shared array; stores: a port per SM
+pair and a chip limit, by store width. Two values are assumptions (default latency of other variable-latency
+instructions, 20 cycles; read-barrier release of non-memory instructions, 8 cycles).

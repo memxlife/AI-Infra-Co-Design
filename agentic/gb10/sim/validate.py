@@ -70,3 +70,38 @@ if __name__ == "__main__":
     from scipy.stats import spearmanr
     print("rank correlation of whole-block times:", round(spearmanr([r["full"][0] for r in rows], [r["full"][1] for r in rows])[0], 2))
     json.dump(rows, open(ROOT / "runs" / "gb10" / "sim_validate.json", "w"), indent=1)
+
+
+def kernel_us(name: str, variant: str, h: dict, tiles: int, Rmax: int) -> float:
+    """Simulated kernel time: the block scheduler fills each SM up to Rmax blocks; each wave is simulated with its own
+    blocks per SM and number of busy SMs; plus the launch (2.6 us, probe)."""
+    left, t = tiles, 2.6
+    while left > 0:
+        n = min(left, 48 * Rmax); R = math.ceil(n / 48); act = min(48, n)
+        t += simulate(name, variant, R, act)["us"]; left -= n
+    return t
+
+
+def kernel_level():
+    import statistics as st
+    from scipy.stats import spearmanr
+    m = json.load(open(AB / "mechanisms.json")); regs = dict(l.split() for l in open(AB / "regs.txt"))
+    rows = [json.loads(l) for l in open(AB / "ablation.jsonl")]
+    out = []
+    print(f"{'kernel':24s} R tiles | whole kernel: sim vs meas | loads-only kernel: sim vs meas")
+    for name in sorted(m):
+        r = m[name]; h = r["pick"]; tiles = r["blocks"]
+        smem = h["num_stages"] * (h["block_M"] + h["block_N"]) * h["block_K"] * 2
+        warps = h["threads"] // 32; rw = math.ceil(int(regs[name]) * 32 / 256) * 256
+        Rmax = max(1, min(65536 // (warps * rw), 102400 // (smem + 1024), 1536 // h["threads"], 24))
+        meas_full = r["full_event_us"]
+        nc = [x for x in rows if x["name"] == name and x["variant"] == "nocompute" and x.get("ok") and int(x["blocks"]) == tiles]
+        meas_nc = nc[0]["median_us"] if nc else float("nan")
+        sf = kernel_us(name, "full", h, tiles, Rmax); sn = kernel_us(name, "nocompute", h, tiles, Rmax)
+        out.append({"kernel": name, "R": Rmax, "full": (sf, meas_full), "nocompute": (sn, meas_nc)})
+        print(f"{name:24s} {Rmax} {tiles:4d} | {sf:6.1f} vs {meas_full:6.1f} ({(sf/meas_full-1)*100:+4.0f}%) | {sn:6.1f} vs {meas_nc:6.1f} ({(sn/meas_nc-1)*100:+4.0f}%)", flush=True)
+    for part in ("full", "nocompute"):
+        e = sorted(abs(o[part][0] / o[part][1] - 1) for o in out if o[part][1] == o[part][1])
+        print(f"{part:10s} median |error| {st.median(e)*100:3.0f} %  worst {e[-1]*100:3.0f} %  within 10 %: {sum(x <= .1 for x in e)}/{len(e)}")
+    print("rank correlation of whole-kernel times:", round(spearmanr([o["full"][0] for o in out], [o["full"][1] for o in out])[0], 2))
+    json.dump(out, open(ROOT / "runs" / "gb10" / "sim_kernel_level.json", "w"), indent=1)

@@ -45,6 +45,8 @@ class SM:
         self.tensor_free = [0] * 4; self.smem_free = 0; self.fill_free = 0; self.mio_free = [0] * 4
         # lines each copy of a k-tile touches, in program order (A rows then B rows); cycles them per warp
         self.copy_lines = copy_lines or [4]; self.lsu_free = 0
+        # the store path is shared with the partner SM of the pair when the chip runs more than one block
+        self.stg_share = 2 if active_sms >= 2 else 1; self.stg_free = 0; self.active_sms = active_sms
         self.events = []            # (time, seq, kind, warp, arg)
         self.seq = 0; self.bar_arrived = {}; self.last_issue = [None] * 4
         self.count = {"issued": 0, "HMMA": 0, "LDSM": 0, "LDGSTS": 0, "BAR": 0}
@@ -104,14 +106,23 @@ class SM:
                     rel = now + P["bar_base_clk"] + P["bar_per_warp_clk"] * self.wpb
                     for o in self.warps:
                         if o.block == key: self.ev(rel, "bar", o)
+            elif x.base == "STG":
+                wide = ".128" in x.op; nbytes = 512 if wide else (256 if ".64" in x.op else 128)
+                # the larger of the pair's shared store port and this SM's share of the chip's store limit
+                pair = (P["stg_tpc_clk_per_instr_16B"] if wide else P["stg_tpc_clk_per_instr_4B"]) * self.stg_share
+                chip = nbytes / ((P["stg_chip_B_per_clk_16B"] if wide else P["stg_chip_B_per_clk_4B"]) / self.active_sms)
+                per = max(pair, chip)
+                start = max(now, self.stg_free); self.stg_free = start + per; self.busy["stg"] = self.busy.get("stg", 0) + per
+                if x.rbar is not None: lsu_done = start
             elif x.base == "EXIT":
-                w.done = True
+                # the block is finished only when its stores have left the SM
+                w.done = True; self.end = max(getattr(self, "end", 0), self.stg_free)
             elif x.wbar is not None:
                 lat_done = now + P["default_var_latency_clk"]
             if x.wbar is not None and lat_done is not None and x.base != "LDGDEPBAR":
                 w.sb[x.wbar] += 1; self.ev(lat_done, "sb", w, x.wbar)
             if x.rbar is not None:
-                rel = lsu_done if (x.base == "LDGSTS" and executes) else now + P["rbar_release_clk"]
+                rel = lsu_done if (x.base in ("LDGSTS", "STG") and executes) else now + P["rbar_release_clk"]
                 w.sb[x.rbar] += 1; self.ev(rel, "sb", w, x.rbar)
         w.ready = now + max(1, x.stall)
         # next pc: the k-loop back edge is taken trips-1 times; other branches fall through unless unconditional
@@ -154,7 +165,7 @@ class SM:
             nxt += [t for t in self.tensor_free if t > now] + [t for t in self.mio_free if t > now]
             if self.events: nxt.append(self.events[0][0])
             now = now + 1 if issued else (min(nxt) if nxt else now + 1)
-        return {"cycles": now, **self.count, "busy": self.busy}
+        return {"cycles": max(now, getattr(self, "end", 0)), **self.count, "busy": self.busy}
 
 
 def kernel_sass(path: str | Path, kernel: str = "matmul_kernel") -> list[Ins]:
