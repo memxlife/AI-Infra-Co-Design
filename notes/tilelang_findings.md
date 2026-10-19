@@ -381,3 +381,25 @@ so those folds' bound-broken rates rise to 38 % and 25 %. M=128 stays at +24 %: 
 right as work, and the kernel is slow for a reason the model does not hold (64 blocks streaming 36 MB at 139 GB/s with
 the warps asleep on the TMA barrier). K=1024's fold still breaks the bound on 60 %: its single-wave twin, 1024³, is
 the only source of K=1024 tile rates once the series' asymptotic rate is a bound rather than a fit.
+
+**Absolute error, for the record** (asked after step 2; all timings from disk, no GPU). Mean absolute percent error of
+predicted against measured over every timed kernel at the shape, the mean sign, and the same on the solver's pick
+alone. "Before" is round 2's terms (fitted on the three sweep shapes, so the last four rows are already out of
+sample for it); "after" is round 3's, fitted on all seven and again with the shape held out. A pick marked "–" is one
+the round-3 in-sample solver chose that was never timed.
+
+| shape | timed | before: all kernels | before: pick | after, all seven: all kernels | pick | after, held out: all kernels | pick |
+|---|---|---|---|---|---|---|---|
+| 1024³ | 692 | 7 %, 6 % under | 0 % | 18 %, 14 % under | 26 % under | 20 %, 16 % under | 21 % under |
+| 4096³ | 505 | 24 %, 10 % over | 11 % under | 11 %, 6 % under | 8 % under | 18 %, 2 % over | 7 % under |
+| 32×4096×4096 | 651 | 4 %, 3 % under | 5 % under | 20 %, 15 % under | 20 % under | 20 %, 4 % under | 18 % under |
+| 2048³ | 30 | 32 %, 32 % under | 22 % under | 16 %, 16 % under | – | 28 %, 28 % under | 15 % under |
+| 8192³ | 30 | 30 %, 0 % over | 7 % under | 14 %, 9 % under | – | 23 %, 18 % under | 16 % under |
+| 4096×4096×1024 | 30 | 51 %, 38 % over | 47 % over | 16 %, 16 % under | – | 27 %, 13 % under | 6 % under |
+| 128×4096×4096 | 30 | 14 %, 1 % under | 19 % under | 22 %, 12 % under | 32 % under | 23 %, 16 % under | 32 % under |
+
+Reading it: round 2's model was tight where it was fitted (4–7 % on the sweep shapes) and wrong in both directions out
+of sample (38 % over at K=1024, 32 % under at 2048³). Round 3's is a looser bound everywhere (11–22 % in-sample, 18–28 %
+held out) and under on every row but one: that is what making every term an envelope buys and costs. The pick's own
+error is the number the solver acts on: 6–32 % under, held out, which is why the picks are right to within a few
+percent on four shapes and wrong by 24 % at M=128, where the model under-predicts the most.
