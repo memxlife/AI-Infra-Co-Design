@@ -1,0 +1,14 @@
+RESULT ex2.f32   latency_cycles=18.2 | w1 4.0 | w4 15.8 | w8 16.0 | w16 16.0 | w32 16.0  (lane results per clock per SM)
+RESULT rcp.f32   latency_cycles=0.1 | w1 5216.8 | w4 5622.4 | w8 16611.1 | w16 36873.0 | w32 88069.4  (lane results per clock per SM)
+RESULT rsqrt.f32 latency_cycles=18.1 | w1 4.0 | w4 15.8 | w8 16.0 | w16 16.0 | w32 16.0  (lane results per clock per SM)
+RESULT sin.f32   latency_cycles=22.2 | w1 3.9 | w4 15.7 | w8 16.0 | w16 16.0 | w32 16.0  (lane results per clock per SM)
+RESULT lg2.f32   latency_cycles=18.1 | w1 4.0 | w4 15.8 | w8 16.0 | w16 16.0 | w32 16.0  (lane results per clock per SM)
+RESULT tanh.f32  latency_cycles=18.1 | w1 4.0 | w4 15.8 | w8 16.0 | w16 16.0 | w32 16.0  (lane results per clock per SM)
+RESULT ffma.f32  latency_cycles=4.7 | w1 28.2 | w4 112.0 | w8 121.8 | w16 121.0 | w32 123.6  (lane results per clock per SM)
+    324 FFMA
+    261 MUFU.EX2
+    261 MUFU.LG2
+      9 MUFU.RCP
+    261 MUFU.RSQ
+    261 MUFU.SIN
+    261 MUFU.TANH

@@ -43,7 +43,7 @@ class SM:
         for b in range(blocks):
             for w in range(wpb): self.warps.append(Warp(wid=len(self.warps), block=b, smsp=w % 4))
         self.wpb = wpb; self.blocks = blocks
-        self.tensor_free = [0] * 4; self.smem_free = 0; self.fill_free = 0; self.mio_free = [0] * 4
+        self.tensor_free = [0] * 4; self.smem_free = 0; self.fill_free = 0; self.mio_free = [0] * 4; self.mufu_free = [0] * 4
         # lines each copy of a k-tile touches, in program order (A rows then B rows); cycles them per warp
         self.copy_lines = copy_lines or [4]; self.lsu_free = 0
         # the store path is shared with the partner SM of the pair when the chip runs more than one block
@@ -59,6 +59,9 @@ class SM:
     def ev(self, t, kind, w, arg=None):
         self.seq += 1; heapq.heappush(self.events, (t, self.seq, kind, w, arg))
 
+    def on_event(self, kind, w, arg, now):
+        pass
+
     def eligible(self, w: Warp, now: int) -> bool:
         if w.done or w.at_bar or w.ready > now: return False
         x = self.ins[w.pc]
@@ -68,6 +71,7 @@ class SM:
             m = re.search(r"SB(\d),\s*0x([0-9a-f]+)", x.args)
             if m and w.sb[int(m.group(1))] > int(m.group(2), 16): return False
         if x.base == "HMMA" and self.tensor_free[w.smsp] > now: return False
+        if x.base == "MUFU" and self.mufu_free[w.smsp] > now: return False
         if x.base in ("LDSM", "LDGSTS") and self.mio_free[w.smsp] > now: return False
         return True
 
@@ -116,6 +120,10 @@ class SM:
                     rel = now + P["bar_base_clk"] + P["bar_per_warp_clk"] * self.wpb
                     for o in self.warps:
                         if o.block == key: self.ev(rel, "bar", o)
+            elif x.base == "MUFU":
+                # the special function unit: one warp instruction per 8 cycles per sub-partition, 18-cycle results
+                self.mufu_free[w.smsp] = now + P["mufu_smsp_clk_per_instr"]; self.busy["sfu"] = self.busy.get("sfu", 0) + P["mufu_smsp_clk_per_instr"]
+                lat_done = now + P["mufu_latency_clk"]
             elif x.base == "STG":
                 wide = ".128" in x.op; nbytes = 512 if wide else (256 if ".64" in x.op else 128)
                 # the larger of the pair's shared store port and this SM's share of the chip's store limit
@@ -162,6 +170,8 @@ class SM:
                     w.pending[arg] -= 1
                     if w.pending[arg] == 0 and arg in w.committed: w.sb[w.committed.pop(arg)] -= 1
                 elif kind == "bar": w.at_bar = False; w.ready = max(w.ready, now)
+                else:
+                    self.on_event(kind, w, arg, now)
             if all(w.done for w in self.warps): break
             issued = False
             for s in range(4):
@@ -172,7 +182,7 @@ class SM:
                 self.issue(w, now); self.last_issue[s] = w; issued = True
             # jump to the next cycle where something can change
             nxt = [w.ready for w in self.warps if not w.done and not w.at_bar and w.ready > now]
-            nxt += [t for t in self.tensor_free if t > now] + [t for t in self.mio_free if t > now]
+            nxt += [t for t in self.tensor_free if t > now] + [t for t in self.mio_free if t > now] + [t for t in self.mufu_free if t > now]
             if self.events: nxt.append(self.events[0][0])
             now = now + 1 if issued else (min(nxt) if nxt else now + 1)
         return {"cycles": max(now, getattr(self, "end", 0)), **self.count, "busy": self.busy}

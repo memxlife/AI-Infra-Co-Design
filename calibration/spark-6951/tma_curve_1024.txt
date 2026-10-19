@@ -1,0 +1,22 @@
+1024/full.bin
+1024/kt0.bin
+1024/kt0_nostore.bin
+1024/nocompute.bin
+1024/nocompute_nostore.bin
+1024/noload.bin
+nocompute_nostore grid 1 1: median_us=8.704 span_us=5.344 block_mean_us=5.344 
+nocompute_nostore grid 8 1: median_us=8.608 span_us=6.336 block_mean_us=6.120 
+nocompute_nostore grid 16 1: median_us=10.464 span_us=6.784 block_mean_us=6.570 
+nocompute_nostore grid 24 1: median_us=10.624 span_us=7.424 block_mean_us=7.143 
+nocompute_nostore grid 32 1: median_us=11.776 span_us=9.152 block_mean_us=8.723 
+nocompute_nostore grid 48 1: median_us=15.808 span_us=12.608 block_mean_us=11.743 
+nocompute_nostore grid 8 12: median_us=25.664 span_us=20.576 block_mean_us=9.636 
+nocompute_nostore grid 8 16: median_us=33.184 span_us=31.424 block_mean_us=10.213 
+nocompute grid 1 1: median_us=8.704 span_us=6.016 block_mean_us=6.016 
+nocompute grid 8 1: median_us=10.720 span_us=7.808 block_mean_us=7.132 
+nocompute grid 16 1: median_us=10.720 span_us=8.064 block_mean_us=7.702 
+nocompute grid 24 1: median_us=12.608 span_us=8.896 block_mean_us=8.617 
+nocompute grid 32 1: median_us=14.752 span_us=11.360 block_mean_us=10.626 
+nocompute grid 48 1: median_us=17.760 span_us=15.392 block_mean_us=14.135 
+nocompute grid 8 12: median_us=31.744 span_us=27.232 block_mean_us=12.385 
+nocompute grid 8 16: median_us=39.328 span_us=36.032 block_mean_us=11.967 

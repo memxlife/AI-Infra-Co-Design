@@ -117,7 +117,7 @@ def dram_waves_kslice(h: dict, shape: dict, resident_blocks: int = SMS) -> tuple
     key = (M, N, K, bm, bn, bk, panel, resident_blocks)
     if key in _kslice_cache: return _kslice_cache[key]
     tiles_m, tiles_n, KT = math.ceil(M / bm), math.ceil(N / bn), math.ceil(K / bk)
-    a_sz, b_sz = bm * bk * 2, bk * bn * 2; cap = C["l2_effective_bytes"]
+    a_sz, b_sz = min(bm, M) * bk * 2, bk * min(bn, N) * 2; cap = C["l2_effective_bytes"]   # rows past M are never read
     lru = OrderedDict(); used = 0.0; per_wave = []; total = 0.0
     order = list(launch_order(tiles_m, tiles_n, panel))
     for w in range(0, len(order), resident_blocks):

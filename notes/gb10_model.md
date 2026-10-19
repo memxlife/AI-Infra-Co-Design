@@ -201,3 +201,29 @@ instructions, 20 cycles; read-barrier release of non-memory instructions, 8 cycl
 
   All 25: median 7 %, 20 within 10 %. Outlier: M=128 with 64x64 tiles (+43 %), the LRU over-count above (69 MB
   simulated, 51 MB measured).
+
+### Oct 20, the TMA path and the SFU
+
+- **Warp-specialized TMA kernels** (`agentic/gb10/sim/ws.py`, `python -m agentic.gb10.sim.ws_validate`): roles from
+  thread-index comparisons evaluated per warp; TMA boxes through the SM's TMA engine (81 GB/s alone, 1.86 TB/s chip,
+  from the 1024³ pick's loads-only variant without the store; the earlier 1.58 included the store); mbarrier waits as
+  blocking waits matched by order; the register hand-off; k-loops of either shape (conditional back edge, or forward
+  exit plus jump back) decided by the k-tiles remaining; out-of-range rows of a box move no data.
+
+| TMA pick | mma only, one block | Whole kernel at its grid |
+|---|---:|---:|
+| 1024³ | +10 % | −10 % |
+| 2048³ | +3 % | −4 % |
+| 4096³ | 0 % | −16 % |
+| 4096×4096×1024 | +14 % | −15 % |
+| 8192³ | 0 % | −38 % |
+| M=32 | +4 % | +21 % |
+| M=128 | −2 % | +20 % |
+
+  The compute side holds; the misses are on the memory side at large and decode shapes (DRAM traffic and its rate on
+  the TMA path).
+- **The special function unit** (`sfu.cu`): ex2, rsqrt, lg2, tanh 18-cycle latency (sin 22), 16 lane results per clock
+  per SM, one warp instruction per 8 cycles per sub-partition; FFMA 124 per clock. Added to the simulator as a pipe
+  per sub-partition; on the probe's own machine code it reproduces 4.0 / 15.8 / 16.0 / 16.0 at 1 / 4 / 8 / 16 warps
+  (FFMA within 4 %). For attention at head dimension 128 the exp needs about one eighth of the tensor time.
+- **cp.async at five shapes after the in-range fix:** M=32 rank 1.00, regret 0; all 25 median 7 %.

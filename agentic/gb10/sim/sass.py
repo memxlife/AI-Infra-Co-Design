@@ -66,10 +66,17 @@ def parse(text: str, kernel: str | None = None) -> list[Ins]:
 
 
 def main_loop(ins: list[Ins]) -> tuple[int, int]:
-    """(start, end) indices of the longest backward-branch loop: the k-loop of a GEMM."""
-    best = None
+    """(start, end) indices of the GEMM's k-loop: among backward branches that are conditional (a predicate guard, or
+    BRA.U on a uniform predicate), the one whose body holds the most mma, then the most copies (cp.async or TMA), then
+    the longest. Unconditional backward jumps (retry stubs of mbarrier waits) are not loops."""
+    best, best_key = None, None
     for j, x in enumerate(ins):
         if x.base == "BRA" and x.target is not None and x.target < x.addr:
-            s = next(k for k, y in enumerate(ins) if y.addr == x.target)
-            if best is None or j - s > best[1] - best[0]: best = (s, j)
+            conditional = bool(x.pred) or (x.op.startswith("BRA.U") and re.match(r"!?U?P\d", x.args or ""))
+            if not conditional: continue
+            s_ = next((k for k, y in enumerate(ins) if y.addr == x.target), None)
+            if s_ is None: continue
+            body = ins[s_:j + 1]
+            key = (sum(y.base == "HMMA" for y in body), sum(y.base in ("LDGSTS", "UTMALDG") for y in body), j - s_)
+            if best_key is None or key > best_key: best, best_key = (s_, j), key
     return best
