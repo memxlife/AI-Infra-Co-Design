@@ -320,3 +320,23 @@ We are testing whether mechanisms work, not shipping a system. Every item is a q
 ### 10.5 What to report
 
 Three numbers per shape as before (fraction removed by constraints, fraction that spill, gap from solver pick to sample best), plus for round 2: which new knobs the solver's pick actually used, the gain over round 1's pick in microseconds and percent, and for each knob the number of lines changed in `agentic/tilelang/` to expose it. That last number is the cost of the recipe, and it is what tells us whether to repeat it on Triton.
+
+## 11. Round 3 brief: close the small-shape and decode gaps, fix the model out of sample, price one wall
+
+This section overrides Sections 9 and 10 where they conflict. Round 2 (commit `aa2c502`) found: the twelve-knob space is flat beyond the six integer knobs (only warp specialization off moved time, 4.3%); the linear-SMEM "cliff" was a TileLang correctness bug caught by the torch check; split-K is refuted at M=32 (256 blocks pull no more bandwidth than 32); the model's bound breaks out of sample on 50–71% of points at 8192³ and 4096×4096×1024, with two missing terms named; R7 fires live and replayed. S1 so far: cuBLASLt 34.2 µs at 1024³ (ours 62.5, 1.8× slower) and 1456 µs at 4096³ (ours 1379, 5% faster). Round 3 does not add knobs to `gemm_basic`.
+
+Working rules are those of Section 10.3: an hour or two of machine time per item, one paragraph per item in `notes/tilelang_findings.md`, stop and report after each item.
+
+| # | Item | What to do | Done when |
+| --- | --- | --- | --- |
+| S1 | cuBLASLt at every shape | One table: cuBLASLt vs our pick at 1024³, 2048³, 4096³, 8192³, 4096×4096×1024, M=32, M=128. Same timing as ours. | Table in `report.md`. If the big squares are within the noise band, say so in one line and treat that part as closed. |
+| S2 | The small-shape and decode family | Two shapes lose badly: 1024³ (1.8× vs cuBLASLt; 64 tiles or fewer for 48 SMs) and M=32 (split-K refuted: one block streams B badly, not too few blocks). Build the structural alternative as a third family: for 1024³, smaller tiles with more blocks per SM or stream-K (examples/gemm\_streamk/); for M=32, from `examples/gemv/` or `examples/flash_decoding/`: no shared-memory staging (global → registers, widest vector loads), more resident warps per SM streaming B. The Formulator must pick from the probe evidence (tiles < SMs; blocks ×8 → bandwidth ×1), not from a hint; record the live reply. | Each shape's kernel correct and within 10% of cuBLASLt, or a one-paragraph finding on why this chip cannot be matched from TileLang for that shape. |
+| S3 | Two terms into the model | Add the per-wave start-up and the per-block streaming cap to `cost.py`, each fitted as a minimum over its series (envelope, not least squares). Re-run R5 on the same four out-of-sample shapes. | Bound-broken ≤ 10% on all four; M=128 pick within 10% of sample best. Keep the before/after error histograms side by side in `report.md`. |
+| S4 | Knob importance, as a figure | At each sweep shape's best point, vary one knob at a time over its menu and record the latency spread (max/min). Use the existing sweep tables where they contain the points. | One bar chart per shape: spread per knob. This is the measurement of "the space is low-dimensional." |
+| S5 | Price one wall on the Spark | Contract `smem_bytes_per_sm` in `chip.json` from 99 KB down in 16 KB steps; re-solve at 4096³ each time; run each pick. | Latency vs cap as a staircase, with the step at which the pick changes tile shape marked. One day. This is the shadow price of the Wall Relaxation note, measured on real hardware. |
+
+Also: file the linear-SMEM + TMA wrong-answer bug upstream with TileLang after Li has read \`ISSUE.md\` (minimal repro, generated CUDA for one failing point), and keep the paragraph to the findings note: the correctness check caught a compiler bug that the performance sweep would have recorded as a cliff.
+
+Not in round 3: more knobs on `gemm_basic`, attention, the console, the graph layer. The graph layer (TVM Relax above TileLang) starts after S2 and S3, because it will use the kernel solver's bound as its cost and that bound has to hold out of sample first.
+
+Report back per item: the done-when number, the ledger run id, and anything TileLang did that this section did not expect, with file and line.
