@@ -1,0 +1,116 @@
+import tilelang
+import tilelang.language as T
+
+# examples/gemm_streamk/example_tilelang_gemm_streamk.py at fe6d319c: the kernel body is the example's. The module-level
+# numbers the example's kernel closes over are holes here; dp_stages is the one adaptation (the example hard-codes 1).
+M_, N_, K_ = {{ M }}, {{ N }}, {{ K }}
+total_sm = {{ programs }}
+streamk_programs = total_sm
+BLOCK_SIZE_M, BLOCK_SIZE_N, BLOCK_SIZE_K = {{ block_M }}, {{ block_N }}, {{ block_K }}
+num_block_m = tilelang.cdiv(M_, BLOCK_SIZE_M)
+num_block_n = tilelang.cdiv(N_, BLOCK_SIZE_N)
+iters_per_tile = tilelang.cdiv(K_, BLOCK_SIZE_K)
+total_tiles = num_block_m * num_block_n
+streamk_tiles = total_tiles % streamk_programs
+if total_tiles - streamk_tiles > streamk_programs:
+    streamk_tiles += streamk_programs
+blocking_tiles = total_tiles - streamk_tiles
+streamk_iters = streamk_tiles * iters_per_tile
+streamk_full_tiles = streamk_iters // streamk_programs
+streamk_partial_tiles = streamk_iters % streamk_programs
+sm_patition_factor = max(blocking_tiles // total_sm, 1)
+
+
+@tilelang.jit(pass_configs={'tl.disable_warp_specialized': True})
+def tl_matmul_streamk(
+    A,
+    B,
+    C,
+    streamk_tiles,
+    block_M,
+    block_N,
+    block_K,
+    trans_A,
+    trans_B,
+    dtypeAB,
+    dtypeC,
+    accum_dtype,
+    num_stages,
+    threads,
+):
+    assert not trans_A
+    M, N, K = T.const("M, N, K")
+    A_shape = (M, K) if not trans_A else (K, M)
+    B_shape = (K, N) if not trans_B else (N, K)
+    A_shared_shape = (block_M, block_K) if not trans_A else (block_K, block_M)
+    B_shared_shape = (block_K, block_N) if not trans_B else (block_N, block_K)
+
+    A: T.Tensor(A_shape, dtypeAB)
+    B: T.Tensor(B_shape, dtypeAB)
+    C: T.Tensor((M, N), dtypeC)
+
+    with T.Kernel(streamk_programs, threads=threads) as pid:
+        A_shared = T.alloc_shared(A_shared_shape, dtypeAB)
+        B_shared = T.alloc_shared(B_shared_shape, dtypeAB)
+        A_shared_full_tiles = T.alloc_shared(A_shared_shape, dtypeAB)
+        B_shared_full_tiles = T.alloc_shared(B_shared_shape, dtypeAB)
+        C_local = T.alloc_fragment((block_M, block_N), accum_dtype)
+
+        # compute first wave
+        start_iter = T.alloc_fragment((1,), T.int32, "local")
+        end_iter = T.alloc_fragment((1,), T.int32, "local")
+
+        start_iter[0] = pid * streamk_full_tiles + T.min(pid, streamk_partial_tiles)
+        last_iter = (pid + 1) * streamk_full_tiles + T.min(pid + 1, streamk_partial_tiles)
+
+        while start_iter[0] < last_iter:
+            end_iter[0] = T.min(
+                start_iter[0] + (iters_per_tile - (start_iter[0] % iters_per_tile)),
+                last_iter,
+            )
+
+            tile_id = start_iter[0] // iters_per_tile
+            remain_iters = start_iter[0] % iters_per_tile
+            pid_m = tile_id // T.ceildiv(N, block_N)
+            pid_n = tile_id % T.ceildiv(N, block_N)
+
+            T.clear(C_local)
+            for k in T.Pipelined(end_iter[0] - start_iter[0], num_stages=num_stages):
+                T.copy(
+                    A[pid_m * block_M, (k + (start_iter[0] % iters_per_tile)) * block_K],
+                    A_shared,
+                )
+                T.copy(
+                    B[pid_n * block_N, (k + (start_iter[0] % iters_per_tile)) * block_K],
+                    B_shared,
+                )
+                T.gemm(A_shared, B_shared, C_local, transpose_B=trans_B)
+
+            # last iteration of the tile always happens before its start on another SM
+            if remain_iters == 0 and (end_iter[0] % iters_per_tile == 0):
+                T.copy(C_local, C[pid_m * block_M, pid_n * block_N])
+            else:
+                for i, j in T.Parallel(block_M, block_N):
+                    T.atomic_add(C[pid_m * block_M + i, pid_n * block_N + j], C_local[i, j])
+
+            start_iter[0] = end_iter[0]
+
+        # compute full tiles
+        if sm_patition_factor > 0:
+            for p in T.serial(sm_patition_factor):
+                tile_id = pid + streamk_tiles + p * total_sm
+                pid_m = tile_id // T.ceildiv(N, block_N)
+                pid_n = tile_id % T.ceildiv(N, block_N)
+                T.clear(C_local)
+
+                for k in T.Pipelined(T.ceildiv(K, block_K), num_stages={{ dp_stages }}):
+                    T.copy(A[pid_m * block_M, k * block_K], A_shared_full_tiles)
+                    T.copy(B[pid_n * block_N, k * block_K], B_shared_full_tiles)
+                    T.gemm(A_shared_full_tiles, B_shared_full_tiles, C_local, transpose_B=trans_B)
+                T.copy(C_local, C[pid_m * block_M, pid_n * block_N])
+
+
+def build():
+    """The example's call, with the holes filled: a compiled kernel for A (M, K) fp16, B (N, K) fp16, C (M, N) fp32 (zeroed by the caller)."""
+    return tl_matmul_streamk.compile(M=M_, N=N_, K=K_, streamk_tiles=streamk_tiles, block_M=BLOCK_SIZE_M, block_N=BLOCK_SIZE_N, block_K=BLOCK_SIZE_K,
+                                     trans_A=False, trans_B=True, dtypeAB=T.float16, dtypeC=T.float32, accum_dtype=T.float32, num_stages={{ num_stages }}, threads={{ threads }})

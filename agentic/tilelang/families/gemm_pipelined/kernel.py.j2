@@ -1,0 +1,41 @@
+import tilelang
+import tilelang.language as T
+{% if warp_policy is string or warp_policy %}from tilelang.tileop.base import GemmWarpPolicy
+{% endif %}{% if smem_layout != "inferred" %}from tilelang.layout import make_swizzled_layout, make_linear_layout
+{% endif %}{% if tma is string or tma == 0 %}from tilelang.cuda.language import copy as cuda_copy
+{% endif %}
+
+@tilelang.jit{% if jit_args %}({{ jit_args }}){% endif %}
+def matmul(A, B{{ params }}, dtype=T.float16, accum_dtype=T.float32):
+    M, N, K = T.const("M, N, K")
+
+    A: T.Tensor((M, K), dtype)
+    B: T.Tensor((K, N), dtype)
+    C = T.empty((M, N), dtype)
+
+    with T.Kernel(T.ceildiv(N, {{ block_N }}), T.ceildiv(M, {{ block_M }}), threads={{ threads }}) as (bx, by):
+        A_shared = T.alloc_shared(({{ block_M }}, {{ block_K }}), dtype)
+        B_shared = T.alloc_shared(({{ block_K }}, {{ block_N }}), dtype)
+        C_local = T.alloc_fragment(({{ block_M }}, {{ block_N }}), accum_dtype)
+
+{% if smem_layout == "smem_layout" %}        if {{ smem_layout }} == "swizzled":
+            T.annotate_layout({A_shared: make_swizzled_layout(A_shared), B_shared: make_swizzled_layout(B_shared)})
+        elif {{ smem_layout }} == "linear":
+            T.annotate_layout({A_shared: make_linear_layout(A_shared), B_shared: make_linear_layout(B_shared)})
+{% elif smem_layout == "swizzled" %}        T.annotate_layout({A_shared: make_swizzled_layout(A_shared), B_shared: make_swizzled_layout(B_shared)})
+{% elif smem_layout == "linear" %}        T.annotate_layout({A_shared: make_linear_layout(A_shared), B_shared: make_linear_layout(B_shared)})
+{% endif %}{% if swizzle is string %}        T.use_swizzle(panel_size={{ swizzle }}, enable={{ swizzle }} > 0)
+{% elif swizzle %}        T.use_swizzle(panel_size={{ swizzle }})
+{% endif %}        T.clear(C_local)
+{% if prefetch is string %}        for k in T.Pipelined(T.ceildiv(K, {{ block_K }}), num_stages={{ num_stages }}, **({"order": [0, 1, 2], "stage": [0, 0, {{ prefetch }}]} if {{ prefetch }} > 0 else {})):
+{% elif prefetch %}        for k in T.Pipelined(T.ceildiv(K, {{ block_K }}), num_stages={{ num_stages }}, order=[0, 1, 2], stage=[0, 0, {{ prefetch }}]):
+{% else %}        for k in T.Pipelined(T.ceildiv(K, {{ block_K }}), num_stages={{ num_stages }}):
+{% endif %}{% set cp = "cuda_copy" if (tma is string or tma == 0) else "T.copy" %}{% set vw = (", coalesced_width=" ~ vec_width) if (vec_width is string or vec_width) else "" %}{% set dt = (", disable_tma=(" ~ tma ~ " == 0)") if tma is string else (", disable_tma=True" if tma == 0 else "") %}            {{ cp }}(A[by * {{ block_M }}, k * {{ block_K }}], A_shared{{ vw }}{{ dt }})
+            {{ cp }}(B[k * {{ block_K }}, bx * {{ block_N }}], B_shared{{ vw }}{{ dt }})
+{% if warp_policy is string %}            T.gemm(A_shared, B_shared, C_local, policy=GemmWarpPolicy({{ warp_policy }}))
+{% elif warp_policy %}            T.gemm(A_shared, B_shared, C_local, policy=GemmWarpPolicy.{{ {1: "FullRow", 2: "FullCol"}[warp_policy] }})
+{% else %}            T.gemm(A_shared, B_shared, C_local)
+{% endif %}
+        T.copy(C_local, C[by * {{ block_M }}, bx * {{ block_N }}])
+
+    return C

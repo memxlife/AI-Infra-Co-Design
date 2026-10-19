@@ -1,7 +1,7 @@
 #!/bin/bash
 # runs on the Spark: build every variant harness with nvcc (TileLang's include paths), run the planned grids, one JSON line each
 export PATH=/usr/local/cuda/bin:$PATH CUDA_HOME=/usr/local/cuda
-cd ~/work/research/AI-Infra-Co-Design-calib/tilelang/ablation
+cd ~/work/research/AI-Infra-Co-Design-calib/tilelang/${ABL_DIR:-ablation}
 TL=$HOME/work/research/tilelang-work/tilelang
 INC="-I$TL/src -I$TL/3rdparty/cutlass/include -I/usr/local/cuda/include"; export INC
 ONLY=${1:-}

@@ -1,0 +1,57 @@
+# Family gemm_streamk (round 3, S2 revised, skeleton 2): examples/gemm_streamk/example_tilelang_gemm_streamk.py with the
+# module-level numbers its kernel closes over lifted to holes, warp specialization off (the example does not compile with
+# it on at fe6d319c). B is (N, K) (trans_B); C is fp32 and must be zeroed before each launch (atomic adds).
+family: gemm_streamk
+source: examples/gemm_streamk/example_tilelang_gemm_streamk.py at fe6d319c (UPSTREAM.md)
+func: build
+kernel: kernel.py.j2
+shape_holes: [M, N, K]
+knobs:
+  - name: block_M
+    kind: int_menu
+    menu: [16, 32, 64, 128]
+    binds: "BLOCK_SIZE_M -> alloc_shared((block_M, block_K)), tile count"
+    enters: [smem, regs, divisibility]
+    meaning: rows of C per tile (the example uses 16)
+  - name: block_N
+    kind: int_menu
+    menu: [64, 128, 256]
+    binds: "BLOCK_SIZE_N -> alloc_shared((block_N, block_K)), tile count"
+    enters: [smem, regs, divisibility]
+    meaning: columns of C per tile (the example uses 128)
+  - name: block_K
+    kind: int_menu
+    menu: [32, 64]
+    binds: "BLOCK_SIZE_K -> alloc_shared, Pipelined bound, iters_per_tile"
+    enters: [smem, divisibility]
+    meaning: slice of K per pipeline step (the example uses 32)
+  - name: num_stages
+    kind: int_menu
+    menu: [2, 3, 4]
+    binds: "Pipelined(num_stages=) of the stream-K loop"
+    enters: [smem]
+    meaning: pipeline depth of the stream-K partial-tile loop (the example uses 2)
+  - name: dp_stages
+    kind: int_menu
+    menu: [1, 2, 3, 4]
+    binds: "Pipelined(num_stages=) of the data-parallel full-tile loop (the example hard-codes 1)"
+    enters: [smem]
+    meaning: pipeline depth of the full-tile loop; 1 renders the example exactly
+    round: 3
+  - name: threads
+    kind: int_menu
+    menu: [64, 128, 256]
+    binds: "Kernel(threads=)"
+    enters: [regs, threads]
+    meaning: threads per program (the example uses 64)
+  - name: programs
+    kind: int_menu
+    menu: [48, 96, 144]
+    binds: "total_sm -> Kernel(streamk_programs); the persistent grid and the stream-K split"
+    enters: [occupancy]
+    meaning: persistent programs (the example hard-codes 108 for an A100; the GB10 has 48 SMs)
+rules:
+  smem: "(num_stages + dp_stages) * (block_M + block_N) * block_K * 2 B + 1 KB <= 99 KB  (two stage rings: the stream-K and the full-tile buffers)"
+  regs: "block_M * block_N / threads accumulators + ~24 <= floor(65536 / threads / 8) * 8, at least 16 values per thread"
+  divisibility: "M % block_M == 0, N % block_N == 0, K % block_K == 0 (the example has no bounds checks)"
+  occupancy: "programs <= 48 * blocks_per_SM(smem, regs); more than one program per SM only when two fit"

@@ -1,0 +1,376 @@
+[
+{
+"name": "c64x64x32_st3_th128",
+"holes": {
+"block_M": 64,
+"block_N": 64,
+"block_K": 32,
+"num_stages": 3,
+"threads": 128,
+"swizzle": 0
+},
+"shape": {
+"M": 1024,
+"N": 1024,
+"K": 1024
+},
+"smem": 24576
+},
+{
+"name": "c64x64x32_st3_th256",
+"holes": {
+"block_M": 64,
+"block_N": 64,
+"block_K": 32,
+"num_stages": 3,
+"threads": 256,
+"swizzle": 0
+},
+"shape": {
+"M": 1024,
+"N": 1024,
+"K": 1024
+},
+"smem": 24576
+},
+{
+"name": "c64x64x128_st3_th128",
+"holes": {
+"block_M": 64,
+"block_N": 64,
+"block_K": 128,
+"num_stages": 3,
+"threads": 128,
+"swizzle": 0
+},
+"shape": {
+"M": 1024,
+"N": 1024,
+"K": 1024
+},
+"smem": 98304
+},
+{
+"name": "c64x64x128_st3_th256",
+"holes": {
+"block_M": 64,
+"block_N": 64,
+"block_K": 128,
+"num_stages": 3,
+"threads": 256,
+"swizzle": 0
+},
+"shape": {
+"M": 1024,
+"N": 1024,
+"K": 1024
+},
+"smem": 98304
+},
+{
+"name": "c64x128x32_st3_th128",
+"holes": {
+"block_M": 64,
+"block_N": 128,
+"block_K": 32,
+"num_stages": 3,
+"threads": 128,
+"swizzle": 0
+},
+"shape": {
+"M": 1024,
+"N": 1024,
+"K": 1024
+},
+"smem": 36864
+},
+{
+"name": "c64x128x32_st3_th256",
+"holes": {
+"block_M": 64,
+"block_N": 128,
+"block_K": 32,
+"num_stages": 3,
+"threads": 256,
+"swizzle": 0
+},
+"shape": {
+"M": 1024,
+"N": 1024,
+"K": 1024
+},
+"smem": 36864
+},
+{
+"name": "c64x128x64_st3_th128",
+"holes": {
+"block_M": 64,
+"block_N": 128,
+"block_K": 64,
+"num_stages": 3,
+"threads": 128,
+"swizzle": 0
+},
+"shape": {
+"M": 1024,
+"N": 1024,
+"K": 1024
+},
+"smem": 73728
+},
+{
+"name": "c64x128x64_st3_th256",
+"holes": {
+"block_M": 64,
+"block_N": 128,
+"block_K": 64,
+"num_stages": 3,
+"threads": 256,
+"swizzle": 0
+},
+"shape": {
+"M": 1024,
+"N": 1024,
+"K": 1024
+},
+"smem": 73728
+},
+{
+"name": "c64x256x32_st3_th128",
+"holes": {
+"block_M": 64,
+"block_N": 256,
+"block_K": 32,
+"num_stages": 3,
+"threads": 128,
+"swizzle": 0
+},
+"shape": {
+"M": 1024,
+"N": 1024,
+"K": 1024
+},
+"smem": 61440
+},
+{
+"name": "c64x256x32_st3_th256",
+"holes": {
+"block_M": 64,
+"block_N": 256,
+"block_K": 32,
+"num_stages": 3,
+"threads": 256,
+"swizzle": 0
+},
+"shape": {
+"M": 1024,
+"N": 1024,
+"K": 1024
+},
+"smem": 61440
+},
+{
+"name": "c128x64x32_st3_th128",
+"holes": {
+"block_M": 128,
+"block_N": 64,
+"block_K": 32,
+"num_stages": 3,
+"threads": 128,
+"swizzle": 0
+},
+"shape": {
+"M": 1024,
+"N": 1024,
+"K": 1024
+},
+"smem": 36864
+},
+{
+"name": "c128x64x32_st3_th256",
+"holes": {
+"block_M": 128,
+"block_N": 64,
+"block_K": 32,
+"num_stages": 3,
+"threads": 256,
+"swizzle": 0
+},
+"shape": {
+"M": 1024,
+"N": 1024,
+"K": 1024
+},
+"smem": 36864
+},
+{
+"name": "c128x128x32_st3_th128",
+"holes": {
+"block_M": 128,
+"block_N": 128,
+"block_K": 32,
+"num_stages": 3,
+"threads": 128,
+"swizzle": 0
+},
+"shape": {
+"M": 1024,
+"N": 1024,
+"K": 1024
+},
+"smem": 49152
+},
+{
+"name": "c128x128x32_st3_th256",
+"holes": {
+"block_M": 128,
+"block_N": 128,
+"block_K": 32,
+"num_stages": 3,
+"threads": 256,
+"swizzle": 0
+},
+"shape": {
+"M": 1024,
+"N": 1024,
+"K": 1024
+},
+"smem": 49152
+},
+{
+"name": "c128x128x64_st3_th128",
+"holes": {
+"block_M": 128,
+"block_N": 128,
+"block_K": 64,
+"num_stages": 3,
+"threads": 128,
+"swizzle": 0
+},
+"shape": {
+"M": 1024,
+"N": 1024,
+"K": 1024
+},
+"smem": 98304
+},
+{
+"name": "c128x128x64_st3_th256",
+"holes": {
+"block_M": 128,
+"block_N": 128,
+"block_K": 64,
+"num_stages": 3,
+"threads": 256,
+"swizzle": 0
+},
+"shape": {
+"M": 1024,
+"N": 1024,
+"K": 1024
+},
+"smem": 98304
+},
+{
+"name": "c128x256x32_st3_th256",
+"holes": {
+"block_M": 128,
+"block_N": 256,
+"block_K": 32,
+"num_stages": 3,
+"threads": 256,
+"swizzle": 0
+},
+"shape": {
+"M": 1024,
+"N": 1024,
+"K": 1024
+},
+"smem": 73728
+},
+{
+"name": "c128x256x64_st2_th256",
+"holes": {
+"block_M": 128,
+"block_N": 256,
+"block_K": 64,
+"num_stages": 2,
+"threads": 256,
+"swizzle": 0
+},
+"shape": {
+"M": 1024,
+"N": 1024,
+"K": 1024
+},
+"smem": 98304
+},
+{
+"name": "c256x64x32_st3_th128",
+"holes": {
+"block_M": 256,
+"block_N": 64,
+"block_K": 32,
+"num_stages": 3,
+"threads": 128,
+"swizzle": 0
+},
+"shape": {
+"M": 1024,
+"N": 1024,
+"K": 1024
+},
+"smem": 61440
+},
+{
+"name": "c256x64x32_st3_th256",
+"holes": {
+"block_M": 256,
+"block_N": 64,
+"block_K": 32,
+"num_stages": 3,
+"threads": 256,
+"swizzle": 0
+},
+"shape": {
+"M": 1024,
+"N": 1024,
+"K": 1024
+},
+"smem": 61440
+},
+{
+"name": "c256x128x32_st3_th256",
+"holes": {
+"block_M": 256,
+"block_N": 128,
+"block_K": 32,
+"num_stages": 3,
+"threads": 256,
+"swizzle": 0
+},
+"shape": {
+"M": 1024,
+"N": 1024,
+"K": 1024
+},
+"smem": 73728
+},
+{
+"name": "c256x128x64_st2_th256",
+"holes": {
+"block_M": 256,
+"block_N": 128,
+"block_K": 64,
+"num_stages": 2,
+"threads": 256,
+"swizzle": 0
+},
+"shape": {
+"M": 1024,
+"N": 1024,
+"K": 1024
+},
+"smem": 98304
+}
+]

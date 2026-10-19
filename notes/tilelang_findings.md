@@ -487,3 +487,66 @@ and 3696), since the rate table never saw 128x128 or 64x64 at 4096³ with panel 
 10 % panel tie is the one thing this experiment adds to the model's to-do list: a traffic term that separates
 panel 8 from 16 at 4096³ would need the L2's actual reuse across panels, which the microbenchmark default sets
 to zero.
+
+### S2 revised: three skeletons from the TileLang repo, run unchanged first
+
+*Round 3, Oct 19 2026. Scripts in `runs/tilelang/skel/`, generated CUDA in `runs/tilelang/skel/src/`, families under
+`agentic/tilelang/families/{gemm_pipelined,gemm_streamk,gemv_splitk,gemm_frag_w4a16}/` with the upstream path and
+commit in each `UPSTREAM.md`. All times warm (back-to-back, as cuBLASLt was timed in S1) unless marked cold
+(TileLang's `do_bench`, which flushes the L2 between calls: Finding 0 of step 2c). cuBLASLt warm: 1024³ 34.2 µs,
+4096x4096x1024 400.8, M=32 148.9, M=128 155.4.*
+
+**Skeleton 1, `examples/gemm/example_gemm.py` with warp specialization off (cp.async, every warp computes).** The
+example's kernel body, unchanged, compiled once as the example (TMA + the producer warp group) and once with
+`tl.disable_warp_specialized`. Both correct (max error 0.062 against torch, fp16 rounding). At 1024³ with the example's
+own 128x128x32 tile, 3 stages, 128 threads: as-is 45.2 µs warm (74.7 cold), warp specialization off 38.9 µs warm
+(63.4 cold). So the skeleton the brief asked for is already 14 % faster than the round-1 pick at this shape and sits
+**+14 % against cuBLASLt** before any knob is touched; the generated code is `cp_async_gs` + `ldmatrix` + `mma_sync`,
+128 threads, `__launch_bounds__(128, 1)`. The other tiles tried unchanged, as-is / off: 64x128x32 38.9 / 39.7,
+64x64x32 43.0 / 37.7, 128x128x64 45.2 / 45.9, 256x128x32 117 / 101, 128x256x32 116 / 91. The knob exposure and the
+solver's pick follow below once the cp.async constants are measured.
+
+**Skeleton 2, `examples/gemm_streamk/`.** As written the example does not compile at the pinned commit: the
+warp-specialization pass fails with `ProducerConsumerWS: failed to replace pipeline loop`
+(`src/cuda/transform/producer_consumer_ws.cc:1789`). With `tl.disable_warp_specialized` it compiles, lowers to
+cp.async, and is correct at its own shape (256x1024x512, 14.4 µs) and at ours. Its kernel closes over module-level
+numbers (shape, `total_sm = 108` for an A100, the 16x128x32 tile, 64 threads, 2 stages in the stream-K loop and 1 stage
+hard-coded in the data-parallel loop); "unchanged" means those numbers set to our shape and 48 SMs, the body as is.
+1024³: 512 tiles, 80 stream-K tiles + 432 data-parallel, **114.7 µs, +235 % against cuBLASLt** (C zeroed outside the
+timed region; the fp32 atomic output is the example's). 4096x4096x1024: 8192 tiles, **2444 µs, +510 %**. The gap is
+the example's choices, not stream-K: a 16-row tile moves 9x the bytes per flop of a 128x128 tile, 64 threads hold
+one warp's worth of MMA issue, and the data-parallel loop, which does 98 % of the work at 4096x4096x1024, has no
+pipelining at all. Those are exactly the holes the family exposes (`gemm_streamk/knobs.yaml`: tile, stages of both
+loops, threads, programs).
+
+**Skeleton 3, `examples/gemv/` and the fragment kernel of PR #3290.** The GEMV example computes one row; at M=1,
+N=K=4096 fp16 its vectorized split-K kernels stream B at 239 to 247 GB/s warm (136 to 140 µs; 211 cold, 159 GB/s),
+torch's own GEMV 191 µs. That is the weight-stream floor for the decode shapes: the 32 MB of B at the measured DRAM
+rate is 124 µs, our M=32 pick already runs at 124, cuBLASLt at 149. The PR #3290 fragment kernel ran unchanged on
+the pinned commit (its imports exist; its compute-capability check wants 12.0 and the GB10 reports 12.1, so it was
+launched through its own `launch()`): relative error 1.7e-3 against the dequantized reference, deterministic. It is a
+W4A16 kernel, 0.56 B per weight against 2 B for the fp16 baseline, so its times are not the S1 comparison: M=32
+24.8 µs warm / 94.0 cold with its heuristic config (32-row pass, 4 warps, split-K 2), M=128 69.6 warm / 149.2 cold
+(two 64-row passes). Cold, its 9.4 MB (M=32) and 18.9 MB (M=128) of weights move at 100 to 127 GB/s; warm the M=32
+weights are L2-resident (9.4 MB fits), which is why warm and cold differ 4x there and 2x at M=128. Read for its
+loader: a hand-written cp.async stage ring (`ptx_commit_group`/`ptx_wait_group`, `call_extern` into a `prelude`),
+a run-time persistent grid, 64-bit iteration partition and a ticketed fixed-order fix-up. None of it is TileLang
+primitives we could lift into a family without writing a kernel, which the brief rules out; the family here is the PR
+module unchanged with its `FragConfig` knobs.
+
+**Race check, before trusting any warp-specialized kernel (issue #3451).** Two checks on every skeleton:
+`compute-sanitizer --tool racecheck` on one launch and 30 random inputs against torch; plus a static check of the
+generated CUDA (`agentic/tilelang/skeletons/release_check.py`) that finds the stage buffers the producer fills and
+verifies no consumer read of them follows the back-pressure `arrive` in the loop body, the exact shape of #3451
+(tested on a synthetic late read). Results: (1) the TMA + warp-specialized kernel of our family releases each stage
+after its last ldmatrix: OK, no hazards. (2) **On this commit, TileLang warp-specializes only when the copies go
+through TMA.** Our family's `tma: 0, warp_spec: 1` point renders a kernel with 128 threads, no producer group and no
+mbarrier, byte for byte the `warp_spec: 0` kernel; so round 2's 112 "cp.async + warp specialization" points were the
+plain kernel, and the #3451 pattern (a cp.async-filled stage under warp specialization) cannot be produced by any
+of these families here. The knob is a no-op on the cp.async path; `gemm_pipelined` pins it. (3) The cp.async
+skeleton and the fragment kernel: no hazards, correct on every input. (4) **The stream-K example has a real
+write-after-read hazard**: racecheck reports it on every launch (`__shared__ 0x4600`, inside `A_shared`). The
+generated CUDA has no `__syncthreads()` between the last multiply of one `while` iteration (the pipeline epilogue
+reading the last stage) and the first cp.async of the next (the prologue writing stage 0); the data-parallel loop
+that follows does get that barrier. Thirty random inputs were still correct, so on this GPU it is a timing race.
+Draft report with the repro in `agentic/tilelang/repro/streamk_war/ISSUE.md`, to show Li before filing.

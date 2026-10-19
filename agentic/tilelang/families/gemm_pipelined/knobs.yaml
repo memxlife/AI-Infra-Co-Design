@@ -1,0 +1,69 @@
+# Family gemm_pipelined (round 3, S2 revised, skeleton 1): examples/gemm/example_gemm.py with warp specialization off and
+# cp.async loads (tma: 0, warp_spec: 0 pinned below); every warp computes; no producer warp group.
+# kind int_menu = the solver's; structural = the agent's (changes what the program is). Each knob names the TileLang
+# primitive it binds and the constraint it enters (the names are the contract's constraint ids).
+family: gemm_pipelined
+source: examples/gemm/example_gemm.py at fe6d319c (UPSTREAM.md)
+func: matmul
+kernel: kernel.py.j2
+knobs:
+  - name: block_M
+    kind: int_menu
+    menu: [64, 128, 256]
+    binds: "alloc_shared((block_M, block_K)), Kernel grid rows"
+    enters: [smem, regs, divisibility, waves]
+    meaning: rows of C per block
+  - name: block_N
+    kind: int_menu
+    menu: [64, 128, 256]
+    binds: "alloc_shared((block_K, block_N)), Kernel grid columns"
+    enters: [smem, regs, divisibility, waves]
+    meaning: columns of C per block
+  - name: block_K
+    kind: int_menu
+    menu: [32, 64, 128]
+    binds: "alloc_shared, Pipelined bound"
+    enters: [smem, divisibility]
+    meaning: slice of K per pipeline step
+  - name: num_stages
+    kind: int_menu
+    menu: [2, 3, 4]
+    binds: "Pipelined(num_stages=)"
+    enters: [smem]
+    meaning: pipeline depth (tiles in flight)
+  - name: threads
+    kind: int_menu
+    menu: [128, 256]
+    binds: "Kernel(threads=)"
+    enters: [regs, threads]
+    meaning: threads per block (all of them compute; no producer group)
+  - name: swizzle
+    kind: int_menu
+    menu: [0, 4, 8, 16]
+    binds: "use_swizzle(panel_size=)"
+    enters: []
+    meaning: thread-block traversal panel (0 = TileLang's default order; no use_swizzle line)
+  # ---- pinned switches (the skeleton's definition; not searched)
+  - name: tma
+    kind: pinned
+    menu: [0]
+    binds: "tilelang.cuda.language.copy(disable_tma=True) per copy"
+    enters: []
+    meaning: 0 = the copies lower to cp.async issued by the computing warps
+  - name: warp_spec
+    kind: pinned
+    menu: [0]
+    binds: "tilelang.jit(pass_configs={'tl.disable_warp_specialized': True})"
+    enters: [regs]
+    meaning: 0 = no producer warp group
+skinny_menus:   # when M < 64 the block_M menu is replaced by this one
+  block_M: [16, 32, 64]
+structural:
+  - name: layout
+    choice: [as inferred]
+    binds: annotate_layout
+    note: the agent's; not a hole in this family (TileLang's layout inference decides)
+  - name: copy_lowering
+    choice: [as inferred]
+    binds: pass config
+    note: on sm_121a TileLang lowers the copies to TMA by itself

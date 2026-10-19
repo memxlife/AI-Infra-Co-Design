@@ -1,0 +1,420 @@
+[
+{
+"name": "c64x64x32_st3_th128",
+"holes": {
+"block_M": 64,
+"block_N": 64,
+"block_K": 32,
+"num_stages": 3,
+"threads": 128,
+"swizzle": 0
+},
+"shape": {
+"M": 1024,
+"N": 1024,
+"K": 1024
+},
+"smem": 24576,
+"max_err": 0.0606842041015625,
+"ok": false
+},
+{
+"name": "c64x64x32_st3_th256",
+"holes": {
+"block_M": 64,
+"block_N": 64,
+"block_K": 32,
+"num_stages": 3,
+"threads": 256,
+"swizzle": 0
+},
+"shape": {
+"M": 1024,
+"N": 1024,
+"K": 1024
+},
+"smem": 24576,
+"max_err": 0.0618896484375,
+"ok": false
+},
+{
+"name": "c64x64x128_st3_th128",
+"holes": {
+"block_M": 64,
+"block_N": 64,
+"block_K": 128,
+"num_stages": 3,
+"threads": 128,
+"swizzle": 0
+},
+"shape": {
+"M": 1024,
+"N": 1024,
+"K": 1024
+},
+"smem": 98304,
+"max_err": 0.0625152587890625,
+"ok": false
+},
+{
+"name": "c64x64x128_st3_th256",
+"holes": {
+"block_M": 64,
+"block_N": 64,
+"block_K": 128,
+"num_stages": 3,
+"threads": 256,
+"swizzle": 0
+},
+"shape": {
+"M": 1024,
+"N": 1024,
+"K": 1024
+},
+"smem": 98304,
+"max_err": 0.062255859375,
+"ok": false
+},
+{
+"name": "c64x128x32_st3_th128",
+"holes": {
+"block_M": 64,
+"block_N": 128,
+"block_K": 32,
+"num_stages": 3,
+"threads": 128,
+"swizzle": 0
+},
+"shape": {
+"M": 1024,
+"N": 1024,
+"K": 1024
+},
+"smem": 36864,
+"max_err": 0.062713623046875,
+"ok": false
+},
+{
+"name": "c64x128x32_st3_th256",
+"holes": {
+"block_M": 64,
+"block_N": 128,
+"block_K": 32,
+"num_stages": 3,
+"threads": 256,
+"swizzle": 0
+},
+"shape": {
+"M": 1024,
+"N": 1024,
+"K": 1024
+},
+"smem": 36864,
+"max_err": 0.0615234375,
+"ok": false
+},
+{
+"name": "c64x128x64_st3_th128",
+"holes": {
+"block_M": 64,
+"block_N": 128,
+"block_K": 64,
+"num_stages": 3,
+"threads": 128,
+"swizzle": 0
+},
+"shape": {
+"M": 1024,
+"N": 1024,
+"K": 1024
+},
+"smem": 73728,
+"max_err": 0.0614471435546875,
+"ok": false
+},
+{
+"name": "c64x128x64_st3_th256",
+"holes": {
+"block_M": 64,
+"block_N": 128,
+"block_K": 64,
+"num_stages": 3,
+"threads": 256,
+"swizzle": 0
+},
+"shape": {
+"M": 1024,
+"N": 1024,
+"K": 1024
+},
+"smem": 73728,
+"max_err": 0.062591552734375,
+"ok": false
+},
+{
+"name": "c64x256x32_st3_th128",
+"holes": {
+"block_M": 64,
+"block_N": 256,
+"block_K": 32,
+"num_stages": 3,
+"threads": 128,
+"swizzle": 0
+},
+"shape": {
+"M": 1024,
+"N": 1024,
+"K": 1024
+},
+"smem": 61440,
+"max_err": 0.0621337890625,
+"ok": false
+},
+{
+"name": "c64x256x32_st3_th256",
+"holes": {
+"block_M": 64,
+"block_N": 256,
+"block_K": 32,
+"num_stages": 3,
+"threads": 256,
+"swizzle": 0
+},
+"shape": {
+"M": 1024,
+"N": 1024,
+"K": 1024
+},
+"smem": 61440,
+"max_err": 0.062164306640625,
+"ok": false
+},
+{
+"name": "c128x64x32_st3_th128",
+"holes": {
+"block_M": 128,
+"block_N": 64,
+"block_K": 32,
+"num_stages": 3,
+"threads": 128,
+"swizzle": 0
+},
+"shape": {
+"M": 1024,
+"N": 1024,
+"K": 1024
+},
+"smem": 36864,
+"max_err": 0.0622711181640625,
+"ok": false
+},
+{
+"name": "c128x64x32_st3_th256",
+"holes": {
+"block_M": 128,
+"block_N": 64,
+"block_K": 32,
+"num_stages": 3,
+"threads": 256,
+"swizzle": 0
+},
+"shape": {
+"M": 1024,
+"N": 1024,
+"K": 1024
+},
+"smem": 36864,
+"max_err": 0.0618896484375,
+"ok": false
+},
+{
+"name": "c128x128x32_st3_th128",
+"holes": {
+"block_M": 128,
+"block_N": 128,
+"block_K": 32,
+"num_stages": 3,
+"threads": 128,
+"swizzle": 0
+},
+"shape": {
+"M": 1024,
+"N": 1024,
+"K": 1024
+},
+"smem": 49152,
+"max_err": 0.0617828369140625,
+"ok": false
+},
+{
+"name": "c128x128x32_st3_th256",
+"holes": {
+"block_M": 128,
+"block_N": 128,
+"block_K": 32,
+"num_stages": 3,
+"threads": 256,
+"swizzle": 0
+},
+"shape": {
+"M": 1024,
+"N": 1024,
+"K": 1024
+},
+"smem": 49152,
+"max_err": 0.0615234375,
+"ok": false
+},
+{
+"name": "c128x128x64_st3_th128",
+"holes": {
+"block_M": 128,
+"block_N": 128,
+"block_K": 64,
+"num_stages": 3,
+"threads": 128,
+"swizzle": 0
+},
+"shape": {
+"M": 1024,
+"N": 1024,
+"K": 1024
+},
+"smem": 98304,
+"max_err": 0.0616455078125,
+"ok": false
+},
+{
+"name": "c128x128x64_st3_th256",
+"holes": {
+"block_M": 128,
+"block_N": 128,
+"block_K": 64,
+"num_stages": 3,
+"threads": 256,
+"swizzle": 0
+},
+"shape": {
+"M": 1024,
+"N": 1024,
+"K": 1024
+},
+"smem": 98304,
+"max_err": 0.061981201171875,
+"ok": false
+},
+{
+"name": "c128x256x32_st3_th256",
+"holes": {
+"block_M": 128,
+"block_N": 256,
+"block_K": 32,
+"num_stages": 3,
+"threads": 256,
+"swizzle": 0
+},
+"shape": {
+"M": 1024,
+"N": 1024,
+"K": 1024
+},
+"smem": 73728,
+"max_err": 0.060699462890625,
+"ok": false
+},
+{
+"name": "c128x256x64_st2_th256",
+"holes": {
+"block_M": 128,
+"block_N": 256,
+"block_K": 64,
+"num_stages": 2,
+"threads": 256,
+"swizzle": 0
+},
+"shape": {
+"M": 1024,
+"N": 1024,
+"K": 1024
+},
+"smem": 98304,
+"max_err": 0.06201171875,
+"ok": false
+},
+{
+"name": "c256x64x32_st3_th128",
+"holes": {
+"block_M": 256,
+"block_N": 64,
+"block_K": 32,
+"num_stages": 3,
+"threads": 128,
+"swizzle": 0
+},
+"shape": {
+"M": 1024,
+"N": 1024,
+"K": 1024
+},
+"smem": 61440,
+"max_err": 0.06231689453125,
+"ok": false
+},
+{
+"name": "c256x64x32_st3_th256",
+"holes": {
+"block_M": 256,
+"block_N": 64,
+"block_K": 32,
+"num_stages": 3,
+"threads": 256,
+"swizzle": 0
+},
+"shape": {
+"M": 1024,
+"N": 1024,
+"K": 1024
+},
+"smem": 61440,
+"max_err": 0.061614990234375,
+"ok": false
+},
+{
+"name": "c256x128x32_st3_th256",
+"holes": {
+"block_M": 256,
+"block_N": 128,
+"block_K": 32,
+"num_stages": 3,
+"threads": 256,
+"swizzle": 0
+},
+"shape": {
+"M": 1024,
+"N": 1024,
+"K": 1024
+},
+"smem": 73728,
+"max_err": 0.062225341796875,
+"ok": false
+},
+{
+"name": "c256x128x64_st2_th256",
+"holes": {
+"block_M": 256,
+"block_N": 128,
+"block_K": 64,
+"num_stages": 2,
+"threads": 256,
+"swizzle": 0
+},
+"shape": {
+"M": 1024,
+"N": 1024,
+"K": 1024
+},
+"smem": 98304,
+"max_err": 0.0613555908203125,
+"ok": false
+}
+]
