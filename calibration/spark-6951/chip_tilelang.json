@@ -287,5 +287,847 @@
    "full_block_us": 85.478,
    "full_event_us": 162.112
   }
+ },
+ "families": {
+  "gemm_pipelined": {
+   "source": "ablation of the cp.async kernels (no producer group) at 1024^3, calibration/spark-6951/ablation_cpasync/, one build per variant, grids 1 / 48 / full; analyze_cpasync.py",
+   "tensor_rate_TFs_per_SM": {
+    "median": 2.269687556221889,
+    "min": 1.971007518796993,
+    "max": 2.473056603773585
+   },
+   "load_rate_alone_GBs_per_block": {
+    "median": 78.14328177130724,
+    "min": 75.50230414746544,
+    "max": 80.0
+   },
+   "sync_per_ktile_us": {
+    "median": 0.17217187500000003,
+    "min": -0.10021875000000002,
+    "max": 0.4643124999999999
+   },
+   "store_us_per_KB_per_block": {
+    "median": 0.034999999999999996
+   },
+   "block_setup_us": {
+    "median": 0.064
+   },
+   "blocks": {
+    "c128x128x32_st3_th128": {
+     "tile": "128x128x32",
+     "threads": 128,
+     "num_stages": 3,
+     "compute_per_ktile_us": 0.5,
+     "tensor_rate_TFs_per_SM": 2.097152,
+     "load_per_ktile_alone_us": 0.20800000000000002,
+     "load_rate_GBs_1block": 78.76923076923076,
+     "store_per_block_us": 1.472,
+     "block_setup_us": 0.064,
+     "overlap_sync_per_ktile_us": 0.248,
+     "load_curve": {
+      "1": {
+       "event_us": 10.784,
+       "block_mean_us": 8.192,
+       "GBs_chip": 63.99999999999999,
+       "GBs_per_block": 78.76923076923076
+      },
+      "48": {
+       "event_us": 21.024,
+       "block_mean_us": 17.387,
+       "GBs_chip": 1396.8596802841919,
+       "GBs_per_block": 33.07602044035077
+      },
+      "64": {
+       "event_us": 29.12,
+       "block_mean_us": 20.259,
+       "GBs_chip": 1315.6537013801756,
+       "GBs_per_block": 28.00235005073974
+      }
+     },
+     "blocks_per_sm": 2,
+     "load_rate_chip_GBs_full_grid": 1315.6537013801756,
+     "load_rate_chip_GBs_48_blocks": 1396.8596802841919,
+     "full_event_us": 39.456,
+     "launch_us_event_1block_nostore": 2.528
+    },
+    "c128x128x32_st3_th256": {
+     "tile": "128x128x32",
+     "threads": 256,
+     "num_stages": 3,
+     "compute_per_ktile_us": 0.447,
+     "tensor_rate_TFs_per_SM": 2.3458076062639823,
+     "load_per_ktile_alone_us": 0.216,
+     "load_rate_GBs_1block": 75.85185185185186,
+     "store_per_block_us": 1.1199999999999999,
+     "block_setup_us": 0.064,
+     "overlap_sync_per_ktile_us": 0.2321875,
+     "load_curve": {
+      "1": {
+       "event_us": 11.392,
+       "block_mean_us": 8.096,
+       "GBs_chip": 64.7588932806324,
+       "GBs_per_block": 75.85185185185186
+      },
+      "48": {
+       "event_us": 20.928,
+       "block_mean_us": 16.608,
+       "GBs_chip": 1448.3093922651933,
+       "GBs_per_block": 33.99170124481328
+      },
+      "64": {
+       "event_us": 27.136,
+       "block_mean_us": 18.805,
+       "GBs_chip": 1415.0823211875845,
+       "GBs_per_block": 29.753589467113105
+      }
+     },
+     "blocks_per_sm": 2,
+     "load_rate_chip_GBs_full_grid": 1415.0823211875845,
+     "load_rate_chip_GBs_48_blocks": 1448.3093922651933,
+     "full_event_us": 41.376,
+     "launch_us_event_1block_nostore": 2.56
+    },
+    "c128x128x64_st3_th128": {
+     "tile": "128x128x64",
+     "threads": 128,
+     "num_stages": 3,
+     "compute_per_ktile_us": 0.92,
+     "tensor_rate_TFs_per_SM": 2.2795130434782607,
+     "load_per_ktile_alone_us": 0.41600000000000004,
+     "load_rate_GBs_1block": 78.76923076923076,
+     "store_per_block_us": 1.472,
+     "block_setup_us": 0.064,
+     "overlap_sync_per_ktile_us": 0.3471875,
+     "load_curve": {
+      "1": {
+       "event_us": 10.72,
+       "block_mean_us": 8.192,
+       "GBs_chip": 63.99999999999999,
+       "GBs_per_block": 78.76923076923076
+      },
+      "48": {
+       "event_us": 21.6,
+       "block_mean_us": 16.751,
+       "GBs_chip": 1440.3516483516482,
+       "GBs_per_block": 34.45862635557016
+      },
+      "64": {
+       "event_us": 30.336,
+       "block_mean_us": 15.018,
+       "GBs_chip": 1220.6938300349243,
+       "GBs_per_block": 38.88799881323245
+      }
+     },
+     "blocks_per_sm": 1,
+     "load_rate_chip_GBs_full_grid": 1220.6938300349243,
+     "load_rate_chip_GBs_48_blocks": 1440.3516483516482,
+     "full_event_us": 46.848,
+     "launch_us_event_1block_nostore": 2.56
+    },
+    "c128x128x64_st3_th256": {
+     "tile": "128x128x64",
+     "threads": 256,
+     "num_stages": 3,
+     "compute_per_ktile_us": 0.884,
+     "tensor_rate_TFs_per_SM": 2.3723438914027155,
+     "load_per_ktile_alone_us": 0.434,
+     "load_rate_GBs_1block": 75.50230414746544,
+     "store_per_block_us": 1.0879999999999999,
+     "block_setup_us": 0.064,
+     "overlap_sync_per_ktile_us": 0.34162500000000007,
+     "load_curve": {
+      "1": {
+       "event_us": 10.752,
+       "block_mean_us": 8.096,
+       "GBs_chip": 64.7588932806324,
+       "GBs_per_block": 75.50230414746544
+      },
+      "48": {
+       "event_us": 19.968,
+       "block_mean_us": 15.963,
+       "GBs_chip": 1503.6940726577436,
+       "GBs_per_block": 35.39855512794545
+      },
+      "64": {
+       "event_us": 30.336,
+       "block_mean_us": 14.804,
+       "GBs_chip": 1182.1600901916574,
+       "GBs_per_block": 38.403750366246705
+      }
+     },
+     "blocks_per_sm": 1,
+     "load_rate_chip_GBs_full_grid": 1182.1600901916574,
+     "load_rate_chip_GBs_48_blocks": 1503.6940726577436,
+     "full_event_us": 44.448,
+     "launch_us_event_1block_nostore": 2.496
+    },
+    "c128x256x32_st3_th256": {
+     "tile": "128x256x32",
+     "threads": 256,
+     "num_stages": 3,
+     "compute_per_ktile_us": 0.9149999999999999,
+     "tensor_rate_TFs_per_SM": 2.291969398907104,
+     "load_per_ktile_alone_us": 0.30799999999999994,
+     "load_rate_GBs_1block": 79.7922077922078,
+     "store_per_block_us": 3.136,
+     "block_setup_us": 0.064,
+     "overlap_sync_per_ktile_us": 0.2349062500000001,
+     "load_curve": {
+      "1": {
+       "event_us": 16.896,
+       "block_mean_us": 13.056,
+       "GBs_chip": 60.235294117647065,
+       "GBs_per_block": 79.7922077922078
+      },
+      "32": {
+       "event_us": 25.088,
+       "block_mean_us": 21.815,
+       "GBs_chip": 1126.6934097421204,
+       "GBs_per_block": 42.247219983883966
+      },
+      "48": {
+       "event_us": 33.056,
+       "block_mean_us": 417490096861.911,
+       "GBs_chip": 9.041827886145418e-08,
+       "GBs_per_block": 1.8837141429636067e-09
+      }
+     },
+     "blocks_per_sm": 1,
+     "load_rate_chip_GBs_full_grid": 1126.6934097421204,
+     "load_rate_chip_GBs_48_blocks": 9.041827886145418e-08,
+     "full_event_us": 43.584,
+     "launch_us_event_1block_nostore": 2.496
+    },
+    "c128x256x64_st2_th256": {
+     "tile": "128x256x64",
+     "threads": 256,
+     "num_stages": 2,
+     "compute_per_ktile_us": 1.696,
+     "tensor_rate_TFs_per_SM": 2.473056603773585,
+     "load_per_ktile_alone_us": 0.6199999999999999,
+     "load_rate_GBs_1block": 79.27741935483873,
+     "store_per_block_us": 3.136,
+     "block_setup_us": 0.032,
+     "overlap_sync_per_ktile_us": 0.4643124999999999,
+     "load_curve": {
+      "1": {
+       "event_us": 16.736,
+       "block_mean_us": 13.088,
+       "GBs_chip": 60.08801955990221,
+       "GBs_per_block": 79.27741935483873
+      },
+      "32": {
+       "event_us": 27.712,
+       "block_mean_us": 22.625,
+       "GBs_chip": 1075.8303693570451,
+       "GBs_per_block": 40.41897517602919
+      },
+      "48": {
+       "event_us": 34.336,
+       "block_mean_us": 417508404926.669,
+       "GBs_chip": 9.041431395014759e-08,
+       "GBs_per_block": 1.8836315406490943e-09
+      }
+     },
+     "blocks_per_sm": 1,
+     "load_rate_chip_GBs_full_grid": 1075.8303693570451,
+     "load_rate_chip_GBs_48_blocks": 9.041431395014759e-08,
+     "full_event_us": 41.28,
+     "launch_us_event_1block_nostore": 2.496
+    },
+    "c128x64x32_st3_th128": {
+     "tile": "128x64x32",
+     "threads": 128,
+     "num_stages": 3,
+     "compute_per_ktile_us": 0.244,
+     "tensor_rate_TFs_per_SM": 2.14872131147541,
+     "load_per_ktile_alone_us": 0.15799999999999997,
+     "load_rate_GBs_1block": 77.7721518987342,
+     "store_per_block_us": 0.48000000000000004,
+     "block_setup_us": 0.064,
+     "overlap_sync_per_ktile_us": 0.04806250000000001,
+     "load_curve": {
+      "1": {
+       "event_us": 8.768,
+       "block_mean_us": 5.6,
+       "GBs_chip": 70.21714285714285,
+       "GBs_per_block": 77.7721518987342
+      },
+      "48": {
+       "event_us": 14.752,
+       "block_mean_us": 10.405,
+       "GBs_chip": 1734.776470588235,
+       "GBs_per_block": 39.87587465774262
+      },
+      "128": {
+       "event_us": 33.088,
+       "block_mean_us": 16.846,
+       "GBs_chip": 1717.1004366812226,
+       "GBs_per_block": 24.120721383879285
+      }
+     },
+     "blocks_per_sm": 2,
+     "load_rate_chip_GBs_full_grid": 1717.1004366812226,
+     "load_rate_chip_GBs_48_blocks": 1734.776470588235,
+     "full_event_us": 37.408,
+     "launch_us_event_1block_nostore": 2.528
+    },
+    "c128x64x32_st3_th256": {
+     "tile": "128x64x32",
+     "threads": 256,
+     "num_stages": 3,
+     "compute_per_ktile_us": 0.252,
+     "tensor_rate_TFs_per_SM": 2.080507936507937,
+     "load_per_ktile_alone_us": 0.154,
+     "load_rate_GBs_1block": 79.79220779220779,
+     "store_per_block_us": 0.48,
+     "block_setup_us": 0.096,
+     "overlap_sync_per_ktile_us": 0.06556249999999997,
+     "load_curve": {
+      "1": {
+       "event_us": 8.64,
+       "block_mean_us": 5.504,
+       "GBs_chip": 71.44186046511629,
+       "GBs_per_block": 79.79220779220779
+      },
+      "48": {
+       "event_us": 14.784,
+       "block_mean_us": 10.64,
+       "GBs_chip": 1661.4760563380282,
+       "GBs_per_block": 39.071542130365664
+      },
+      "128": {
+       "event_us": 32.928,
+       "block_mean_us": 16.753,
+       "GBs_chip": 1753.4715719063547,
+       "GBs_per_block": 24.307102676639676
+      }
+     },
+     "blocks_per_sm": 2,
+     "load_rate_chip_GBs_full_grid": 1753.4715719063547,
+     "load_rate_chip_GBs_48_blocks": 1661.4760563380282,
+     "full_event_us": 37.088,
+     "launch_us_event_1block_nostore": 2.528
+    },
+    "c256x128x32_st3_th256": {
+     "tile": "256x128x32",
+     "threads": 256,
+     "num_stages": 3,
+     "compute_per_ktile_us": 0.863,
+     "tensor_rate_TFs_per_SM": 2.4300718424101975,
+     "load_per_ktile_alone_us": 0.324,
+     "load_rate_GBs_1block": 75.85185185185185,
+     "store_per_block_us": 2.336,
+     "block_setup_us": 0.064,
+     "overlap_sync_per_ktile_us": 0.28421874999999996,
+     "load_curve": {
+      "1": {
+       "event_us": 14.848,
+       "block_mean_us": 12.768,
+       "GBs_chip": 61.59398496240601,
+       "GBs_per_block": 75.85185185185185
+      },
+      "32": {
+       "event_us": 24.736,
+       "block_mean_us": 21.053,
+       "GBs_chip": 1146.402332361516,
+       "GBs_per_block": 42.1611537018174
+      },
+      "48": {
+       "event_us": 31.008,
+       "block_mean_us": 417564395797.423,
+       "GBs_chip": 9.040219036823121e-08,
+       "GBs_per_block": 1.8833789660219246e-09
+      }
+     },
+     "blocks_per_sm": 1,
+     "load_rate_chip_GBs_full_grid": 1146.402332361516,
+     "load_rate_chip_GBs_48_blocks": 9.040219036823121e-08,
+     "full_event_us": 43.264,
+     "launch_us_event_1block_nostore": 2.528
+    },
+    "c256x128x64_st2_th256": {
+     "tile": "256x128x64",
+     "threads": 256,
+     "num_stages": 2,
+     "compute_per_ktile_us": 1.744,
+     "tensor_rate_TFs_per_SM": 2.404990825688073,
+     "load_per_ktile_alone_us": 0.636,
+     "load_rate_GBs_1block": 77.28301886792453,
+     "store_per_block_us": 2.336,
+     "block_setup_us": 0.032,
+     "overlap_sync_per_ktile_us": 0.4141250000000003,
+     "load_curve": {
+      "1": {
+       "event_us": 14.88,
+       "block_mean_us": 12.544,
+       "GBs_chip": 62.69387755102041,
+       "GBs_per_block": 77.28301886792453
+      },
+      "32": {
+       "event_us": 25.92,
+       "block_mean_us": 22.413,
+       "GBs_chip": 1074.360655737705,
+       "GBs_per_block": 39.2333250187079
+      },
+      "48": {
+       "event_us": 32.16,
+       "block_mean_us": 417582785856.378,
+       "GBs_chip": 9.039820911781863e-08,
+       "GBs_per_block": 1.883296023306244e-09
+      }
+     },
+     "blocks_per_sm": 1,
+     "load_rate_chip_GBs_full_grid": 1074.360655737705,
+     "load_rate_chip_GBs_48_blocks": 9.039820911781863e-08,
+     "full_event_us": 41.312,
+     "launch_us_event_1block_nostore": 2.528
+    },
+    "c256x64x32_st3_th128": {
+     "tile": "256x64x32",
+     "threads": 128,
+     "num_stages": 3,
+     "compute_per_ktile_us": 0.464,
+     "tensor_rate_TFs_per_SM": 2.259862068965517,
+     "load_per_ktile_alone_us": 0.258,
+     "load_rate_GBs_1block": 79.37984496124031,
+     "store_per_block_us": 1.1199999999999999,
+     "block_setup_us": 0.064,
+     "overlap_sync_per_ktile_us": 0.18096875,
+     "load_curve": {
+      "1": {
+       "event_us": 12.704,
+       "block_mean_us": 9.44,
+       "GBs_chip": 69.42372881355932,
+       "GBs_per_block": 79.37984496124031
+      },
+      "48": {
+       "event_us": 22.848,
+       "block_mean_us": 18.281,
+       "GBs_chip": 1694.8965517241381,
+       "GBs_per_block": 38.33187108849506
+      },
+      "64": {
+       "event_us": 33.152,
+       "block_mean_us": 16.372,
+       "GBs_chip": 1412.4137931034481,
+       "GBs_per_block": 43.14985514880169
+      }
+     },
+     "blocks_per_sm": 1,
+     "load_rate_chip_GBs_full_grid": 1412.4137931034481,
+     "load_rate_chip_GBs_48_blocks": 1694.8965517241381,
+     "full_event_us": 47.424,
+     "launch_us_event_1block_nostore": 2.528
+    },
+    "c256x64x32_st3_th256": {
+     "tile": "256x64x32",
+     "threads": 256,
+     "num_stages": 3,
+     "compute_per_ktile_us": 0.454,
+     "tensor_rate_TFs_per_SM": 2.3096387665198237,
+     "load_per_ktile_alone_us": 0.256,
+     "load_rate_GBs_1block": 80.0,
+     "store_per_block_us": 1.0879999999999999,
+     "block_setup_us": 0.064,
+     "overlap_sync_per_ktile_us": 0.19568750000000001,
+     "load_curve": {
+      "1": {
+       "event_us": 12.8,
+       "block_mean_us": 9.344,
+       "GBs_chip": 70.13698630136987,
+       "GBs_per_block": 80.0
+      },
+      "48": {
+       "event_us": 20.96,
+       "block_mean_us": 17.923,
+       "GBs_chip": 1689.0721649484537,
+       "GBs_per_block": 39.07697811698766
+      },
+      "64": {
+       "event_us": 33.376,
+       "block_mean_us": 16.306,
+       "GBs_chip": 1397.356076759062,
+       "GBs_per_block": 43.24666754652237
+      }
+     },
+     "blocks_per_sm": 1,
+     "load_rate_chip_GBs_full_grid": 1397.356076759062,
+     "load_rate_chip_GBs_48_blocks": 1689.0721649484537,
+     "full_event_us": 48.256,
+     "launch_us_event_1block_nostore": 2.528
+    },
+    "c64x128x32_st3_th128": {
+     "tile": "64x128x32",
+     "threads": 128,
+     "num_stages": 3,
+     "compute_per_ktile_us": 0.26499999999999996,
+     "tensor_rate_TFs_per_SM": 1.9784452830188684,
+     "load_per_ktile_alone_us": 0.157,
+     "load_rate_GBs_1block": 78.26751592356688,
+     "store_per_block_us": 0.6719999999999999,
+     "block_setup_us": 0.064,
+     "overlap_sync_per_ktile_us": 0.057062500000000016,
+     "load_curve": {
+      "1": {
+       "event_us": 8.64,
+       "block_mean_us": 5.76,
+       "GBs_chip": 68.26666666666667,
+       "GBs_per_block": 78.26751592356688
+      },
+      "48": {
+       "event_us": 14.848,
+       "block_mean_us": 11.047,
+       "GBs_chip": 1611.5409836065576,
+       "GBs_per_block": 38.135583357579286
+      },
+      "128": {
+       "event_us": 35.2,
+       "block_mean_us": 18.037,
+       "GBs_chip": 1600.06510681587,
+       "GBs_per_block": 22.727934801456566
+      }
+     },
+     "blocks_per_sm": 2,
+     "load_rate_chip_GBs_full_grid": 1600.06510681587,
+     "load_rate_chip_GBs_48_blocks": 1611.5409836065576,
+     "full_event_us": 39.264,
+     "launch_us_event_1block_nostore": 2.528
+    },
+    "c64x128x32_st3_th256": {
+     "tile": "64x128x32",
+     "threads": 256,
+     "num_stages": 3,
+     "compute_per_ktile_us": 0.24100000000000002,
+     "tensor_rate_TFs_per_SM": 2.17546887966805,
+     "load_per_ktile_alone_us": 0.158,
+     "load_rate_GBs_1block": 77.7721518987342,
+     "store_per_block_us": 0.48,
+     "block_setup_us": 0.096,
+     "overlap_sync_per_ktile_us": 0.008156249999999976,
+     "load_curve": {
+      "1": {
+       "event_us": 8.736,
+       "block_mean_us": 5.632,
+       "GBs_chip": 69.81818181818183,
+       "GBs_per_block": 77.7721518987342
+      },
+      "48": {
+       "event_us": 14.816,
+       "block_mean_us": 10.602,
+       "GBs_chip": 1666.1694915254238,
+       "GBs_per_block": 39.21962896469181
+      },
+      "128": {
+       "event_us": 33.888,
+       "block_mean_us": 17.375,
+       "GBs_chip": 1646.9780104712042,
+       "GBs_per_block": 23.407107565926545
+      }
+     },
+     "blocks_per_sm": 2,
+     "load_rate_chip_GBs_full_grid": 1646.9780104712042,
+     "load_rate_chip_GBs_48_blocks": 1666.1694915254238,
+     "full_event_us": 35.008,
+     "launch_us_event_1block_nostore": 2.528
+    },
+    "c64x128x64_st3_th128": {
+     "tile": "64x128x64",
+     "threads": 128,
+     "num_stages": 3,
+     "compute_per_ktile_us": 0.47600000000000003,
+     "tensor_rate_TFs_per_SM": 2.202890756302521,
+     "load_per_ktile_alone_us": 0.312,
+     "load_rate_GBs_1block": 78.76923076923077,
+     "store_per_block_us": 0.704,
+     "block_setup_us": 0.064,
+     "overlap_sync_per_ktile_us": 0.024625000000000008,
+     "load_curve": {
+      "1": {
+       "event_us": 8.704,
+       "block_mean_us": 5.76,
+       "GBs_chip": 68.26666666666667,
+       "GBs_per_block": 78.76923076923077
+      },
+      "48": {
+       "event_us": 15.84,
+       "block_mean_us": 11.528,
+       "GBs_chip": 1568.6808510638298,
+       "GBs_per_block": 36.544237918215615
+      },
+      "128": {
+       "event_us": 38.976,
+       "block_mean_us": 11.596,
+       "GBs_chip": 1370.0905923344949,
+       "GBs_per_block": 36.314739564093095
+      }
+     },
+     "blocks_per_sm": 1,
+     "load_rate_chip_GBs_full_grid": 1370.0905923344949,
+     "load_rate_chip_GBs_48_blocks": 1568.6808510638298,
+     "full_event_us": 40.32,
+     "launch_us_event_1block_nostore": 2.56
+    },
+    "c64x128x64_st3_th256": {
+     "tile": "64x128x64",
+     "threads": 256,
+     "num_stages": 3,
+     "compute_per_ktile_us": 0.46599999999999997,
+     "tensor_rate_TFs_per_SM": 2.2501630901287553,
+     "load_per_ktile_alone_us": 0.31999999999999995,
+     "load_rate_GBs_1block": 76.80000000000001,
+     "store_per_block_us": 0.48000000000000004,
+     "block_setup_us": 0.064,
+     "overlap_sync_per_ktile_us": 0.012562499999999921,
+     "load_curve": {
+      "1": {
+       "event_us": 8.736,
+       "block_mean_us": 5.664,
+       "GBs_chip": 69.42372881355932,
+       "GBs_per_block": 76.80000000000001
+      },
+      "48": {
+       "event_us": 15.68,
+       "block_mean_us": 11.569,
+       "GBs_chip": 1548.0944881889766,
+       "GBs_per_block": 35.66585034013605
+      },
+      "128": {
+       "event_us": 38.336,
+       "block_mean_us": 11.188,
+       "GBs_chip": 1465.856477166822,
+       "GBs_per_block": 36.94250281848929
+      }
+     },
+     "blocks_per_sm": 1,
+     "load_rate_chip_GBs_full_grid": 1465.856477166822,
+     "load_rate_chip_GBs_48_blocks": 1548.0944881889766,
+     "full_event_us": 39.264,
+     "launch_us_event_1block_nostore": 2.592
+    },
+    "c64x256x32_st3_th128": {
+     "tile": "64x256x32",
+     "threads": 128,
+     "num_stages": 3,
+     "compute_per_ktile_us": 0.5,
+     "tensor_rate_TFs_per_SM": 2.097152,
+     "load_per_ktile_alone_us": 0.258,
+     "load_rate_GBs_1block": 79.37984496124031,
+     "store_per_block_us": 1.472,
+     "block_setup_us": 0.064,
+     "overlap_sync_per_ktile_us": 0.16337500000000005,
+     "load_curve": {
+      "1": {
+       "event_us": 12.768,
+       "block_mean_us": 9.792,
+       "GBs_chip": 66.9281045751634,
+       "GBs_per_block": 79.37984496124031
+      },
+      "48": {
+       "event_us": 23.136,
+       "block_mean_us": 21.121,
+       "GBs_chip": 1454.2011834319526,
+       "GBs_per_block": 33.46234363032934
+      },
+      "64": {
+       "event_us": 36.288,
+       "block_mean_us": 18.215,
+       "GBs_chip": 1273.7803692905736,
+       "GBs_per_block": 39.29252353258589
+      }
+     },
+     "blocks_per_sm": 1,
+     "load_rate_chip_GBs_full_grid": 1273.7803692905736,
+     "load_rate_chip_GBs_48_blocks": 1454.2011834319526,
+     "full_event_us": 49.632,
+     "launch_us_event_1block_nostore": 2.624
+    },
+    "c64x256x32_st3_th256": {
+     "tile": "64x256x32",
+     "threads": 256,
+     "num_stages": 3,
+     "compute_per_ktile_us": 0.48800000000000004,
+     "tensor_rate_TFs_per_SM": 2.1487213114754096,
+     "load_per_ktile_alone_us": 0.258,
+     "load_rate_GBs_1block": 79.37984496124031,
+     "store_per_block_us": 1.504,
+     "block_setup_us": 0.064,
+     "overlap_sync_per_ktile_us": 0.19525000000000003,
+     "load_curve": {
+      "1": {
+       "event_us": 12.768,
+       "block_mean_us": 9.824,
+       "GBs_chip": 66.71009771986971,
+       "GBs_per_block": 79.37984496124031
+      },
+      "48": {
+       "event_us": 25.056,
+       "block_mean_us": 20.015,
+       "GBs_chip": 1528.8335925349922,
+       "GBs_per_block": 35.52664389873692
+      },
+      "64": {
+       "event_us": 36.544,
+       "block_mean_us": 18.22,
+       "GBs_chip": 1266.3961352657007,
+       "GBs_per_block": 39.35623348546722
+      }
+     },
+     "blocks_per_sm": 1,
+     "load_rate_chip_GBs_full_grid": 1266.3961352657007,
+     "load_rate_chip_GBs_48_blocks": 1528.8335925349922,
+     "full_event_us": 51.712,
+     "launch_us_event_1block_nostore": 2.528
+    },
+    "c64x64x128_st3_th128": {
+     "tile": "64x64x128",
+     "threads": 128,
+     "num_stages": 3,
+     "compute_per_ktile_us": 0.45999999999999996,
+     "tensor_rate_TFs_per_SM": 2.279513043478261,
+     "load_per_ktile_alone_us": 0.42000000000000004,
+     "load_rate_GBs_1block": 78.01904761904763,
+     "store_per_block_us": 0.224,
+     "block_setup_us": 0.032,
+     "overlap_sync_per_ktile_us": 0.1080000000000001,
+     "load_curve": {
+      "1": {
+       "event_us": 6.72,
+       "block_mean_us": 3.616,
+       "GBs_chip": 72.49557522123894,
+       "GBs_per_block": 78.01904761904763
+      },
+      "48": {
+       "event_us": 9.792,
+       "block_mean_us": 6.214,
+       "GBs_chip": 1899.5942028985507,
+       "GBs_per_block": 43.99865726753944
+      },
+      "256": {
+       "event_us": 42.4,
+       "block_mean_us": 7.138,
+       "GBs_chip": 1599.6582761250954,
+       "GBs_per_block": 38.09125254286545
+      }
+     },
+     "blocks_per_sm": 1,
+     "load_rate_chip_GBs_full_grid": 1599.6582761250954,
+     "load_rate_chip_GBs_48_blocks": 1899.5942028985507,
+     "full_event_us": 50.368,
+     "launch_us_event_1block_nostore": 2.592
+    },
+    "c64x64x128_st3_th256": {
+     "tile": "64x64x128",
+     "threads": 256,
+     "num_stages": 3,
+     "compute_per_ktile_us": 0.45999999999999996,
+     "tensor_rate_TFs_per_SM": 2.279513043478261,
+     "load_per_ktile_alone_us": 0.42000000000000004,
+     "load_rate_GBs_1block": 78.01904761904763,
+     "store_per_block_us": 0.192,
+     "block_setup_us": 0.064,
+     "overlap_sync_per_ktile_us": 0.13849999999999996,
+     "load_curve": {
+      "1": {
+       "event_us": 6.688,
+       "block_mean_us": 3.616,
+       "GBs_chip": 72.49557522123894,
+       "GBs_per_block": 78.01904761904763
+      },
+      "48": {
+       "event_us": 9.76,
+       "block_mean_us": 6.529,
+       "GBs_chip": 1812.0552995391704,
+       "GBs_per_block": 41.789255539614224
+      },
+      "256": {
+       "event_us": 42.464,
+       "block_mean_us": 6.583,
+       "GBs_chip": 1721.7996715927754,
+       "GBs_per_block": 41.43259048522207
+      }
+     },
+     "blocks_per_sm": 1,
+     "load_rate_chip_GBs_full_grid": 1721.7996715927754,
+     "load_rate_chip_GBs_48_blocks": 1812.0552995391704,
+     "full_event_us": 50.464,
+     "launch_us_event_1block_nostore": 2.592
+    },
+    "c64x64x32_st3_th128": {
+     "tile": "64x64x32",
+     "threads": 128,
+     "num_stages": 3,
+     "compute_per_ktile_us": 0.13299999999999998,
+     "tensor_rate_TFs_per_SM": 1.971007518796993,
+     "load_per_ktile_alone_us": 0.10500000000000001,
+     "load_rate_GBs_1block": 78.01904761904763,
+     "store_per_block_us": 0.192,
+     "block_setup_us": 0.064,
+     "overlap_sync_per_ktile_us": 0.01837499999999992,
+     "load_curve": {
+      "1": {
+       "event_us": 6.752,
+       "block_mean_us": 3.616,
+       "GBs_chip": 72.49557522123894,
+       "GBs_per_block": 78.01904761904763
+      },
+      "48": {
+       "event_us": 10.688,
+       "block_mean_us": 6.456,
+       "GBs_chip": 1820.4444444444446,
+       "GBs_per_block": 42.281290322580645
+      },
+      "256": {
+       "event_us": 37.216,
+       "block_mean_us": 20.027,
+       "GBs_chip": 1915.2073059360732,
+       "GBs_per_block": 13.259015730109757
+      }
+     },
+     "blocks_per_sm": 4,
+     "load_rate_chip_GBs_full_grid": 1915.2073059360732,
+     "load_rate_chip_GBs_48_blocks": 1820.4444444444446,
+     "full_event_us": 38.88,
+     "launch_us_event_1block_nostore": 2.528
+    },
+    "c64x64x32_st3_th256": {
+     "tile": "64x64x32",
+     "threads": 256,
+     "num_stages": 3,
+     "compute_per_ktile_us": 0.10999999999999999,
+     "tensor_rate_TFs_per_SM": 2.3831272727272728,
+     "load_per_ktile_alone_us": 0.10700000000000001,
+     "load_rate_GBs_1block": 76.5607476635514,
+     "store_per_block_us": 0.16,
+     "block_setup_us": 0.096,
+     "overlap_sync_per_ktile_us": -0.10021875000000002,
+     "load_curve": {
+      "1": {
+       "event_us": 6.592,
+       "block_mean_us": 3.68,
+       "GBs_chip": 71.23478260869565,
+       "GBs_per_block": 76.5607476635514
+      },
+      "48": {
+       "event_us": 10.528,
+       "block_mean_us": 6.331,
+       "GBs_chip": 1881.416267942584,
+       "GBs_per_block": 43.151275720164605
+      },
+      "256": {
+       "event_us": 37.344,
+       "block_mean_us": 19.757,
+       "GBs_chip": 1961.7885874649207,
+       "GBs_per_block": 13.442592687554484
+      }
+     },
+     "blocks_per_sm": 4,
+     "load_rate_chip_GBs_full_grid": 1961.7885874649207,
+     "load_rate_chip_GBs_48_blocks": 1881.416267942584,
+     "full_event_us": 39.2,
+     "launch_us_event_1block_nostore": 2.56
+    }
+   }
+  }
  }
 }

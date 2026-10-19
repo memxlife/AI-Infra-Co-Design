@@ -36,9 +36,13 @@ def traffic_bytes(h: dict, shape: dict, panel_measured: dict | None = None) -> f
     return a * a_reads + b * max(1.0, tiles_m / p) + c
 
 
-def predict(h: dict, shape: dict, pick_name: str | None = None) -> dict:
+def predict(h: dict, shape: dict, pick_name: str | None = None, family: str = "gemm_basic") -> dict:
+    if family == "gemm_pipelined":
+        return predict_pipelined(h, shape)
     """h: the knobs; shape: M, N, K. If pick_name names an ablated pick, that pick's own per-tile measurements are used for its
-    tile (compute per k-tile, load alone, store, sync); otherwise the chip-wide medians."""
+    tile (compute per k-tile, load alone, store, sync); otherwise the chip-wide medians. family="gemm_pipelined" (cp.async, no
+    producer group) takes its constants from CHIP["families"]["gemm_pipelined"]: the measured (tile, threads) entry when the
+    ablation has it, else that family's medians; launch, L2 and DRAM rates are the chip's."""
     k = constants(); blk = CHIP["blocks"].get(pick_name or "", None)
     M, N, K = shape["M"], shape["N"], shape["K"]; bm, bn, bk, st = h["block_M"], h["block_N"], h["block_K"], h["num_stages"]
     tiles = math.ceil(M / bm) * math.ceil(N / bn); KT = math.ceil(K / bk)
@@ -59,3 +63,38 @@ def predict(h: dict, shape: dict, pick_name: str | None = None) -> dict:
     return {"expected_us": expected, "floor_us": floor, "T_block_us": t_block, "waves_eff": waves_eff, "KT": KT, "tiles": tiles, "constants_from": src,
             "parts_us": {"launch": k["launch_us"], "block_issue": tiles * k["block_issue_us"], "setup": setup, "compute_per_block": KT * compute_kt, "load_per_block_under_load": KT * load_kt_under_load,
                          "sync_per_block": KT * sync_kt, "store": store, "dram_ceiling": dram_bytes / (k["dram_GBs"] * 1e9) * 1e6}, "dram_MB": dram_bytes / 1e6}
+
+
+def blocks_per_sm(h: dict, threads_cap: int = 2048, smem_cap: int = 99 * 1024) -> int:
+    """cp.async kernels (no producer group, launch bounds = threads) run several blocks per SM: the shared-memory ring and the
+    thread cap decide; the register budget rarely does for these tiles (checked: ptxas stays under 65536/threads)."""
+    smem = h["num_stages"] * (h["block_M"] + h["block_N"]) * h["block_K"] * 2
+    return max(1, min(smem_cap // smem, threads_cap // h["threads"]))
+
+
+def predict_pipelined(h: dict, shape: dict) -> dict:
+    """SM-level mechanistic model for the cp.async family (round 3, S2 revised, skeleton 1), constants from
+    CHIP["families"]["gemm_pipelined"] (the 1024^3 ablation, one entry per (tile, threads)):
+      compute: the SM's tensor work, hard-quantised (an SM does whole tiles): ceil(tiles/48) x KT x compute_kt
+      load:    the SM's share of the chip L2 rate measured with that many blocks in flight; fractional (bandwidth is shared
+               chip-wide and SMs that finish early release it): tiles/48 x KT x bytes_kt / (rate_chip / working SMs)
+      sync:    the cp_async_wait + __syncthreads per k-tile that nothing hides when one block owns the SM: hard-quantised
+      T = launch + max(compute, load) + sync; floor against the DRAM ceiling as in predict()."""
+    fam = CHIP["families"]["gemm_pipelined"]; k = constants()
+    M, N, K = shape["M"], shape["N"], shape["K"]; bm, bn, bk, th = h["block_M"], h["block_N"], h["block_K"], h["threads"]
+    tiles = math.ceil(M / bm) * math.ceil(N / bn); KT = math.ceil(K / bk); bps = blocks_per_sm(h)
+    flops_kt = 2.0 * bm * bn * bk; bytes_kt = (bm + bn) * bk * 2
+    t = next((t for t in fam["blocks"].values() if t["tile"] == f"{bm}x{bn}x{bk}" and t["threads"] == th), None)
+    same_bps = [x for x in fam["blocks"].values() if x.get("blocks_per_sm") == bps] or list(fam["blocks"].values())
+    med = lambda key: sorted(x[key] for x in same_bps if x.get(key) is not None)[len([x for x in same_bps if x.get(key) is not None]) // 2]
+    if t:
+        compute_kt = t["compute_per_ktile_us"]; sync_kt = max(0.0, t["overlap_sync_per_ktile_us"]); rate_chip = t["load_rate_chip_GBs_full_grid"] or med("load_rate_chip_GBs_full_grid"); src = "this (tile, threads)'s ablation"
+    else:
+        compute_kt = flops_kt / (fam["tensor_rate_TFs_per_SM"]["median"] * 1e12) * 1e6; sync_kt = max(0.0, med("overlap_sync_per_ktile_us")); rate_chip = med("load_rate_chip_GBs_full_grid"); src = f"medians of the {bps}-block-per-SM configs"
+    working = min(SMS, tiles); per_sm = tiles / SMS; tiles_max = math.ceil(tiles / SMS)
+    compute = tiles_max * KT * compute_kt; sync = tiles_max * KT * sync_kt
+    load = per_sm * KT * bytes_kt / (rate_chip * 1e9 / working) * 1e6
+    dram_bytes = traffic_bytes(h, shape); expected = k["launch_us"] + max(compute, load) + sync
+    floor = max(expected, k["launch_us"] + dram_bytes / (k["dram_GBs"] * 1e9) * 1e6)
+    return {"expected_us": expected, "floor_us": floor, "tiles": tiles, "KT": KT, "blocks_per_sm": bps, "waves_eff": per_sm, "constants_from": src,
+            "parts_us": {"launch": k["launch_us"], "compute_SM": compute, "load_SM": load, "sync_SM": sync, "dram_ceiling": dram_bytes / (k["dram_GBs"] * 1e9) * 1e6}, "dram_MB": dram_bytes / 1e6}

@@ -32,3 +32,17 @@ def test_skeleton_families_record_upstream():
     for fam in ("gemm_pipelined", "gemm_streamk", "gemv_splitk", "gemm_frag_w4a16"):
         up = (ROOT / "agentic" / "tilelang" / "families" / fam / "UPSTREAM.md").read_text()
         assert "fe6d319c78c0738186fc6e83eb8436ddef65204d" in up or "e6b003e9a6bad49c86865285ee42ecbc9be9bb05" in up
+
+
+def test_pipelined_model_tracks_its_ablation():
+    import json
+    from agentic.tilelang.model.mech import predict_pipelined
+    m = json.load(open(ROOT / "calibration" / "spark-6951" / "ablation_cpasync" / "mechanisms.json"))
+    errs = [abs(predict_pipelined(r["pick"], r["shape"])["expected_us"] - r["full_event_us"]) / r["full_event_us"] for r in m.values()]
+    assert len(errs) == 22 and sum(errs) / len(errs) < 0.10
+
+
+def test_pipelined_solver_prefers_measured_constants_on_ties():
+    from agentic.tilelang.skeletons.solve_pipelined import solve
+    r = solve({"M": 1024, "N": 1024, "K": 1024}, {"block_K": [32, 64], "swizzle": [0], "num_stages": [2, 3, 4], "threads": [128, 256]})
+    assert r["legal_points"] > 50 and "ablation" in r["pick"]["constants_from"]

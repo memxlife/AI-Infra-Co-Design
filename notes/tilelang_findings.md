@@ -550,3 +550,67 @@ generated CUDA has no `__syncthreads()` between the last multiply of one `while`
 reading the last stage) and the first cp.async of the next (the prologue writing stage 0); the data-parallel loop
 that follows does get that barrier. Thirty random inputs were still correct, so on this GPU it is a timing race.
 Draft report with the repro in `agentic/tilelang/repro/streamk_war/ISSUE.md`, to show Li before filing.
+
+### S2 revised, item 2: the skeletons adapted (knobs, rules, constants, solve, pick)
+
+**Skeleton 1, `gemm_pipelined`: within 10 % of cuBLASLt, and under it at 1024³.** Knobs the round-2 way
+(`families/gemm_pipelined/knobs.yaml`: tile, K slice, stages, threads, panel; `tma` and `warp_spec` pinned to the
+skeleton's definition), the same legalize rules without the producer group, and constants from an ablation of the
+real kernels rather than a fit: 22 (tile, threads) configurations at 1024³, six variants each (full, no k-tiles,
+no store, no loads, no compute), grids of 1, 48 and all blocks, 264 harness runs
+(`calibration/spark-6951/ablation_cpasync/`, `agentic/tilelang/ablation/{variants.patch_cpasync, harness_ptr.cu.in,
+build_cpasync, analyze_cpasync}`). What the ablation says about the cp.async path, all in
+`chip_tilelang.json["families"]["gemm_pipelined"]` with the probe named: the tensor rate per SM is the same as the
+TMA family's (2.0 to 2.5 TF/s; mma_sync either way on sm_121a), one block's cp.async stream alone is 76 to 80 GB/s
+(TMA: 81), the store and setup are the same. Two things differ. First, **several blocks share an SM** (no 240-register
+producer-group cliff: `__launch_bounds__(threads, 1)` and 24 to 36 KB of shared memory give 2 to 4 blocks per SM),
+and the chip's L2 rate rises with the blocks in flight: 1.1 TB/s with 32 big-tile blocks, 1.4 with 64, 1.6 to 1.7 with
+128, 1.9 with 256 (the measured full-grid rate of each configuration's loads-only variant). Second, **the per-k-tile
+`cp_async_wait` + `__syncthreads` costs 0.2 to 0.5 µs per k-tile when one block owns the SM and about nothing when
+two or more do** (the other block fills the stall). The block-level assembly of step 2c does not describe this, so the
+family has an SM-level one (`mech.predict_pipelined`): compute = ceil(tiles/48) x KT x compute_kt (an SM does whole
+tiles), load = tiles/48 x KT x bytes_kt / (chip L2 rate at that block count / working SMs) (shared chip-wide, fractional),
+sync = ceil(tiles/48) x KT x sync_kt, T = launch + max(compute, load) + sync. Against the 22 ablated full kernels:
+mean |error| 6.8 %, one outlier at +28 % (128x128x32 with 128 threads, where the sync residual is counted twice). The
+Formulator (reply 12 in the fixture) kept the whole tile menu and dropped the panels and K = 128; 70 legal points; the
+exact optimum of the model (enumeration; the MILP's tables would be the same numbers) is 64x128x32, 2 stages,
+256 threads, predicted 33.9 µs. **Measured: 32.2 µs warm, 65.1 cold; cuBLASLt 34.2 warm: the pick is 6 % under
+cuBLASLt.** The model has no stage term (the ablation varied tiles and threads, not stages); measured, stages 2/3/4
+give 32.2 / 33.1 / 34.8 µs, a 4 % spread the solver cannot see and breaks by preferring the measured constants. Out of
+sample the family's constants do not carry: at 2048³ the pick (128x256x32, 2 stages, 256 threads) runs 239 µs
+against cuBLASLt 184 (+30 %, model −5 %); at 4096³ it runs 2304 µs against 1456 (+58 %, model −23 %), because the
+Formulator dropped the traversal panels as "nothing to keep in L2", which is true at 1024³ and false at 4096³ (A + B
+= 64 MB), and the SM-level model prices DRAM only as a floor. The round-1 TMA family's panelled pick stays the right
+kernel there (1434 µs).
+
+**Skeleton 2, `gemm_streamk`: within 10 % at 1024³, +51 % at 4096x4096x1024, and a TileLang limit found.** Knobs:
+tile, K slice, the stream-K loop's stages, the data-parallel loop's stages (the example hard-codes 1; the one
+adaptation), threads, programs (`families/gemm_streamk/`; `skeletons/streamk.py` holds the rules and an estimate
+built from the cp.async constants above: per-tile k-steps at the nearest ablated (tile, threads), the data-parallel
+loop unpipelined at one stage, fp32 atomics for the partial tiles). 507 legal points per shape; the estimate's top
+10 plus 6 spread points were run (`runs/tilelang/skel/skel2_sweep.jsonl`). **Any stream-K loop with more than two
+stages fails to compile** (`Downcast from tirx.Sub to ir.IntImm failed`: the pipeline pass wants a constant trip
+count and the stream-K loop's is `end_iter - start_iter`), 12 of the 34 points; a finding, not a bug report yet. 1024³:
+the estimate's pick, 128x128x32, 2 + 2 stages, 256 threads, 48 programs, **36.9 µs measured (estimate 38.3),
+cuBLASLt 34.2: +8 %**; the example's own point was 114.7. The estimate ranks the 12 compiled points at Spearman 0.72.
+4096x4096x1024: the best measured is 605 µs (128x128x32, data-parallel loop at 4 stages; 668 at 3, 687 at 2, so the
+adaptation knob is worth 12 %), **+51 % against cuBLASLt 400.8**, and the estimate does not rank (0.14; it picked
+128x256x32 at 713). Not explained by a counter: the hypothesis is the one the 4096³ pipelined pick just showed,
+DRAM traffic with no traversal order (the stream-K example walks tiles in plain row-major order and the chip reads
+A's 4096x1024 panel once per 128 columns), and we did not get ncu on it in this round.
+
+**Skeleton 3, the skinny shapes: the knobs exist, the floor model does not rank them, and the reason is a
+mechanism we had not measured.** 220 points (`runs/tilelang/skel/skel3_sweep.jsonl`): the PR #3290 fragment kernel
+over (warps, K slice, split-K, stages) at M = 32 and 128, and the GEMV example over (BLOCK_N, reduce threads) at
+M = 1, each cold and warm. Cold, which is the honest decode reading (weights come from DRAM): the fragment kernel's
+best is 84.0 µs at M = 32 (2 warps, K slice 128, no split, 2 stages; 64 CTAs) and 128.1 at M = 128, and the whole
+menu sits within 84 to 100 and 128 to 150 µs: the 9.4 and 18.9 MB of packed weights move at **110 to 150 GB/s cold,
+not the 270 GB/s the chip reached in step 2c**, and the GEMV's 32 MB of fp16 B at 154 to 160 GB/s cold (warm,
+115 µs, is partly L2). The floor model in `skeletons/skinny.py` assumes the DRAM rate is reached whatever the CTA
+count and ranks at Spearman −0.05 / −0.12: wrong, and recorded as such. The mechanism is bytes in flight
+(memory-level parallelism): 64 to 256 CTAs of 2 to 8 warps with 2 to 4 cp.async stages keep far fewer bytes
+outstanding than a 48-SM GEMM with 96 KB of stages each; the 270 GB/s came from the latter. The probe to measure
+it is a loads-only variant of the fragment kernel at 1, 48, 96, ... CTAs and 1 to 4 stages, the same ablation as above
+on a cold L2; not run in this round. For the record against the fp16 S1 table: M = 32 cold 84 µs against cuBLASLt
+149 and M = 128 cold 128 against 155 are W4A16 against fp16 (0.56 B against 2 B per weight), not the same problem;
+warm, with the 9.4 MB L2-resident, the kernel runs 19 to 25 µs at M = 32.

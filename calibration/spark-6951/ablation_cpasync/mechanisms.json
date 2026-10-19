@@ -1,0 +1,1366 @@
+{
+ "c64x64x32_st3_th128": {
+  "shape": {
+   "M": 1024,
+   "N": 1024,
+   "K": 1024
+  },
+  "pick": {
+   "block_M": 64,
+   "block_N": 64,
+   "block_K": 32,
+   "num_stages": 3,
+   "threads": 128,
+   "swizzle": 0
+  },
+  "KT": 32,
+  "blocks": 256,
+  "waves": 6,
+  "launch_us_event_1block_nostore": 2.528,
+  "block_setup_us": 0.064,
+  "launch_us_event_48blocks_nostore": 2.528,
+  "launch_us_event_full_nostore": 2.56,
+  "store_per_block_us": 0.192,
+  "store_full_grid_us": 6.112,
+  "compute_per_ktile_us": 0.13299999999999998,
+  "tensor_rate_TFs_per_SM": 1.971007518796993,
+  "compute_full_grid_us": 25.376,
+  "load_per_ktile_us_1block": 0.10500000000000001,
+  "bytes_per_ktile": 8192,
+  "load_rate_GBs_1block": 78.01904761904763,
+  "load_curve": {
+   "1": {
+    "event_us": 6.752,
+    "block_mean_us": 3.616,
+    "GBs_chip": 72.49557522123894,
+    "GBs_per_block": 78.01904761904763
+   },
+   "48": {
+    "event_us": 10.688,
+    "block_mean_us": 6.456,
+    "GBs_chip": 1820.4444444444446,
+    "GBs_per_block": 42.281290322580645
+   },
+   "256": {
+    "event_us": 37.216,
+    "block_mean_us": 20.027,
+    "GBs_chip": 1915.2073059360732,
+    "GBs_per_block": 13.259015730109757
+   }
+  },
+  "full_block_us": 20.615,
+  "full_event_us": 38.88,
+  "full_span_us": 35.04,
+  "overlap": {
+   "max_parts_us": 20.027,
+   "sum_parts_us": 24.283,
+   "measured_block_us": 20.615,
+   "compute_part_us": 4.255999999999999,
+   "load_part_us_under_full_grid": 19.771,
+   "setup_us": 0.256,
+   "sync_cost_us": 0.5879999999999974
+  }
+ },
+ "c64x64x32_st3_th256": {
+  "shape": {
+   "M": 1024,
+   "N": 1024,
+   "K": 1024
+  },
+  "pick": {
+   "block_M": 64,
+   "block_N": 64,
+   "block_K": 32,
+   "num_stages": 3,
+   "threads": 256,
+   "swizzle": 0
+  },
+  "KT": 32,
+  "blocks": 256,
+  "waves": 6,
+  "launch_us_event_1block_nostore": 2.56,
+  "block_setup_us": 0.096,
+  "launch_us_event_48blocks_nostore": 2.496,
+  "launch_us_event_full_nostore": 2.56,
+  "store_per_block_us": 0.16,
+  "store_full_grid_us": 6.176,
+  "compute_per_ktile_us": 0.10999999999999999,
+  "tensor_rate_TFs_per_SM": 2.3831272727272728,
+  "compute_full_grid_us": 25.12,
+  "load_per_ktile_us_1block": 0.10700000000000001,
+  "bytes_per_ktile": 8192,
+  "load_rate_GBs_1block": 76.5607476635514,
+  "load_curve": {
+   "1": {
+    "event_us": 6.592,
+    "block_mean_us": 3.68,
+    "GBs_chip": 71.23478260869565,
+    "GBs_per_block": 76.5607476635514
+   },
+   "48": {
+    "event_us": 10.528,
+    "block_mean_us": 6.331,
+    "GBs_chip": 1881.416267942584,
+    "GBs_per_block": 43.151275720164605
+   },
+   "256": {
+    "event_us": 37.344,
+    "block_mean_us": 19.757,
+    "GBs_chip": 1961.7885874649207,
+    "GBs_per_block": 13.442592687554484
+   }
+  },
+  "full_block_us": 16.55,
+  "full_event_us": 39.2,
+  "full_span_us": 35.52,
+  "overlap": {
+   "max_parts_us": 19.757,
+   "sum_parts_us": 23.277,
+   "measured_block_us": 16.55,
+   "compute_part_us": 3.5199999999999996,
+   "load_part_us_under_full_grid": 19.501,
+   "setup_us": 0.256,
+   "sync_cost_us": -3.2070000000000007
+  }
+ },
+ "c64x64x128_st3_th128": {
+  "shape": {
+   "M": 1024,
+   "N": 1024,
+   "K": 1024
+  },
+  "pick": {
+   "block_M": 64,
+   "block_N": 64,
+   "block_K": 128,
+   "num_stages": 3,
+   "threads": 128,
+   "swizzle": 0
+  },
+  "KT": 8,
+  "blocks": 256,
+  "waves": 6,
+  "launch_us_event_1block_nostore": 2.592,
+  "block_setup_us": 0.032,
+  "launch_us_event_48blocks_nostore": 2.528,
+  "launch_us_event_full_nostore": 4.416,
+  "store_per_block_us": 0.224,
+  "store_full_grid_us": 4.288,
+  "compute_per_ktile_us": 0.45999999999999996,
+  "tensor_rate_TFs_per_SM": 2.279513043478261,
+  "compute_full_grid_us": 28.96,
+  "load_per_ktile_us_1block": 0.42000000000000004,
+  "bytes_per_ktile": 32768,
+  "load_rate_GBs_1block": 78.01904761904763,
+  "load_curve": {
+   "1": {
+    "event_us": 6.72,
+    "block_mean_us": 3.616,
+    "GBs_chip": 72.49557522123894,
+    "GBs_per_block": 78.01904761904763
+   },
+   "48": {
+    "event_us": 9.792,
+    "block_mean_us": 6.214,
+    "GBs_chip": 1899.5942028985507,
+    "GBs_per_block": 43.99865726753944
+   },
+   "256": {
+    "event_us": 42.4,
+    "block_mean_us": 7.138,
+    "GBs_chip": 1599.6582761250954,
+    "GBs_per_block": 38.09125254286545
+   }
+  },
+  "full_block_us": 8.002,
+  "full_event_us": 50.368,
+  "full_span_us": 47.584,
+  "overlap": {
+   "max_parts_us": 7.138,
+   "sum_parts_us": 10.818,
+   "measured_block_us": 8.002,
+   "compute_part_us": 3.6799999999999997,
+   "load_part_us_under_full_grid": 6.882,
+   "setup_us": 0.256,
+   "sync_cost_us": 0.8640000000000008
+  }
+ },
+ "c64x64x128_st3_th256": {
+  "shape": {
+   "M": 1024,
+   "N": 1024,
+   "K": 1024
+  },
+  "pick": {
+   "block_M": 64,
+   "block_N": 64,
+   "block_K": 128,
+   "num_stages": 3,
+   "threads": 256,
+   "swizzle": 0
+  },
+  "KT": 8,
+  "blocks": 256,
+  "waves": 6,
+  "launch_us_event_1block_nostore": 2.592,
+  "block_setup_us": 0.064,
+  "launch_us_event_48blocks_nostore": 2.528,
+  "launch_us_event_full_nostore": 4.672,
+  "store_per_block_us": 0.192,
+  "store_full_grid_us": 4.032000000000001,
+  "compute_per_ktile_us": 0.45999999999999996,
+  "tensor_rate_TFs_per_SM": 2.279513043478261,
+  "compute_full_grid_us": 29.088,
+  "load_per_ktile_us_1block": 0.42000000000000004,
+  "bytes_per_ktile": 32768,
+  "load_rate_GBs_1block": 78.01904761904763,
+  "load_curve": {
+   "1": {
+    "event_us": 6.688,
+    "block_mean_us": 3.616,
+    "GBs_chip": 72.49557522123894,
+    "GBs_per_block": 78.01904761904763
+   },
+   "48": {
+    "event_us": 9.76,
+    "block_mean_us": 6.529,
+    "GBs_chip": 1812.0552995391704,
+    "GBs_per_block": 41.789255539614224
+   },
+   "256": {
+    "event_us": 42.464,
+    "block_mean_us": 6.583,
+    "GBs_chip": 1721.7996715927754,
+    "GBs_per_block": 41.43259048522207
+   }
+  },
+  "full_block_us": 7.691,
+  "full_event_us": 50.464,
+  "full_span_us": 46.016,
+  "overlap": {
+   "max_parts_us": 6.583,
+   "sum_parts_us": 10.263,
+   "measured_block_us": 7.691,
+   "compute_part_us": 3.6799999999999997,
+   "load_part_us_under_full_grid": 6.327,
+   "setup_us": 0.256,
+   "sync_cost_us": 1.1079999999999997
+  }
+ },
+ "c64x128x32_st3_th128": {
+  "shape": {
+   "M": 1024,
+   "N": 1024,
+   "K": 1024
+  },
+  "pick": {
+   "block_M": 64,
+   "block_N": 128,
+   "block_K": 32,
+   "num_stages": 3,
+   "threads": 128,
+   "swizzle": 0
+  },
+  "KT": 32,
+  "blocks": 128,
+  "waves": 3,
+  "launch_us_event_1block_nostore": 2.528,
+  "block_setup_us": 0.064,
+  "launch_us_event_48blocks_nostore": 2.528,
+  "launch_us_event_full_nostore": 2.496,
+  "store_per_block_us": 0.6719999999999999,
+  "store_full_grid_us": 8.256,
+  "compute_per_ktile_us": 0.26499999999999996,
+  "tensor_rate_TFs_per_SM": 1.9784452830188684,
+  "compute_full_grid_us": 33.184,
+  "load_per_ktile_us_1block": 0.157,
+  "bytes_per_ktile": 12288,
+  "load_rate_GBs_1block": 78.26751592356688,
+  "load_curve": {
+   "1": {
+    "event_us": 8.64,
+    "block_mean_us": 5.76,
+    "GBs_chip": 68.26666666666667,
+    "GBs_per_block": 78.26751592356688
+   },
+   "48": {
+    "event_us": 14.848,
+    "block_mean_us": 11.047,
+    "GBs_chip": 1611.5409836065576,
+    "GBs_per_block": 38.135583357579286
+   },
+   "128": {
+    "event_us": 35.2,
+    "block_mean_us": 18.037,
+    "GBs_chip": 1600.06510681587,
+    "GBs_per_block": 22.727934801456566
+   }
+  },
+  "full_block_us": 19.863,
+  "full_event_us": 39.264,
+  "full_span_us": 36.064,
+  "overlap": {
+   "max_parts_us": 18.037,
+   "sum_parts_us": 26.516999999999996,
+   "measured_block_us": 19.863,
+   "compute_part_us": 8.479999999999999,
+   "load_part_us_under_full_grid": 17.301,
+   "setup_us": 0.736,
+   "sync_cost_us": 1.8260000000000005
+  }
+ },
+ "c64x128x32_st3_th256": {
+  "shape": {
+   "M": 1024,
+   "N": 1024,
+   "K": 1024
+  },
+  "pick": {
+   "block_M": 64,
+   "block_N": 128,
+   "block_K": 32,
+   "num_stages": 3,
+   "threads": 256,
+   "swizzle": 0
+  },
+  "KT": 32,
+  "blocks": 128,
+  "waves": 3,
+  "launch_us_event_1block_nostore": 2.528,
+  "block_setup_us": 0.096,
+  "launch_us_event_48blocks_nostore": 2.528,
+  "launch_us_event_full_nostore": 2.592,
+  "store_per_block_us": 0.48,
+  "store_full_grid_us": 6.527999999999999,
+  "compute_per_ktile_us": 0.24100000000000002,
+  "tensor_rate_TFs_per_SM": 2.17546887966805,
+  "compute_full_grid_us": 29.088,
+  "load_per_ktile_us_1block": 0.158,
+  "bytes_per_ktile": 12288,
+  "load_rate_GBs_1block": 77.7721518987342,
+  "load_curve": {
+   "1": {
+    "event_us": 8.736,
+    "block_mean_us": 5.632,
+    "GBs_chip": 69.81818181818183,
+    "GBs_per_block": 77.7721518987342
+   },
+   "48": {
+    "event_us": 14.816,
+    "block_mean_us": 10.602,
+    "GBs_chip": 1666.1694915254238,
+    "GBs_per_block": 39.21962896469181
+   },
+   "128": {
+    "event_us": 33.888,
+    "block_mean_us": 17.375,
+    "GBs_chip": 1646.9780104712042,
+    "GBs_per_block": 23.407107565926545
+   }
+  },
+  "full_block_us": 17.636,
+  "full_event_us": 35.008,
+  "full_span_us": 30.752,
+  "overlap": {
+   "max_parts_us": 17.375,
+   "sum_parts_us": 25.087,
+   "measured_block_us": 17.636,
+   "compute_part_us": 7.712000000000001,
+   "load_part_us_under_full_grid": 16.799,
+   "setup_us": 0.576,
+   "sync_cost_us": 0.26099999999999923
+  }
+ },
+ "c64x128x64_st3_th128": {
+  "shape": {
+   "M": 1024,
+   "N": 1024,
+   "K": 1024
+  },
+  "pick": {
+   "block_M": 64,
+   "block_N": 128,
+   "block_K": 64,
+   "num_stages": 3,
+   "threads": 128,
+   "swizzle": 0
+  },
+  "KT": 16,
+  "blocks": 128,
+  "waves": 3,
+  "launch_us_event_1block_nostore": 2.56,
+  "block_setup_us": 0.064,
+  "launch_us_event_48blocks_nostore": 2.752,
+  "launch_us_event_full_nostore": 2.56,
+  "store_per_block_us": 0.704,
+  "store_full_grid_us": 8.256,
+  "compute_per_ktile_us": 0.47600000000000003,
+  "tensor_rate_TFs_per_SM": 2.202890756302521,
+  "compute_full_grid_us": 33.216,
+  "load_per_ktile_us_1block": 0.312,
+  "bytes_per_ktile": 24576,
+  "load_rate_GBs_1block": 78.76923076923077,
+  "load_curve": {
+   "1": {
+    "event_us": 8.704,
+    "block_mean_us": 5.76,
+    "GBs_chip": 68.26666666666667,
+    "GBs_per_block": 78.76923076923077
+   },
+   "48": {
+    "event_us": 15.84,
+    "block_mean_us": 11.528,
+    "GBs_chip": 1568.6808510638298,
+    "GBs_per_block": 36.544237918215615
+   },
+   "128": {
+    "event_us": 38.976,
+    "block_mean_us": 11.596,
+    "GBs_chip": 1370.0905923344949,
+    "GBs_per_block": 36.314739564093095
+   }
+  },
+  "full_block_us": 11.99,
+  "full_event_us": 40.32,
+  "full_span_us": 37.632,
+  "overlap": {
+   "max_parts_us": 11.596,
+   "sum_parts_us": 19.212,
+   "measured_block_us": 11.99,
+   "compute_part_us": 7.6160000000000005,
+   "load_part_us_under_full_grid": 10.828,
+   "setup_us": 0.768,
+   "sync_cost_us": 0.39400000000000013
+  }
+ },
+ "c64x128x64_st3_th256": {
+  "shape": {
+   "M": 1024,
+   "N": 1024,
+   "K": 1024
+  },
+  "pick": {
+   "block_M": 64,
+   "block_N": 128,
+   "block_K": 64,
+   "num_stages": 3,
+   "threads": 256,
+   "swizzle": 0
+  },
+  "KT": 16,
+  "blocks": 128,
+  "waves": 3,
+  "launch_us_event_1block_nostore": 2.592,
+  "block_setup_us": 0.064,
+  "launch_us_event_48blocks_nostore": 2.56,
+  "launch_us_event_full_nostore": 2.592,
+  "store_per_block_us": 0.48000000000000004,
+  "store_full_grid_us": 8.032,
+  "compute_per_ktile_us": 0.46599999999999997,
+  "tensor_rate_TFs_per_SM": 2.2501630901287553,
+  "compute_full_grid_us": 31.168,
+  "load_per_ktile_us_1block": 0.31999999999999995,
+  "bytes_per_ktile": 24576,
+  "load_rate_GBs_1block": 76.80000000000001,
+  "load_curve": {
+   "1": {
+    "event_us": 8.736,
+    "block_mean_us": 5.664,
+    "GBs_chip": 69.42372881355932,
+    "GBs_per_block": 76.80000000000001
+   },
+   "48": {
+    "event_us": 15.68,
+    "block_mean_us": 11.569,
+    "GBs_chip": 1548.0944881889766,
+    "GBs_per_block": 35.66585034013605
+   },
+   "128": {
+    "event_us": 38.336,
+    "block_mean_us": 11.188,
+    "GBs_chip": 1465.856477166822,
+    "GBs_per_block": 36.94250281848929
+   }
+  },
+  "full_block_us": 11.389,
+  "full_event_us": 39.264,
+  "full_span_us": 35.392,
+  "overlap": {
+   "max_parts_us": 11.188,
+   "sum_parts_us": 18.644,
+   "measured_block_us": 11.389,
+   "compute_part_us": 7.4559999999999995,
+   "load_part_us_under_full_grid": 10.644,
+   "setup_us": 0.544,
+   "sync_cost_us": 0.20099999999999874
+  }
+ },
+ "c64x256x32_st3_th128": {
+  "shape": {
+   "M": 1024,
+   "N": 1024,
+   "K": 1024
+  },
+  "pick": {
+   "block_M": 64,
+   "block_N": 256,
+   "block_K": 32,
+   "num_stages": 3,
+   "threads": 128,
+   "swizzle": 0
+  },
+  "KT": 32,
+  "blocks": 64,
+  "waves": 2,
+  "launch_us_event_1block_nostore": 2.624,
+  "block_setup_us": 0.064,
+  "launch_us_event_48blocks_nostore": 2.528,
+  "launch_us_event_full_nostore": 2.496,
+  "store_per_block_us": 1.472,
+  "store_full_grid_us": 9.92,
+  "compute_per_ktile_us": 0.5,
+  "tensor_rate_TFs_per_SM": 2.097152,
+  "compute_full_grid_us": 43.424,
+  "load_per_ktile_us_1block": 0.258,
+  "bytes_per_ktile": 20480,
+  "load_rate_GBs_1block": 79.37984496124031,
+  "load_curve": {
+   "1": {
+    "event_us": 12.768,
+    "block_mean_us": 9.792,
+    "GBs_chip": 66.9281045751634,
+    "GBs_per_block": 79.37984496124031
+   },
+   "48": {
+    "event_us": 23.136,
+    "block_mean_us": 21.121,
+    "GBs_chip": 1454.2011834319526,
+    "GBs_per_block": 33.46234363032934
+   },
+   "64": {
+    "event_us": 36.288,
+    "block_mean_us": 18.215,
+    "GBs_chip": 1273.7803692905736,
+    "GBs_per_block": 39.29252353258589
+   }
+  },
+  "full_block_us": 23.443,
+  "full_event_us": 49.632,
+  "full_span_us": 47.072,
+  "overlap": {
+   "max_parts_us": 18.215,
+   "sum_parts_us": 34.215,
+   "measured_block_us": 23.443,
+   "compute_part_us": 16.0,
+   "load_part_us_under_full_grid": 16.679,
+   "setup_us": 1.536,
+   "sync_cost_us": 5.2280000000000015
+  }
+ },
+ "c64x256x32_st3_th256": {
+  "shape": {
+   "M": 1024,
+   "N": 1024,
+   "K": 1024
+  },
+  "pick": {
+   "block_M": 64,
+   "block_N": 256,
+   "block_K": 32,
+   "num_stages": 3,
+   "threads": 256,
+   "swizzle": 0
+  },
+  "KT": 32,
+  "blocks": 64,
+  "waves": 2,
+  "launch_us_event_1block_nostore": 2.528,
+  "block_setup_us": 0.064,
+  "launch_us_event_48blocks_nostore": 2.656,
+  "launch_us_event_full_nostore": 2.624,
+  "store_per_block_us": 1.504,
+  "store_full_grid_us": 10.431999999999999,
+  "compute_per_ktile_us": 0.48800000000000004,
+  "tensor_rate_TFs_per_SM": 2.1487213114754096,
+  "compute_full_grid_us": 43.392,
+  "load_per_ktile_us_1block": 0.258,
+  "bytes_per_ktile": 20480,
+  "load_rate_GBs_1block": 79.37984496124031,
+  "load_curve": {
+   "1": {
+    "event_us": 12.768,
+    "block_mean_us": 9.824,
+    "GBs_chip": 66.71009771986971,
+    "GBs_per_block": 79.37984496124031
+   },
+   "48": {
+    "event_us": 25.056,
+    "block_mean_us": 20.015,
+    "GBs_chip": 1528.8335925349922,
+    "GBs_per_block": 35.52664389873692
+   },
+   "64": {
+    "event_us": 36.544,
+    "block_mean_us": 18.22,
+    "GBs_chip": 1266.3961352657007,
+    "GBs_per_block": 39.35623348546722
+   }
+  },
+  "full_block_us": 24.468,
+  "full_event_us": 51.712,
+  "full_span_us": 48.768,
+  "overlap": {
+   "max_parts_us": 18.22,
+   "sum_parts_us": 33.836,
+   "measured_block_us": 24.468,
+   "compute_part_us": 15.616000000000001,
+   "load_part_us_under_full_grid": 16.651999999999997,
+   "setup_us": 1.568,
+   "sync_cost_us": 6.248000000000001
+  }
+ },
+ "c128x64x32_st3_th128": {
+  "shape": {
+   "M": 1024,
+   "N": 1024,
+   "K": 1024
+  },
+  "pick": {
+   "block_M": 128,
+   "block_N": 64,
+   "block_K": 32,
+   "num_stages": 3,
+   "threads": 128,
+   "swizzle": 0
+  },
+  "KT": 32,
+  "blocks": 128,
+  "waves": 3,
+  "launch_us_event_1block_nostore": 2.528,
+  "block_setup_us": 0.064,
+  "launch_us_event_48blocks_nostore": 2.496,
+  "launch_us_event_full_nostore": 2.528,
+  "store_per_block_us": 0.48000000000000004,
+  "store_full_grid_us": 6.24,
+  "compute_per_ktile_us": 0.244,
+  "tensor_rate_TFs_per_SM": 2.14872131147541,
+  "compute_full_grid_us": 28.928,
+  "load_per_ktile_us_1block": 0.15799999999999997,
+  "bytes_per_ktile": 12288,
+  "load_rate_GBs_1block": 77.7721518987342,
+  "load_curve": {
+   "1": {
+    "event_us": 8.768,
+    "block_mean_us": 5.6,
+    "GBs_chip": 70.21714285714285,
+    "GBs_per_block": 77.7721518987342
+   },
+   "48": {
+    "event_us": 14.752,
+    "block_mean_us": 10.405,
+    "GBs_chip": 1734.776470588235,
+    "GBs_per_block": 39.87587465774262
+   },
+   "128": {
+    "event_us": 33.088,
+    "block_mean_us": 16.846,
+    "GBs_chip": 1717.1004366812226,
+    "GBs_per_block": 24.120721383879285
+   }
+  },
+  "full_block_us": 18.384,
+  "full_event_us": 37.408,
+  "full_span_us": 33.664,
+  "overlap": {
+   "max_parts_us": 16.846,
+   "sum_parts_us": 24.654,
+   "measured_block_us": 18.384,
+   "compute_part_us": 7.808,
+   "load_part_us_under_full_grid": 16.302,
+   "setup_us": 0.544,
+   "sync_cost_us": 1.5380000000000003
+  }
+ },
+ "c128x64x32_st3_th256": {
+  "shape": {
+   "M": 1024,
+   "N": 1024,
+   "K": 1024
+  },
+  "pick": {
+   "block_M": 128,
+   "block_N": 64,
+   "block_K": 32,
+   "num_stages": 3,
+   "threads": 256,
+   "swizzle": 0
+  },
+  "KT": 32,
+  "blocks": 128,
+  "waves": 3,
+  "launch_us_event_1block_nostore": 2.528,
+  "block_setup_us": 0.096,
+  "launch_us_event_48blocks_nostore": 2.784,
+  "launch_us_event_full_nostore": 2.464,
+  "store_per_block_us": 0.48,
+  "store_full_grid_us": 6.24,
+  "compute_per_ktile_us": 0.252,
+  "tensor_rate_TFs_per_SM": 2.080507936507937,
+  "compute_full_grid_us": 30.944,
+  "load_per_ktile_us_1block": 0.154,
+  "bytes_per_ktile": 12288,
+  "load_rate_GBs_1block": 79.79220779220779,
+  "load_curve": {
+   "1": {
+    "event_us": 8.64,
+    "block_mean_us": 5.504,
+    "GBs_chip": 71.44186046511629,
+    "GBs_per_block": 79.79220779220779
+   },
+   "48": {
+    "event_us": 14.784,
+    "block_mean_us": 10.64,
+    "GBs_chip": 1661.4760563380282,
+    "GBs_per_block": 39.071542130365664
+   },
+   "128": {
+    "event_us": 32.928,
+    "block_mean_us": 16.753,
+    "GBs_chip": 1753.4715719063547,
+    "GBs_per_block": 24.307102676639676
+   }
+  },
+  "full_block_us": 18.851,
+  "full_event_us": 37.088,
+  "full_span_us": 33.984,
+  "overlap": {
+   "max_parts_us": 16.753,
+   "sum_parts_us": 24.817,
+   "measured_block_us": 18.851,
+   "compute_part_us": 8.064,
+   "load_part_us_under_full_grid": 16.177,
+   "setup_us": 0.576,
+   "sync_cost_us": 2.097999999999999
+  }
+ },
+ "c128x128x32_st3_th128": {
+  "shape": {
+   "M": 1024,
+   "N": 1024,
+   "K": 1024
+  },
+  "pick": {
+   "block_M": 128,
+   "block_N": 128,
+   "block_K": 32,
+   "num_stages": 3,
+   "threads": 128,
+   "swizzle": 0
+  },
+  "KT": 32,
+  "blocks": 64,
+  "waves": 2,
+  "launch_us_event_1block_nostore": 2.528,
+  "block_setup_us": 0.064,
+  "launch_us_event_48blocks_nostore": 2.496,
+  "launch_us_event_full_nostore": 2.528,
+  "store_per_block_us": 1.472,
+  "store_full_grid_us": 9.152,
+  "compute_per_ktile_us": 0.5,
+  "tensor_rate_TFs_per_SM": 2.097152,
+  "compute_full_grid_us": 35.232,
+  "load_per_ktile_us_1block": 0.20800000000000002,
+  "bytes_per_ktile": 16384,
+  "load_rate_GBs_1block": 78.76923076923076,
+  "load_curve": {
+   "1": {
+    "event_us": 10.784,
+    "block_mean_us": 8.192,
+    "GBs_chip": 63.99999999999999,
+    "GBs_per_block": 78.76923076923076
+   },
+   "48": {
+    "event_us": 21.024,
+    "block_mean_us": 17.387,
+    "GBs_chip": 1396.8596802841919,
+    "GBs_per_block": 33.07602044035077
+   },
+   "64": {
+    "event_us": 29.12,
+    "block_mean_us": 20.259,
+    "GBs_chip": 1315.6537013801756,
+    "GBs_per_block": 28.00235005073974
+   }
+  },
+  "full_block_us": 28.195,
+  "full_event_us": 39.456,
+  "full_span_us": 36.608,
+  "overlap": {
+   "max_parts_us": 20.259,
+   "sum_parts_us": 36.259,
+   "measured_block_us": 28.195,
+   "compute_part_us": 16.0,
+   "load_part_us_under_full_grid": 18.723,
+   "setup_us": 1.536,
+   "sync_cost_us": 7.936
+  }
+ },
+ "c128x128x32_st3_th256": {
+  "shape": {
+   "M": 1024,
+   "N": 1024,
+   "K": 1024
+  },
+  "pick": {
+   "block_M": 128,
+   "block_N": 128,
+   "block_K": 32,
+   "num_stages": 3,
+   "threads": 256,
+   "swizzle": 0
+  },
+  "KT": 32,
+  "blocks": 64,
+  "waves": 2,
+  "launch_us_event_1block_nostore": 2.56,
+  "block_setup_us": 0.064,
+  "launch_us_event_48blocks_nostore": 2.496,
+  "launch_us_event_full_nostore": 2.592,
+  "store_per_block_us": 1.1199999999999999,
+  "store_full_grid_us": 8.192,
+  "compute_per_ktile_us": 0.447,
+  "tensor_rate_TFs_per_SM": 2.3458076062639823,
+  "compute_full_grid_us": 39.296,
+  "load_per_ktile_us_1block": 0.216,
+  "bytes_per_ktile": 16384,
+  "load_rate_GBs_1block": 75.85185185185186,
+  "load_curve": {
+   "1": {
+    "event_us": 11.392,
+    "block_mean_us": 8.096,
+    "GBs_chip": 64.7588932806324,
+    "GBs_per_block": 75.85185185185186
+   },
+   "48": {
+    "event_us": 20.928,
+    "block_mean_us": 16.608,
+    "GBs_chip": 1448.3093922651933,
+    "GBs_per_block": 33.99170124481328
+   },
+   "64": {
+    "event_us": 27.136,
+    "block_mean_us": 18.805,
+    "GBs_chip": 1415.0823211875845,
+    "GBs_per_block": 29.753589467113105
+   }
+  },
+  "full_block_us": 26.235,
+  "full_event_us": 41.376,
+  "full_span_us": 38.432,
+  "overlap": {
+   "max_parts_us": 18.805,
+   "sum_parts_us": 33.108999999999995,
+   "measured_block_us": 26.235,
+   "compute_part_us": 14.304,
+   "load_part_us_under_full_grid": 17.621,
+   "setup_us": 1.184,
+   "sync_cost_us": 7.43
+  }
+ },
+ "c128x128x64_st3_th128": {
+  "shape": {
+   "M": 1024,
+   "N": 1024,
+   "K": 1024
+  },
+  "pick": {
+   "block_M": 128,
+   "block_N": 128,
+   "block_K": 64,
+   "num_stages": 3,
+   "threads": 128,
+   "swizzle": 0
+  },
+  "KT": 16,
+  "blocks": 64,
+  "waves": 2,
+  "launch_us_event_1block_nostore": 2.56,
+  "block_setup_us": 0.064,
+  "launch_us_event_48blocks_nostore": 2.56,
+  "launch_us_event_full_nostore": 2.624,
+  "store_per_block_us": 1.472,
+  "store_full_grid_us": 10.144,
+  "compute_per_ktile_us": 0.92,
+  "tensor_rate_TFs_per_SM": 2.2795130434782607,
+  "compute_full_grid_us": 41.376,
+  "load_per_ktile_us_1block": 0.41600000000000004,
+  "bytes_per_ktile": 32768,
+  "load_rate_GBs_1block": 78.76923076923076,
+  "load_curve": {
+   "1": {
+    "event_us": 10.72,
+    "block_mean_us": 8.192,
+    "GBs_chip": 63.99999999999999,
+    "GBs_per_block": 78.76923076923076
+   },
+   "48": {
+    "event_us": 21.6,
+    "block_mean_us": 16.751,
+    "GBs_chip": 1440.3516483516482,
+    "GBs_per_block": 34.45862635557016
+   },
+   "64": {
+    "event_us": 30.336,
+    "block_mean_us": 15.018,
+    "GBs_chip": 1220.6938300349243,
+    "GBs_per_block": 38.88799881323245
+   }
+  },
+  "full_block_us": 21.811,
+  "full_event_us": 46.848,
+  "full_span_us": 44.224,
+  "overlap": {
+   "max_parts_us": 16.256,
+   "sum_parts_us": 29.738,
+   "measured_block_us": 21.811,
+   "compute_part_us": 14.72,
+   "load_part_us_under_full_grid": 13.482000000000001,
+   "setup_us": 1.536,
+   "sync_cost_us": 5.555
+  }
+ },
+ "c128x128x64_st3_th256": {
+  "shape": {
+   "M": 1024,
+   "N": 1024,
+   "K": 1024
+  },
+  "pick": {
+   "block_M": 128,
+   "block_N": 128,
+   "block_K": 64,
+   "num_stages": 3,
+   "threads": 256,
+   "swizzle": 0
+  },
+  "KT": 16,
+  "blocks": 64,
+  "waves": 2,
+  "launch_us_event_1block_nostore": 2.496,
+  "block_setup_us": 0.064,
+  "launch_us_event_48blocks_nostore": 2.624,
+  "launch_us_event_full_nostore": 2.496,
+  "store_per_block_us": 1.0879999999999999,
+  "store_full_grid_us": 8.16,
+  "compute_per_ktile_us": 0.884,
+  "tensor_rate_TFs_per_SM": 2.3723438914027155,
+  "compute_full_grid_us": 37.28,
+  "load_per_ktile_us_1block": 0.434,
+  "bytes_per_ktile": 32768,
+  "load_rate_GBs_1block": 75.50230414746544,
+  "load_curve": {
+   "1": {
+    "event_us": 10.752,
+    "block_mean_us": 8.096,
+    "GBs_chip": 64.7588932806324,
+    "GBs_per_block": 75.50230414746544
+   },
+   "48": {
+    "event_us": 19.968,
+    "block_mean_us": 15.963,
+    "GBs_chip": 1503.6940726577436,
+    "GBs_per_block": 35.39855512794545
+   },
+   "64": {
+    "event_us": 30.336,
+    "block_mean_us": 14.804,
+    "GBs_chip": 1182.1600901916574,
+    "GBs_per_block": 38.403750366246705
+   }
+  },
+  "full_block_us": 20.762,
+  "full_event_us": 44.448,
+  "full_span_us": 41.056,
+  "overlap": {
+   "max_parts_us": 15.296,
+   "sum_parts_us": 28.948,
+   "measured_block_us": 20.762,
+   "compute_part_us": 14.144,
+   "load_part_us_under_full_grid": 13.652000000000001,
+   "setup_us": 1.152,
+   "sync_cost_us": 5.466000000000001
+  }
+ },
+ "c128x256x32_st3_th256": {
+  "shape": {
+   "M": 1024,
+   "N": 1024,
+   "K": 1024
+  },
+  "pick": {
+   "block_M": 128,
+   "block_N": 256,
+   "block_K": 32,
+   "num_stages": 3,
+   "threads": 256,
+   "swizzle": 0
+  },
+  "KT": 32,
+  "blocks": 32,
+  "waves": 1,
+  "launch_us_event_1block_nostore": 2.496,
+  "block_setup_us": 0.064,
+  "launch_us_event_48blocks_nostore": 2.656,
+  "launch_us_event_full_nostore": 2.496,
+  "store_per_block_us": 3.136,
+  "store_full_grid_us": 8.288,
+  "compute_per_ktile_us": 0.9149999999999999,
+  "tensor_rate_TFs_per_SM": 2.291969398907104,
+  "compute_full_grid_us": 39.36,
+  "load_per_ktile_us_1block": 0.30799999999999994,
+  "bytes_per_ktile": 24576,
+  "load_rate_GBs_1block": 79.7922077922078,
+  "load_curve": {
+   "1": {
+    "event_us": 16.896,
+    "block_mean_us": 13.056,
+    "GBs_chip": 60.235294117647065,
+    "GBs_per_block": 79.7922077922078
+   },
+   "32": {
+    "event_us": 25.088,
+    "block_mean_us": 21.815,
+    "GBs_chip": 1126.6934097421204,
+    "GBs_per_block": 42.247219983883966
+   },
+   "48": {
+    "event_us": 33.056,
+    "block_mean_us": 417490096861.911,
+    "GBs_chip": 9.041827886145418e-08,
+    "GBs_per_block": 1.8837141429636067e-09
+   }
+  },
+  "full_block_us": 39.997,
+  "full_event_us": 43.584,
+  "full_span_us": 40.48,
+  "overlap": {
+   "max_parts_us": 32.48,
+   "sum_parts_us": 51.095,
+   "measured_block_us": 39.997,
+   "compute_part_us": 29.279999999999998,
+   "load_part_us_under_full_grid": 18.615000000000002,
+   "setup_us": 3.2,
+   "sync_cost_us": 7.517000000000003
+  }
+ },
+ "c128x256x64_st2_th256": {
+  "shape": {
+   "M": 1024,
+   "N": 1024,
+   "K": 1024
+  },
+  "pick": {
+   "block_M": 128,
+   "block_N": 256,
+   "block_K": 64,
+   "num_stages": 2,
+   "threads": 256,
+   "swizzle": 0
+  },
+  "KT": 16,
+  "blocks": 32,
+  "waves": 1,
+  "launch_us_event_1block_nostore": 2.496,
+  "block_setup_us": 0.032,
+  "launch_us_event_48blocks_nostore": 2.624,
+  "launch_us_event_full_nostore": 2.56,
+  "store_per_block_us": 3.136,
+  "store_full_grid_us": 8.16,
+  "compute_per_ktile_us": 1.696,
+  "tensor_rate_TFs_per_SM": 2.473056603773585,
+  "compute_full_grid_us": 37.376,
+  "load_per_ktile_us_1block": 0.6199999999999999,
+  "bytes_per_ktile": 49152,
+  "load_rate_GBs_1block": 79.27741935483873,
+  "load_curve": {
+   "1": {
+    "event_us": 16.736,
+    "block_mean_us": 13.088,
+    "GBs_chip": 60.08801955990221,
+    "GBs_per_block": 79.27741935483873
+   },
+   "32": {
+    "event_us": 27.712,
+    "block_mean_us": 22.625,
+    "GBs_chip": 1075.8303693570451,
+    "GBs_per_block": 40.41897517602919
+   },
+   "48": {
+    "event_us": 34.336,
+    "block_mean_us": 417508404926.669,
+    "GBs_chip": 9.041431395014759e-08,
+    "GBs_per_block": 1.8836315406490943e-09
+   }
+  },
+  "full_block_us": 37.733,
+  "full_event_us": 41.28,
+  "full_span_us": 37.856,
+  "overlap": {
+   "max_parts_us": 30.304,
+   "sum_parts_us": 49.760999999999996,
+   "measured_block_us": 37.733,
+   "compute_part_us": 27.136,
+   "load_part_us_under_full_grid": 19.457,
+   "setup_us": 3.168,
+   "sync_cost_us": 7.4289999999999985
+  }
+ },
+ "c256x64x32_st3_th128": {
+  "shape": {
+   "M": 1024,
+   "N": 1024,
+   "K": 1024
+  },
+  "pick": {
+   "block_M": 256,
+   "block_N": 64,
+   "block_K": 32,
+   "num_stages": 3,
+   "threads": 128,
+   "swizzle": 0
+  },
+  "KT": 32,
+  "blocks": 64,
+  "waves": 2,
+  "launch_us_event_1block_nostore": 2.528,
+  "block_setup_us": 0.064,
+  "launch_us_event_48blocks_nostore": 2.528,
+  "launch_us_event_full_nostore": 2.496,
+  "store_per_block_us": 1.1199999999999999,
+  "store_full_grid_us": 8.032,
+  "compute_per_ktile_us": 0.464,
+  "tensor_rate_TFs_per_SM": 2.259862068965517,
+  "compute_full_grid_us": 39.328,
+  "load_per_ktile_us_1block": 0.258,
+  "bytes_per_ktile": 20480,
+  "load_rate_GBs_1block": 79.37984496124031,
+  "load_curve": {
+   "1": {
+    "event_us": 12.704,
+    "block_mean_us": 9.44,
+    "GBs_chip": 69.42372881355932,
+    "GBs_per_block": 79.37984496124031
+   },
+   "48": {
+    "event_us": 22.848,
+    "block_mean_us": 18.281,
+    "GBs_chip": 1694.8965517241381,
+    "GBs_per_block": 38.33187108849506
+   },
+   "64": {
+    "event_us": 33.152,
+    "block_mean_us": 16.372,
+    "GBs_chip": 1412.4137931034481,
+    "GBs_per_block": 43.14985514880169
+   }
+  },
+  "full_block_us": 22.163,
+  "full_event_us": 47.424,
+  "full_span_us": 44.416,
+  "overlap": {
+   "max_parts_us": 16.372,
+   "sum_parts_us": 31.22,
+   "measured_block_us": 22.163,
+   "compute_part_us": 14.848,
+   "load_part_us_under_full_grid": 15.188,
+   "setup_us": 1.184,
+   "sync_cost_us": 5.791
+  }
+ },
+ "c256x64x32_st3_th256": {
+  "shape": {
+   "M": 1024,
+   "N": 1024,
+   "K": 1024
+  },
+  "pick": {
+   "block_M": 256,
+   "block_N": 64,
+   "block_K": 32,
+   "num_stages": 3,
+   "threads": 256,
+   "swizzle": 0
+  },
+  "KT": 32,
+  "blocks": 64,
+  "waves": 2,
+  "launch_us_event_1block_nostore": 2.528,
+  "block_setup_us": 0.064,
+  "launch_us_event_48blocks_nostore": 2.624,
+  "launch_us_event_full_nostore": 2.528,
+  "store_per_block_us": 1.0879999999999999,
+  "store_full_grid_us": 8.032,
+  "compute_per_ktile_us": 0.454,
+  "tensor_rate_TFs_per_SM": 2.3096387665198237,
+  "compute_full_grid_us": 39.2,
+  "load_per_ktile_us_1block": 0.256,
+  "bytes_per_ktile": 20480,
+  "load_rate_GBs_1block": 80.0,
+  "load_curve": {
+   "1": {
+    "event_us": 12.8,
+    "block_mean_us": 9.344,
+    "GBs_chip": 70.13698630136987,
+    "GBs_per_block": 80.0
+   },
+   "48": {
+    "event_us": 20.96,
+    "block_mean_us": 17.923,
+    "GBs_chip": 1689.0721649484537,
+    "GBs_per_block": 39.07697811698766
+   },
+   "64": {
+    "event_us": 33.376,
+    "block_mean_us": 16.306,
+    "GBs_chip": 1397.356076759062,
+    "GBs_per_block": 43.24666754652237
+   }
+  },
+  "full_block_us": 22.568,
+  "full_event_us": 48.256,
+  "full_span_us": 45.184,
+  "overlap": {
+   "max_parts_us": 16.306,
+   "sum_parts_us": 30.834000000000003,
+   "measured_block_us": 22.568,
+   "compute_part_us": 14.528,
+   "load_part_us_under_full_grid": 15.154000000000002,
+   "setup_us": 1.152,
+   "sync_cost_us": 6.2620000000000005
+  }
+ },
+ "c256x128x32_st3_th256": {
+  "shape": {
+   "M": 1024,
+   "N": 1024,
+   "K": 1024
+  },
+  "pick": {
+   "block_M": 256,
+   "block_N": 128,
+   "block_K": 32,
+   "num_stages": 3,
+   "threads": 256,
+   "swizzle": 0
+  },
+  "KT": 32,
+  "blocks": 32,
+  "waves": 1,
+  "launch_us_event_1block_nostore": 2.528,
+  "block_setup_us": 0.064,
+  "launch_us_event_48blocks_nostore": 2.528,
+  "launch_us_event_full_nostore": 2.528,
+  "store_per_block_us": 2.336,
+  "store_full_grid_us": 6.176,
+  "compute_per_ktile_us": 0.863,
+  "tensor_rate_TFs_per_SM": 2.4300718424101975,
+  "compute_full_grid_us": 37.216,
+  "load_per_ktile_us_1block": 0.324,
+  "bytes_per_ktile": 24576,
+  "load_rate_GBs_1block": 75.85185185185185,
+  "load_curve": {
+   "1": {
+    "event_us": 14.848,
+    "block_mean_us": 12.768,
+    "GBs_chip": 61.59398496240601,
+    "GBs_per_block": 75.85185185185185
+   },
+   "32": {
+    "event_us": 24.736,
+    "block_mean_us": 21.053,
+    "GBs_chip": 1146.402332361516,
+    "GBs_per_block": 42.1611537018174
+   },
+   "48": {
+    "event_us": 31.008,
+    "block_mean_us": 417564395797.423,
+    "GBs_chip": 9.040219036823121e-08,
+    "GBs_per_block": 1.8833789660219246e-09
+   }
+  },
+  "full_block_us": 39.111,
+  "full_event_us": 43.264,
+  "full_span_us": 40.128,
+  "overlap": {
+   "max_parts_us": 30.016,
+   "sum_parts_us": 48.669,
+   "measured_block_us": 39.111,
+   "compute_part_us": 27.616,
+   "load_part_us_under_full_grid": 18.653000000000002,
+   "setup_us": 2.4,
+   "sync_cost_us": 9.094999999999999
+  }
+ },
+ "c256x128x64_st2_th256": {
+  "shape": {
+   "M": 1024,
+   "N": 1024,
+   "K": 1024
+  },
+  "pick": {
+   "block_M": 256,
+   "block_N": 128,
+   "block_K": 64,
+   "num_stages": 2,
+   "threads": 256,
+   "swizzle": 0
+  },
+  "KT": 16,
+  "blocks": 32,
+  "waves": 1,
+  "launch_us_event_1block_nostore": 2.528,
+  "block_setup_us": 0.032,
+  "launch_us_event_48blocks_nostore": 2.496,
+  "launch_us_event_full_nostore": 2.56,
+  "store_per_block_us": 2.336,
+  "store_full_grid_us": 6.048,
+  "compute_per_ktile_us": 1.744,
+  "tensor_rate_TFs_per_SM": 2.404990825688073,
+  "compute_full_grid_us": 37.248,
+  "load_per_ktile_us_1block": 0.636,
+  "bytes_per_ktile": 49152,
+  "load_rate_GBs_1block": 77.28301886792453,
+  "load_curve": {
+   "1": {
+    "event_us": 14.88,
+    "block_mean_us": 12.544,
+    "GBs_chip": 62.69387755102041,
+    "GBs_per_block": 77.28301886792453
+   },
+   "32": {
+    "event_us": 25.92,
+    "block_mean_us": 22.413,
+    "GBs_chip": 1074.360655737705,
+    "GBs_per_block": 39.2333250187079
+   },
+   "48": {
+    "event_us": 32.16,
+    "block_mean_us": 417582785856.378,
+    "GBs_chip": 9.039820911781863e-08,
+    "GBs_per_block": 1.883296023306244e-09
+   }
+  },
+  "full_block_us": 36.898,
+  "full_event_us": 41.312,
+  "full_span_us": 37.728,
+  "overlap": {
+   "max_parts_us": 30.272,
+   "sum_parts_us": 50.317,
+   "measured_block_us": 36.898,
+   "compute_part_us": 27.904,
+   "load_part_us_under_full_grid": 20.045,
+   "setup_us": 2.368,
+   "sync_cost_us": 6.626000000000005
+  }
+ }
+}

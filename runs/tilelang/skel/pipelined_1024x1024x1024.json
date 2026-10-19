@@ -1,0 +1,251 @@
+{
+ "shape": {
+  "M": 1024,
+  "N": 1024,
+  "K": 1024
+ },
+ "menu": {
+  "block_M": [
+   64,
+   128,
+   256
+  ],
+  "block_N": [
+   64,
+   128,
+   256
+  ],
+  "block_K": [
+   32,
+   64
+  ],
+  "num_stages": [
+   2,
+   3,
+   4
+  ],
+  "threads": [
+   128,
+   256
+  ],
+  "swizzle": [
+   0
+  ],
+  "tma": [
+   0
+  ],
+  "warp_spec": [
+   0
+  ]
+ },
+ "legal_points": 70,
+ "pick": {
+  "holes": {
+   "block_M": 64,
+   "block_N": 128,
+   "block_K": 32,
+   "num_stages": 2,
+   "threads": 256,
+   "swizzle": 0,
+   "tma": 0,
+   "warp_spec": 0
+  },
+  "expected_us": 33.935,
+  "floor_us": 33.935,
+  "constants_from": "this (tile, threads)'s ablation",
+  "parts_us": {
+   "launch": 2.592,
+   "compute_SM": 23.136000000000003,
+   "load_SM": 30.56,
+   "sync_SM": 0.7829999999999977,
+   "dram_ceiling": 23.281767683820895
+  },
+  "waves_eff": 2.6666666666666665
+ },
+ "top": [
+  {
+   "holes": {
+    "block_M": 64,
+    "block_N": 128,
+    "block_K": 32,
+    "num_stages": 2,
+    "threads": 256,
+    "swizzle": 0,
+    "tma": 0,
+    "warp_spec": 0
+   },
+   "expected_us": 33.935,
+   "floor_us": 33.935,
+   "constants_from": "this (tile, threads)'s ablation",
+   "parts_us": {
+    "launch": 2.592,
+    "compute_SM": 23.136000000000003,
+    "load_SM": 30.56,
+    "sync_SM": 0.7829999999999977,
+    "dram_ceiling": 23.281767683820895
+   },
+   "waves_eff": 2.6666666666666665
+  },
+  {
+   "holes": {
+    "block_M": 64,
+    "block_N": 128,
+    "block_K": 32,
+    "num_stages": 3,
+    "threads": 256,
+    "swizzle": 0,
+    "tma": 0,
+    "warp_spec": 0
+   },
+   "expected_us": 33.935,
+   "floor_us": 33.935,
+   "constants_from": "this (tile, threads)'s ablation",
+   "parts_us": {
+    "launch": 2.592,
+    "compute_SM": 23.136000000000003,
+    "load_SM": 30.56,
+    "sync_SM": 0.7829999999999977,
+    "dram_ceiling": 23.281767683820895
+   },
+   "waves_eff": 2.6666666666666665
+  },
+  {
+   "holes": {
+    "block_M": 64,
+    "block_N": 128,
+    "block_K": 32,
+    "num_stages": 4,
+    "threads": 256,
+    "swizzle": 0,
+    "tma": 0,
+    "warp_spec": 0
+   },
+   "expected_us": 33.935,
+   "floor_us": 33.935,
+   "constants_from": "this (tile, threads)'s ablation",
+   "parts_us": {
+    "launch": 2.592,
+    "compute_SM": 23.136000000000003,
+    "load_SM": 30.56,
+    "sync_SM": 0.7829999999999977,
+    "dram_ceiling": 23.281767683820895
+   },
+   "waves_eff": 2.6666666666666665
+  },
+  {
+   "holes": {
+    "block_M": 128,
+    "block_N": 64,
+    "block_K": 64,
+    "num_stages": 2,
+    "threads": 128,
+    "swizzle": 0,
+    "tma": 0,
+    "warp_spec": 0
+   },
+   "expected_us": 36.299,
+   "floor_us": 36.299,
+   "constants_from": "medians of the 2-block-per-SM configs",
+   "parts_us": {
+    "launch": 2.592,
+    "compute_SM": 22.175584415584417,
+    "load_SM": 30.56,
+    "sync_SM": 3.1469999999999985,
+    "dram_ceiling": 23.281767683820895
+   },
+   "waves_eff": 2.6666666666666665
+  },
+  {
+   "holes": {
+    "block_M": 128,
+    "block_N": 64,
+    "block_K": 64,
+    "num_stages": 2,
+    "threads": 256,
+    "swizzle": 0,
+    "tma": 0,
+    "warp_spec": 0
+   },
+   "expected_us": 36.299,
+   "floor_us": 36.299,
+   "constants_from": "medians of the 2-block-per-SM configs",
+   "parts_us": {
+    "launch": 2.592,
+    "compute_SM": 22.175584415584417,
+    "load_SM": 30.56,
+    "sync_SM": 3.1469999999999985,
+    "dram_ceiling": 23.281767683820895
+   },
+   "waves_eff": 2.6666666666666665
+  },
+  {
+   "holes": {
+    "block_M": 128,
+    "block_N": 64,
+    "block_K": 32,
+    "num_stages": 2,
+    "threads": 128,
+    "swizzle": 0,
+    "tma": 0,
+    "warp_spec": 0
+   },
+   "expected_us": 36.518,
+   "floor_us": 36.518,
+   "constants_from": "this (tile, threads)'s ablation",
+   "parts_us": {
+    "launch": 2.592,
+    "compute_SM": 23.424,
+    "load_SM": 29.312,
+    "sync_SM": 4.614000000000001,
+    "dram_ceiling": 23.281767683820895
+   },
+   "waves_eff": 2.6666666666666665
+  },
+  {
+   "holes": {
+    "block_M": 128,
+    "block_N": 64,
+    "block_K": 32,
+    "num_stages": 3,
+    "threads": 128,
+    "swizzle": 0,
+    "tma": 0,
+    "warp_spec": 0
+   },
+   "expected_us": 36.518,
+   "floor_us": 36.518,
+   "constants_from": "this (tile, threads)'s ablation",
+   "parts_us": {
+    "launch": 2.592,
+    "compute_SM": 23.424,
+    "load_SM": 29.312,
+    "sync_SM": 4.614000000000001,
+    "dram_ceiling": 23.281767683820895
+   },
+   "waves_eff": 2.6666666666666665
+  },
+  {
+   "holes": {
+    "block_M": 128,
+    "block_N": 64,
+    "block_K": 32,
+    "num_stages": 4,
+    "threads": 128,
+    "swizzle": 0,
+    "tma": 0,
+    "warp_spec": 0
+   },
+   "expected_us": 36.518,
+   "floor_us": 36.518,
+   "constants_from": "this (tile, threads)'s ablation",
+   "parts_us": {
+    "launch": 2.592,
+    "compute_SM": 23.424,
+    "load_SM": 29.312,
+    "sync_SM": 4.614000000000001,
+    "dram_ceiling": 23.281767683820895
+   },
+   "waves_eff": 2.6666666666666665
+  }
+ ]
+}
