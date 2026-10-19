@@ -24,9 +24,7 @@ class WSSM(SM):
         self.mma_loop = _ml(ins)
         self.stages = stages; self.ctiles = tile_bytes / max(1, tma_per_ktile); self.consumer_warps = consumer_threads // 32
         self.tma_free = 0.0
-        eq = kw.get("active_sms", 1)
-        rate_alone = 81e9 / 2.54e9; rate_chip = 1860e9 / 2.54e9 / max(1.0, eq)
-        self.tma_clk_per_B = 1.0 / min(rate_alone, rate_chip)
+        self.on_share(kw.get("active_sms", 1))
         for w in self.warps:
             w.role = None
             w.k_prod = -1; w.n_full = 0; w.n_empty_arrive = 0
@@ -34,7 +32,12 @@ class WSSM(SM):
         self.pending_k = {}         # (block, k) -> outstanding landing times
         self.empty_arrives = {}     # (block) -> consumer arrives so far
         self.dealloc = {}           # (block) -> producer-group warps that gave registers back
-        self.n_full_done = {}; self.arrived = {}; self.log = []; self.pend = {}; self.land_t = {}
+        self.n_full_done = {}; self.arrived = {}; self.log = []; self.pend = {}; self.land_t = {}; self.release_t = {}
+
+    def on_share(self, eq):
+        # the TMA engine: 81 GB/s for one SM alone, the chip's 1.86 TB/s shared by the SM-equivalents in flight
+        rate_alone = 81e9 / 2.54e9; rate_chip = 1860e9 / 2.54e9 / max(1.0, eq)
+        self.tma_clk_per_B = 1.0 / min(rate_alone, rate_chip)
 
     def eligible(self, w, now):
         if w.done or w.at_bar or w.ready > now: return False
@@ -45,13 +48,17 @@ class WSSM(SM):
             b = w.block
             if w.role == "consumer":
                 # k-tile n's full barrier: the producer has arrived (with its expected byte count) and every byte landed
-                k = w.n_full; arr = self.arrived.get((b, k))
-                if arr is None or arr > now: return False
-                if (self.landed.get((b, k)) or 0.0) > now: return False
+                # (an arrive or the last byte becomes visible to the waiting warp P["mbar_wake_clk"] later, probe mbar.cu)
+                k = w.n_full; arr = self.arrived.get((b, k)); wake = P["mbar_wake_clk"]
+                if arr is None or arr + wake > now: return False
+                if (self.landed.get((b, k)) or 0.0) + wake > now: return False
             elif w.role == "producer":
                 k = w.k_prod + 1
                 need = k - self.stages + 1
-                if need > 0 and self.empty_arrives.get(b, 0) // self.consumer_warps < need: return False
+                if need > 0:
+                    rel = self.release_t.get(b, [])
+                    # releases are recorded in time order (simulated time only moves forward)
+                    if len(rel) < need * self.consumer_warps or rel[need * self.consumer_warps - 1] + P["mbar_wake_clk"] > now: return False
         if x.base == "USETMAXREG" and "TRY_ALLOC" in x.op and self.dealloc.get(w.block, 0) < 4: return False
         return super().eligible(w, now)
 
@@ -74,6 +81,7 @@ class WSSM(SM):
         elif x.op.startswith("SYNCS.ARRIVE") and w.role == "consumer":
             # a consumer warp releases its stage (the empty barrier)
             self.empty_arrives[w.block] = self.empty_arrives.get(w.block, 0) + 1
+            self.release_t.setdefault(w.block, []).append(now)
             self.log.append(("release", w.wid, w.n_full - 1, now))
         elif x.op.startswith("SYNCS.ARRIVE") and w.role == "producer":
             # the producer arrives on k-tile k's full barrier (with the bytes it expects, or none if loads are removed)
@@ -93,10 +101,15 @@ class WSSM(SM):
             self.pend[key] = self.pend.get(key, 0) + 1; self.landed[key] = float("inf")
             self.ev(land, "tmawrite", w, key); self.log.append(("tma", w.wid, k, now, start, land))
             self.busy["tma"] = self.busy.get("tma", 0) + self.ctiles * self.tma_clk_per_B
+        # branches whose predicate is known from computed values (loop counters, thread index)
+        if x.base == "BRA" and not (x.pred and p is not None):
+            bk = self.branch_known(w, x)
+            if bk is not None:
+                self._eval_pred_ops(w, x); self.follow(w, x, bk); w.ready = now + max(1, x.stall); return
         # predicated branches and exits whose predicate is known
         if x.base in ("BRA", "EXIT") and x.pred and p is not None:
             if x.base == "EXIT":
-                if p: w.done = True; self.exited[w.block] = self.exited.get(w.block, 0) + 1; self.end = max(getattr(self, "end", 0), self.stg_free); return
+                if p: w.done = True; self.exited[w.block] = self.exited.get(w.block, 0) + 1; self.end = max(getattr(self, "end", 0), self.stg_free); self.block_exit(w.block, now); return
                 w.pc += 1; w.ready = now + max(1, x.stall); return
             if x.target is not None and self.loop_end != w.pc:
                 if p:
@@ -143,7 +156,7 @@ class WSSM(SM):
         if not hasattr(self, "_wl"): self._wl = {}
         if key not in self._wl:
             s_ = next(i for i, y in enumerate(self.ins) if y.addr == target_addr)
-            self._wl[key] = any(y.base in ("HMMA", "UTMALDG", "LDGSTS") or ("TRYWAIT" in y.op) for y in self.ins[s_:end_pc + 1])
+            self._wl[key] = any(y.base in ("HMMA", "IMMA", "QMMA", "OMMA", "UTMALDG", "LDGSTS") or ("TRYWAIT" in y.op) for y in self.ins[s_:end_pc + 1])
         return self._wl[key]
 
 

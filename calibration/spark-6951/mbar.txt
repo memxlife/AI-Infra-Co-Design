@@ -1,0 +1,6 @@
+RESULT mbarrier_wake wait=test_wait_spin median_cycles=157 min=107 max=176
+RESULT mbarrier_wake wait=try_wait median_cycles=134 min=133 max=208
+RESULT mbarrier_arrive n=1 cycles=296 per_arrive=296.0
+RESULT mbarrier_arrive n=8 cycles=364 per_arrive=45.5
+RESULT mbarrier_arrive n=64 cycles=680 per_arrive=10.6
+RESULT mbarrier_arrive n=512 cycles=3368 per_arrive=6.6

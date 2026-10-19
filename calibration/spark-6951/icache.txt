@@ -1,0 +1,11 @@
+
+real	0m1.605s
+user	0m1.323s
+sys	0m0.269s
+RESULT icache loop_ffma=256 code_KB=4 ffma_per_clk_per_SM=3.950
+RESULT icache loop_ffma=512 code_KB=8 ffma_per_clk_per_SM=3.923
+RESULT icache loop_ffma=1024 code_KB=16 ffma_per_clk_per_SM=3.974
+RESULT icache loop_ffma=2048 code_KB=32 ffma_per_clk_per_SM=3.977
+RESULT icache loop_ffma=4096 code_KB=64 ffma_per_clk_per_SM=3.558
+RESULT icache loop_ffma=8192 code_KB=128 ffma_per_clk_per_SM=2.887
+RESULT icache loop_ffma=16384 code_KB=256 ffma_per_clk_per_SM=1.980

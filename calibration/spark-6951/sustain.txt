@@ -1,0 +1,63 @@
+RESULT sustained mma t=0 launches=4850 TFs=121.63
+RESULT sustained mma t=1 launches=4850 TFs=121.52
+RESULT sustained mma t=2 launches=4800 TFs=121.55
+RESULT sustained mma t=3 launches=4850 TFs=121.55
+RESULT sustained mma t=4 launches=4800 TFs=121.52
+RESULT sustained mma t=5 launches=4850 TFs=121.53
+RESULT sustained mma t=6 launches=4850 TFs=121.56
+RESULT sustained mma t=7 launches=4800 TFs=121.56
+RESULT sustained mma t=8 launches=4850 TFs=121.54
+RESULT sustained mma t=9 launches=4800 TFs=121.55
+RESULT sustained mma t=10 launches=4850 TFs=121.56
+RESULT sustained mma t=11 launches=4850 TFs=121.52
+RESULT sustained mma t=12 launches=4800 TFs=121.55
+RESULT sustained mma t=13 launches=4800 TFs=120.96
+RESULT sustained mma t=14 launches=4800 TFs=120.45
+RESULT sustained mma t=15 launches=4800 TFs=120.45
+RESULT sustained mma t=16 launches=4750 TFs=120.46
+RESULT sustained mma t=17 launches=4800 TFs=120.47
+RESULT sustained mma t=18 launches=4800 TFs=120.45
+RESULT sustained mma t=19 launches=4800 TFs=120.43
+RESULT sustained dram t=20 launches=880 GBs=235.8
+RESULT sustained dram t=21 launches=880 GBs=237.0
+RESULT sustained dram t=22 launches=880 GBs=237.1
+RESULT sustained dram t=23 launches=880 GBs=237.1
+RESULT sustained dram t=24 launches=900 GBs=237.1
+RESULT sustained dram t=25 launches=880 GBs=237.1
+RESULT sustained dram t=26 launches=880 GBs=237.0
+RESULT sustained dram t=27 launches=880 GBs=237.1
+RESULT sustained dram t=28 launches=880 GBs=237.1
+RESULT sustained dram t=29 launches=880 GBs=237.1
+RESULT sustained dram t=30 launches=900 GBs=237.1
+RESULT sustained dram t=31 launches=880 GBs=237.0
+RESULT sustained dram t=32 launches=880 GBs=237.1
+RESULT sustained dram t=33 launches=880 GBs=237.0
+RESULT sustained dram t=34 launches=880 GBs=237.0
+RESULT sustained dram t=35 launches=880 GBs=237.1
+RESULT sustained dram t=36 launches=900 GBs=237.0
+RESULT sustained dram t=37 launches=880 GBs=237.0
+RESULT sustained dram t=38 launches=880 GBs=237.0
+RESULT sustained dram t=39 launches=880 GBs=237.0
+--- nvidia-smi every 2 s
+2026/10/20 05:14:31.126, 208 MHz, 4.47 W, 42, 0x0000000000000000
+2026/10/20 05:14:33.137, 2496 MHz, 25.91 W, 55, 0x0000000000000000
+2026/10/20 05:14:35.138, 2496 MHz, 67.52 W, 56, 0x0000000000000000
+2026/10/20 05:14:37.138, 2496 MHz, 67.83 W, 58, 0x0000000000000000
+2026/10/20 05:14:39.139, 2496 MHz, 68.03 W, 59, 0x0000000000000000
+2026/10/20 05:14:41.140, 2496 MHz, 68.23 W, 59, 0x0000000000000000
+2026/10/20 05:14:43.141, 2496 MHz, 68.41 W, 60, 0x0000000000000000
+2026/10/20 05:14:45.142, 2496 MHz, 68.65 W, 61, 0x0000000000000000
+2026/10/20 05:14:47.142, 2476 MHz, 68.27 W, 62, 0x0000000000000000
+2026/10/20 05:14:49.143, 2476 MHz, 68.44 W, 62, 0x0000000000000000
+2026/10/20 05:14:51.144, 2476 MHz, 68.57 W, 63, 0x0000000000000000
+2026/10/20 05:14:53.145, 2502 MHz, 39.30 W, 54, 0x0000000000000000
+2026/10/20 05:14:55.146, 2502 MHz, 23.51 W, 54, 0x0000000000000000
+2026/10/20 05:14:57.148, 2502 MHz, 23.51 W, 54, 0x0000000000000000
+2026/10/20 05:14:59.149, 2502 MHz, 23.51 W, 54, 0x0000000000000000
+2026/10/20 05:15:01.150, 2502 MHz, 23.55 W, 54, 0x0000000000000000
+2026/10/20 05:15:03.151, 2502 MHz, 23.55 W, 54, 0x0000000000000000
+2026/10/20 05:15:05.153, 2502 MHz, 23.56 W, 54, 0x0000000000000000
+2026/10/20 05:15:07.154, 2502 MHz, 23.61 W, 54, 0x0000000000000000
+2026/10/20 05:15:09.155, 2502 MHz, 23.62 W, 55, 0x0000000000000000
+2026/10/20 05:15:11.156, 2502 MHz, 23.64 W, 55, 0x0000000000000000
+2026/10/20 05:15:13.158, 2411 MHz, 16.60 W, 53, 0x0000000000000000

@@ -1,0 +1,40 @@
+_Z3ldgPK4int4iiPyPi LDG.E.128.CONSTANT 8
+_Z5spilliiPyPi STL.128 16
+_Z5spilliiPyPi STL 24
+_Z3redPfiiPy REDG.E.ADD.F32.FTZ.RN.STRONG.GPU 88
+_Z5spilliiPyPi LDL 48
+_Z5chasePKjiPy LDG.E 29
+_Z5spilliiPyPi LDL.128 16
+RESULT chase set_KB=16 cycles_per_hop=50.8
+RESULT chase set_KB=4096 cycles_per_hop=342.5
+RESULT ldg128 set_KB=16 blocks=1 warps=4 cycles_per_instr_per_SM=14.61 bytes_per_clk_per_SM=35
+RESULT ldg128 set_KB=16 blocks=1 warps=8 cycles_per_instr_per_SM=9.31 bytes_per_clk_per_SM=55
+RESULT ldg128 set_KB=16 blocks=1 warps=16 cycles_per_instr_per_SM=7.67 bytes_per_clk_per_SM=67
+RESULT ldg128 set_KB=16 blocks=1 warps=32 cycles_per_instr_per_SM=7.41 bytes_per_clk_per_SM=69
+RESULT ldg128 set_KB=16 blocks=48 warps=4 cycles_per_instr_per_SM=14.62 bytes_per_clk_per_SM=35
+RESULT ldg128 set_KB=16 blocks=48 warps=8 cycles_per_instr_per_SM=9.42 bytes_per_clk_per_SM=54
+RESULT ldg128 set_KB=16 blocks=48 warps=16 cycles_per_instr_per_SM=7.70 bytes_per_clk_per_SM=67
+RESULT ldg128 set_KB=16 blocks=48 warps=32 cycles_per_instr_per_SM=7.43 bytes_per_clk_per_SM=69
+RESULT ldg128 set_KB=4096 blocks=1 warps=4 cycles_per_instr_per_SM=29.73 bytes_per_clk_per_SM=17
+RESULT ldg128 set_KB=4096 blocks=1 warps=8 cycles_per_instr_per_SM=12.32 bytes_per_clk_per_SM=42
+RESULT ldg128 set_KB=4096 blocks=1 warps=16 cycles_per_instr_per_SM=9.98 bytes_per_clk_per_SM=51
+RESULT ldg128 set_KB=4096 blocks=1 warps=32 cycles_per_instr_per_SM=10.67 bytes_per_clk_per_SM=48
+RESULT ldg128 set_KB=4096 blocks=48 warps=4 cycles_per_instr_per_SM=29.92 bytes_per_clk_per_SM=17
+RESULT ldg128 set_KB=4096 blocks=48 warps=8 cycles_per_instr_per_SM=16.52 bytes_per_clk_per_SM=31
+RESULT ldg128 set_KB=4096 blocks=48 warps=16 cycles_per_instr_per_SM=12.23 bytes_per_clk_per_SM=42
+RESULT ldg128 set_KB=4096 blocks=48 warps=32 cycles_per_instr_per_SM=20.57 bytes_per_clk_per_SM=25
+RESULT red_f32 same_address=0 blocks=1 warps=4 cycles_per_warp_instr_per_SM=4.98 lane_ops_per_clk_chip=6.4
+RESULT red_f32 same_address=0 blocks=1 warps=16 cycles_per_warp_instr_per_SM=5.00 lane_ops_per_clk_chip=6.4
+RESULT red_f32 same_address=0 blocks=1 warps=32 cycles_per_warp_instr_per_SM=5.00 lane_ops_per_clk_chip=6.4
+RESULT red_f32 same_address=0 blocks=48 warps=4 cycles_per_warp_instr_per_SM=37.21 lane_ops_per_clk_chip=41.3
+RESULT red_f32 same_address=0 blocks=48 warps=16 cycles_per_warp_instr_per_SM=19.22 lane_ops_per_clk_chip=79.9
+RESULT red_f32 same_address=0 blocks=48 warps=32 cycles_per_warp_instr_per_SM=18.10 lane_ops_per_clk_chip=84.8
+RESULT red_f32 same_address=1 blocks=1 warps=4 cycles_per_warp_instr_per_SM=101.35 lane_ops_per_clk_chip=0.3
+RESULT red_f32 same_address=1 blocks=1 warps=16 cycles_per_warp_instr_per_SM=104.84 lane_ops_per_clk_chip=0.3
+RESULT red_f32 same_address=1 blocks=1 warps=32 cycles_per_warp_instr_per_SM=106.46 lane_ops_per_clk_chip=0.3
+RESULT red_f32 same_address=1 blocks=48 warps=4 cycles_per_warp_instr_per_SM=4989.80 lane_ops_per_clk_chip=0.3
+RESULT red_f32 same_address=1 blocks=48 warps=16 cycles_per_warp_instr_per_SM=5109.22 lane_ops_per_clk_chip=0.3
+RESULT red_f32 same_address=1 blocks=48 warps=32 cycles_per_warp_instr_per_SM=5134.09 lane_ops_per_clk_chip=0.3
+RESULT spill warps=1 cycles_per_step_per_SM=84.11
+RESULT spill warps=4 cycles_per_step_per_SM=64.00
+RESULT spill warps=16 cycles_per_step_per_SM=78.75

@@ -1,0 +1,322 @@
+{
+ "gemv_n2048_bn2_rt32": {
+  "kind": "gemv",
+  "N": 2048,
+  "K": 2048,
+  "BLOCK_N": 2,
+  "reduce_threads": 32,
+  "threads": 64,
+  "blocks": 1024,
+  "err": 0.0622711181640625,
+  "warm_us": 8.249386946360271,
+  "kernel_name": "k_kernel",
+  "regs": 78,
+  "ops": {
+   "LDG.E.128.CONSTANT": 16,
+   "ATOMS.CAST.SPIN": 1
+  }
+ },
+ "gemv_n2048_bn4_rt32": {
+  "kind": "gemv",
+  "N": 2048,
+  "K": 2048,
+  "BLOCK_N": 4,
+  "reduce_threads": 32,
+  "threads": 128,
+  "blocks": 512,
+  "err": 0.0622711181640625,
+  "warm_us": 10.258346398671469,
+  "kernel_name": "k_kernel",
+  "regs": 78,
+  "ops": {
+   "LDG.E.128.CONSTANT": 16,
+   "ATOMS.CAST.SPIN": 1
+  }
+ },
+ "gemv_n2048_bn8_rt32": {
+  "kind": "gemv",
+  "N": 2048,
+  "K": 2048,
+  "BLOCK_N": 8,
+  "reduce_threads": 32,
+  "threads": 256,
+  "blocks": 256,
+  "err": 0.0622711181640625,
+  "warm_us": 30.533227920532227,
+  "kernel_name": "k_kernel",
+  "regs": 78,
+  "ops": {
+   "LDG.E.128.CONSTANT": 16,
+   "ATOMS.CAST.SPIN": 1
+  }
+ },
+ "gemv_n2048_bn4_rt64": {
+  "kind": "gemv",
+  "N": 2048,
+  "K": 2048,
+  "BLOCK_N": 4,
+  "reduce_threads": 64,
+  "threads": 256,
+  "blocks": 512,
+  "err": 0.0622711181640625,
+  "warm_us": 12.317653497060139,
+  "kernel_name": "k_kernel",
+  "regs": 46,
+  "ops": {
+   "LDG.E.128.CONSTANT": 8,
+   "ATOMS.CAST.SPIN": 1
+  }
+ },
+ "gemv_n4096_bn2_rt32": {
+  "kind": "gemv",
+  "N": 4096,
+  "K": 4096,
+  "BLOCK_N": 2,
+  "reduce_threads": 32,
+  "threads": 64,
+  "blocks": 2048,
+  "err": 0.0624237060546875,
+  "warm_us": 130.45941670735678,
+  "kernel_name": "k_kernel",
+  "regs": 48,
+  "ops": {
+   "LDG.E.128.CONSTANT": 8,
+   "ATOMS.CAST.SPIN": 1
+  }
+ },
+ "gemv_n4096_bn4_rt32": {
+  "kind": "gemv",
+  "N": 4096,
+  "K": 4096,
+  "BLOCK_N": 4,
+  "reduce_threads": 32,
+  "threads": 128,
+  "blocks": 1024,
+  "err": 0.0624237060546875,
+  "warm_us": 132.3320515950521,
+  "kernel_name": "k_kernel",
+  "regs": 48,
+  "ops": {
+   "LDG.E.128.CONSTANT": 8,
+   "ATOMS.CAST.SPIN": 1
+  }
+ },
+ "gemv_n4096_bn8_rt32": {
+  "kind": "gemv",
+  "N": 4096,
+  "K": 4096,
+  "BLOCK_N": 8,
+  "reduce_threads": 32,
+  "threads": 256,
+  "blocks": 512,
+  "err": 0.0624237060546875,
+  "warm_us": 137.2829818725586,
+  "kernel_name": "k_kernel",
+  "regs": 48,
+  "ops": {
+   "LDG.E.128.CONSTANT": 8,
+   "ATOMS.CAST.SPIN": 1
+  }
+ },
+ "gemv_n4096_bn4_rt64": {
+  "kind": "gemv",
+  "N": 4096,
+  "K": 4096,
+  "BLOCK_N": 4,
+  "reduce_threads": 64,
+  "threads": 256,
+  "blocks": 1024,
+  "err": 0.0624237060546875,
+  "warm_us": 129.89227294921875,
+  "kernel_name": "k_kernel",
+  "regs": 78,
+  "ops": {
+   "LDG.E.128.CONSTANT": 16,
+   "ATOMS.CAST.SPIN": 1
+  }
+ },
+ "splitk_1024x1024x1024_128x128x32_s1": {
+  "kind": "splitk",
+  "M": 1024,
+  "N": 1024,
+  "K": 1024,
+  "bm": 128,
+  "bn": 128,
+  "bk": 32,
+  "stages": 3,
+  "threads": 128,
+  "split": 1,
+  "blocks": 64,
+  "err": 0.0003204345703125,
+  "warm_us": 39.22634760538737,
+  "kernel_name": "k_kernel",
+  "regs": 202,
+  "ops": {
+   "LDGSTS.E.BYPASS.128": 24,
+   "LDGDEPBAR": 4,
+   "HMMA.16816.F32": 192,
+   "REDG.E.ADD.F32x2.FTZ.RN.STRONG.GPU": 64
+  }
+ },
+ "splitk_1024x1024x1024_128x128x32_s2": {
+  "kind": "splitk",
+  "M": 1024,
+  "N": 1024,
+  "K": 1024,
+  "bm": 128,
+  "bn": 128,
+  "bk": 32,
+  "stages": 3,
+  "threads": 128,
+  "split": 2,
+  "blocks": 128,
+  "err": 0.0001983642578125,
+  "warm_us": 41.23082796732585,
+  "kernel_name": "k_kernel",
+  "regs": 202,
+  "ops": {
+   "LDGSTS.E.BYPASS.128": 24,
+   "LDGDEPBAR": 4,
+   "HMMA.16816.F32": 192,
+   "REDG.E.ADD.F32x2.FTZ.RN.STRONG.GPU": 64
+  }
+ },
+ "splitk_1024x1024x1024_128x128x32_s4": {
+  "kind": "splitk",
+  "M": 1024,
+  "N": 1024,
+  "K": 1024,
+  "bm": 128,
+  "bn": 128,
+  "bk": 32,
+  "stages": 3,
+  "threads": 128,
+  "split": 4,
+  "blocks": 256,
+  "err": 0.00016021728515625,
+  "warm_us": 55.863145192464195,
+  "kernel_name": "k_kernel",
+  "regs": 202,
+  "ops": {
+   "LDGSTS.E.BYPASS.128": 24,
+   "LDGDEPBAR": 4,
+   "HMMA.16816.F32": 192,
+   "REDG.E.ADD.F32x2.FTZ.RN.STRONG.GPU": 64
+  }
+ },
+ "splitk_1024x1024x1024_128x128x32_s8": {
+  "kind": "splitk",
+  "M": 1024,
+  "N": 1024,
+  "K": 1024,
+  "bm": 128,
+  "bn": 128,
+  "bk": 32,
+  "stages": 3,
+  "threads": 128,
+  "split": 8,
+  "blocks": 512,
+  "err": 0.00014495849609375,
+  "warm_us": 82.89685567220052,
+  "kernel_name": "k_kernel",
+  "regs": 182,
+  "ops": {
+   "LDGSTS.E.BYPASS.128": 32,
+   "LDGDEPBAR": 5,
+   "HMMA.16816.F32": 256,
+   "REDG.E.ADD.F32x2.FTZ.RN.STRONG.GPU": 64
+  }
+ },
+ "splitk_128x4096x4096_128x128x32_s1": {
+  "kind": "splitk",
+  "M": 128,
+  "N": 4096,
+  "K": 4096,
+  "bm": 128,
+  "bn": 128,
+  "bk": 32,
+  "stages": 3,
+  "threads": 128,
+  "split": 1,
+  "blocks": 32,
+  "err": 0.001861572265625,
+  "warm_us": 168.23029836018878,
+  "kernel_name": "k_kernel",
+  "regs": 202,
+  "ops": {
+   "LDGSTS.E.BYPASS.128": 24,
+   "LDGDEPBAR": 4,
+   "HMMA.16816.F32": 192,
+   "REDG.E.ADD.F32x2.FTZ.RN.STRONG.GPU": 64
+  }
+ },
+ "splitk_128x4096x4096_128x128x32_s2": {
+  "kind": "splitk",
+  "M": 128,
+  "N": 4096,
+  "K": 4096,
+  "bm": 128,
+  "bn": 128,
+  "bk": 32,
+  "stages": 3,
+  "threads": 128,
+  "split": 2,
+  "blocks": 64,
+  "err": 0.0008697509765625,
+  "warm_us": 158.99903615315756,
+  "kernel_name": "k_kernel",
+  "regs": 202,
+  "ops": {
+   "LDGSTS.E.BYPASS.128": 24,
+   "LDGDEPBAR": 4,
+   "HMMA.16816.F32": 192,
+   "REDG.E.ADD.F32x2.FTZ.RN.STRONG.GPU": 64
+  }
+ },
+ "splitk_128x4096x4096_128x128x32_s4": {
+  "kind": "splitk",
+  "M": 128,
+  "N": 4096,
+  "K": 4096,
+  "bm": 128,
+  "bn": 128,
+  "bk": 32,
+  "stages": 3,
+  "threads": 128,
+  "split": 4,
+  "blocks": 128,
+  "err": 0.00048828125,
+  "warm_us": 165.52244822184244,
+  "kernel_name": "k_kernel",
+  "regs": 200,
+  "ops": {
+   "LDGSTS.E.BYPASS.128": 24,
+   "LDGDEPBAR": 4,
+   "HMMA.16816.F32": 192,
+   "REDG.E.ADD.F32x2.FTZ.RN.STRONG.GPU": 64
+  }
+ },
+ "splitk_128x4096x4096_128x128x32_s8": {
+  "kind": "splitk",
+  "M": 128,
+  "N": 4096,
+  "K": 4096,
+  "bm": 128,
+  "bn": 128,
+  "bk": 32,
+  "stages": 3,
+  "threads": 128,
+  "split": 8,
+  "blocks": 256,
+  "err": 0.000274658203125,
+  "warm_us": 160.15818277994794,
+  "kernel_name": "k_kernel",
+  "regs": 202,
+  "ops": {
+   "LDGSTS.E.BYPASS.128": 24,
+   "LDGDEPBAR": 4,
+   "HMMA.16816.F32": 192,
+   "REDG.E.ADD.F32x2.FTZ.RN.STRONG.GPU": 64
+  }
+ }
+}

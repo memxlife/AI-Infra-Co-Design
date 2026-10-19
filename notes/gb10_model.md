@@ -310,3 +310,109 @@ before only because A rows past M were counted twice.
   agentic.gb10.sim.layout`): the linear kernels within 8 %; the cost of choosing linear, simulated against measured:
   1.45x / 1.41x, 1.40x / 1.38x, 2.04x / 2.23x, 1.76x / 1.62x, 2.19x / 2.15x. (Linear with TMA computes wrong answers in
   this TileLang build, recorded in `notes/tilelang_findings.md`; it stays forbidden.)
+
+### Oct 20, loads, atomics, blocks in flight, arithmetic units, tensor types, barriers, values, clock, launch
+
+**Plain loads, atomics and spills** (`ldg_atomic.cu`, `rowsplit.cu`, `stq.cu`):
+
+- A load that hits L1 comes back in about 45 cycles, and L1 returns 64 bytes per clock per SM. From L2 it takes 342
+  cycles through the same per-SM port and the same chip limit as cp.async (one SM 32 B per clock, 48 SMs 2.2 TB/s).
+- A spill slot used by the whole warp costs 4 cycles per line through L1.
+- Atomics without a return value are limited by bytes: 25.6 B per clock per SM. The chip takes 330 B per clock when
+  each warp writes contiguous bytes, and 225 when atomics come straight from mma accumulators (8 rows of 32 bytes per
+  instruction). Those also share the SM pair's store port at 2 cycles per line, like the plain C store. Blocks adding
+  into the same tile at the same time are not slower.
+- An SM takes about 16 store or atomic warp instructions, then issue waits for the drain. Without that limit a block
+  could exit with 10 µs of atomics still queued, and the next block would start too early.
+- Splitting a warp's loads over 1, 2 or 4 rows 4 KB or 8 KB apart does not change the L2 rate.
+
+**Blocks in flight.** The simulator now runs the busiest SM's whole share of blocks, at most R at a time, and starts
+the next block when one exits. Its share of the L2, DRAM, store and TMA limits follows the grid: when it has finished j
+blocks, every SM still holding blocks counts. This replaced separate waves, which could not overlap one block's atomic
+tail with another's loads.
+
+**New kernels** (`runs/tilelang/item5/`, all correct): TileLang's vectorized split-K GEMV at N = K = 2048 and 4096, and
+split-K GEMM with fp32 atomics, splits 1 to 8, at 1024³ and 128×4096×4096. Timed back-to-back and after an L2 flush.
+`python -m agentic.gb10.sim.gemv`:
+
+| Kernels | Back-to-back | After a flush |
+|---|---|---|
+| GEMV, N = 4096 (4) | −1 to −6 % | −7 to 0 % |
+| GEMV, N = 2048 (4) | −7 to −32 % | −2 to +1 % |
+| split-K 1024³ (4) | −8 to −17 % | −18 to +1 % |
+| split-K 128×4096×4096 (4) | +9 to +29 % | −1 to +6 % |
+
+Two things limit the back-to-back column:
+- Working sets a little above the L2 keep part of themselves between back-to-back runs. `stream_b2b.cu` measures this
+  for a plain stream: 82 % at 20 MiB, 60 % at 24, 26 % at 28, 13 % at 32, none from 36. How much survives in a real
+  kernel changes from session to session. The same split-K kernel took 168, 135 and 146 µs in three sessions. So
+  timing after a flush is the stable check there.
+- In the L2-resident GEMV, more rows per block costs more on the hardware than here (8.3 → 11.9 µs from 2 to 8 rows,
+  flat in the simulator). It is not the rows splitting the L2 requests. My guess is the block barrier waiting for its
+  slowest warp, since memory latency varies on the hardware and is fixed here.
+
+**Arithmetic units** (`alu.cu`, `alumix.cu`). Each sub-partition has an FMA unit and an ALU unit:
+- FP32 add and multiply take 1 cycle on the FMA unit. IMAD and packed half math take 2 cycles, which also hold off FP32.
+- Logic, shifts, byte permutes, integer add and compare, and packing take 2 cycles on the ALU unit.
+- The half-to-float conversion runs on whichever unit is free.
+- Conversions to and from integers use the SFU rate.
+
+On the 20 probe kernels (single kinds and pairs), replayed from their own machine code: median error 3 %, worst 13 %.
+
+**Tensor types** (`mma_types.cu`). Every mma.sync shape and type holds the tensor pipe 16 cycles. So fp16 and bf16 give
+1024 FLOP per clock per SM (125 TFLOP/s chip), tf32 512, and fp8, int8 and fp4 2048 (through kind::f8f6f4; fp4 gets
+no extra speed this way; the block-scaled form is not measured). A first version timed with clock64 inside the kernel
+read 8 times these rates: the compiler moved the clock read ahead of the register-only mma instructions. Event timing
+over the whole kernel is right.
+
+**mbarriers** (`mbar.cu`). An arrive reaches a waiting warp 134 cycles later with try_wait (157 with a test_wait spin).
+An arrive that follows a global store waits for that store (217). Arrives from one lane cost 6.6 cycles each. The TMA
+path now charges the 134 cycles on every hand-off. That makes the two decode-shape TMA picks slower still (M = 128:
++21 % → +55 %). Their 2-stage pipelines put two hand-offs and a DRAM fetch on the critical path of every k-tile, so
+the simulator's DRAM latency under load on the TMA path is the next thing to measure.
+
+**Values** (`audit_values.py`). The simulator now computes warp-uniform integers: immediates, moves, adds,
+multiply-adds, shifts, LEA, LOP3, SEL, compares, thread and block index. A branch whose predicate is known follows it,
+and the older per-family rules are only a fallback. Across 46 kernels (five shapes, epilogue, split-K, the 7 TMA picks)
+every block executes exactly block_M × block_N × K / 2048 mma instructions. With a deliberately wrong trip count the
+count stays right, so the loops really are decided by computed values.
+
+**Instruction cache and register banks** (`icache.cu`). Loops up to 32 KB of code run at full rate; 64 KB −10 %,
+128 KB −27 %, 256 KB −50 %. TileLang's kernels here are at most about 24 KB, so instruction fetch is not modelled.
+Register bank conflicts cannot be set up from CUDA (the compiler picks registers). They are not modelled, and the
+math-only checks (within about 4 %) bound them.
+
+**Clock** (`sustain.cu`). 20 s of tensor load from one process: 121.5 TFLOP/s for 13 s, then 120.4 at 62 °C, clock
+2496 → 2476 MHz, 68 W, no throttling. A DRAM stream: 237 GB/s at 2502 MHz for 20 s. The simulator's 2.54 GHz is from
+short probes, so long runs are about 2 % slower.
+
+**Launch** (`launch.cu`). Back-to-back from one stream: 2.05 µs per empty kernel (the host's submission rate), 3.1 µs
+between kernels with work. In a CUDA graph: 0.43 µs per kernel. One launch plus synchronize: 4.9 µs. The simulator
+adds 2.6 µs per kernel, or `launch_us(graph=True)`.
+
+**All sets after these changes** (one frozen copy of the code, `python -m` each driver):
+
+| Set | Result |
+|---|---|
+| 22 cp.async kernels at 1024³ | 21 within 10 %, median 5 %, rank correlation 0.86 (loads-only: median 6 %) |
+| 25 kernels at five shapes | 21 within 10 %, median 5 %, regret ≤ 1.8 % (2048³ 128x128x32 −16 %) |
+| 10 epilogue kernels | all within 10 %, the staged store picked in 5 of 5 pairs |
+| 10 layout kernels | cost of linear 1.40-2.14x simulated against 1.38-2.23x measured |
+| 16 GEMV and split-K kernels, after an L2 flush | −7 to +6 %, except split-K 1024³ with one split −18 % |
+
+| TMA pick | Without the hand-off delay | With it (kept) |
+|---|---:|---:|
+| 1024³ | −12 % | −11 % |
+| 2048³ | −5 % | +6 % |
+| 4096³ | +4 % | +5 % |
+| 8192³ | +5 % | +22 % |
+| 4096×4096×1024 | −11 % | −8 % |
+| M=32 | +20 % | +20 % |
+| M=128 | +21 % | +55 % |
+
+The hand-off delay is measured, so it stays. It hurts the 2-stage picks that wait on DRAM (8192³, M=128). In a trace of
+the M=128 block, the chain on each k-tile (consumers release k-tile k−2, producer wakes, TMA fetch from DRAM, bytes
+land, consumers wake) takes about 3,100 cycles before the hand-off delays, so 2 stages give about 2,100 cycles per
+k-tile; the hardware does 1,600. The fixed 1,560-cycle DRAM latency on the TMA path is the suspect: the next probe is
+TMA load latency from DRAM with all SMs streaming. (Letting an SM bank DRAM share it leaves unused changed nothing, so
+idle gaps in the per-SM DRAM queue are not the cause.)

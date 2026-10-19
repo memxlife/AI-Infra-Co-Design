@@ -1,0 +1,4 @@
+gemv n=2048 bn=2 rt=32: back-to-back    8.3 us | one launch median   13.6 us | host call    4.4 us
+gemv n=2048 bn=4 rt=32: back-to-back   11.8 us | one launch median   13.8 us | host call    4.5 us
+gemv n=2048 bn=8 rt=32: back-to-back   13.5 us | one launch median   15.7 us | host call    4.8 us
+gemv n=2048 bn=4 rt=64: back-to-back   12.3 us | one launch median   17.4 us | host call    4.6 us

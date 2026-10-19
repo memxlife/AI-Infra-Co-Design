@@ -1,0 +1,38 @@
+== 2048 2 32
+    gpu__time_duration.sum                                                  us        43.58
+    l1tex__data_pipe_lsu_wavefronts_mem_shared_op_atom.sum                          124,038
+    l1tex__t_requests_pipe_lsu_mem_global_op_ld.sum                                  32,768
+    l1tex__t_sectors_pipe_lsu_mem_global_op_ld.sum                      sector      393,216
+    l1tex__t_sectors_pipe_lsu_mem_global_op_ld_lookup_hit.sum           sector      124,928
+    lts__t_sectors_srcunit_tex_op_read.sum                              sector      268,364
+    lts__t_sectors_srcunit_tex_op_read_lookup_hit.sum                   sector      268,348
+    sm__warps_active.avg.pct_of_peak_sustained_active                        %        41.20
+    smsp__average_warp_latency_issue_stalled_long_scoreboard.ratio   inst/warp     2,611.49
+    smsp__inst_executed.sum                                               inst      762,028
+    smsp__inst_executed_op_shared_atom.sum                                inst       61,483
+    smsp__warp_issue_stalled_barrier_per_warp_active.pct                     %         4.37
+    smsp__warp_issue_stalled_branch_resolving_per_warp_active.pct            %         3.18
+    smsp__warp_issue_stalled_lg_throttle_per_warp_active.pct                 %         2.49
+    smsp__warp_issue_stalled_long_scoreboard_per_warp_active.pct             %        35.37
+    smsp__warp_issue_stalled_membar_per_warp_active.pct                      %            0
+    smsp__warp_issue_stalled_mio_throttle_per_warp_active.pct                %         1.89
+    smsp__warp_issue_stalled_short_scoreboard_per_warp_active.pct            %        34.63
+== 2048 8 32
+    gpu__time_duration.sum                                                  us        43.84
+    l1tex__data_pipe_lsu_wavefronts_mem_shared_op_atom.sum                           71,931
+    l1tex__t_requests_pipe_lsu_mem_global_op_ld.sum                                  32,768
+    l1tex__t_sectors_pipe_lsu_mem_global_op_ld.sum                      sector      294,912
+    l1tex__t_sectors_pipe_lsu_mem_global_op_ld_lookup_hit.sum           sector       26,624
+    lts__t_sectors_srcunit_tex_op_read.sum                              sector      268,288
+    lts__t_sectors_srcunit_tex_op_read_lookup_hit.sum                   sector      268,288
+    sm__warps_active.avg.pct_of_peak_sustained_active                        %        45.92
+    smsp__average_warp_latency_issue_stalled_long_scoreboard.ratio   inst/warp     3,317.54
+    smsp__inst_executed.sum                                               inst      648,432
+    smsp__inst_executed_op_shared_atom.sum                                inst       39,228
+    smsp__warp_issue_stalled_barrier_per_warp_active.pct                     %        12.87
+    smsp__warp_issue_stalled_branch_resolving_per_warp_active.pct            %         0.72
+    smsp__warp_issue_stalled_lg_throttle_per_warp_active.pct                 %        11.54
+    smsp__warp_issue_stalled_long_scoreboard_per_warp_active.pct             %        26.23
+    smsp__warp_issue_stalled_membar_per_warp_active.pct                      %            0
+    smsp__warp_issue_stalled_mio_throttle_per_warp_active.pct                %         3.05
+    smsp__warp_issue_stalled_short_scoreboard_per_warp_active.pct            %        21.21

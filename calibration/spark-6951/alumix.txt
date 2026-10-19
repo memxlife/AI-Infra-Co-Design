@@ -1,0 +1,13 @@
+RESULT mix IMAD + LOP3 cycles=49419 steps_per_clk=2.652
+RESULT mix IMAD + FFMA cycles=49601 steps_per_clk=2.643
+RESULT mix LOP3 + FFMA cycles=64070 steps_per_clk=2.046
+RESULT mix HFMA2 + LOP3 cycles=51505 steps_per_clk=2.545
+RESULT mix HFMA2 + IMAD cycles=65069 steps_per_clk=2.014
+RESULT mix HFMA2 + FFMA cycles=55908 steps_per_clk=2.344
+RESULT mix PRMT + IMAD cycles=33480 steps_per_clk=3.915
+RESULT mix PRMT + LOP3 cycles=81985 steps_per_clk=1.599
+RESULT mix HADD2.F32+FADD + IMAD cycles=64977 steps_per_clk=2.017
+RESULT mix HADD2.F32+FADD + LOP3 cycles=76227 steps_per_clk=1.719
+RESULT mix IMAD + IMAD cycles=65596 steps_per_clk=1.998
+RESULT mix LOP3 + LOP3 cycles=98396 steps_per_clk=1.332
+RESULT mix FFMA + FFMA cycles=34117 steps_per_clk=3.842

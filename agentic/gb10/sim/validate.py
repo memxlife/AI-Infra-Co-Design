@@ -22,7 +22,7 @@ def sass_trips(ins, h: dict, src_trips: int) -> int:
     lp = main_loop(ins)
     if not lp: return 1
     body = ins[lp[0]:lp[1] + 1]; warps = h["threads"] // 32
-    n_mma = sum(x.base == "HMMA" for x in body); n_cp = sum(x.base == "LDGSTS" for x in body)
+    n_mma = sum(x.base in ("HMMA", "IMMA", "QMMA", "OMMA") for x in body); n_cp = sum(x.base == "LDGSTS" for x in body)
     if n_mma: per_kt = h["block_M"] * h["block_N"] * h["block_K"] / (16 * 8 * 16) / warps; u = n_mma / per_kt
     elif n_cp: per_kt = (h["block_M"] + h["block_N"]) * h["block_K"] * 2 / 16 / h["threads"]; u = n_cp / per_kt
     else: u = 1
@@ -39,10 +39,10 @@ def copy_lines(h: dict) -> list:
     return [lines(h["block_K"] * 2)] * max(1, nA) + [lines(h["block_N"] * 2)] * max(1, nB)
 
 
-def simulate(name: str, variant: str, blocks: int, active: int = 1) -> dict:
+def simulate(name: str, variant: str, blocks: int, active: int = 1, resident: int | None = None, grid: int | None = None) -> dict:
     ins = kernel_sass(SASS / f"{name}__{variant}.sass")
     h = json.load(open(AB / "mechanisms.json"))[name]["pick"]
-    sm = SM(ins, h["threads"], blocks, sass_trips(ins, h, trips(name, variant)), active_sms=active, copy_lines=copy_lines(h)); t = time.time(); r = sm.run(); r["wall_s"] = round(time.time() - t, 2)
+    sm = SM(ins, h["threads"], blocks, sass_trips(ins, h, trips(name, variant)), active_sms=active, copy_lines=copy_lines(h), resident=resident, grid_blocks=grid); t = time.time(); r = sm.run(); r["wall_s"] = round(time.time() - t, 2)
     r["us"] = r["cycles"] / F; return r
 
 
@@ -75,6 +75,11 @@ if __name__ == "__main__":
 def kernel_us(name: str, variant: str, h: dict, tiles: int, Rmax: int) -> float:
     """Simulated kernel time: the block scheduler fills each SM up to Rmax blocks; each wave is simulated with its own
     blocks per SM and number of busy SMs; plus the launch (2.6 us, probe)."""
+    from .kernel import FLOW
+    if FLOW:
+        # the busiest SM runs its share of the blocks, at most Rmax at a time, a new one starting when one exits; the
+        # chip's L2 and store limits are shared by the blocks in flight (as min(48, tiles/Rmax) equal SMs)
+        return 2.6 + simulate(name, variant, math.ceil(tiles / 48), min(tiles, 48 * Rmax) / min(Rmax, math.ceil(tiles / 48)), resident=Rmax, grid=tiles)["us"]
     left, t = tiles, 2.6
     while left > 0:
         n = min(left, 48 * Rmax); R = math.ceil(n / 48)

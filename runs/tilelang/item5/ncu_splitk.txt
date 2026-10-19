@@ -1,0 +1,15 @@
+== splitk 128 4096 4096 128 128 32 3 128 1
+    gpu__time_duration.sum                           us       238.85
+    lts__t_sectors_op_read.sum                   sector    2,100,195
+    lts__t_sectors_op_read_lookup_miss.sum       sector    1,034,040
+    lts__t_sectors_op_red.sum                    sector       65,536
+    lts__t_sectors_op_write_lookup_miss.sum      sector          346
+== splitk 128 4096 4096 128 128 32 3 128 8
+    gpu__time_duration.sum                           us       224.06
+    lts__t_sectors_op_read.sum                   sector    2,100,161
+    lts__t_sectors_op_read_lookup_miss.sum       sector    1,081,710
+    lts__t_sectors_op_red.sum                    sector      524,288
+    lts__t_sectors_op_write_lookup_miss.sum      sector          113
+agentic
+b29
+raw

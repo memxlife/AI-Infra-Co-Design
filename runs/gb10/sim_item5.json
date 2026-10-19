@@ -1,0 +1,114 @@
+[
+ {
+  "kernel": "gemv_n2048_bn2_rt32",
+  "sim_warm_us": 7.73,
+  "meas_warm_us": 8.29,
+  "sim_cold_us": 40.35,
+  "meas_cold_us": 39.94
+ },
+ {
+  "kernel": "gemv_n2048_bn4_rt32",
+  "sim_warm_us": 7.72,
+  "meas_warm_us": 10.26,
+  "sim_cold_us": 40.29,
+  "meas_cold_us": 40.96
+ },
+ {
+  "kernel": "gemv_n2048_bn8_rt32",
+  "sim_warm_us": 8.04,
+  "meas_warm_us": 11.89,
+  "sim_cold_us": 42.38,
+  "meas_cold_us": 41.98
+ },
+ {
+  "kernel": "gemv_n2048_bn4_rt64",
+  "sim_warm_us": 8.58,
+  "meas_warm_us": 12.36,
+  "sim_cold_us": 40.87,
+  "meas_cold_us": 40.96
+ },
+ {
+  "kernel": "gemv_n4096_bn2_rt32",
+  "sim_warm_us": 128.55,
+  "meas_warm_us": 130.92,
+  "sim_cold_us": 146.92,
+  "meas_cold_us": 147.46
+ },
+ {
+  "kernel": "gemv_n4096_bn4_rt32",
+  "sim_warm_us": 127.94,
+  "meas_warm_us": 133.18,
+  "sim_cold_us": 146.54,
+  "meas_cold_us": 150.53
+ },
+ {
+  "kernel": "gemv_n4096_bn8_rt32",
+  "sim_warm_us": 127.9,
+  "meas_warm_us": 135.88,
+  "sim_cold_us": 146.49,
+  "meas_cold_us": 157.54
+ },
+ {
+  "kernel": "gemv_n4096_bn4_rt64",
+  "sim_warm_us": 130.34,
+  "meas_warm_us": 131.27,
+  "sim_cold_us": 149.2,
+  "meas_cold_us": 148.46
+ },
+ {
+  "kernel": "splitk_1024x1024x1024_128x128x32_s1",
+  "sim_warm_us": 36.01,
+  "meas_warm_us": 38.97,
+  "sim_cold_us": 40.25,
+  "meas_cold_us": 49.15
+ },
+ {
+  "kernel": "splitk_1024x1024x1024_128x128x32_s2",
+  "sim_warm_us": 38.17,
+  "meas_warm_us": 43.13,
+  "sim_cold_us": 57.69,
+  "meas_cold_us": 57.34
+ },
+ {
+  "kernel": "splitk_1024x1024x1024_128x128x32_s4",
+  "sim_warm_us": 49.43,
+  "meas_warm_us": 55.32,
+  "sim_cold_us": 68.76,
+  "meas_cold_us": 69.63
+ },
+ {
+  "kernel": "splitk_1024x1024x1024_128x128x32_s8",
+  "sim_warm_us": 67.71,
+  "meas_warm_us": 81.99,
+  "sim_cold_us": 94.66,
+  "meas_cold_us": 94.21
+ },
+ {
+  "kernel": "splitk_128x4096x4096_128x128x32_s1",
+  "sim_warm_us": 159.41,
+  "meas_warm_us": 146.01,
+  "sim_cold_us": 159.41,
+  "meas_cold_us": 161.82
+ },
+ {
+  "kernel": "splitk_128x4096x4096_128x128x32_s2",
+  "sim_warm_us": 167.04,
+  "meas_warm_us": 139.19,
+  "sim_cold_us": 167.04,
+  "meas_cold_us": 164.86
+ },
+ {
+  "kernel": "splitk_128x4096x4096_128x128x32_s4",
+  "sim_warm_us": 174.34,
+  "meas_warm_us": 146.12,
+  "sim_cold_us": 174.34,
+  "meas_cold_us": 169.98
+ },
+ {
+  "kernel": "splitk_128x4096x4096_128x128x32_s8",
+  "sim_warm_us": 185.69,
+  "meas_warm_us": 144.15,
+  "sim_cold_us": 185.69,
+  "meas_cold_us": 175.1
+ }
+]

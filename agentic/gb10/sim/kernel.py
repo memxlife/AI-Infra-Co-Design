@@ -10,6 +10,14 @@ from .sass import main_loop
 from ..model import dram_split_kslice, bank_conflict_ways, C as MC
 
 F = 2.54e3   # cycles per us under load (clock probes 2.52-2.54 GHz)
+FLOW = True  # block replacement on the busiest SM (a new block starts when one exits) instead of separate waves
+
+
+def launch_us(blocks: int = 48, graph: bool = False) -> float:
+    """Per-kernel overhead in a back-to-back sequence: 2.6 us from one stream (ablation harness; probe launch.cu: the
+    host submits at 2.05 us per kernel, 3.1 us between kernels with work), 0.43 us per kernel inside a CUDA graph plus
+    about 0.43 ns per block."""
+    return 0.43 + 0.00043 * blocks if graph else 2.6
 
 
 def copy_lines(h: dict) -> list:
@@ -23,7 +31,7 @@ def sass_trips(ins, h: dict, src_trips: int) -> int:
     lp = main_loop(ins)
     if not lp: return 1
     body = ins[lp[0]:lp[1] + 1]; warps = h["threads"] // 32
-    n_mma = sum(x.base == "HMMA" for x in body); n_cp = sum(x.base == "LDGSTS" for x in body)
+    n_mma = sum(x.base in ("HMMA", "IMMA", "QMMA", "OMMA") for x in body); n_cp = sum(x.base == "LDGSTS" for x in body)
     if n_mma: u = n_mma / (h["block_M"] * h["block_N"] * h["block_K"] / (16 * 8 * 16) / warps)
     elif n_cp: u = n_cp / ((h["block_M"] + h["block_N"]) * h["block_K"] * 2 / 16 / h["threads"])
     else: u = 1
@@ -59,7 +67,7 @@ def wave_dram(h: dict, shape: dict, wave: dict, warm: bool = True) -> tuple[floa
     if warm and (M * K + K * N + M * N) * 2 <= MC["l2_effective_bytes"]: return 0.0, 0.0
     run_a = min(bk, K) * 2 if K > bk else min(bm, M) * K * 2
     run_b = min(N, wave["cols"] * bn) * 2
-    c_w = wave["blocks"] * min(bm, M) * min(bn, N) * 2
+    c_w = wave.get("c_bytes", wave["blocks"] * min(bm, M) * min(bn, N) * 2)
     wpeak = max(10.0, MC["dram_write_GBs"] - CPU_DRAM_GBs * (197.0 / 273.0))
     secs = (wave["A"] / dram_peak(run_a) + wave["B"] / dram_peak(run_b) + c_w / wpeak) / 1e9
     return wave["A"] + wave["B"], secs
@@ -79,13 +87,41 @@ def ldsm_ways(h: dict) -> tuple:
     return (bank_conflict_ways(h["block_K"] * 2), bank_conflict_ways(h["block_N"] * 2))
 
 
-def simulate_kernel(sass_path, h: dict, shape: dict, regs: int, smem: int | None = None, warm: bool = True) -> dict:
-    ins = kernel_sass(sass_path)
-    M, N, K = shape["M"], shape["N"], shape["K"]; KT = math.ceil(K / h["block_K"])
+def simulate_kernel(sass_path, h: dict, shape: dict, regs: int, smem: int | None = None, warm: bool = True, split: int = 1,
+                    kernel: str = "matmul_kernel") -> dict:
+    """split > 1: split-K, a third grid dimension (outermost in launch order); each block runs K/split and adds its C
+    tile with global atomics (in the machine code)."""
+    ins = kernel_sass(sass_path, kernel=kernel)
+    M, N, K = shape["M"], shape["N"], shape["K"]; KT = math.ceil(K / split / h["block_K"])
     smem = smem if smem is not None else h["num_stages"] * (h["block_M"] + h["block_N"]) * h["block_K"] * 2
-    tiles = math.ceil(M / h["block_M"]) * math.ceil(N / h["block_N"]); Rmax = occupancy(h, regs, smem)
+    tiles = math.ceil(M / h["block_M"]) * math.ceil(N / h["block_N"]) * split; Rmax = occupancy(h, regs, smem)
     trips = sass_trips(ins, h, KT - (h["num_stages"] - 1))
-    sp = dram_split_kslice(h, shape, 48 * Rmax); traffic = 0.0
+    if split == 1:
+        sp = dram_split_kslice(h, shape, 48 * Rmax)
+    else:
+        # each split is its own GEMM over K/split with its own A columns and B rows; spread its misses over its blocks
+        one = dram_split_kslice(h, {"M": M, "N": N, "K": K // split}, 48 * Rmax); t1 = tiles // split
+        a_b = sum(w["A"] for w in one["waves"]) / t1; b_b = sum(w["B"] for w in one["waves"]) / t1
+        sp = {"waves": [], "c_over": one["c_over"]}; left_ = tiles
+        while left_ > 0:
+            # the fp32 C stays in the L2 while the splits add into it; it goes back to DRAM once per run
+            nb_ = min(left_, 48 * Rmax); sp["waves"].append({"A": nb_ * a_b, "B": nb_ * b_b, "cols": min(nb_, math.ceil(N / h["block_N"])), "blocks": nb_,
+                                                           "c_bytes": nb_ / split * min(h["block_M"], M) * min(h["block_N"], N) * 4}); left_ -= nb_
+    traffic = 0.0
+    if FLOW:
+        rb = secs = 0.0
+        for wv in sp["waves"]:
+            r_, s_ = wave_dram(h, shape, wv, warm); rb += r_; secs += s_
+        copy_bytes = tiles * KT * (h["block_M"] + h["block_N"]) * h["block_K"] * 2
+        miss = min(1.0, rb / copy_bytes) if copy_bytes else 0.0; eq = min(tiles, 48 * Rmax) / min(Rmax, math.ceil(tiles / 48))
+        sm = SM(ins, h["threads"], math.ceil(tiles / 48), trips, active_sms=eq, copy_lines=copy_lines(h), miss_frac=miss,
+                dram_clk_per_512B=dram_clk(rb, secs, eq), ctile_bytes=min(h["block_M"], M) * min(h["block_N"], N) * 2,
+                ldsm_ways=ldsm_ways(h), resident=Rmax, grid_blocks=tiles,
+                grid_dim=(math.ceil(N / h["block_N"]), math.ceil(M / h["block_M"]), split))
+        r = sm.run(); us = r["cycles"] / F
+        part = {"counts": {k: v for k, v in r.items() if k in ("STSM", "UTMASTG")}, "blocks": tiles, "per_sm": Rmax, "miss_frac": round(miss, 3),
+                "dram_GBs": round(rb / secs / 1e9, 1) if secs else None, "us": round(us, 2), "busy": {k: round(v / max(1, r["cycles"]), 2) for k, v in r["busy"].items()}}
+        return {"us": 2.6 + us, "tiles": tiles, "blocks_per_sm": Rmax, "waves": math.ceil(tiles / (48 * Rmax)), "dram_MB": rb / 1e6, "parts": [part]}
     left, t, w, parts = tiles, 2.6, 0, []
     while left > 0:
         n = min(left, 48 * Rmax); R = math.ceil(n / 48); eq = n / R

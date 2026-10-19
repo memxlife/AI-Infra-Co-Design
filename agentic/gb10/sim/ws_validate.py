@@ -14,11 +14,11 @@ F = 2.54e3
 
 
 def ws_sim(name: str, variant: str, h: dict, shape: dict, blocks_eq: float = 1.0, miss: float = 0.0, dclk: float | None = None,
-           sass_path=None) -> dict:
+           sass_path=None, nblocks: int = 1, grid: int | None = None) -> dict:
     ins = kernel_sass(sass_path or SASS / f"tma_{name}__{variant}.sass"); KT = math.ceil(shape["K"] / h["block_K"])
     lp = main_loop(ins); warps = h["threads"] // 32
     if lp:
-        body = ins[lp[0]:lp[1] + 1]; n_mma = sum(x.base == "HMMA" for x in body)
+        body = ins[lp[0]:lp[1] + 1]; n_mma = sum(x.base in ("HMMA", "IMMA", "QMMA", "OMMA") for x in body)
         per_kt = h["block_M"] * h["block_N"] * h["block_K"] / (16 * 8 * 16) / warps
         u = max(1, round(n_mma / per_kt)) if n_mma else 1; trips = max(1, KT // u)
     else:
@@ -32,16 +32,23 @@ def ws_sim(name: str, variant: str, h: dict, shape: dict, blocks_eq: float = 1.0
         tma_per_kt = 1
     # out-of-range rows and columns of a box are zero-filled by the TMA unit without moving data
     tile = (min(h["block_M"], shape["M"]) + min(h["block_N"], shape["N"])) * h["block_K"] * 2
-    sm = WSSM(ins, h["threads"] + 128, 1, trips, h["threads"], h["num_stages"], tile, tma_per_kt, kt=KT, active_sms=blocks_eq,
+    sm = WSSM(ins, h["threads"] + 128, nblocks, trips, h["threads"], h["num_stages"], tile, tma_per_kt, kt=KT, active_sms=blocks_eq,
               miss_frac=miss, dram_clk_per_512B=dclk if dclk is not None else dram_clk(0.0, 0.0, blocks_eq),
-              ctile_bytes=min(h["block_M"], shape["M"]) * min(h["block_N"], shape["N"]) * 2)
-    t = time.time(); r = sm.run(limit=3_000_000); r["us"] = r["cycles"] / F; r["wall_s"] = round(time.time() - t, 1)
+              ctile_bytes=min(h["block_M"], shape["M"]) * min(h["block_N"], shape["N"]) * 2, resident=1, grid_blocks=grid)
+    t = time.time(); r = sm.run(limit=3_000_000 * nblocks); r["us"] = r["cycles"] / F; r["wall_s"] = round(time.time() - t, 1)
     r["warps_done"] = sum(w.done for w in sm.warps); r["warps"] = len(sm.warps); return r
 
 
 def kernel_us(name, h, shape, variant="full", warm=True, sass_path=None):
     tiles = math.ceil(shape["M"] / h["block_M"]) * math.ceil(shape["N"] / h["block_N"]); KT = math.ceil(shape["K"] / h["block_K"])
     sp = dram_split_kslice(h, shape, 48)
+    from .kernel import FLOW
+    if FLOW:
+        rb = secs = 0.0
+        for wv in sp["waves"]:
+            r_, s_ = wave_dram(h, shape, wv, warm); rb += r_; secs += s_
+        cb = tiles * KT * (h["block_M"] + h["block_N"]) * h["block_K"] * 2; eq = min(48.0, float(tiles))
+        return 2.6 + ws_sim(name, variant, h, shape, eq, min(1.0, rb / cb) if cb else 0.0, dram_clk(rb, secs, eq), sass_path, nblocks=math.ceil(tiles / 48), grid=tiles)["us"]
     left, t, w = tiles, 2.6, 0
     while left > 0:
         n = min(left, 48); cb = n * KT * (h["block_M"] + h["block_N"]) * h["block_K"] * 2

@@ -1,0 +1,8 @@
+RESULT f16->f32 m16n8k16 dense_TFs_per_SM=2.584 flop_per_clk_per_SM_at_2.54GHz=1017 cycles_per_mma_per_SMSP=16.10
+RESULT f16->f16 m16n8k16 dense_TFs_per_SM=2.591 flop_per_clk_per_SM_at_2.54GHz=1020 cycles_per_mma_per_SMSP=16.06
+RESULT bf16->f32 m16n8k16 dense_TFs_per_SM=2.586 flop_per_clk_per_SM_at_2.54GHz=1018 cycles_per_mma_per_SMSP=16.09
+RESULT tf32->f32 m16n8k8 dense_TFs_per_SM=1.295 flop_per_clk_per_SM_at_2.54GHz=510 cycles_per_mma_per_SMSP=16.07
+RESULT e4m3->f32 m16n8k32 dense_TFs_per_SM=5.185 flop_per_clk_per_SM_at_2.54GHz=2041 cycles_per_mma_per_SMSP=16.05
+RESULT e5m2->f32 m16n8k32 dense_TFs_per_SM=5.178 flop_per_clk_per_SM_at_2.54GHz=2039 cycles_per_mma_per_SMSP=16.07
+RESULT e2m1->f32 m16n8k32 (f8f6f4) dense_TFs_per_SM=5.176 flop_per_clk_per_SM_at_2.54GHz=2038 cycles_per_mma_per_SMSP=16.08
+RESULT s8->s32 m16n8k32 dense_TFs_per_SM=5.176 flop_per_clk_per_SM_at_2.54GHz=2038 cycles_per_mma_per_SMSP=16.08

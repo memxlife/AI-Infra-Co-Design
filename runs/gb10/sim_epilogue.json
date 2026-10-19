@@ -6,47 +6,47 @@
  },
  {
   "kernel": "cp_128x128x32_staged",
-  "sim_us": 33.85,
+  "sim_us": 34.02,
   "meas_us": 34.7
  },
  {
   "kernel": "cp_256x128x32_direct",
-  "sim_us": 41.05,
+  "sim_us": 41.03,
   "meas_us": 42.3
  },
  {
   "kernel": "cp_256x128x32_staged",
-  "sim_us": 37.5,
+  "sim_us": 37.75,
   "meas_us": 37.9
  },
  {
   "kernel": "cp_64x128x32_direct",
-  "sim_us": 34.34,
+  "sim_us": 34.16,
   "meas_us": 33.3
  },
  {
   "kernel": "cp_64x128x32_staged",
-  "sim_us": 31.06,
+  "sim_us": 30.64,
   "meas_us": 30.6
  },
  {
   "kernel": "tma_128x128x32_direct",
-  "sim_us": 42.16,
+  "sim_us": 42.12,
   "meas_us": 45.0
  },
  {
   "kernel": "tma_128x128x32_staged",
-  "sim_us": 38.58,
+  "sim_us": 39.24,
   "meas_us": 41.1
  },
  {
   "kernel": "tma_256x128x32_direct",
-  "sim_us": 35.46,
+  "sim_us": 35.57,
   "meas_us": 37.8
  },
  {
   "kernel": "tma_256x128x32_staged",
-  "sim_us": 31.95,
+  "sim_us": 32.62,
   "meas_us": 35.0
  }
 ]

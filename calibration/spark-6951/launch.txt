@@ -1,0 +1,9 @@
+RESULT back_to_back empty blocks=1 us_per_launch=2.05
+RESULT back_to_back empty blocks=48 us_per_launch=2.04
+RESULT back_to_back empty blocks=1024 us_per_launch=2.08
+RESULT graph empty blocks=1 us_per_kernel=0.43
+RESULT graph empty blocks=48 us_per_kernel=0.43
+RESULT graph empty blocks=1024 us_per_kernel=0.87
+RESULT back_to_back work blocks=48 us_per_kernel=24.54 block0_span_us=21.44 gap_us=3.10
+RESULT back_to_back work blocks=1024 us_per_kernel=137.07 block0_span_us=22.98 gap_us=114.10
+RESULT single launch+sync host_us median=4.9 min=4.8

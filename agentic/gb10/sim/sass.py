@@ -77,6 +77,6 @@ def main_loop(ins: list[Ins]) -> tuple[int, int]:
             s_ = next((k for k, y in enumerate(ins) if y.addr == x.target), None)
             if s_ is None: continue
             body = ins[s_:j + 1]
-            key = (sum(y.base == "HMMA" for y in body), sum(y.base in ("LDGSTS", "UTMALDG") for y in body), j - s_)
+            key = (sum(y.base in ("HMMA", "IMMA", "QMMA", "OMMA") for y in body), sum(y.base in ("LDGSTS", "UTMALDG") for y in body), j - s_)
             if best_key is None or key > best_key: best, best_key = (s_, j), key
     return best

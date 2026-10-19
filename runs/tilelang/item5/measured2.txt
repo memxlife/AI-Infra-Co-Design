@@ -1,0 +1,16 @@
+gemv_n2048_bn2_rt32                      warm     8.3     8.3     9.1 median     8.3 | flushed    39.9
+gemv_n2048_bn4_rt32                      warm    10.3    10.2    10.4 median    10.3 | flushed    41.0
+gemv_n2048_bn8_rt32                      warm    11.6    11.9    11.9 median    11.9 | flushed    42.0
+gemv_n2048_bn4_rt64                      warm    13.3    12.3    12.4 median    12.4 | flushed    41.0
+gemv_n4096_bn2_rt32                      warm   130.7   131.7   130.9 median   130.9 | flushed   147.5
+gemv_n4096_bn4_rt32                      warm   132.0   135.0   133.2 median   133.2 | flushed   150.5
+gemv_n4096_bn8_rt32                      warm   136.0   135.9   135.6 median   135.9 | flushed   157.5
+gemv_n4096_bn4_rt64                      warm   131.3   133.0   130.0 median   131.3 | flushed   148.5
+splitk_1024x1024x1024_128x128x32_s1      warm    40.8    39.0    38.9 median    39.0 | flushed    49.2
+splitk_1024x1024x1024_128x128x32_s2      warm    43.3    41.2    43.1 median    43.1 | flushed    57.3
+splitk_1024x1024x1024_128x128x32_s4      warm    55.0    55.4    55.3 median    55.3 | flushed    69.6
+splitk_1024x1024x1024_128x128x32_s8      warm    82.0    87.1    82.0 median    82.0 | flushed    94.2
+splitk_128x4096x4096_128x128x32_s1       warm   143.1   146.0   147.6 median   146.0 | flushed   161.8
+splitk_128x4096x4096_128x128x32_s2       warm   141.5   139.2   139.2 median   139.2 | flushed   164.9
+splitk_128x4096x4096_128x128x32_s4       warm   146.1   146.0   146.2 median   146.1 | flushed   170.0
+splitk_128x4096x4096_128x128x32_s8       warm   146.2   144.0   144.2 median   144.2 | flushed   175.1

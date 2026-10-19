@@ -1,0 +1,47 @@
+     29 LDG.E
+      8 LDG.E.128.CONSTANT
+      8 LDG.E.128.STRONG.GPU
+     48 LDL
+     16 LDL.128
+     24 STL
+     16 STL.128
+RESULT ldg128 set_KB=16 blocks=1 warps=4 cycles_per_instr_per_SM=17.14 bytes_per_clk_per_SM=30
+RESULT ldg128 set_KB=16 blocks=1 warps=8 cycles_per_instr_per_SM=10.73 bytes_per_clk_per_SM=48
+RESULT ldg128 set_KB=16 blocks=1 warps=16 cycles_per_instr_per_SM=8.71 bytes_per_clk_per_SM=59
+RESULT ldg128 set_KB=16 blocks=1 warps=32 cycles_per_instr_per_SM=8.52 bytes_per_clk_per_SM=60
+RESULT ldg128 set_KB=16 blocks=48 warps=4 cycles_per_instr_per_SM=17.24 bytes_per_clk_per_SM=30
+RESULT ldg128 set_KB=16 blocks=48 warps=8 cycles_per_instr_per_SM=10.79 bytes_per_clk_per_SM=47
+RESULT ldg128 set_KB=16 blocks=48 warps=16 cycles_per_instr_per_SM=8.91 bytes_per_clk_per_SM=57
+RESULT ldg128 set_KB=16 blocks=48 warps=32 cycles_per_instr_per_SM=8.52 bytes_per_clk_per_SM=60
+RESULT ldg128 set_KB=4096 blocks=1 warps=4 cycles_per_instr_per_SM=31.43 bytes_per_clk_per_SM=16
+RESULT ldg128 set_KB=4096 blocks=1 warps=8 cycles_per_instr_per_SM=17.26 bytes_per_clk_per_SM=30
+RESULT ldg128 set_KB=4096 blocks=1 warps=16 cycles_per_instr_per_SM=15.66 bytes_per_clk_per_SM=33
+RESULT ldg128 set_KB=4096 blocks=1 warps=32 cycles_per_instr_per_SM=15.95 bytes_per_clk_per_SM=32
+RESULT ldg128 set_KB=4096 blocks=48 warps=4 cycles_per_instr_per_SM=35.84 bytes_per_clk_per_SM=14
+RESULT ldg128 set_KB=4096 blocks=48 warps=8 cycles_per_instr_per_SM=30.35 bytes_per_clk_per_SM=17
+RESULT ldg128 set_KB=4096 blocks=48 warps=16 cycles_per_instr_per_SM=29.84 bytes_per_clk_per_SM=17
+RESULT ldg128 set_KB=4096 blocks=48 warps=32 cycles_per_instr_per_SM=28.12 bytes_per_clk_per_SM=18
+RESULT spill warps=1 cycles_per_step_per_SM=47.66
+RESULT spill warps=4 cycles_per_step_per_SM=11.92
+RESULT spill warps=16 cycles_per_step_per_SM=13.48
+     88 REDG.E.ADD.F32.FTZ.RN.STRONG.GPU
+     40 REDG.E.ADD.F32x2.FTZ.RN.STRONG.GPU
+RESULT red_f32x2 blocks=1 warps=4 cycles_per_warp_instr_per_SM=10.05 bytes_per_clk_chip=25
+RESULT red_f32x2 blocks=1 warps=16 cycles_per_warp_instr_per_SM=10.01 bytes_per_clk_chip=26
+RESULT red_f32x2 blocks=1 warps=32 cycles_per_warp_instr_per_SM=10.08 bytes_per_clk_chip=25
+RESULT red_f32x2 blocks=48 warps=4 cycles_per_warp_instr_per_SM=49.39 bytes_per_clk_chip=249
+RESULT red_f32x2 blocks=48 warps=16 cycles_per_warp_instr_per_SM=39.13 bytes_per_clk_chip=314
+RESULT red_f32x2 blocks=48 warps=32 cycles_per_warp_instr_per_SM=38.00 bytes_per_clk_chip=323
+err 400 line 128
+RESULT redtile blocks=48 blocks_per_tile=1 event_us=7.58 chip_GBs=415
+RESULT redtile blocks=48 blocks_per_tile=2 event_us=6.53 chip_GBs=482
+RESULT redtile blocks=48 blocks_per_tile=4 event_us=6.82 chip_GBs=462
+RESULT redtile blocks=48 blocks_per_tile=8 event_us=7.17 chip_GBs=439
+RESULT redtile blocks=96 blocks_per_tile=1 event_us=18.21 chip_GBs=346
+RESULT redtile blocks=96 blocks_per_tile=2 event_us=10.56 chip_GBs=596
+RESULT redtile blocks=96 blocks_per_tile=4 event_us=10.46 chip_GBs=601
+RESULT redtile blocks=96 blocks_per_tile=8 event_us=10.43 chip_GBs=603
+RESULT redfrag blocks=1 cycles_per_warp_instr_per_block=15.96 chip_bytes_per_clk=16
+RESULT redfrag blocks=2 cycles_per_warp_instr_per_block=31.88 chip_bytes_per_clk=16
+RESULT redfrag blocks=48 cycles_per_warp_instr_per_block=54.69 chip_bytes_per_clk=225
+RESULT redfrag blocks=96 cycles_per_warp_instr_per_block=110.00 chip_bytes_per_clk=223

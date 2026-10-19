@@ -1,0 +1,7 @@
+RESULT rowsplit stride=4096 rows_per_warp=1 set_MB=3.0 cycles_per_instr_per_SM=36.06 chip_B_per_clk=682
+RESULT rowsplit stride=4096 rows_per_warp=2 set_MB=6.0 cycles_per_instr_per_SM=33.28 chip_B_per_clk=739
+RESULT rowsplit stride=4096 rows_per_warp=4 set_MB=12.0 cycles_per_instr_per_SM=34.81 chip_B_per_clk=706
+RESULT rowsplit stride=8192 rows_per_warp=1 set_MB=6.0 cycles_per_instr_per_SM=35.16 chip_B_per_clk=699
+RESULT rowsplit stride=8192 rows_per_warp=2 set_MB=12.0 cycles_per_instr_per_SM=31.80 chip_B_per_clk=773
+RESULT rowsplit stride=4160 rows_per_warp=1 set_MB=3.0 cycles_per_instr_per_SM=32.37 chip_B_per_clk=759
+RESULT rowsplit stride=4160 rows_per_warp=2 set_MB=6.1 cycles_per_instr_per_SM=32.93 chip_B_per_clk=746
