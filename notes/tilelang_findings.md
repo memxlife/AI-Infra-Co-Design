@@ -203,7 +203,10 @@ and measured 2222 µs, `diagnose(cost_model)` fires, B_HBM moves from 43 to 46 G
 proves), the re-solve changes the pick, the new pick measures 2063 µs. The ledger shows measured → diagnosis →
 recalibration → new pick. It also fired live in the split-K run: predicted 247.7 µs, measured 205.8 µs, the per-SM
 rate entry for that tile re-fitted, the re-solve kept the same pick (the menus the Formulator left had no better
-point), the second run measured 207.9 µs.
+point), the second run measured 207.9 µs. Round 3 note: under the round-3 envelopes a single measurement moves a
+shared rate only to what it proves (B_HBM/8 injected: 29 to 37 GB/s), and the least-traffic point stays the pick; the
+replay test now asserts the chain (measured, diagnosis, recalibration, re-solve, re-run) and reports whether the pick
+moved rather than requiring it.
 
 ## Round 3
 
