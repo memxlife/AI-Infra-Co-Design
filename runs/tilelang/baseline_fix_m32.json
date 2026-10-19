@@ -1,0 +1,818 @@
+{
+ "shape": {
+  "M": 32,
+  "N": 4096,
+  "K": 4096
+ },
+ "kinds": {
+  "cublas": {
+   "latency_ms": 0.4912148666381836,
+   "tflops": 2.1858903240216687,
+   "config": "torch.matmul fp16 (best of: do_bench, out= variant, plain event loop)",
+   "detail": {
+    "do_bench_ms": 0.5366719961166382,
+    "out_variant_ms": 0.5377600193023682,
+    "event_loop_ms": 0.4912148666381836,
+    "torch": "2.11.0+cu128",
+    "allow_fp16_reduced_precision": true
+   }
+  },
+  "carver": {
+   "latency_ms": 0.21007999777793884,
+   "tflops": 5.111109269598236,
+   "config": {
+    "block_M": 16,
+    "block_N": 64,
+    "block_K": 128,
+    "num_stages": 0,
+    "threads": 128,
+    "swizzle": 0
+   },
+   "tried": 20,
+   "compiled": 7,
+   "note": "tilelang.carver MatmulTemplate.recommend_hints(topk=20) mapped onto the family's knobs (threads = warps x 32, swizzle 8 when the hint rasterizes)",
+   "rows": [
+    {
+     "holes": {
+      "block_M": 32,
+      "block_N": 32,
+      "block_K": 128,
+      "num_stages": 0,
+      "threads": 128,
+      "swizzle": 0
+     },
+     "shape": {
+      "M": 32,
+      "N": 4096,
+      "K": 4096
+     },
+     "compile_s": 1.15,
+     "threads": 128,
+     "dynamic_smem_bytes": 16384,
+     "dynamic_smem_source": "tilelang attribute",
+     "n_regs": 110,
+     "n_spills": 0,
+     "static_smem_bytes": 0,
+     "smem_bytes": 16384,
+     "uses_tma": false,
+     "correct": true,
+     "max_abs_err": 0.25,
+     "latency_ms": 0.22732800245285034,
+     "tflops": 4.723315264351133,
+     "ok": true
+    },
+    {
+     "holes": {
+      "block_M": 16,
+      "block_N": 64,
+      "block_K": 128,
+      "num_stages": 0,
+      "threads": 128,
+      "swizzle": 0
+     },
+     "shape": {
+      "M": 32,
+      "N": 4096,
+      "K": 4096
+     },
+     "compile_s": 0.45,
+     "threads": 128,
+     "dynamic_smem_bytes": 20480,
+     "dynamic_smem_source": "tilelang attribute",
+     "n_regs": 72,
+     "n_spills": 0,
+     "static_smem_bytes": 0,
+     "smem_bytes": 20480,
+     "uses_tma": false,
+     "correct": true,
+     "max_abs_err": 0.125,
+     "latency_ms": 0.21007999777793884,
+     "tflops": 5.111109269598236,
+     "ok": true
+    },
+    {
+     "holes": {
+      "block_M": 16,
+      "block_N": 16,
+      "block_K": 256,
+      "num_stages": 0,
+      "threads": 128,
+      "swizzle": 0
+     },
+     "shape": {
+      "M": 32,
+      "N": 4096,
+      "K": 4096
+     },
+     "ok": false,
+     "stage": "compile",
+     "error": "No valid warp partition for T.gemm: M=16, N=16 cannot be evenly covered by 4 warps (policy=Square). Each warp must own a multiple of 16 rows and 8 columns; adjust `threads` or the block tile shape.",
+     "compile_s": 0.69
+    },
+    {
+     "holes": {
+      "block_M": 16,
+      "block_N": 32,
+      "block_K": 256,
+      "num_stages": 0,
+      "threads": 128,
+      "swizzle": 0
+     },
+     "shape": {
+      "M": 32,
+      "N": 4096,
+      "K": 4096
+     },
+     "compile_s": 0.48,
+     "threads": 128,
+     "dynamic_smem_bytes": 24576,
+     "dynamic_smem_source": "tilelang attribute",
+     "n_regs": 78,
+     "n_spills": 0,
+     "static_smem_bytes": 0,
+     "smem_bytes": 24576,
+     "uses_tma": false,
+     "correct": true,
+     "max_abs_err": 0.125,
+     "latency_ms": 0.27747198939323425,
+     "tflops": 3.8697305135124442,
+     "ok": true
+    },
+    {
+     "holes": {
+      "block_M": 32,
+      "block_N": 16,
+      "block_K": 256,
+      "num_stages": 0,
+      "threads": 128,
+      "swizzle": 0
+     },
+     "shape": {
+      "M": 32,
+      "N": 4096,
+      "K": 4096
+     },
+     "compile_s": 1.14,
+     "threads": 128,
+     "dynamic_smem_bytes": 24576,
+     "dynamic_smem_source": "tilelang attribute",
+     "n_regs": 78,
+     "n_spills": 0,
+     "static_smem_bytes": 0,
+     "smem_bytes": 24576,
+     "uses_tma": false,
+     "correct": true,
+     "max_abs_err": 0.125,
+     "latency_ms": 0.3338240087032318,
+     "tflops": 3.216490713687859,
+     "ok": true
+    },
+    {
+     "holes": {
+      "block_M": 32,
+      "block_N": 64,
+      "block_K": 128,
+      "num_stages": 0,
+      "threads": 128,
+      "swizzle": 0
+     },
+     "shape": {
+      "M": 32,
+      "N": 4096,
+      "K": 4096
+     },
+     "compile_s": 1.19,
+     "threads": 128,
+     "dynamic_smem_bytes": 24576,
+     "dynamic_smem_source": "tilelang attribute",
+     "n_regs": 90,
+     "n_spills": 0,
+     "static_smem_bytes": 0,
+     "smem_bytes": 24576,
+     "uses_tma": false,
+     "correct": true,
+     "max_abs_err": 0.125,
+     "latency_ms": 0.21193599700927734,
+     "tflops": 5.066349459988139,
+     "ok": true
+    },
+    {
+     "holes": {
+      "block_M": 8,
+      "block_N": 32,
+      "block_K": 256,
+      "num_stages": 0,
+      "threads": 128,
+      "swizzle": 0
+     },
+     "shape": {
+      "M": 32,
+      "N": 4096,
+      "K": 4096
+     },
+     "ok": false,
+     "stage": "compile",
+     "error": "Check failed: (M % kMPerWarp == 0) is false: M must be divisible by 16, but got 8",
+     "compile_s": 0.03
+    },
+    {
+     "holes": {
+      "block_M": 32,
+      "block_N": 8,
+      "block_K": 256,
+      "num_stages": 0,
+      "threads": 128,
+      "swizzle": 0
+     },
+     "shape": {
+      "M": 32,
+      "N": 4096,
+      "K": 4096
+     },
+     "ok": false,
+     "stage": "compile",
+     "error": "No valid warp partition for T.gemm: M=32, N=8 cannot be evenly covered by 4 warps (policy=Square). Each warp must own a multiple of 16 rows and 8 columns; adjust `threads` or the block tile shape.",
+     "compile_s": 0.03
+    },
+    {
+     "holes": {
+      "block_M": 8,
+      "block_N": 128,
+      "block_K": 64,
+      "num_stages": 0,
+      "threads": 128,
+      "swizzle": 0
+     },
+     "shape": {
+      "M": 32,
+      "N": 4096,
+      "K": 4096
+     },
+     "ok": false,
+     "stage": "compile",
+     "error": "Check failed: (M % kMPerWarp == 0) is false: M must be divisible by 16, but got 8",
+     "compile_s": 0.02
+    },
+    {
+     "holes": {
+      "block_M": 8,
+      "block_N": 16,
+      "block_K": 512,
+      "num_stages": 0,
+      "threads": 128,
+      "swizzle": 0
+     },
+     "shape": {
+      "M": 32,
+      "N": 4096,
+      "K": 4096
+     },
+     "ok": false,
+     "stage": "compile",
+     "error": "Check failed: (M % kMPerWarp == 0) is false: M must be divisible by 16, but got 8",
+     "compile_s": 0.03
+    },
+    {
+     "holes": {
+      "block_M": 8,
+      "block_N": 64,
+      "block_K": 128,
+      "num_stages": 0,
+      "threads": 128,
+      "swizzle": 0
+     },
+     "shape": {
+      "M": 32,
+      "N": 4096,
+      "K": 4096
+     },
+     "ok": false,
+     "stage": "compile",
+     "error": "Check failed: (M % kMPerWarp == 0) is false: M must be divisible by 16, but got 8",
+     "compile_s": 0.03
+    },
+    {
+     "holes": {
+      "block_M": 16,
+      "block_N": 8,
+      "block_K": 512,
+      "num_stages": 0,
+      "threads": 128,
+      "swizzle": 0
+     },
+     "shape": {
+      "M": 32,
+      "N": 4096,
+      "K": 4096
+     },
+     "ok": false,
+     "stage": "compile",
+     "error": "No valid warp partition for T.gemm: M=16, N=8 cannot be evenly covered by 4 warps (policy=Square). Each warp must own a multiple of 16 rows and 8 columns; adjust `threads` or the block tile shape.",
+     "compile_s": 0.03
+    },
+    {
+     "holes": {
+      "block_M": 16,
+      "block_N": 128,
+      "block_K": 64,
+      "num_stages": 0,
+      "threads": 128,
+      "swizzle": 0
+     },
+     "shape": {
+      "M": 32,
+      "N": 4096,
+      "K": 4096
+     },
+     "compile_s": 0.49,
+     "threads": 128,
+     "dynamic_smem_bytes": 18432,
+     "dynamic_smem_source": "tilelang attribute",
+     "n_regs": 128,
+     "n_spills": 0,
+     "static_smem_bytes": 0,
+     "smem_bytes": 18432,
+     "uses_tma": false,
+     "correct": true,
+     "max_abs_err": 0.125,
+     "latency_ms": 0.21193599700927734,
+     "tflops": 5.066349459988139,
+     "ok": true
+    },
+    {
+     "holes": {
+      "block_M": 32,
+      "block_N": 128,
+      "block_K": 64,
+      "num_stages": 0,
+      "threads": 128,
+      "swizzle": 0
+     },
+     "shape": {
+      "M": 32,
+      "N": 4096,
+      "K": 4096
+     },
+     "compile_s": 1.19,
+     "threads": 128,
+     "dynamic_smem_bytes": 20480,
+     "dynamic_smem_source": "tilelang attribute",
+     "n_regs": 96,
+     "n_spills": 0,
+     "static_smem_bytes": 0,
+     "smem_bytes": 20480,
+     "uses_tma": false,
+     "correct": true,
+     "max_abs_err": 0.125,
+     "latency_ms": 0.22217600047588348,
+     "tflops": 4.832843429083832,
+     "ok": true
+    },
+    {
+     "holes": {
+      "block_M": 8,
+      "block_N": 8,
+      "block_K": 512,
+      "num_stages": 0,
+      "threads": 64,
+      "swizzle": 0
+     },
+     "shape": {
+      "M": 32,
+      "N": 4096,
+      "K": 4096
+     },
+     "ok": false,
+     "stage": "compile",
+     "error": "Check failed: (M % kMPerWarp == 0) is false: M must be divisible by 16, but got 8",
+     "compile_s": 0.03
+    },
+    {
+     "holes": {
+      "block_M": 4,
+      "block_N": 64,
+      "block_K": 128,
+      "num_stages": 0,
+      "threads": 128,
+      "swizzle": 0
+     },
+     "shape": {
+      "M": 32,
+      "N": 4096,
+      "K": 4096
+     },
+     "ok": false,
+     "stage": "compile",
+     "error": "Check failed: (M % kMPerWarp == 0) is false: M must be divisible by 16, but got 4",
+     "compile_s": 0.03
+    },
+    {
+     "holes": {
+      "block_M": 4,
+      "block_N": 32,
+      "block_K": 256,
+      "num_stages": 0,
+      "threads": 128,
+      "swizzle": 0
+     },
+     "shape": {
+      "M": 32,
+      "N": 4096,
+      "K": 4096
+     },
+     "ok": false,
+     "stage": "compile",
+     "error": "Check failed: (M % kMPerWarp == 0) is false: M must be divisible by 16, but got 4",
+     "compile_s": 0.03
+    },
+    {
+     "holes": {
+      "block_M": 32,
+      "block_N": 4,
+      "block_K": 256,
+      "num_stages": 0,
+      "threads": 128,
+      "swizzle": 0
+     },
+     "shape": {
+      "M": 32,
+      "N": 4096,
+      "K": 4096
+     },
+     "ok": false,
+     "stage": "compile",
+     "error": "Check failed: (N % k_n_per_warp == 0) is false: N must be divisible by 8, but got 4",
+     "compile_s": 0.03
+    },
+    {
+     "holes": {
+      "block_M": 4,
+      "block_N": 16,
+      "block_K": 512,
+      "num_stages": 0,
+      "threads": 64,
+      "swizzle": 0
+     },
+     "shape": {
+      "M": 32,
+      "N": 4096,
+      "K": 4096
+     },
+     "ok": false,
+     "stage": "compile",
+     "error": "Check failed: (M % kMPerWarp == 0) is false: M must be divisible by 16, but got 4",
+     "compile_s": 0.03
+    },
+    {
+     "holes": {
+      "block_M": 16,
+      "block_N": 4,
+      "block_K": 512,
+      "num_stages": 0,
+      "threads": 64,
+      "swizzle": 0
+     },
+     "shape": {
+      "M": 32,
+      "N": 4096,
+      "K": 4096
+     },
+     "ok": false,
+     "stage": "compile",
+     "error": "Check failed: (N % k_n_per_warp == 0) is false: N must be divisible by 8, but got 4",
+     "compile_s": 0.03
+    }
+   ]
+  }
+ },
+ "carver_arch": {
+  "name": "NVIDIA GB10",
+  "smem_cap": 49152,
+  "reg_cap": 65536,
+  "sm_partition": 4,
+  "compute_max_core": 48,
+  "sm_version": 121
+ },
+ "carver_hints": [
+  {
+   "block": [
+    32,
+    32
+   ],
+   "warp": [],
+   "thread": [
+    16,
+    8
+   ],
+   "rstep": [
+    128
+   ],
+   "pipeline_stage": 1,
+   "raster": "<NoRasterization>"
+  },
+  {
+   "block": [
+    16,
+    64
+   ],
+   "warp": [],
+   "thread": [
+    8,
+    16
+   ],
+   "rstep": [
+    128
+   ],
+   "pipeline_stage": 1,
+   "raster": "<NoRasterization>"
+  },
+  {
+   "block": [
+    16,
+    16
+   ],
+   "warp": [],
+   "thread": [
+    16,
+    8
+   ],
+   "rstep": [
+    256
+   ],
+   "pipeline_stage": 1,
+   "raster": "<NoRasterization>"
+  },
+  {
+   "block": [
+    16,
+    32
+   ],
+   "warp": [],
+   "thread": [
+    8,
+    16
+   ],
+   "rstep": [
+    256
+   ],
+   "pipeline_stage": 1,
+   "raster": "<NoRasterization>"
+  },
+  {
+   "block": [
+    32,
+    16
+   ],
+   "warp": [],
+   "thread": [
+    16,
+    8
+   ],
+   "rstep": [
+    256
+   ],
+   "pipeline_stage": 1,
+   "raster": "<NoRasterization>"
+  },
+  {
+   "block": [
+    32,
+    64
+   ],
+   "warp": [],
+   "thread": [
+    8,
+    16
+   ],
+   "rstep": [
+    128
+   ],
+   "pipeline_stage": 1,
+   "raster": "<NoRasterization>"
+  },
+  {
+   "block": [
+    8,
+    32
+   ],
+   "warp": [],
+   "thread": [
+    8,
+    16
+   ],
+   "rstep": [
+    256
+   ],
+   "pipeline_stage": 1,
+   "raster": "<NoRasterization>"
+  },
+  {
+   "block": [
+    32,
+    8
+   ],
+   "warp": [],
+   "thread": [
+    16,
+    8
+   ],
+   "rstep": [
+    256
+   ],
+   "pipeline_stage": 1,
+   "raster": "<NoRasterization>"
+  },
+  {
+   "block": [
+    8,
+    128
+   ],
+   "warp": [],
+   "thread": [
+    4,
+    32
+   ],
+   "rstep": [
+    64
+   ],
+   "pipeline_stage": 1,
+   "raster": "<NoRasterization>"
+  },
+  {
+   "block": [
+    8,
+    16
+   ],
+   "warp": [],
+   "thread": [
+    8,
+    16
+   ],
+   "rstep": [
+    512
+   ],
+   "pipeline_stage": 1,
+   "raster": "<NoRasterization>"
+  },
+  {
+   "block": [
+    8,
+    64
+   ],
+   "warp": [],
+   "thread": [
+    4,
+    32
+   ],
+   "rstep": [
+    128
+   ],
+   "pipeline_stage": 1,
+   "raster": "<NoRasterization>"
+  },
+  {
+   "block": [
+    16,
+    8
+   ],
+   "warp": [],
+   "thread": [
+    16,
+    8
+   ],
+   "rstep": [
+    512
+   ],
+   "pipeline_stage": 1,
+   "raster": "<NoRasterization>"
+  },
+  {
+   "block": [
+    16,
+    128
+   ],
+   "warp": [],
+   "thread": [
+    4,
+    32
+   ],
+   "rstep": [
+    64
+   ],
+   "pipeline_stage": 1,
+   "raster": "<NoRasterization>"
+  },
+  {
+   "block": [
+    32,
+    128
+   ],
+   "warp": [],
+   "thread": [
+    8,
+    16
+   ],
+   "rstep": [
+    64
+   ],
+   "pipeline_stage": 1,
+   "raster": "<NoRasterization>"
+  },
+  {
+   "block": [
+    8,
+    8
+   ],
+   "warp": [],
+   "thread": [
+    8,
+    8
+   ],
+   "rstep": [
+    512
+   ],
+   "pipeline_stage": 1,
+   "raster": "<NoRasterization>"
+  },
+  {
+   "block": [
+    4,
+    64
+   ],
+   "warp": [],
+   "thread": [
+    4,
+    32
+   ],
+   "rstep": [
+    128
+   ],
+   "pipeline_stage": 1,
+   "raster": "<NoRasterization>"
+  },
+  {
+   "block": [
+    4,
+    32
+   ],
+   "warp": [],
+   "thread": [
+    4,
+    32
+   ],
+   "rstep": [
+    256
+   ],
+   "pipeline_stage": 1,
+   "raster": "<NoRasterization>"
+  },
+  {
+   "block": [
+    32,
+    4
+   ],
+   "warp": [],
+   "thread": [
+    32,
+    4
+   ],
+   "rstep": [
+    256
+   ],
+   "pipeline_stage": 1,
+   "raster": "<NoRasterization>"
+  },
+  {
+   "block": [
+    4,
+    16
+   ],
+   "warp": [],
+   "thread": [
+    4,
+    16
+   ],
+   "rstep": [
+    512
+   ],
+   "pipeline_stage": 1,
+   "raster": "<NoRasterization>"
+  },
+  {
+   "block": [
+    16,
+    4
+   ],
+   "warp": [],
+   "thread": [
+    16,
+    4
+   ],
+   "rstep": [
+    512
+   ],
+   "pipeline_stage": 1,
+   "raster": "<NoRasterization>"
+  }
+ ]
+}

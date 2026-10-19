@@ -49,7 +49,19 @@ def _solve_smem_tiling(T: dict) -> dict:
 @backend("gemm_tilelang")
 def _solve_gemm_tilelang(T: dict) -> dict:
     from ...tilelang.solve import solve_family
-    return solve_family(T, terms=T.get("_terms"))
+    return solve_family(T, terms=_terms_of(T))
+
+
+def _terms_of(T: dict) -> dict | None:
+    """The calibrated terms the contract carries (cost.terms_values), with the integer-keyed tables restored."""
+    tv = (T.get("cost") or {}).get("terms_values")
+    if not tv:
+        return None
+    tv = dict(tv)
+    for k in ("u_warps", "swizzle_penalty", "t_tile_fixed", "t_step", "t_fill"):
+        if isinstance(tv.get(k), dict):
+            tv[k] = {int(a): b for a, b in tv[k].items()}
+    return tv
 
 
 def solve(T: dict) -> dict:

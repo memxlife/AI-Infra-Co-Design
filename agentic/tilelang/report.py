@@ -67,6 +67,8 @@ def main():
             else:
                 parts.append(f"{k}: {str(v.get('error', 'no result'))[:80]}")
         out.append(f"- {shape['M']}x{shape['N']}x{shape['K']}: " + "; ".join(parts))
+    out += ["", "## The loop, live on the Spark (Claude Code as the Formulator, the MIP, TileLang, one compile and one run per shape)", ""]
+    out += live_rows()
     out += ["", "## Solver", ""]
     for name, p in picks.items():
         out.append(f"- {name}: {p['variables']} variables, {p['constraints']} rows, {p['solver_s'] * 1e3:.0f} ms (HiGHS); predicted {p['predicted_us']:.1f} µs")
@@ -75,6 +77,37 @@ def main():
         out.append(f"- {name}: {t.get('error_histogram')}; median measured/predicted {t.get('median_measured_over_predicted')}")
     (RUNS / "report.md").write_text("\n".join(out) + "\n")
     print("\n".join(out))
+
+
+def live_rows() -> list[str]:
+    """The measured events of the live run in runs/gemm-tilelang.db, with the baselines of the same shape when they exist."""
+    from ..ledger import Ledger
+    db = RUNS.parent / "gemm-tilelang.db"
+    if not db.exists():
+        return ["- not run yet"]
+    L = Ledger(str(db))
+    rows = ["| shape | our pick | measured | predicted | TFLOP/s | regs / spills | autotuner (compiles) | cuBLAS | our time vs autotuner |", "|---|---|---|---|---|---|---|---|---|"]
+    names = {(1024, 1024, 1024): "1024", (4096, 4096, 4096): "4096", (32, 4096, 4096): "m32", (2048, 2048, 2048): "new_2048", (16, 4096, 4096): "new_m16",
+             (128, 4096, 4096): "new_m128", (4096, 4096, 1024): "new_k1024", (8192, 8192, 8192): "new_8192"}
+    for run in L.runs() if hasattr(L, "runs") else ["tilelang-model-new-shapes"]:
+        for e in L.events(run, kinds=["measured"]):
+            m = L.get(e["artifact"]); d = m.get("detail", {})
+            T = L.get(L.get(e["artifact"])["contract"]); wl = T["scope"]["workload"]
+            key = (wl["M"], wl["N"], wl["K"]); name = names.get(key)
+            auto = cub = None
+            for f in (RUNS / f"baseline_{name}.json", RUNS / f"baseline_{name.replace('new_', 'new_') if name else ''}.json"):
+                if name and f.exists():
+                    k = json.load(open(f))["kinds"]; auto = auto or k.get("autotune"); cub = cub or k.get("cublas")
+            fx = RUNS / f"baseline_fix_{name}.json"
+            if name and fx.exists():
+                k = json.load(open(fx))["kinds"]; cub = k.get("cublas") or cub
+            flops = 2.0 * wl["M"] * wl["N"] * wl["K"]
+            a_us = auto and auto.get("latency_ms") and auto["latency_ms"] * 1e3
+            rows.append(f"| {wl['M']}x{wl['N']}x{wl['K']} | {_h(m['design'])} | {m['measured_cost']:.1f} µs | {m['predicted_cost']:.1f} µs | {flops / (m['measured_cost'] * 1e-6) / 1e12:.1f} | {d.get('n_regs')} / {d.get('n_spills')} | "
+                        f"{f'{a_us:.1f} µs ({auto.get(chr(99)+chr(111)+chr(109)+chr(112)+chr(105)+chr(108)+chr(101)+chr(100))} of {auto.get(chr(116)+chr(114)+chr(105)+chr(101)+chr(100))})' if a_us else '–'} | "
+                        f"{f'{cub[chr(108)+chr(97)+chr(116)+chr(101)+chr(110)+chr(99)+chr(121)+chr(95)+chr(109)+chr(115)] * 1e3:.1f} µs' if cub and cub.get('latency_ms') else '–'} | "
+                        f"{f'{m[chr(109)+chr(101)+chr(97)+chr(115)+chr(117)+chr(114)+chr(101)+chr(100)+chr(95)+chr(99)+chr(111)+chr(115)+chr(116)] / a_us - 1:+.1%}' if a_us else '–'} |")
+    return rows
 
 
 def _h(h):

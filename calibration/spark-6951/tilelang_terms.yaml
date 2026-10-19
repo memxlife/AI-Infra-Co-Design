@@ -27,7 +27,7 @@ terms:
     5: 6.92849315590029e-07
   launch_s: 2.0162399999999997e-06
   overlap: sum
-  scale: 0.5473882645000783
+  scale: 0.58768615346019
   swizzle_penalty:
     0: 1.0
     4: 1.0
@@ -35,7 +35,7 @@ terms:
     16: 1.0
   source: 'term by term: rate from 64 long-K rows at ((128, 256), (256, 128)); per-tile,
     fill and per-step costs from 144 series rows at (128, 128) (1024^3 and 4096^3);
-    B_HBM from the decode sweep; the time scaled by 0.547 so 95 % of all 1476 sweep
+    B_HBM from the decode sweep; the time scaled by 0.588 so 95 % of all 1476 sweep
     points lie at or above the model (in-sample margin)'
 fit_detail:
   calibration_points: 208

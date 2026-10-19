@@ -1,0 +1,948 @@
+{
+ "shape": {
+  "M": 4096,
+  "N": 4096,
+  "K": 4096
+ },
+ "kinds": {
+  "cublas": {
+   "latency_ms": 10.80742359161377,
+   "tflops": 12.717087685787426,
+   "config": "torch.matmul fp16 (best of: do_bench, out= variant, plain event loop)",
+   "detail": {
+    "do_bench_ms": 10.80742359161377,
+    "out_variant_ms": 11.66643238067627,
+    "event_loop_ms": 11.993304443359374,
+    "torch": "2.11.0+cu128",
+    "allow_fp16_reduced_precision": true
+   }
+  },
+  "carver": {
+   "latency_ms": 2.2671360969543457,
+   "tflops": 60.62227744361465,
+   "config": {
+    "block_M": 128,
+    "block_N": 128,
+    "block_K": 64,
+    "num_stages": 0,
+    "threads": 128,
+    "swizzle": 0
+   },
+   "tried": 20,
+   "compiled": 20,
+   "note": "tilelang.carver MatmulTemplate.recommend_hints(topk=20) mapped onto the family's knobs (threads = warps x 32, swizzle 8 when the hint rasterizes)",
+   "rows": [
+    {
+     "holes": {
+      "block_M": 128,
+      "block_N": 128,
+      "block_K": 64,
+      "num_stages": 0,
+      "threads": 128,
+      "swizzle": 0
+     },
+     "shape": {
+      "M": 4096,
+      "N": 4096,
+      "K": 4096
+     },
+     "compile_s": 0.0,
+     "threads": 128,
+     "dynamic_smem_bytes": 0,
+     "dynamic_smem_source": "family formula",
+     "n_regs": 222,
+     "n_spills": 0,
+     "static_smem_bytes": 0,
+     "smem_bytes": 0,
+     "uses_tma": false,
+     "correct": true,
+     "max_abs_err": 0.25,
+     "latency_ms": 2.2671360969543457,
+     "tflops": 60.62227744361465,
+     "ok": true
+    },
+    {
+     "holes": {
+      "block_M": 64,
+      "block_N": 128,
+      "block_K": 64,
+      "num_stages": 0,
+      "threads": 128,
+      "swizzle": 0
+     },
+     "shape": {
+      "M": 4096,
+      "N": 4096,
+      "K": 4096
+     },
+     "compile_s": 0.0,
+     "threads": 128,
+     "dynamic_smem_bytes": 0,
+     "dynamic_smem_source": "family formula",
+     "n_regs": 150,
+     "n_spills": 0,
+     "static_smem_bytes": 0,
+     "smem_bytes": 0,
+     "uses_tma": false,
+     "correct": true,
+     "max_abs_err": 0.25,
+     "latency_ms": 2.6274240016937256,
+     "tflops": 52.309392539385435,
+     "ok": true
+    },
+    {
+     "holes": {
+      "block_M": 128,
+      "block_N": 64,
+      "block_K": 64,
+      "num_stages": 0,
+      "threads": 128,
+      "swizzle": 0
+     },
+     "shape": {
+      "M": 4096,
+      "N": 4096,
+      "K": 4096
+     },
+     "compile_s": 0.0,
+     "threads": 128,
+     "dynamic_smem_bytes": 0,
+     "dynamic_smem_source": "family formula",
+     "n_regs": 138,
+     "n_spills": 0,
+     "static_smem_bytes": 0,
+     "smem_bytes": 0,
+     "uses_tma": false,
+     "correct": true,
+     "max_abs_err": 0.25,
+     "latency_ms": 2.6368319988250732,
+     "tflops": 52.12275698005804,
+     "ok": true
+    },
+    {
+     "holes": {
+      "block_M": 128,
+      "block_N": 256,
+      "block_K": 64,
+      "num_stages": 0,
+      "threads": 128,
+      "swizzle": 0
+     },
+     "shape": {
+      "M": 4096,
+      "N": 4096,
+      "K": 4096
+     },
+     "compile_s": 0.0,
+     "threads": 128,
+     "dynamic_smem_bytes": 0,
+     "dynamic_smem_source": "family formula",
+     "n_regs": 255,
+     "n_spills": 2736,
+     "static_smem_bytes": 0,
+     "smem_bytes": 0,
+     "uses_tma": false,
+     "correct": true,
+     "max_abs_err": 0.25,
+     "latency_ms": 13.417471885681152,
+     "tflops": 10.243282389037239,
+     "ok": true
+    },
+    {
+     "holes": {
+      "block_M": 256,
+      "block_N": 128,
+      "block_K": 64,
+      "num_stages": 0,
+      "threads": 128,
+      "swizzle": 0
+     },
+     "shape": {
+      "M": 4096,
+      "N": 4096,
+      "K": 4096
+     },
+     "compile_s": 0.0,
+     "threads": 128,
+     "dynamic_smem_bytes": 0,
+     "dynamic_smem_source": "family formula",
+     "n_regs": 255,
+     "n_spills": 3224,
+     "static_smem_bytes": 0,
+     "smem_bytes": 0,
+     "uses_tma": false,
+     "correct": true,
+     "max_abs_err": 0.25,
+     "latency_ms": 17.268512725830078,
+     "tflops": 7.958934023682311,
+     "ok": true
+    },
+    {
+     "holes": {
+      "block_M": 64,
+      "block_N": 64,
+      "block_K": 64,
+      "num_stages": 0,
+      "threads": 128,
+      "swizzle": 0
+     },
+     "shape": {
+      "M": 4096,
+      "N": 4096,
+      "K": 4096
+     },
+     "compile_s": 0.0,
+     "threads": 128,
+     "dynamic_smem_bytes": 0,
+     "dynamic_smem_source": "family formula",
+     "n_regs": 88,
+     "n_spills": 0,
+     "static_smem_bytes": 0,
+     "smem_bytes": 0,
+     "uses_tma": false,
+     "correct": true,
+     "max_abs_err": 0.25,
+     "latency_ms": 3.4139199256896973,
+     "tflops": 40.258399863972755,
+     "ok": true
+    },
+    {
+     "holes": {
+      "block_M": 32,
+      "block_N": 128,
+      "block_K": 64,
+      "num_stages": 0,
+      "threads": 128,
+      "swizzle": 0
+     },
+     "shape": {
+      "M": 4096,
+      "N": 4096,
+      "K": 4096
+     },
+     "compile_s": 0.0,
+     "threads": 128,
+     "dynamic_smem_bytes": 0,
+     "dynamic_smem_source": "family formula",
+     "n_regs": 96,
+     "n_spills": 0,
+     "static_smem_bytes": 0,
+     "smem_bytes": 0,
+     "uses_tma": false,
+     "correct": true,
+     "max_abs_err": 0.25,
+     "latency_ms": 4.7472639083862305,
+     "tflops": 28.951192965954267,
+     "ok": true
+    },
+    {
+     "holes": {
+      "block_M": 128,
+      "block_N": 32,
+      "block_K": 64,
+      "num_stages": 0,
+      "threads": 128,
+      "swizzle": 0
+     },
+     "shape": {
+      "M": 4096,
+      "N": 4096,
+      "K": 4096
+     },
+     "compile_s": 0.0,
+     "threads": 128,
+     "dynamic_smem_bytes": 0,
+     "dynamic_smem_source": "family formula",
+     "n_regs": 96,
+     "n_spills": 0,
+     "static_smem_bytes": 0,
+     "smem_bytes": 0,
+     "uses_tma": false,
+     "correct": true,
+     "max_abs_err": 0.25,
+     "latency_ms": 3.886080026626587,
+     "tflops": 35.366990008002354,
+     "ok": true
+    },
+    {
+     "holes": {
+      "block_M": 64,
+      "block_N": 256,
+      "block_K": 64,
+      "num_stages": 0,
+      "threads": 128,
+      "swizzle": 0
+     },
+     "shape": {
+      "M": 4096,
+      "N": 4096,
+      "K": 4096
+     },
+     "compile_s": 0.0,
+     "threads": 128,
+     "dynamic_smem_bytes": 0,
+     "dynamic_smem_source": "family formula",
+     "n_regs": 234,
+     "n_spills": 0,
+     "static_smem_bytes": 0,
+     "smem_bytes": 0,
+     "uses_tma": false,
+     "correct": true,
+     "max_abs_err": 0.25,
+     "latency_ms": 2.5785279273986816,
+     "tflops": 53.30132437644517,
+     "ok": true
+    },
+    {
+     "holes": {
+      "block_M": 256,
+      "block_N": 64,
+      "block_K": 64,
+      "num_stages": 0,
+      "threads": 128,
+      "swizzle": 0
+     },
+     "shape": {
+      "M": 4096,
+      "N": 4096,
+      "K": 4096
+     },
+     "compile_s": 0.0,
+     "threads": 128,
+     "dynamic_smem_bytes": 0,
+     "dynamic_smem_source": "family formula",
+     "n_regs": 230,
+     "n_spills": 0,
+     "static_smem_bytes": 0,
+     "smem_bytes": 0,
+     "uses_tma": false,
+     "correct": true,
+     "max_abs_err": 0.25,
+     "latency_ms": 2.524384021759033,
+     "tflops": 54.44455054672317,
+     "ok": true
+    },
+    {
+     "holes": {
+      "block_M": 32,
+      "block_N": 64,
+      "block_K": 128,
+      "num_stages": 0,
+      "threads": 128,
+      "swizzle": 0
+     },
+     "shape": {
+      "M": 4096,
+      "N": 4096,
+      "K": 4096
+     },
+     "compile_s": 0.0,
+     "threads": 128,
+     "dynamic_smem_bytes": 0,
+     "dynamic_smem_source": "family formula",
+     "n_regs": 92,
+     "n_spills": 0,
+     "static_smem_bytes": 0,
+     "smem_bytes": 0,
+     "uses_tma": false,
+     "correct": true,
+     "max_abs_err": 0.25,
+     "latency_ms": 6.390783786773682,
+     "tflops": 21.50580555650195,
+     "ok": true
+    },
+    {
+     "holes": {
+      "block_M": 64,
+      "block_N": 32,
+      "block_K": 128,
+      "num_stages": 0,
+      "threads": 128,
+      "swizzle": 0
+     },
+     "shape": {
+      "M": 4096,
+      "N": 4096,
+      "K": 4096
+     },
+     "compile_s": 0.0,
+     "threads": 128,
+     "dynamic_smem_bytes": 0,
+     "dynamic_smem_source": "family formula",
+     "n_regs": 88,
+     "n_spills": 0,
+     "static_smem_bytes": 0,
+     "smem_bytes": 0,
+     "uses_tma": false,
+     "correct": true,
+     "max_abs_err": 0.25,
+     "latency_ms": 8.728575706481934,
+     "tflops": 15.745862566092697,
+     "ok": true
+    },
+    {
+     "holes": {
+      "block_M": 32,
+      "block_N": 32,
+      "block_K": 128,
+      "num_stages": 0,
+      "threads": 128,
+      "swizzle": 0
+     },
+     "shape": {
+      "M": 4096,
+      "N": 4096,
+      "K": 4096
+     },
+     "compile_s": 0.0,
+     "threads": 128,
+     "dynamic_smem_bytes": 0,
+     "dynamic_smem_source": "family formula",
+     "n_regs": 110,
+     "n_spills": 0,
+     "static_smem_bytes": 0,
+     "smem_bytes": 0,
+     "uses_tma": false,
+     "correct": true,
+     "max_abs_err": 0.25,
+     "latency_ms": 18.903263092041016,
+     "tflops": 7.270647020189172,
+     "ok": true
+    },
+    {
+     "holes": {
+      "block_M": 16,
+      "block_N": 128,
+      "block_K": 64,
+      "num_stages": 0,
+      "threads": 128,
+      "swizzle": 0
+     },
+     "shape": {
+      "M": 4096,
+      "N": 4096,
+      "K": 4096
+     },
+     "compile_s": 0.0,
+     "threads": 128,
+     "dynamic_smem_bytes": 0,
+     "dynamic_smem_source": "family formula",
+     "n_regs": 128,
+     "n_spills": 0,
+     "static_smem_bytes": 0,
+     "smem_bytes": 0,
+     "uses_tma": false,
+     "correct": true,
+     "max_abs_err": 0.25,
+     "latency_ms": 14.815072059631348,
+     "tflops": 9.276968273849892,
+     "ok": true
+    },
+    {
+     "holes": {
+      "block_M": 128,
+      "block_N": 16,
+      "block_K": 64,
+      "num_stages": 0,
+      "threads": 128,
+      "swizzle": 0
+     },
+     "shape": {
+      "M": 4096,
+      "N": 4096,
+      "K": 4096
+     },
+     "compile_s": 0.0,
+     "threads": 128,
+     "dynamic_smem_bytes": 0,
+     "dynamic_smem_source": "family formula",
+     "n_regs": 76,
+     "n_spills": 0,
+     "static_smem_bytes": 0,
+     "smem_bytes": 0,
+     "uses_tma": false,
+     "correct": true,
+     "max_abs_err": 0.25,
+     "latency_ms": 9.264063835144043,
+     "tflops": 14.835708811786594,
+     "ok": true
+    },
+    {
+     "holes": {
+      "block_M": 32,
+      "block_N": 256,
+      "block_K": 64,
+      "num_stages": 0,
+      "threads": 128,
+      "swizzle": 0
+     },
+     "shape": {
+      "M": 4096,
+      "N": 4096,
+      "K": 4096
+     },
+     "compile_s": 0.0,
+     "threads": 128,
+     "dynamic_smem_bytes": 0,
+     "dynamic_smem_source": "family formula",
+     "n_regs": 162,
+     "n_spills": 0,
+     "static_smem_bytes": 0,
+     "smem_bytes": 0,
+     "uses_tma": false,
+     "correct": true,
+     "max_abs_err": 0.25,
+     "latency_ms": 3.911679983139038,
+     "tflops": 35.13553104150105,
+     "ok": true
+    },
+    {
+     "holes": {
+      "block_M": 256,
+      "block_N": 32,
+      "block_K": 64,
+      "num_stages": 0,
+      "threads": 128,
+      "swizzle": 0
+     },
+     "shape": {
+      "M": 4096,
+      "N": 4096,
+      "K": 4096
+     },
+     "compile_s": 0.0,
+     "threads": 128,
+     "dynamic_smem_bytes": 0,
+     "dynamic_smem_source": "family formula",
+     "n_regs": 158,
+     "n_spills": 0,
+     "static_smem_bytes": 0,
+     "smem_bytes": 0,
+     "uses_tma": false,
+     "correct": true,
+     "max_abs_err": 0.25,
+     "latency_ms": 3.329024076461792,
+     "tflops": 41.285058418104065,
+     "ok": true
+    },
+    {
+     "holes": {
+      "block_M": 16,
+      "block_N": 64,
+      "block_K": 128,
+      "num_stages": 0,
+      "threads": 128,
+      "swizzle": 0
+     },
+     "shape": {
+      "M": 4096,
+      "N": 4096,
+      "K": 4096
+     },
+     "compile_s": 0.0,
+     "threads": 128,
+     "dynamic_smem_bytes": 0,
+     "dynamic_smem_source": "family formula",
+     "n_regs": 72,
+     "n_spills": 0,
+     "static_smem_bytes": 0,
+     "smem_bytes": 0,
+     "uses_tma": false,
+     "correct": true,
+     "max_abs_err": 0.25,
+     "latency_ms": 12.387328147888184,
+     "tflops": 11.095124939870981,
+     "ok": true
+    },
+    {
+     "holes": {
+      "block_M": 64,
+      "block_N": 16,
+      "block_K": 128,
+      "num_stages": 0,
+      "threads": 128,
+      "swizzle": 0
+     },
+     "shape": {
+      "M": 4096,
+      "N": 4096,
+      "K": 4096
+     },
+     "compile_s": 0.0,
+     "threads": 128,
+     "dynamic_smem_bytes": 0,
+     "dynamic_smem_source": "family formula",
+     "n_regs": 72,
+     "n_spills": 0,
+     "static_smem_bytes": 0,
+     "smem_bytes": 0,
+     "uses_tma": false,
+     "correct": true,
+     "max_abs_err": 0.25,
+     "latency_ms": 17.976383209228516,
+     "tflops": 7.6455286846267905,
+     "ok": true
+    },
+    {
+     "holes": {
+      "block_M": 16,
+      "block_N": 32,
+      "block_K": 256,
+      "num_stages": 0,
+      "threads": 128,
+      "swizzle": 0
+     },
+     "shape": {
+      "M": 4096,
+      "N": 4096,
+      "K": 4096
+     },
+     "compile_s": 0.0,
+     "threads": 128,
+     "dynamic_smem_bytes": 0,
+     "dynamic_smem_source": "family formula",
+     "n_regs": 78,
+     "n_spills": 0,
+     "static_smem_bytes": 0,
+     "smem_bytes": 0,
+     "uses_tma": false,
+     "correct": true,
+     "max_abs_err": 0.25,
+     "latency_ms": 36.31206512451172,
+     "tflops": 3.7849390554002023,
+     "ok": true
+    }
+   ]
+  }
+ },
+ "carver_arch": {
+  "name": "NVIDIA GB10",
+  "smem_cap": 49152,
+  "reg_cap": 65536,
+  "sm_partition": 4,
+  "compute_max_core": 48,
+  "sm_version": 121
+ },
+ "carver_hints": [
+  {
+   "block": [
+    128,
+    128
+   ],
+   "warp": [],
+   "thread": [
+    16,
+    8
+   ],
+   "rstep": [
+    64
+   ],
+   "pipeline_stage": 1,
+   "raster": "<NoRasterization>"
+  },
+  {
+   "block": [
+    64,
+    128
+   ],
+   "warp": [],
+   "thread": [
+    8,
+    16
+   ],
+   "rstep": [
+    64
+   ],
+   "pipeline_stage": 1,
+   "raster": "<NoRasterization>"
+  },
+  {
+   "block": [
+    128,
+    64
+   ],
+   "warp": [],
+   "thread": [
+    16,
+    8
+   ],
+   "rstep": [
+    64
+   ],
+   "pipeline_stage": 1,
+   "raster": "<NoRasterization>"
+  },
+  {
+   "block": [
+    128,
+    256
+   ],
+   "warp": [],
+   "thread": [
+    8,
+    16
+   ],
+   "rstep": [
+    64
+   ],
+   "pipeline_stage": 1,
+   "raster": "<NoRasterization>"
+  },
+  {
+   "block": [
+    256,
+    128
+   ],
+   "warp": [],
+   "thread": [
+    16,
+    8
+   ],
+   "rstep": [
+    64
+   ],
+   "pipeline_stage": 1,
+   "raster": "<NoRasterization>"
+  },
+  {
+   "block": [
+    64,
+    64
+   ],
+   "warp": [],
+   "thread": [
+    16,
+    8
+   ],
+   "rstep": [
+    64
+   ],
+   "pipeline_stage": 1,
+   "raster": "<NoRasterization>"
+  },
+  {
+   "block": [
+    32,
+    128
+   ],
+   "warp": [],
+   "thread": [
+    8,
+    16
+   ],
+   "rstep": [
+    64
+   ],
+   "pipeline_stage": 1,
+   "raster": "<NoRasterization>"
+  },
+  {
+   "block": [
+    128,
+    32
+   ],
+   "warp": [],
+   "thread": [
+    16,
+    8
+   ],
+   "rstep": [
+    64
+   ],
+   "pipeline_stage": 1,
+   "raster": "<NoRasterization>"
+  },
+  {
+   "block": [
+    64,
+    256
+   ],
+   "warp": [],
+   "thread": [
+    8,
+    16
+   ],
+   "rstep": [
+    64
+   ],
+   "pipeline_stage": 1,
+   "raster": "<NoRasterization>"
+  },
+  {
+   "block": [
+    256,
+    64
+   ],
+   "warp": [],
+   "thread": [
+    16,
+    8
+   ],
+   "rstep": [
+    64
+   ],
+   "pipeline_stage": 1,
+   "raster": "<NoRasterization>"
+  },
+  {
+   "block": [
+    32,
+    64
+   ],
+   "warp": [],
+   "thread": [
+    8,
+    16
+   ],
+   "rstep": [
+    128
+   ],
+   "pipeline_stage": 1,
+   "raster": "<NoRasterization>"
+  },
+  {
+   "block": [
+    64,
+    32
+   ],
+   "warp": [],
+   "thread": [
+    16,
+    8
+   ],
+   "rstep": [
+    128
+   ],
+   "pipeline_stage": 1,
+   "raster": "<NoRasterization>"
+  },
+  {
+   "block": [
+    32,
+    32
+   ],
+   "warp": [],
+   "thread": [
+    16,
+    8
+   ],
+   "rstep": [
+    128
+   ],
+   "pipeline_stage": 1,
+   "raster": "<NoRasterization>"
+  },
+  {
+   "block": [
+    16,
+    128
+   ],
+   "warp": [],
+   "thread": [
+    4,
+    32
+   ],
+   "rstep": [
+    64
+   ],
+   "pipeline_stage": 1,
+   "raster": "<NoRasterization>"
+  },
+  {
+   "block": [
+    128,
+    16
+   ],
+   "warp": [],
+   "thread": [
+    32,
+    4
+   ],
+   "rstep": [
+    64
+   ],
+   "pipeline_stage": 1,
+   "raster": "<NoRasterization>"
+  },
+  {
+   "block": [
+    32,
+    256
+   ],
+   "warp": [],
+   "thread": [
+    4,
+    32
+   ],
+   "rstep": [
+    64
+   ],
+   "pipeline_stage": 1,
+   "raster": "<NoRasterization>"
+  },
+  {
+   "block": [
+    256,
+    32
+   ],
+   "warp": [],
+   "thread": [
+    32,
+    4
+   ],
+   "rstep": [
+    64
+   ],
+   "pipeline_stage": 1,
+   "raster": "<NoRasterization>"
+  },
+  {
+   "block": [
+    16,
+    64
+   ],
+   "warp": [],
+   "thread": [
+    8,
+    16
+   ],
+   "rstep": [
+    128
+   ],
+   "pipeline_stage": 1,
+   "raster": "<NoRasterization>"
+  },
+  {
+   "block": [
+    64,
+    16
+   ],
+   "warp": [],
+   "thread": [
+    16,
+    8
+   ],
+   "rstep": [
+    128
+   ],
+   "pipeline_stage": 1,
+   "raster": "<NoRasterization>"
+  },
+  {
+   "block": [
+    16,
+    32
+   ],
+   "warp": [],
+   "thread": [
+    8,
+    16
+   ],
+   "rstep": [
+    256
+   ],
+   "pipeline_stage": 1,
+   "raster": "<NoRasterization>"
+  }
+ ]
+}

@@ -81,8 +81,14 @@ def traffic_bytes(h: dict, shape: dict, terms: dict, chip: dict | None = None, b
     cols_per_wave = max(1.0, W / p)
     if a_bytes + b_bytes <= terms["l2_bytes_effective"]:
         dram = a_bytes + b_bytes + c_bytes
-    else:                                                        # fractional re-reads: a bound, since L2 may absorb the rest
-        dram = a_bytes * max(1.0, tiles_n / cols_per_wave) + b_bytes * max(1.0, tiles_m / p) + c_bytes
+    else:
+        # B: once per panel of rows (fractional: a bound, L2 may absorb more). A: the panel's row-panels of A are reused
+        # across the columns a wave covers; ncu on the 4096^3 swizzle series shows L2 keeps them (measured DRAM bytes
+        # 245 / 170 / 211 MB for panels 4 / 8 / 16 against B-only re-reads of 256 / 128 / 64 MB plus A once), so A is
+        # charged once while the panel's A rows fit the effective L2, else once per group of columns
+        a_panel = p * bm * K * 2
+        a_reads = 1.0 if a_panel <= 0.75 * terms["l2_bytes_effective"] else max(1.0, tiles_n / cols_per_wave)   # 0.75: ncu shows a panel at the L2 edge (16 rows x 128 x 4096 x 2 B) is not kept
+        dram = a_bytes * a_reads + b_bytes * max(1.0, tiles_m / p) + c_bytes
     return {"l2_reads": l2_reads, "dram": dram, "c_bytes": c_bytes, "panel": p, "wave_blocks": W}
 
 

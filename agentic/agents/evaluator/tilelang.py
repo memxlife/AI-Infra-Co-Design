@@ -10,6 +10,11 @@ from ...tilelang.remote import run_kernel
 from ...tilelang.tools import render
 
 
+def _terms_of(T: dict) -> dict | None:
+    from ..solver import _terms_of as f
+    return f(T)
+
+
 def kernel_artifact(T: dict, x: dict) -> dict:
     family = T["scope"]["structure"]["family"]
     src = render(family, x["values"])
@@ -21,7 +26,7 @@ def kernel_artifact(T: dict, x: dict) -> dict:
 def measure(T: dict, x: dict, host: str, kernel: dict, reps: int = 100, ncu: bool = True, terms: dict | None = None) -> dict:
     shape = {k: T["scope"]["workload"][k] for k in ("M", "N", "K")}
     chip = T["scope"]["chip"]
-    terms = terms or default_terms(chip)
+    terms = terms or _terms_of(T) or default_terms(chip)
     p = predict(x["values"], shape, chip, terms)
     r = run_kernel(host, kernel["source"], shape["M"], shape["N"], shape["K"], {}, func=T["scope"]["structure"].get("func", "matmul"), reps=reps, ncu=ncu)
     if not r.get("ok"):
@@ -56,7 +61,7 @@ def probe(T: dict, terms: dict | None = None, sample: int = 64) -> dict:
     from ...tilelang.tools import grid, legalize
     shape = {k: T["scope"]["workload"][k] for k in ("M", "N", "K")}
     chip = T["scope"]["chip"]; family = T["scope"]["structure"]["family"]
-    terms = terms or default_terms(chip)
+    terms = terms or _terms_of(T) or default_terms(chip)
     pts = [h for h in grid(family, shape) if legalize(family, h, shape, chip)["ok"]]
     step = max(1, len(pts) // sample)
     counts = {}
@@ -74,7 +79,7 @@ def feasible_designs(T: dict, terms: dict | None = None) -> list[dict]:
     from ...tilelang.tools import grid, legalize
     shape = {k: T["scope"]["workload"][k] for k in ("M", "N", "K")}
     chip = T["scope"]["chip"]; family = T["scope"]["structure"]["family"]
-    terms = terms or default_terms(chip)
+    terms = terms or _terms_of(T) or default_terms(chip)
     res = {"tensor": "tensor", "copy": "L2", "dram": "DRAM", "l2": "L2"}
     out = []
     for h in grid(family, shape):

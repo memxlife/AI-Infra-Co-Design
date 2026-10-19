@@ -1,0 +1,604 @@
+[
+ {
+  "ok": true,
+  "shape": {
+   "M": 1024,
+   "N": 1024,
+   "K": 1024
+  },
+  "holes": {
+   "block_M": 256,
+   "block_N": 128,
+   "block_K": 64,
+   "num_stages": 2,
+   "threads": 256,
+   "swizzle": 0
+  },
+  "latency_ms": 0.06345599889755249,
+  "tflops": 33.8420903509381,
+  "n_regs": 168,
+  "n_spills": 0,
+  "smem_bytes": 99328,
+  "dynamic_smem_bytes": 98304,
+  "threads": 384,
+  "ncu": {
+   "ok": true,
+   "metrics": {
+    "gpu__time_duration.sum": 66688.0,
+    "l1tex__data_bank_conflicts_pipe_lsu_mem_shared.sum": 1152.0,
+    "lts__t_sectors_op_read_lookup_miss.sum": 132004.0,
+    "lts__t_sectors_op_write_lookup_miss.sum": 19341.0,
+    "sm__pipe_tensor_cycles_active.avg.pct_of_peak_sustained_active": 69.01,
+    "sm__throughput.avg.pct_of_peak_sustained_elapsed": 30.67,
+    "sm__warps_active.avg.pct_of_peak_sustained_active": 17.78,
+    "smsp__average_warps_issue_stalled_barrier_per_issue_active.ratio": 0.03,
+    "smsp__average_warps_issue_stalled_long_scoreboard_per_issue_active.ratio": 0.23,
+    "smsp__average_warps_issue_stalled_math_pipe_throttle_per_issue_active.ratio": 5.12,
+    "smsp__issue_active.avg.pct_of_peak_sustained_active": 11.43
+   },
+   "note": null,
+   "dram_bytes": 4843040.0
+  },
+  "error": null,
+  "label": "F_tc:1024^3 best"
+ },
+ {
+  "ok": true,
+  "shape": {
+   "M": 4096,
+   "N": 4096,
+   "K": 4096
+  },
+  "holes": {
+   "block_M": 256,
+   "block_N": 128,
+   "block_K": 64,
+   "num_stages": 2,
+   "threads": 256,
+   "swizzle": 0
+  },
+  "latency_ms": 2.0225279331207275,
+  "tflops": 67.95404464942739,
+  "n_regs": 168,
+  "n_spills": 0,
+  "smem_bytes": 99328,
+  "dynamic_smem_bytes": 98304,
+  "threads": 384,
+  "ncu": {
+   "ok": true,
+   "metrics": {
+    "gpu__time_duration.sum": 2187520.0,
+    "l1tex__data_bank_conflicts_pipe_lsu_mem_shared.sum": 504.0,
+    "lts__t_sectors_op_read_lookup_miss.sum": 12915354.0,
+    "lts__t_sectors_op_write_lookup_miss.sum": 310924.0,
+    "sm__pipe_tensor_cycles_active.avg.pct_of_peak_sustained_active": 62.38,
+    "sm__throughput.avg.pct_of_peak_sustained_elapsed": 59.84,
+    "sm__warps_active.avg.pct_of_peak_sustained_active": 18.49,
+    "smsp__average_warps_issue_stalled_barrier_per_issue_active.ratio": 0.01,
+    "smsp__average_warps_issue_stalled_long_scoreboard_per_issue_active.ratio": 0.37,
+    "smsp__average_warps_issue_stalled_math_pipe_throttle_per_issue_active.ratio": 5.39,
+    "smsp__issue_active.avg.pct_of_peak_sustained_active": 10.01
+   },
+   "note": null,
+   "dram_bytes": 423240896.0
+  },
+  "error": null,
+  "label": "F_tc:4096^3 best-1024-config"
+ },
+ {
+  "ok": true,
+  "shape": {
+   "M": 32,
+   "N": 4096,
+   "K": 4096
+  },
+  "holes": {
+   "block_M": 16,
+   "block_N": 256,
+   "block_K": 32,
+   "num_stages": 5,
+   "threads": 256,
+   "swizzle": 0
+  },
+  "latency_ms": 0.20265600085258484,
+  "tflops": 5.298347048608033,
+  "n_regs": 168,
+  "n_spills": 0,
+  "smem_bytes": 88064,
+  "dynamic_smem_bytes": 87040,
+  "threads": 384,
+  "ncu": {
+   "ok": true,
+   "metrics": {
+    "gpu__time_duration.sum": 219776.0,
+    "l1tex__data_bank_conflicts_pipe_lsu_mem_shared.sum": 744.0,
+    "lts__t_sectors_op_read_lookup_miss.sum": 1058392.0,
+    "lts__t_sectors_op_write_lookup_miss.sum": 3497.0,
+    "sm__pipe_tensor_cycles_active.avg.pct_of_peak_sustained_active": 9.38,
+    "sm__throughput.avg.pct_of_peak_sustained_elapsed": 4.62,
+    "sm__warps_active.avg.pct_of_peak_sustained_active": 18.74,
+    "smsp__average_warps_issue_stalled_barrier_per_issue_active.ratio": 0.03,
+    "smsp__average_warps_issue_stalled_long_scoreboard_per_issue_active.ratio": 2.38,
+    "smsp__average_warps_issue_stalled_math_pipe_throttle_per_issue_active.ratio": 0.74,
+    "smsp__issue_active.avg.pct_of_peak_sustained_active": 5.92
+   },
+   "note": null,
+   "dram_bytes": 33980448.0
+  },
+  "error": null,
+  "label": "B_HBM:m32 best"
+ },
+ {
+  "ok": true,
+  "shape": {
+   "M": 16,
+   "N": 4096,
+   "K": 4096
+  },
+  "holes": {
+   "block_M": 16,
+   "block_N": 256,
+   "block_K": 32,
+   "num_stages": 5,
+   "threads": 256,
+   "swizzle": 0
+  },
+  "latency_ms": 0.20070399343967438,
+  "tflops": 2.674938862944784,
+  "n_regs": 168,
+  "n_spills": 0,
+  "smem_bytes": 88064,
+  "dynamic_smem_bytes": 87040,
+  "threads": 384,
+  "ncu": {
+   "ok": true,
+   "metrics": {
+    "gpu__time_duration.sum": 249504.0,
+    "l1tex__data_bank_conflicts_pipe_lsu_mem_shared.sum": 346.0,
+    "lts__t_sectors_op_read_lookup_miss.sum": 1054236.0,
+    "lts__t_sectors_op_write_lookup_miss.sum": 1985.0,
+    "sm__pipe_tensor_cycles_active.avg.pct_of_peak_sustained_active": 10.12,
+    "sm__throughput.avg.pct_of_peak_sustained_elapsed": 2.04,
+    "sm__warps_active.avg.pct_of_peak_sustained_active": 18.75,
+    "smsp__average_warps_issue_stalled_barrier_per_issue_active.ratio": 0.03,
+    "smsp__average_warps_issue_stalled_long_scoreboard_per_issue_active.ratio": 2.85,
+    "smsp__average_warps_issue_stalled_math_pipe_throttle_per_issue_active.ratio": 0.74,
+    "smsp__issue_active.avg.pct_of_peak_sustained_active": 4.76
+   },
+   "note": null,
+   "dram_bytes": 33799072.0
+  },
+  "error": null,
+  "label": "B_HBM:m16"
+ },
+ {
+  "ok": true,
+  "shape": {
+   "M": 4096,
+   "N": 4096,
+   "K": 4096
+  },
+  "holes": {
+   "block_M": 128,
+   "block_N": 128,
+   "block_K": 64,
+   "num_stages": 3,
+   "threads": 256,
+   "swizzle": 0
+  },
+  "latency_ms": 3.362783908843994,
+  "tflops": 40.870587345960814,
+  "n_regs": 168,
+  "n_spills": 0,
+  "smem_bytes": 99328,
+  "dynamic_smem_bytes": 98304,
+  "threads": 384,
+  "ncu": {
+   "ok": true,
+   "metrics": {
+    "gpu__time_duration.sum": 3484640.0,
+    "l1tex__data_bank_conflicts_pipe_lsu_mem_shared.sum": 915.0,
+    "lts__t_sectors_op_read_lookup_miss.sum": 23714038.0,
+    "lts__t_sectors_op_write_lookup_miss.sum": 359146.0,
+    "sm__pipe_tensor_cycles_active.avg.pct_of_peak_sustained_active": 38.32,
+    "sm__throughput.avg.pct_of_peak_sustained_elapsed": 37.4,
+    "sm__warps_active.avg.pct_of_peak_sustained_active": 18.58,
+    "smsp__average_warps_issue_stalled_barrier_per_issue_active.ratio": 0.01,
+    "smsp__average_warps_issue_stalled_long_scoreboard_per_issue_active.ratio": 0.55,
+    "smsp__average_warps_issue_stalled_math_pipe_throttle_per_issue_active.ratio": 4.36,
+    "smsp__issue_active.avg.pct_of_peak_sustained_active": 7.57
+   },
+   "note": null,
+   "dram_bytes": 770341888.0
+  },
+  "error": null,
+  "label": "SWZ:0 at 4096^3 128x128"
+ },
+ {
+  "ok": true,
+  "shape": {
+   "M": 4096,
+   "N": 4096,
+   "K": 4096
+  },
+  "holes": {
+   "block_M": 128,
+   "block_N": 128,
+   "block_K": 64,
+   "num_stages": 3,
+   "threads": 256,
+   "swizzle": 4
+  },
+  "latency_ms": 1.499168038368225,
+  "tflops": 91.67681671068436,
+  "n_regs": 168,
+  "n_spills": 0,
+  "smem_bytes": 99328,
+  "dynamic_smem_bytes": 98304,
+  "threads": 384,
+  "ncu": {
+   "ok": true,
+   "metrics": {
+    "gpu__time_duration.sum": 1767456.0,
+    "l1tex__data_bank_conflicts_pipe_lsu_mem_shared.sum": 8103.0,
+    "lts__t_sectors_op_read_lookup_miss.sum": 7327578.0,
+    "lts__t_sectors_op_write_lookup_miss.sum": 316089.0,
+    "sm__pipe_tensor_cycles_active.avg.pct_of_peak_sustained_active": 77.12,
+    "sm__throughput.avg.pct_of_peak_sustained_elapsed": 74.29,
+    "sm__warps_active.avg.pct_of_peak_sustained_active": 18.52,
+    "smsp__average_warps_issue_stalled_barrier_per_issue_active.ratio": 0.01,
+    "smsp__average_warps_issue_stalled_long_scoreboard_per_issue_active.ratio": 0.43,
+    "smsp__average_warps_issue_stalled_math_pipe_throttle_per_issue_active.ratio": 3.92,
+    "smsp__issue_active.avg.pct_of_peak_sustained_active": 15.49
+   },
+   "note": null,
+   "dram_bytes": 244597344.0
+  },
+  "error": null,
+  "label": "SWZ:4 at 4096^3 128x128"
+ },
+ {
+  "ok": true,
+  "shape": {
+   "M": 4096,
+   "N": 4096,
+   "K": 4096
+  },
+  "holes": {
+   "block_M": 128,
+   "block_N": 128,
+   "block_K": 64,
+   "num_stages": 3,
+   "threads": 256,
+   "swizzle": 8
+  },
+  "latency_ms": 1.481727957725525,
+  "tflops": 92.75586166503257,
+  "n_regs": 168,
+  "n_spills": 0,
+  "smem_bytes": 99328,
+  "dynamic_smem_bytes": 98304,
+  "threads": 384,
+  "ncu": {
+   "ok": true,
+   "metrics": {
+    "gpu__time_duration.sum": 1747456.0,
+    "l1tex__data_bank_conflicts_pipe_lsu_mem_shared.sum": 7385.0,
+    "lts__t_sectors_op_read_lookup_miss.sum": 4996001.0,
+    "lts__t_sectors_op_write_lookup_miss.sum": 311086.0,
+    "sm__pipe_tensor_cycles_active.avg.pct_of_peak_sustained_active": 67.86,
+    "sm__throughput.avg.pct_of_peak_sustained_elapsed": 75.43,
+    "sm__warps_active.avg.pct_of_peak_sustained_active": 18.54,
+    "smsp__average_warps_issue_stalled_barrier_per_issue_active.ratio": 0.01,
+    "smsp__average_warps_issue_stalled_long_scoreboard_per_issue_active.ratio": 0.42,
+    "smsp__average_warps_issue_stalled_math_pipe_throttle_per_issue_active.ratio": 3.93,
+    "smsp__issue_active.avg.pct_of_peak_sustained_active": 15.84
+   },
+   "note": null,
+   "dram_bytes": 169826784.0
+  },
+  "error": null,
+  "label": "SWZ:8 at 4096^3 128x128"
+ },
+ {
+  "ok": true,
+  "shape": {
+   "M": 4096,
+   "N": 4096,
+   "K": 4096
+  },
+  "holes": {
+   "block_M": 128,
+   "block_N": 128,
+   "block_K": 64,
+   "num_stages": 3,
+   "threads": 256,
+   "swizzle": 16
+  },
+  "latency_ms": 1.5974400043487549,
+  "tflops": 86.03700489398422,
+  "n_regs": 168,
+  "n_spills": 0,
+  "smem_bytes": 99328,
+  "dynamic_smem_bytes": 98304,
+  "threads": 384,
+  "ncu": {
+   "ok": true,
+   "metrics": {
+    "gpu__time_duration.sum": 1853120.0,
+    "l1tex__data_bank_conflicts_pipe_lsu_mem_shared.sum": 7110.0,
+    "lts__t_sectors_op_read_lookup_miss.sum": 6282866.0,
+    "lts__t_sectors_op_write_lookup_miss.sum": 311464.0,
+    "sm__pipe_tensor_cycles_active.avg.pct_of_peak_sustained_active": 64.62,
+    "sm__throughput.avg.pct_of_peak_sustained_elapsed": 70.88,
+    "sm__warps_active.avg.pct_of_peak_sustained_active": 18.55,
+    "smsp__average_warps_issue_stalled_barrier_per_issue_active.ratio": 0.0,
+    "smsp__average_warps_issue_stalled_long_scoreboard_per_issue_active.ratio": 0.43,
+    "smsp__average_warps_issue_stalled_math_pipe_throttle_per_issue_active.ratio": 3.97,
+    "smsp__issue_active.avg.pct_of_peak_sustained_active": 14.74
+   },
+   "note": null,
+   "dram_bytes": 211018560.0
+  },
+  "error": null,
+  "label": "SWZ:16 at 4096^3 128x128"
+ },
+ {
+  "ok": true,
+  "shape": {
+   "M": 1024,
+   "N": 1024,
+   "K": 1024
+  },
+  "holes": {
+   "block_M": 128,
+   "block_N": 128,
+   "block_K": 64,
+   "num_stages": 3,
+   "threads": 256,
+   "swizzle": 0
+  },
+  "latency_ms": 0.07168000191450119,
+  "tflops": 29.95931348553095,
+  "n_regs": 168,
+  "n_spills": 0,
+  "smem_bytes": 99328,
+  "dynamic_smem_bytes": 98304,
+  "threads": 384,
+  "ncu": {
+   "ok": true,
+   "metrics": {
+    "gpu__time_duration.sum": 83104.0,
+    "l1tex__data_bank_conflicts_pipe_lsu_mem_shared.sum": 203.0,
+    "lts__t_sectors_op_read_lookup_miss.sum": 131916.0,
+    "lts__t_sectors_op_write_lookup_miss.sum": 20378.0,
+    "sm__pipe_tensor_cycles_active.avg.pct_of_peak_sustained_active": 59.64,
+    "sm__throughput.avg.pct_of_peak_sustained_elapsed": 24.95,
+    "sm__warps_active.avg.pct_of_peak_sustained_active": 17.7,
+    "smsp__average_warps_issue_stalled_barrier_per_issue_active.ratio": 0.06,
+    "smsp__average_warps_issue_stalled_long_scoreboard_per_issue_active.ratio": 0.27,
+    "smsp__average_warps_issue_stalled_math_pipe_throttle_per_issue_active.ratio": 4.12,
+    "smsp__issue_active.avg.pct_of_peak_sustained_active": 11.95
+   },
+   "note": null,
+   "dram_bytes": 4873408.0
+  },
+  "error": null,
+  "label": "SWZ:0 at 1024^3 128x128"
+ },
+ {
+  "ok": true,
+  "shape": {
+   "M": 1024,
+   "N": 1024,
+   "K": 1024
+  },
+  "holes": {
+   "block_M": 128,
+   "block_N": 128,
+   "block_K": 64,
+   "num_stages": 3,
+   "threads": 256,
+   "swizzle": 8
+  },
+  "latency_ms": 0.0727040022611618,
+  "tflops": 29.537351194037047,
+  "n_regs": 168,
+  "n_spills": 0,
+  "smem_bytes": 99328,
+  "dynamic_smem_bytes": 98304,
+  "threads": 384,
+  "ncu": {
+   "ok": true,
+   "metrics": {
+    "gpu__time_duration.sum": 69568.0,
+    "l1tex__data_bank_conflicts_pipe_lsu_mem_shared.sum": 17.0,
+    "lts__t_sectors_op_read_lookup_miss.sum": 132018.0,
+    "lts__t_sectors_op_write_lookup_miss.sum": 22213.0,
+    "sm__pipe_tensor_cycles_active.avg.pct_of_peak_sustained_active": 58.49,
+    "sm__throughput.avg.pct_of_peak_sustained_elapsed": 30.0,
+    "sm__warps_active.avg.pct_of_peak_sustained_active": 17.53,
+    "smsp__average_warps_issue_stalled_barrier_per_issue_active.ratio": 0.03,
+    "smsp__average_warps_issue_stalled_long_scoreboard_per_issue_active.ratio": 0.26,
+    "smsp__average_warps_issue_stalled_math_pipe_throttle_per_issue_active.ratio": 4.0,
+    "smsp__issue_active.avg.pct_of_peak_sustained_active": 12.29
+   },
+   "note": null,
+   "dram_bytes": 4935392.0
+  },
+  "error": null,
+  "label": "SWZ:8 at 1024^3 128x128"
+ },
+ {
+  "ok": true,
+  "shape": {
+   "M": 1024,
+   "N": 1024,
+   "K": 128
+  },
+  "holes": {
+   "block_M": 128,
+   "block_N": 128,
+   "block_K": 64,
+   "num_stages": 3,
+   "threads": 256,
+   "swizzle": 0
+  },
+  "latency_ms": 0.038816001266241074,
+  "tflops": 6.915587573248118,
+  "n_regs": 168,
+  "n_spills": 0,
+  "smem_bytes": 99328,
+  "dynamic_smem_bytes": 98304,
+  "threads": 384,
+  "ncu": {
+   "ok": true,
+   "metrics": {
+    "gpu__time_duration.sum": 21536.0,
+    "l1tex__data_bank_conflicts_pipe_lsu_mem_shared.sum": 0.0,
+    "lts__t_sectors_op_read_lookup_miss.sum": 16933.0,
+    "lts__t_sectors_op_write_lookup_miss.sum": 20772.0,
+    "sm__pipe_tensor_cycles_active.avg.pct_of_peak_sustained_active": 22.74,
+    "sm__throughput.avg.pct_of_peak_sustained_elapsed": 11.86,
+    "sm__warps_active.avg.pct_of_peak_sustained_active": 16.03,
+    "smsp__average_warps_issue_stalled_barrier_per_issue_active.ratio": 0.45,
+    "smsp__average_warps_issue_stalled_long_scoreboard_per_issue_active.ratio": 0.42,
+    "smsp__average_warps_issue_stalled_math_pipe_throttle_per_issue_active.ratio": 3.75,
+    "smsp__issue_active.avg.pct_of_peak_sustained_active": 4.92
+   },
+   "note": null,
+   "dram_bytes": 1206560.0
+  },
+  "error": null,
+  "label": "t_pipe:K=128 128x128"
+ },
+ {
+  "ok": true,
+  "shape": {
+   "M": 1024,
+   "N": 1024,
+   "K": 256
+  },
+  "holes": {
+   "block_M": 128,
+   "block_N": 128,
+   "block_K": 64,
+   "num_stages": 3,
+   "threads": 256,
+   "swizzle": 0
+  },
+  "latency_ms": 0.04198399931192398,
+  "tflops": 12.787512404696566,
+  "n_regs": 168,
+  "n_spills": 0,
+  "smem_bytes": 99328,
+  "dynamic_smem_bytes": 98304,
+  "threads": 384,
+  "ncu": {
+   "ok": true,
+   "metrics": {
+    "gpu__time_duration.sum": 27104.0,
+    "l1tex__data_bank_conflicts_pipe_lsu_mem_shared.sum": 0.0,
+    "lts__t_sectors_op_read_lookup_miss.sum": 33327.0,
+    "lts__t_sectors_op_write_lookup_miss.sum": 19846.0,
+    "sm__pipe_tensor_cycles_active.avg.pct_of_peak_sustained_active": 32.31,
+    "sm__throughput.avg.pct_of_peak_sustained_elapsed": 18.85,
+    "sm__warps_active.avg.pct_of_peak_sustained_active": 17.3,
+    "smsp__average_warps_issue_stalled_barrier_per_issue_active.ratio": 0.22,
+    "smsp__average_warps_issue_stalled_long_scoreboard_per_issue_active.ratio": 0.4,
+    "smsp__average_warps_issue_stalled_math_pipe_throttle_per_issue_active.ratio": 3.97,
+    "smsp__issue_active.avg.pct_of_peak_sustained_active": 5.99
+   },
+   "note": null,
+   "dram_bytes": 1701536.0
+  },
+  "error": null,
+  "label": "t_pipe:K=256 128x128"
+ },
+ {
+  "ok": true,
+  "shape": {
+   "M": 1024,
+   "N": 1024,
+   "K": 512
+  },
+  "holes": {
+   "block_M": 128,
+   "block_N": 128,
+   "block_K": 64,
+   "num_stages": 3,
+   "threads": 256,
+   "swizzle": 0
+  },
+  "latency_ms": 0.053279999643564224,
+  "tflops": 20.152812146831515,
+  "n_regs": 168,
+  "n_spills": 0,
+  "smem_bytes": 99328,
+  "dynamic_smem_bytes": 98304,
+  "threads": 384,
+  "ncu": {
+   "ok": true,
+   "metrics": {
+    "gpu__time_duration.sum": 40864.0,
+    "l1tex__data_bank_conflicts_pipe_lsu_mem_shared.sum": 0.0,
+    "lts__t_sectors_op_read_lookup_miss.sum": 66268.0,
+    "lts__t_sectors_op_write_lookup_miss.sum": 20806.0,
+    "sm__pipe_tensor_cycles_active.avg.pct_of_peak_sustained_active": 43.26,
+    "sm__throughput.avg.pct_of_peak_sustained_elapsed": 25.11,
+    "sm__warps_active.avg.pct_of_peak_sustained_active": 17.23,
+    "smsp__average_warps_issue_stalled_barrier_per_issue_active.ratio": 0.12,
+    "smsp__average_warps_issue_stalled_long_scoreboard_per_issue_active.ratio": 0.37,
+    "smsp__average_warps_issue_stalled_math_pipe_throttle_per_issue_active.ratio": 4.07,
+    "smsp__issue_active.avg.pct_of_peak_sustained_active": 8.74
+   },
+   "note": null,
+   "dram_bytes": 2786368.0
+  },
+  "error": null,
+  "label": "t_pipe:K=512 128x128"
+ },
+ {
+  "ok": true,
+  "shape": {
+   "M": 1024,
+   "N": 1024,
+   "K": 2048
+  },
+  "holes": {
+   "block_M": 128,
+   "block_N": 128,
+   "block_K": 64,
+   "num_stages": 3,
+   "threads": 256,
+   "swizzle": 0
+  },
+  "latency_ms": 0.11468800157308578,
+  "tflops": 37.449142343482194,
+  "n_regs": 168,
+  "n_spills": 0,
+  "smem_bytes": 99328,
+  "dynamic_smem_bytes": 98304,
+  "threads": 384,
+  "ncu": {
+   "ok": true,
+   "metrics": {
+    "gpu__time_duration.sum": 119456.0,
+    "l1tex__data_bank_conflicts_pipe_lsu_mem_shared.sum": 849.0,
+    "lts__t_sectors_op_read_lookup_miss.sum": 263462.0,
+    "lts__t_sectors_op_write_lookup_miss.sum": 20685.0,
+    "sm__pipe_tensor_cycles_active.avg.pct_of_peak_sustained_active": 63.62,
+    "sm__throughput.avg.pct_of_peak_sustained_elapsed": 35.37,
+    "sm__warps_active.avg.pct_of_peak_sustained_active": 18.13,
+    "smsp__average_warps_issue_stalled_barrier_per_issue_active.ratio": 0.03,
+    "smsp__average_warps_issue_stalled_long_scoreboard_per_issue_active.ratio": 0.29,
+    "smsp__average_warps_issue_stalled_math_pipe_throttle_per_issue_active.ratio": 4.19,
+    "smsp__issue_active.avg.pct_of_peak_sustained_active": 12.79
+   },
+   "note": null,
+   "dram_bytes": 9092704.0
+  },
+  "error": null,
+  "label": "t_pipe:K=2048 128x128"
+ }
+]
