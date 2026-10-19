@@ -144,11 +144,15 @@ class SM:
                 w.sb[x.rbar] += 1; self.ev(rel, "sb", w, x.rbar)
         w.ready = now + max(1, x.stall)
         # next pc: the k-loop back edge is taken trips-1 times; other branches fall through unless unconditional
-        if x.base == "BRA" and x.target is not None:
+        if x.op.startswith("BRA.DIV"):
+            # taken only if the warp's lanes have diverged; warps here stay converged
+            w.pc += 1
+        elif x.base == "BRA" and x.target is not None:
             if w.pc == self.loop_end:
                 w.loops += 1
                 w.pc = next(i for i, y in enumerate(self.ins) if y.addr == x.target) if w.loops < self.trips else w.pc + 1
-            elif not x.pred and x.target > x.addr:
+            elif not x.pred and (x.target > x.addr or not x.op.startswith("BRA.U")):
+                # unconditional jumps are taken, forward or backward (conditional BRA.U on a uniform predicate is not)
                 w.pc = next(i for i, y in enumerate(self.ins) if y.addr == x.target)
             else:
                 w.pc += 1
@@ -178,8 +182,11 @@ class SM:
                 cand = [w for w in by_smsp[s] if self.eligible(w, now)]
                 if not cand: continue
                 last = self.last_issue[s]
-                w = last if (last in cand) else min(cand, key=lambda q: (q.loops, q.wid))   # greedy, then oldest
+                if hasattr(self, "pick"): w = self.pick(cand, last)
+                else: w = last if (last in cand) else min(cand, key=lambda q: (q.loops, q.wid))   # greedy, then oldest
+                yb = self.ins[w.pc].yld
                 self.issue(w, now); self.last_issue[s] = w; issued = True
+                if hasattr(self, "last_yield"): self.last_yield[w.wid] = yb
             # jump to the next cycle where something can change
             nxt = [w.ready for w in self.warps if not w.done and not w.at_bar and w.ready > now]
             nxt += [t for t in self.tensor_free if t > now] + [t for t in self.mio_free if t > now] + [t for t in self.mufu_free if t > now]

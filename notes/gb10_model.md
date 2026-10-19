@@ -227,3 +227,53 @@ instructions, 20 cycles; read-barrier release of non-memory instructions, 8 cycl
   per sub-partition; on the probe's own machine code it reproduces 4.0 / 15.8 / 16.0 / 16.0 at 1 / 4 / 8 / 16 warps
   (FFMA within 4 %). For attention at head dimension 128 the exp needs about one eighth of the tensor time.
 - **cp.async at five shapes after the in-range fix:** M=32 rank 1.00, regret 0; all 25 median 7 %.
+
+### Oct 20, the L2 policy, DRAM in detail, the warp scheduler
+
+- **The L2 keeps reused data** (`l2policy.cu` with ncu). A 4-8 MB set that is read again survives a 64 MB stream
+  passing through. A cyclic scan loses reuse slowly, from all hits at 14 MB to none at 40 MB, not all at once as LRU
+  would. Streams that are never reused still hit half the time, because each fill brings two 32-byte sectors. No
+  textbook policy (LRU, random, segmented LRU, insertion at the bottom, RRIP) reproduces all three at 24 MB
+  (`agentic/gb10/l2policy_fit.py`). For GEMM traffic the k-slice LRU over 16.8 MB still matches ncu best (median 6 %
+  over 18 kernels), so it stays; a variant that protects reused slices is the default and gives the same numbers.
+- **DRAM in detail** (`dram.cu`, `cpuhog.c`):
+  - Reads alone 242 GB/s, writes alone 197. A mix is served as each part at its own rate, within 4 %
+    (1:1 → 220, 3:1 → 222, 1:3 → 217).
+  - Latency grows with load: 419 ns idle, 1.35 µs with 4 SMs streaming, about 6 µs with 24 or more.
+  - The CPU shares the LPDDR5X. While it copies with 2, 8 or 20 threads, the GPU's read rate drops from 237 to
+    214, 171 or 138 GB/s. This is an input of the simulator (`CPU_DRAM_GBs`, zero for all measurements here).
+- **Which DRAM rate a miss gets.** A misses come as short pieces of rows far apart (64 bytes at block_K 32): about
+  204 GB/s. B misses are not like that: the column tiles in flight read neighbouring pieces of the same B rows at the
+  same k-step, so DRAM sees one long run and streams it near 237. At 4096³ with 128x128 tiles, 34 MB of the 403 MB of
+  misses are A and 369 MB are B. The simulator used to charge every miss the short-piece rate; now each wave's DRAM
+  time is A at its run length, B at its run length, and C at the write rate when operands and output do not stay in
+  the L2 together. The same C used to be counted as reads too; that double count is gone.
+- **The warp scheduler is greedy** (`sched.cu`, `agentic/gb10/sim/schedtest.py`): a warp keeps issuing until it
+  stalls, then the oldest ready warp goes. Replayed on the probe's machine code, greedy gives 14.91 cycles per add
+  against 15.10 measured; round-robin is far off. The simulator already did this.
+- **A producer loop that never ended.** In the 4096³ and 8192³ TMA kernels the producer's exit test sits two
+  instructions before its jump back. The simulator only recognised an exit right next to the jump, so the producer
+  spun until the cycle limit (the earlier −16 % and −38 % were from runs cut short at the old limit). Fixed by looking
+  ahead to the jump.
+
+Results after these changes:
+
+| Set | Before | Now |
+|---|---|---|
+| 25 cp.async kernels, five shapes | median 7 %, 20 within 10 % | median 4 %, 22 within 10 % |
+| the 7 kernels at 4096³ | +3 to +16 % | −6 to +4 % |
+| 22 cp.async kernels at 1024³ | median 5 %, 21 within 10 % | unchanged |
+
+| TMA pick | Whole kernel at its grid, before | Now |
+|---|---:|---:|
+| 1024³ | −10 % | −10 % |
+| 2048³ | −4 % | 0 % |
+| 4096³ | did not finish | +3 % |
+| 4096×4096×1024 | −15 % | −3 % |
+| 8192³ | did not finish | +5 % |
+| M=32 | +21 % | +20 % |
+| M=128 | +20 % | +19 % |
+
+The two decode-shape TMA picks are still 20 % slow; their one-block math is right (+4 %, −2 %), so the gap is in how
+few blocks share DRAM there. The analytical model's ncu bottleneck test now expects 5 of 7: the M=128 pick matched
+before only because A rows past M were counted twice.

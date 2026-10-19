@@ -6,14 +6,14 @@ from pathlib import Path
 from .ws import WSSM
 from .sm import kernel_sass
 from .sass import main_loop
-from ..model import dram_waves_kslice, C as MC
-from .kernel import dram_clk
+from ..model import dram_split_kslice, C as MC
+from .kernel import dram_clk, wave_dram
 
 ROOT = Path(__file__).resolve().parents[3]; AB = ROOT / "calibration" / "spark-6951" / "ablation"; SASS = ROOT / "calibration" / "spark-6951" / "sass"
 F = 2.54e3
 
 
-def ws_sim(name: str, variant: str, h: dict, shape: dict, blocks_eq: float = 1.0, miss: float = 0.0) -> dict:
+def ws_sim(name: str, variant: str, h: dict, shape: dict, blocks_eq: float = 1.0, miss: float = 0.0, dclk: float | None = None) -> dict:
     ins = kernel_sass(SASS / f"tma_{name}__{variant}.sass"); KT = math.ceil(shape["K"] / h["block_K"])
     lp = main_loop(ins); warps = h["threads"] // 32
     if lp:
@@ -32,20 +32,20 @@ def ws_sim(name: str, variant: str, h: dict, shape: dict, blocks_eq: float = 1.0
     # out-of-range rows and columns of a box are zero-filled by the TMA unit without moving data
     tile = (min(h["block_M"], shape["M"]) + min(h["block_N"], shape["N"])) * h["block_K"] * 2
     sm = WSSM(ins, h["threads"] + 128, 1, trips, h["threads"], h["num_stages"], tile, tma_per_kt, kt=KT, active_sms=blocks_eq,
-              miss_frac=miss, dram_clk_per_512B=dram_clk(h, shape, blocks_eq))
+              miss_frac=miss, dram_clk_per_512B=dclk if dclk is not None else dram_clk(0.0, 0.0, blocks_eq))
     t = time.time(); r = sm.run(limit=3_000_000); r["us"] = r["cycles"] / F; r["wall_s"] = round(time.time() - t, 1)
     r["warps_done"] = sum(w.done for w in sm.warps); r["warps"] = len(sm.warps); return r
 
 
 def kernel_us(name, h, shape, variant="full", warm=True):
     tiles = math.ceil(shape["M"] / h["block_M"]) * math.ceil(shape["N"] / h["block_N"]); KT = math.ceil(shape["K"] / h["block_K"])
-    traffic, waves = dram_waves_kslice(h, shape, 48)
-    fits = shape["M"] * shape["K"] * 2 + shape["K"] * shape["N"] * 2 + shape["M"] * shape["N"] * 2 <= MC["l2_effective_bytes"]
+    sp = dram_split_kslice(h, shape, 48)
     left, t, w = tiles, 2.6, 0
     while left > 0:
         n = min(left, 48); cb = n * KT * (h["block_M"] + h["block_N"]) * h["block_K"] * 2
-        wb = 0.0 if (warm and fits) else (waves[w] if w < len(waves) else 0.0)
-        t += ws_sim(name, variant, h, shape, n, min(1.0, wb / cb) if cb else 0.0)["us"]; left -= n; w += 1
+        wv = sp["waves"][w] if w < len(sp["waves"]) else {"A": 0.0, "B": 0.0, "cols": 1, "blocks": n}
+        rb, secs = wave_dram(h, shape, wv, warm)
+        t += ws_sim(name, variant, h, shape, n, min(1.0, rb / cb) if cb else 0.0, dram_clk(rb, secs, n))["us"]; left -= n; w += 1
     return t
 
 

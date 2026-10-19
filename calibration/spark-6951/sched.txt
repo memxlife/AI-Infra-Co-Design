@@ -1,0 +1,2 @@
+RESULT hog=0 warp4_cycles=113426 (5.67 per add) warp0_cycles=0
+RESULT hog=1 warp4_cycles=301912 (15.10 per add) warp0_cycles=2402117

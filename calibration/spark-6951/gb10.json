@@ -166,7 +166,7 @@
  },
  "tma_l2_aggregate_GBs": {
   "value": 1860,
-  "source": "ablation harness, 1024^3 TMA pick, loads-only variant without the C store (nocompute_nostore), grids 8x12 and 8x16 (2-3 full waves): 37.6-40 GB/s per block = 1.81-1.91 TB/s chip. Supersedes 1.58 TB/s, which included the store"
+  "source": "ablation: 1024^3 TMA pick, loads-only variant without the C store (nocompute_nostore), grids 8x12 and 8x16 (2-3 full waves): 37.6-40 GB/s per block = 1.81-1.91 TB/s chip. Supersedes 1.58 TB/s, which included the store"
  },
  "cpasync_l2_aggregate_GBs": {
   "value": 2250,
@@ -224,5 +224,140 @@
    "ffma_lanes_per_clk_per_sm": 124
   },
   "source": "probe: instlat.cu (ldmatrix latency 38.4 cycles per dependent hop incl. the add; ldmatrix 4.0 cycles per x4 per SM with 8+ warps, 11.7 per warp alone; bar.sync 14.6 + ~2 cycles per warp; cp.async 16 B round trip from L2 350 cycles; cp.async 16.0 B per clock per SM within a block = one warp instruction per 32 cycles), mma_rate.cu (HMMA.16816 one per 16 cycles per sub-partition; 29-cycle dependent latency), mlp_stream (DRAM ~0.62 us = 1560 cycles). default_var_latency and rbar_release are assumptions, not measured; cpq.cu: one warp issues a 16 B x 32-lane cp.async every 6 cycles; 4 warps one every 4 cycles per SM (the shared-memory array, 128 B per clock, also used by ldmatrix); 4 warps x 64 copies land at ~64 B per clock per SM (the L2 return path); instlat's earlier 16 B/clk cp.async figure was the probe's own bank conflicts (lanes 128 B apart) and is withdrawn; the chip's L2 serves cp.async tile traffic at 2.25 TB/s with all SMs loading (tileload.cu, 96-192 blocks) = 893 B per clock, shared by the active SMs; loopsteps.cu (Oct 20): TileLang's loop shape (copy, commit, wait, two barriers) with compile-time addressing moves 78 GB/s per SM (30.7 B per clock: the port) up to ~24 SMs; the chip's L2 saturates at 2.07-2.10 TB/s; commit, wait and barriers cost nothing measurable. TileLang's own loads-only kernels confirm 76-80 GB/s with one block. tileload.cu's 37.8 GB/s single-block figure (and the 0.22 us per k-tile fixed cost derived from it) came from run-time integer division in that probe's address code and is withdrawn; the load unit's address stage looks up one 128-byte line per cycle per SM (design assumption, checked: cpq.cu contiguous 512 B = 4 lines -> 4 cycles per copy with 4 warps; predicts the single-block loss of 3 ablated kernels within 20 %); a copy releases its read barrier when that stage has processed it (ncu: the whole kernel gains long_scoreboard 0.80 and mio/lg throttle stalls over its mma-only version); storepat.cu: the two SMs of a pair (TPC) share one store path: every store pattern doubles from 1 to 2 busy SMs and stays flat to 8; TileLang's C store (4 B per lane, 8 rows x 16 B per instruction, half-sectors) takes 15 cycles per instruction (8.7 B per clock), 16 B per lane coalesced 14 cycles per 512 B instruction (37 B per clock); storepat.cu at 24/48/96 blocks: chip-wide store limit ~0.31-0.38 TB/s for TileLang's half-sector 4 B stores and ~1.4-1.5 TB/s for 16 B coalesced stores (the per-pair limit holds to 24 blocks); l2share.cu: the chip's L2 delivers 2.08-2.14 TB/s to the lean copy loop with 1, 2, 3 or 4 blocks resident per SM and 8-16 KB tiles: the share follows blocks in flight, not SMs; sfu.cu: MUFU (ex2, rsqrt, lg2, tanh; sin 22-cycle) 18-cycle latency and 16 lane results per clock per SM = one warp instruction per 8 cycles per sub-partition (one warp alone reaches 4 per clock); FFMA 124 per clock per SM, latency ~4.7. The rcp row was folded away by the compiler (unchecked)"
+ },
+ "l2_hit_vs_reuse_distance": {
+  "value": [
+   [
+    0,
+    1.0
+   ],
+   [
+    14,
+    1.0
+   ],
+   [
+    16,
+    0.964
+   ],
+   [
+    18,
+    0.816
+   ],
+   [
+    20,
+    0.752
+   ],
+   [
+    22,
+    0.75
+   ],
+   [
+    24,
+    0.626
+   ],
+   [
+    28,
+    0.624
+   ],
+   [
+    32,
+    0.32
+   ],
+   [
+    40,
+    0.012
+   ],
+   [
+    48,
+    0.0
+   ]
+  ],
+  "source": "probe: l2policy.cu with ncu L2 hit/miss sectors, cyclic scans of W MB x 4 passes (reuse distance = W): hit probability of a re-read above the 50 % floor of 64-byte fills; made non-increasing at 22 MB. No standard policy (LRU, random, SLRU, BIP, RRIP at 24 MB) reproduces it; a re-read 4-8 MB set also survives a 64 MB stream (scan resistance)"
+ },
+ "dram_write_GBs": {
+  "value": 197,
+  "source": "probe: dram.cu mix, write-only 197 GB/s, read-only 242, read:write 1:1 220, 3:1 222, 1:3 217; a mix is served at 1 / (f_read/242 + f_write/197) within ~4 %"
+ },
+ "dram_loaded_latency_us": {
+  "value": [
+   [
+    0,
+    0.419
+   ],
+   [
+    4,
+    1.35
+   ],
+   [
+    8,
+    2.68
+   ],
+   [
+    16,
+    4.81
+   ],
+   [
+    24,
+    5.86
+   ],
+   [
+    47,
+    6.13
+   ]
+  ],
+  "source": "probe: dram.cu load, pointer chase (2 MB-page-local, TLB hits) on one SM while N SMs stream-read DRAM at ~250 GB/s: queueing. The simulator's per-SM share of the DRAM rate is this queue"
+ },
+ "cpu_dram_contention": {
+  "value": {
+   "gpu_GBs_alone": 237,
+   "with_cpu_threads": {
+    "2": 213.5,
+    "8": 170.6,
+    "20": 137.9
+   },
+   "cpu_alone_GBs": {
+    "2": 95.3,
+    "8": 138.7,
+    "20": 151.9
+   }
+  },
+  "source": "probe: cpuhog.c + mlp_stream, the GPU's DRAM read rate while CPU threads copy 256 MB buffers; an environment input (cpu_dram_GBs), zero in all kernel measurements here"
+ },
+ "l2_policy_findings": {
+  "value": {
+   "scan_resistant": true,
+   "fill_bytes": 64,
+   "cyclic_hit_curve_MB": [
+    [
+     14,
+     1.0
+    ],
+    [
+     16,
+     0.96
+    ],
+    [
+     20,
+     0.75
+    ],
+    [
+     24,
+     0.63
+    ],
+    [
+     28,
+     0.62
+    ],
+    [
+     32,
+     0.32
+    ],
+    [
+     40,
+     0.01
+    ]
+   ]
+  },
+  "source": "probe: l2policy.cu with ncu, a re-read 4-8 MB set survives a 64 MB stream; cyclic scans lose reuse gradually from 16 to 40 MB; a 50 % hit floor on streams (two 32 B sectors per fill). No standard policy at 24 MB reproduces this. For GEMM traffic the k-slice LRU over 16.8 MB matches ncu best (median 6 %, 18 kernels); the measured reuse-distance curve under-counts (median 15 %)"
  }
 }

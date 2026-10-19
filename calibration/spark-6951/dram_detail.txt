@@ -1,0 +1,47 @@
+RESULT load streamers=0 ns_per_hop=419.1 streamer_GBs=0.0
+RESULT load streamers=4 ns_per_hop=1349.3 streamer_GBs=253.6
+RESULT load streamers=8 ns_per_hop=2676.2 streamer_GBs=251.9
+RESULT load streamers=16 ns_per_hop=4812.3 streamer_GBs=249.0
+RESULT load streamers=24 ns_per_hop=5855.6 streamer_GBs=268.5
+RESULT load streamers=32 ns_per_hop=5941.4 streamer_GBs=246.1
+RESULT load streamers=40 ns_per_hop=5757.3 streamer_GBs=272.5
+RESULT load streamers=47 ns_per_hop=6130.3 streamer_GBs=298.2
+RESULT mix read=1 write=0 total_GBs=241.9
+RESULT mix read=0 write=1 total_GBs=197.2
+RESULT mix read=1 write=1 total_GBs=219.6
+RESULT mix read=3 write=1 total_GBs=222.4
+RESULT mix read=1 write=3 total_GBs=216.8
+--- CPU alone
+RESULT cpu threads=20 GBs=345060846.1
+--- GPU stream alone, then with the CPU copying
+RESULT bytes=268435456 blocks=192 threads=512 U=4 flush=2 passes=1 median_us=1129.536 min_us=1125.184 GBs=237.7 inflight_per_block_B=32768
+RESULT bytes=268435456 blocks=192 threads=512 U=4 flush=2 passes=1 median_us=1128.736 min_us=1125.792 GBs=237.8 inflight_per_block_B=32768
+RESULT cpu threads=20 GBs=343247305.8
+RESULT bytes=268435456 blocks=192 threads=512 U=4 flush=2 passes=1 median_us=1125.760 min_us=1121.536 GBs=238.4 inflight_per_block_B=32768
+RESULT cpu threads=8 GBs=158996522.2
+--- CPU alone
+RESULT cpu threads=20 GBs=345256449.0
+RESULT cpu threads=8 GBs=158923783.2
+--- GPU alone (300 reps)
+RESULT bytes=268435456 blocks=192 threads=512 U=4 flush=2 passes=1 median_us=1131.104 GBs=237.3
+--- GPU while 20 CPU threads copy
+RESULT bytes=268435456 blocks=192 threads=512 U=4 flush=2 passes=1 median_us=1131.456 GBs=237.2
+RESULT cpu threads=20 GBs=343133924.3
+--- GPU while 8 CPU threads copy
+RESULT bytes=268435456 blocks=192 threads=512 U=4 flush=2 passes=1 median_us=1131.744 GBs=237.2
+RESULT cpu threads=8 GBs=159016210.9
+--- CPU alone
+RESULT cpu threads=20 GBs=151.9
+RESULT cpu threads=8 GBs=138.7
+RESULT cpu threads=2 GBs=95.3
+--- GPU alone (300 reps)
+RESULT median_us=1132.320 GBs=237.1
+--- GPU while 20 CPU threads copy
+RESULT median_us=1946.464 GBs=137.9
+RESULT cpu threads=20 GBs=147.1
+--- GPU while 8 CPU threads copy
+RESULT median_us=1573.344 GBs=170.6
+RESULT cpu threads=8 GBs=132.3
+--- GPU while 2 CPU threads copy
+RESULT median_us=1257.568 GBs=213.5
+RESULT cpu threads=2 GBs=90.5

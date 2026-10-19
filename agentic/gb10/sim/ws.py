@@ -20,6 +20,8 @@ class WSSM(SM):
     def __init__(self, ins, threads_launched, blocks, trips, consumer_threads, stages, tile_bytes, tma_per_ktile, kt=None, **kw):
         super().__init__(ins, threads_launched, blocks, trips, **kw)
         self.kt = kt
+        from .sass import main_loop as _ml
+        self.mma_loop = _ml(ins)
         self.stages = stages; self.ctiles = tile_bytes / max(1, tma_per_ktile); self.consumer_warps = consumer_threads // 32
         self.tma_free = 0.0
         eq = kw.get("active_sms", 1)
@@ -60,6 +62,8 @@ class WSSM(SM):
     def eligible(self, w, now):
         if w.done or w.at_bar or w.ready > now: return False
         x = self.ins[w.pc]
+        if x.op.startswith("SYNCS.PHASECHK") and "TRYWAIT" in x.op and w.role is None and self.mma_loop is not None:
+            w.role = "consumer" if self.mma_loop[0] <= w.pc <= self.mma_loop[1] else "producer"
         if x.op.startswith("SYNCS.PHASECHK") and "TRYWAIT" in x.op:
             b = w.block
             if w.role == "consumer":
@@ -89,6 +93,9 @@ class WSSM(SM):
             if "DEALLOC" in x.op: self.dealloc[w.block] = self.dealloc.get(w.block, 0) + 1; w.role = w.role or "producer"
             else: w.role = "consumer"; w.preds["UP0"] = True
         elif x.op.startswith("SYNCS.PHASECHK") and "TRYWAIT" in x.op:
+            # the role is decided by where the warp first waits: inside the mma loop it consumes, elsewhere it produces
+            if w.role is None and self.mma_loop is not None:
+                w.role = "consumer" if self.mma_loop[0] <= w.pc <= self.mma_loop[1] else "producer"
             dst = x.args.split(",")[0].strip(); w.preds[dst] = True
             if w.role == "consumer": self.log.append(("full_pass", w.wid, w.n_full, now)); w.n_full += 1
             elif w.role == "producer": w.k_prod += 1; self.log.append(("empty_pass", w.wid, w.k_prod, now))
@@ -129,6 +136,8 @@ class WSSM(SM):
         # k-loops, either shape the compiler emits, decided by what the branch tests (k-tiles remain for this role):
         #  (a) a conditional back edge: taken while k-tiles remain
         #  (b) a conditional forward exit followed by an unconditional jump back: the exit is taken when none remain
+        if x.op.startswith("BRA.DIV"):
+            w.pc += 1; w.ready = now + max(1, x.stall); return
         if self.kt and x.base == "BRA" and x.target is not None and w.role in ("producer", "consumer"):
             more = (w.k_prod + 1 < self.kt) if w.role == "producer" else (w.n_full < self.kt)
             conditional = bool(x.pred) or x.op.startswith("BRA.U")
@@ -136,9 +145,9 @@ class WSSM(SM):
                 if conditional: w.pc = self._idx(x.target) if more else w.pc + 1
                 else: w.pc = self._idx(x.target)
                 w.ready = now + max(1, x.stall); return
-            nxt = self.ins[w.pc + 1] if w.pc + 1 < len(self.ins) else None
-            if conditional and x.target > x.addr and nxt is not None and nxt.base == "BRA" and not nxt.pred and not nxt.op.startswith("BRA.U") \
-                    and nxt.target is not None and nxt.target < nxt.addr and self._is_work_loop(w.pc + 1, nxt.target):
+            j = self._back_jump_after(w.pc) if conditional and x.target > x.addr else None
+            if j is not None and x.target > self.ins[j].addr and self.ins[j].target <= x.addr:
+                # the exit test may sit a few counter updates before the jump back (4096 and 8192 picks)
                 w.pc = self._idx(x.target) if not more else w.pc + 1
                 w.ready = now + max(1, x.stall); return
         if x.base == "BRA" and x.op.startswith("BRA.U") and "UP0" in x.args and x.target is not None and x.target < x.addr and self.loop_end != w.pc:
@@ -162,9 +171,23 @@ class WSSM(SM):
         if not hasattr(self, "_wl"): self._wl = {}
         if key not in self._wl:
             s_ = next(i for i, y in enumerate(self.ins) if y.addr == target_addr)
-            self._wl[key] = any(y.base in ("HMMA", "UTMALDG", "LDGSTS") for y in self.ins[s_:end_pc + 1])
+            self._wl[key] = any(y.base in ("HMMA", "UTMALDG", "LDGSTS") or ("TRYWAIT" in y.op) for y in self.ins[s_:end_pc + 1])
         return self._wl[key]
 
+
+    def _back_jump_after(self, pc):
+        """The unconditional jump back that closes a work loop, if it follows pc with no other branch in between."""
+        if not hasattr(self, "_bj"): self._bj = {}
+        if pc not in self._bj:
+            self._bj[pc] = None
+            for j in range(pc + 1, min(pc + 9, len(self.ins))):
+                y = self.ins[j]
+                if y.base in ("BRA", "EXIT", "BAR") or y.base.startswith("SYNCS"):
+                    if y.base == "BRA" and not y.pred and not y.op.startswith("BRA.U") and y.target is not None \
+                            and y.target < y.addr and self._is_work_loop(j, y.target):
+                        self._bj[pc] = j
+                    break
+        return self._bj[pc]
 
     def _idx(self, addr):
         if not hasattr(self, "_ix"): self._ix = {y.addr: i for i, y in enumerate(self.ins)}

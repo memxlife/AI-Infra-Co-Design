@@ -7,7 +7,7 @@ import json, math
 from pathlib import Path
 from .sm import SM, kernel_sass, P
 from .sass import main_loop
-from ..model import dram_waves_kslice as dram_waves, C as MC
+from ..model import dram_split_kslice, C as MC
 
 F = 2.54e3   # cycles per us under load (clock probes 2.52-2.54 GHz)
 
@@ -35,14 +35,41 @@ def occupancy(h: dict, regs: int, smem: int) -> int:
     return max(1, min(65536 // (warps * rw), 102400 // (smem + 1024), 1536 // h["threads"], 24))
 
 
-def dram_clk(h: dict, shape: dict, blocks_eq: float) -> float:
-    """Cycles per 512 B of misses for one SM: the DRAM peak for the row segment the misses read (probe: 64-byte rows
-    204 GB/s, 256-byte 233, long streams 237), shared by the blocks in flight."""
-    seg = min(h["block_K"], h["block_N"]) * 2 if shape["M"] >= 256 else h["block_N"] * 2
+CPU_DRAM_GBs = 0.0     # environment: DRAM bandwidth the host CPU is using at the same time (cpuhog.c measured up to ~150)
+
+
+def dram_peak(run_bytes: float) -> float:
+    """DRAM read rate for misses that arrive as contiguous runs of run_bytes (probe tileload.cu, DRAM source, 48-96
+    blocks: 64-byte runs 201-204 GB/s, 256-byte 230-234; mlp_stream contiguous 237), less what the CPU is using."""
     pts = MC["dram_peak_by_segment_GBs"]; peak = pts[-1][1]
+    if run_bytes <= pts[0][0]: peak = pts[0][1]
     for (x0, y0), (x1, y1) in zip(pts, pts[1:]):
-        if seg <= x1: peak = y0 + (y1 - y0) * (math.log(max(seg, x0)) - math.log(x0)) / (math.log(x1) - math.log(x0)); break
-    return 512 / (peak * 1e9 / 2.54e9 / blocks_eq)
+        if x0 < run_bytes <= x1: peak = y0 + (y1 - y0) * (math.log(run_bytes) - math.log(x0)) / (math.log(x1) - math.log(x0)); break
+    return max(10.0, peak - CPU_DRAM_GBs * (237.0 / 273.0))
+
+
+def wave_dram(h: dict, shape: dict, wave: dict, warm: bool = True) -> tuple[float, float]:
+    """One wave's DRAM work: (read-miss bytes, seconds of DRAM time for the whole chip).
+    A misses come as block_K*2-byte pieces of rows far apart; B misses come as pieces of the same B rows that the
+    neighbouring column tiles in flight read together, one run of (columns in flight) x block_N*2 bytes. C tiles go
+    back to DRAM when operands and output do not stay in the L2 together (a write-back cache: a line written in one run
+    is evicted before the next run writes it), at the write rate; the controller serves the mix as each part at its own
+    rate (probe dram.cu: 1 / (f_read/242 + f_write/197) within 4 %)."""
+    M, N, K = shape["M"], shape["N"], shape["K"]; bm, bn, bk = h["block_M"], h["block_N"], h["block_K"]
+    if warm and (M * K + K * N + M * N) * 2 <= MC["l2_effective_bytes"]: return 0.0, 0.0
+    run_a = min(bk, K) * 2 if K > bk else min(bm, M) * K * 2
+    run_b = min(N, wave["cols"] * bn) * 2
+    c_w = wave["blocks"] * min(bm, M) * min(bn, N) * 2
+    wpeak = max(10.0, MC["dram_write_GBs"] - CPU_DRAM_GBs * (197.0 / 273.0))
+    secs = (wave["A"] / dram_peak(run_a) + wave["B"] / dram_peak(run_b) + c_w / wpeak) / 1e9
+    return wave["A"] + wave["B"], secs
+
+
+def dram_clk(read_bytes: float, secs: float, blocks_eq: float) -> float:
+    """Cycles per 512 B of read misses for one SM: the wave's DRAM time spread over its read misses (writes folded in),
+    shared by the blocks in flight."""
+    if read_bytes <= 0: return 512 / (237e9 / 2.54e9 / blocks_eq)
+    return 512 * (secs / read_bytes) * 2.54e9 * blocks_eq
 
 
 def simulate_kernel(sass_path, h: dict, shape: dict, regs: int, smem: int | None = None, warm: bool = True) -> dict:
@@ -51,16 +78,16 @@ def simulate_kernel(sass_path, h: dict, shape: dict, regs: int, smem: int | None
     smem = smem if smem is not None else h["num_stages"] * (h["block_M"] + h["block_N"]) * h["block_K"] * 2
     tiles = math.ceil(M / h["block_M"]) * math.ceil(N / h["block_N"]); Rmax = occupancy(h, regs, smem)
     trips = sass_trips(ins, h, KT - (h["num_stages"] - 1))
-    traffic, waves = dram_waves(h, shape, 48 * Rmax)
-    fits = M * K * 2 + K * N * 2 + M * N * 2 <= MC["l2_effective_bytes"]
+    sp = dram_split_kslice(h, shape, 48 * Rmax); traffic = 0.0
     left, t, w, parts = tiles, 2.6, 0, []
     while left > 0:
         n = min(left, 48 * Rmax); R = math.ceil(n / 48); eq = n / R
         copy_bytes = n * KT * (h["block_M"] + h["block_N"]) * h["block_K"] * 2
-        wb = 0.0 if (warm and fits) else (waves[w] if w < len(waves) else 0.0)
-        miss = min(1.0, wb / copy_bytes) if copy_bytes else 0.0
-        sm = SM(ins, h["threads"], R, trips, active_sms=eq, copy_lines=copy_lines(h), miss_frac=miss, dram_clk_per_512B=dram_clk(h, shape, eq))
+        wv = sp["waves"][w] if w < len(sp["waves"]) else {"A": 0.0, "B": 0.0, "cols": 1, "blocks": n}
+        rb, secs = wave_dram(h, shape, wv, warm); traffic += rb
+        miss = min(1.0, rb / copy_bytes) if copy_bytes else 0.0
+        sm = SM(ins, h["threads"], R, trips, active_sms=eq, copy_lines=copy_lines(h), miss_frac=miss, dram_clk_per_512B=dram_clk(rb, secs, eq))
         r = sm.run(); us = r["cycles"] / F; t += us
-        parts.append({"blocks": n, "per_sm": R, "miss_frac": round(miss, 3), "us": round(us, 2), "busy": {k: round(v / max(1, r["cycles"]), 2) for k, v in r["busy"].items()}})
+        parts.append({"blocks": n, "per_sm": R, "miss_frac": round(miss, 3), "dram_GBs": round(rb / secs / 1e9, 1) if secs else None, "us": round(us, 2), "busy": {k: round(v / max(1, r["cycles"]), 2) for k, v in r["busy"].items()}})
         left -= n; w += 1
     return {"us": t, "tiles": tiles, "blocks_per_sm": Rmax, "waves": w, "dram_MB": traffic / 1e6, "parts": parts}

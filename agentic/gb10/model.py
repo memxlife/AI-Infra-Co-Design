@@ -107,33 +107,48 @@ def dram_waves(h: dict, shape: dict, resident_blocks: int = SMS) -> tuple[float,
 _kslice_cache = {}
 
 
-def dram_waves_kslice(h: dict, shape: dict, resident_blocks: int = SMS) -> tuple[float, list]:
+def dram_waves_kslice(h: dict, shape: dict, resident_blocks: int = SMS, policy: str = "protect") -> tuple[float, list]:
+    """Total and per-wave DRAM bytes (A and B read misses plus the share of C that overflows the L2); see dram_split_kslice."""
+    sp = dram_split_kslice(h, shape, resident_blocks, policy)
+    c_over = sp["c_over"]; per_wave = [w["A"] + w["B"] + c_over / len(sp["waves"]) for w in sp["waves"]]
+    return sum(w["A"] + w["B"] for w in sp["waves"]) + c_over, per_wave
+
+
+def dram_split_kslice(h: dict, shape: dict, resident_blocks: int = SMS, policy: str = "protect") -> dict:
     """DRAM traffic at k-slice granularity: the blocks of a wave (launch order) walk k in lockstep; at each k-step each
     block reads its A slice (block_M x block_K) and B slice (block_K x block_N). Slices pass through an LRU of the L2's
     measured effective capacity; a slice already there is a hit (neighbours in a wave share A rows and B columns). Between
     waves only what is still resident carries over. Checked against ncu's L2 read misses (agentic/gb10, Oct 20)."""
     from collections import OrderedDict
     M, N, K = shape["M"], shape["N"], shape["K"]; bm, bn, bk = h["block_M"], h["block_N"], h["block_K"]; panel = int(h.get("swizzle", 0) or 0)
-    key = (M, N, K, bm, bn, bk, panel, resident_blocks)
+    key = (M, N, K, bm, bn, bk, panel, resident_blocks, policy)
     if key in _kslice_cache: return _kslice_cache[key]
+    # per wave: A and B read misses, and the rows and columns of tiles in flight (neighbouring column tiles read
+    # neighbouring pieces of the same B rows at the same k-step, so DRAM sees one long run)
     tiles_m, tiles_n, KT = math.ceil(M / bm), math.ceil(N / bn), math.ceil(K / bk)
     a_sz, b_sz = min(bm, M) * bk * 2, bk * min(bn, N) * 2; cap = C["l2_effective_bytes"]   # rows past M are never read
-    lru = OrderedDict(); used = 0.0; per_wave = []; total = 0.0
+    # the L2 protects reused data from single-use data (probe l2policy.cu: a re-read 4-8 MB set survives a 64 MB
+    # stream): two LRU lists, slices seen once (probation) and slices hit at least once (protected); a hit promotes;
+    # eviction takes the oldest probation slice first, then the oldest protected one
+    prob = OrderedDict(); prot = OrderedDict(); used = 0.0; per_wave = []; total = 0.0
     order = list(launch_order(tiles_m, tiles_n, panel))
     for w in range(0, len(order), resident_blocks):
-        wave = order[w:w + resident_blocks]; rows = sorted({r for r, _ in wave}); cols = sorted({c for _, c in wave}); reads = 0.0
+        wave = order[w:w + resident_blocks]; rows = sorted({r for r, _ in wave}); cols = sorted({c for _, c in wave}); reads = {"A": 0.0, "B": 0.0}
         for k in range(KT):
             for kind, ids, sz in (("A", rows, a_sz), ("B", cols, b_sz)):
                 for i in ids:
                     t = (kind, i, k)
-                    if t in lru: lru.move_to_end(t)
+                    if t in prot: prot.move_to_end(t)
+                    elif t in prob:
+                        if policy == "protect": prot[t] = prob.pop(t)
+                        else: prob.move_to_end(t)
                     else:
-                        lru[t] = sz; used += sz; reads += sz
-                        while used > cap: _, v = lru.popitem(last=False); used -= v
-        per_wave.append(reads); total += reads
-    c_over = max(0.0, M * N * 2 - cap)
-    per_wave = [b + c_over / len(per_wave) for b in per_wave]
-    out = (total + c_over, per_wave); _kslice_cache[key] = out
+                        prob[t] = sz; used += sz; reads[kind] += sz
+                        while used > cap:
+                            victim = prob if prob else prot
+                            _, v = victim.popitem(last=False); used -= v
+        per_wave.append({"A": reads["A"], "B": reads["B"], "rows": len(rows), "cols": len(cols), "blocks": len(wave)})
+    out = {"waves": per_wave, "c_over": max(0.0, M * N * 2 - cap)}; _kslice_cache[key] = out
     return out
 
 
@@ -270,3 +285,52 @@ def predict(k: dict) -> dict:
     idle = 1 - tiles / (waves * SMS * Rmax)
     return {"us": total, "sm_us": total - dram_bound_us, "dram_bound_us": dram_bound_us, "dram_floor_us": dram_floor, "dirty_extra_us": extra, "bottleneck": bottleneck, "per_ktile_us": units,
             "blocks_per_sm": Rmax, "occupancy_limit": occ["limit"], "waves": waves, "tiles": tiles, "KT": KT, "idle_slot_frac": idle, "dram_MB": traffic / 1e6}
+
+
+def _hit_prob(dist_bytes: float) -> float:
+    pts = C["l2_hit_vs_reuse_distance"]; d = dist_bytes / 1048576
+    if d <= pts[0][0]: return pts[0][1]
+    for (x0, y0), (x1, y1) in zip(pts, pts[1:]):
+        if d <= x1: return y0 + (y1 - y0) * (d - x0) / (x1 - x0)
+    return pts[-1][1]
+
+
+_sd_cache = {}
+
+
+def dram_waves_stackdist(h: dict, shape: dict, resident_blocks: int = SMS) -> tuple[float, list]:
+    """DRAM traffic from the L2's measured hit probability against reuse distance (probe l2policy.cu): blocks of a wave
+    walk k in lockstep, each touching its A slice and its B slice; every touch's reuse distance (bytes of distinct data
+    touched since this slice's previous touch) is computed with a Fenwick tree over access times, and the touch misses
+    with probability 1 - hit(distance). First touches miss. Plus the part of C that overflows the L2."""
+    M, N, K = shape["M"], shape["N"], shape["K"]; bm, bn, bk = h["block_M"], h["block_N"], h["block_K"]; panel = int(h.get("swizzle", 0) or 0)
+    key = (M, N, K, bm, bn, bk, panel, resident_blocks)
+    if key in _sd_cache: return _sd_cache[key]
+    tiles_m, tiles_n, KT = math.ceil(M / bm), math.ceil(N / bn), math.ceil(K / bk)
+    a_sz, b_sz = min(bm, M) * bk * 2, bk * min(bn, N) * 2
+    order = list(launch_order(tiles_m, tiles_n, panel)); waves = [order[w:w + resident_blocks] for w in range(0, len(order), resident_blocks)]
+    n_acc = sum(KT * (len({r for r, _ in wv}) + len({c for _, c in wv})) for wv in waves) + 1
+    tree = [0.0] * (n_acc + 1)
+    def add(i, v):
+        while i <= n_acc: tree[i] += v; i += i & -i
+    def pref(i):
+        t = 0.0
+        while i > 0: t += tree[i]; i -= i & -i
+        return t
+    last = {}; t = 0; per_wave = []; total = 0.0
+    for wv in waves:
+        rows = sorted({r for r, _ in wv}); cols = sorted({c for _, c in wv}); miss = 0.0
+        for k in range(KT):
+            for kind, ids, sz in (("A", rows, a_sz), ("B", cols, b_sz)):
+                for i in ids:
+                    t += 1; x = (kind, i, k); t0 = last.get(x)
+                    if t0 is None: miss += sz
+                    else:
+                        d = pref(t - 1) - pref(t0)            # distinct bytes touched since the previous touch
+                        miss += sz * (1.0 - _hit_prob(d)); add(t0, -sz)
+                    add(t, sz); last[x] = t
+        per_wave.append(miss); total += miss
+    c_over = max(0.0, M * N * 2 - C["l2_effective_bytes"])
+    per_wave = [b + c_over / len(per_wave) for b in per_wave]
+    out = (total + c_over, per_wave); _sd_cache[key] = out
+    return out
