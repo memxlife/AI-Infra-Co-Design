@@ -196,5 +196,25 @@
  "cpasync_overlap_p": {
   "value": 2.0,
   "source": "ablation: 21 cp.async kernels at 1024^3, each one's whole block time (minus setup) against its compute alone and its loads alone under the full grid; the exponent p with (compute^p + loads^p)^(1/p) = whole has median 1.97 (18 of 21 within 1.5-2.4; three 64x128 tiles overlap almost fully, p 3.7-6). The same warps issue the copies and the mma, so they share issue slots and barriers: balanced parts hide about half of the smaller one, loads 2-4x compute hide 75-86 %. The TMA path, with its own producer warps, overlaps fully (step 2c: max(compute, loads) + sync at every pick)"
+ },
+ "sim": {
+  "value": {
+   "hmma_16816_pipe_clk": 16,
+   "hmma_latency_clk": 29,
+   "ldsm_latency_clk": 34,
+   "ldsm_sm_clk_per_x4": 4.0,
+   "bar_base_clk": 13,
+   "bar_per_warp_clk": 2,
+   "ldgsts_l2_latency_clk": 350,
+   "ldgsts_dram_latency_clk": 1560,
+   "default_var_latency_clk": 20,
+   "rbar_release_clk": 8,
+   "mio_ldsm_clk": 11.7,
+   "mio_ldgsts_clk": 6.0,
+   "smem_array_clk_per_512B": 4.0,
+   "l2_return_clk_per_512B": 8.0,
+   "l2_aggregate_B_per_clk_cpasync": 892.9
+  },
+  "source": "probe: instlat.cu (ldmatrix latency 38.4 cycles per dependent hop incl. the add; ldmatrix 4.0 cycles per x4 per SM with 8+ warps, 11.7 per warp alone; bar.sync 14.6 + ~2 cycles per warp; cp.async 16 B round trip from L2 350 cycles; cp.async 16.0 B per clock per SM within a block = one warp instruction per 32 cycles), mma_rate.cu (HMMA.16816 one per 16 cycles per sub-partition; 29-cycle dependent latency), mlp_stream (DRAM ~0.62 us = 1560 cycles). default_var_latency and rbar_release are assumptions, not measured; cpq.cu: one warp issues a 16 B x 32-lane cp.async every 6 cycles; 4 warps one every 4 cycles per SM (the shared-memory array, 128 B per clock, also used by ldmatrix); 4 warps x 64 copies land at ~64 B per clock per SM (the L2 return path); instlat's earlier 16 B/clk cp.async figure was the probe's own bank conflicts (lanes 128 B apart) and is withdrawn; the chip's L2 serves cp.async tile traffic at 2.25 TB/s with all SMs loading (tileload.cu, 96-192 blocks) = 893 B per clock, shared by the active SMs"
  }
 }

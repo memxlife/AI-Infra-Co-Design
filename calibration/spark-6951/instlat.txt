@@ -1,0 +1,28 @@
+RESULT ldsm_lat cycles=38.4
+RESULT ldsm_tput warps=1 cycles_per_ldsm_per_sm=11.71 bytes_per_clk=43.7
+RESULT ldsm_tput warps=2 cycles_per_ldsm_per_sm=5.96 bytes_per_clk=86.0
+RESULT ldsm_tput warps=4 cycles_per_ldsm_per_sm=4.32 bytes_per_clk=118.4
+RESULT ldsm_tput warps=8 cycles_per_ldsm_per_sm=4.05 bytes_per_clk=126.3
+RESULT ldsm_tput warps=16 cycles_per_ldsm_per_sm=4.01 bytes_per_clk=127.8
+RESULT bar_lat warps=1 cycles=14.6
+RESULT bar_lat warps=4 cycles=20.7
+RESULT bar_lat warps=8 cycles=28.7
+RESULT bar_lat warps=16 cycles=44.7
+RESULT bar_lat warps=32 cycles=76.7
+RESULT cpasync_lat cycles=355.7
+RESULT cpasync_tput warps=1 per_thread=1 cycles_per_group=855.3 bytes_per_clk=0.60
+RESULT cpasync_tput warps=1 per_thread=4 cycles_per_group=572.2 bytes_per_clk=3.58
+RESULT cpasync_tput warps=1 per_thread=8 cycles_per_group=655.1 bytes_per_clk=6.25
+RESULT cpasync_tput warps=2 per_thread=1 cycles_per_group=602.3 bytes_per_clk=1.70
+RESULT cpasync_tput warps=2 per_thread=4 cycles_per_group=484.0 bytes_per_clk=8.46
+RESULT cpasync_tput warps=2 per_thread=8 cycles_per_group=648.6 bytes_per_clk=12.63
+RESULT cpasync_tput warps=4 per_thread=1 cycles_per_group=595.9 bytes_per_clk=3.44
+RESULT cpasync_tput warps=4 per_thread=4 cycles_per_group=519.9 bytes_per_clk=15.76
+RESULT cpasync_tput warps=4 per_thread=8 cycles_per_group=1024.3 bytes_per_clk=16.00
+RESULT cpasync_tput warps=8 per_thread=1 cycles_per_group=602.6 bytes_per_clk=6.80
+RESULT cpasync_tput warps=8 per_thread=4 cycles_per_group=1023.0 bytes_per_clk=16.02
+RESULT cpasync_tput warps=8 per_thread=8 cycles_per_group=2039.8 bytes_per_clk=16.06
+RESULT cpasync_tput warps=16 per_thread=1 cycles_per_group=603.9 bytes_per_clk=13.57
+RESULT cpasync_tput warps=16 per_thread=4 cycles_per_group=2048.1 bytes_per_clk=16.00
+RESULT cpasync_tput warps=16 per_thread=8 cycles_per_group=4074.6 bytes_per_clk=16.08
+69
