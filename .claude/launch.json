@@ -34,6 +34,15 @@
       "env": {
         "PYTHONPATH": "."
       }
+    },
+    {
+      "name": "console-tilelang",
+      "runtimeExecutable": "/bin/sh",
+      "runtimeArgs": [
+        "-c",
+        "cd /Users/lishang/work/research/AI-Infra-Co-Design && PYTHONPATH=. exec /Users/lishang/work/research/.venv/bin/python -m agentic.cli.main serve --ledger runs/gemm-tilelang.db --port 8789"
+      ],
+      "port": 8789
     }
   ]
 }

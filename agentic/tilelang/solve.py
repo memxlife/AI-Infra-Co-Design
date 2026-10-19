@@ -68,18 +68,18 @@ def solve_family(T: dict, terms: dict | None = None, time_limit: float = 30.0) -
             ub[zi] = 0; continue
         tt = p["terms"]
         combined = (tt["t_compute_tile"] + tt["t_copy_tile"]) if terms.get("overlap", "max") == "sum" else max(tt["t_compute_tile"], tt["t_copy_tile"])
-        tile_part[zi] = scale * p["waves"] * (combined + tt["t_pipe"])
+        tile_part[zi] = scale * p["waves"] * (combined + tt["t_pipe"])     # scale on every term, as predict() applies it
         waves_of[bm, bn] = p["waves"]; ksteps_of[bk] = tt["k_steps"]
     from .cost import _lookup
     for (st, bm, bn, bk), si in s.items():                           # the shared-memory rule and the per-step cost, one table
         if st * (bm * bk + bk * bn) * 2 + 1024 > chip["smem_bytes_per_block"]:
             ub[si] = 0; continue
         if (bm, bn) in waves_of and bk in ksteps_of:
-            step_part[si] = scale * waves_of[bm, bn] * ksteps_of[bk] * _lookup(terms.get("t_step", {}), st)
+            step_part[si] = scale * waves_of[bm, bn] * (ksteps_of[bk] * _lookup(terms.get("t_step", {}), st) + _lookup(terms.get("t_fill", {}), st))
     for (bm, bn, swz), vi in v.items():
         h = {"block_M": bm, "block_N": bn, "block_K": menus["block_K"][0], "num_stages": st0, "threads": menus["threads"][0], "swizzle": swz}
         p = predict(h, shape, chip, terms)
-        dram_time[vi] = p["terms"]["t_dram"]; l2_time[vi] = p["terms"]["t_l2"]
+        dram_time[vi] = scale * p["terms"]["t_dram"]; l2_time[vi] = scale * p["terms"]["t_l2"]
     launch = terms.get("launch_s", 0.0)
     row([(T_ep, 1)] + [(zi, -t) for zi, t in tile_part.items()] + [(si, -t) for si, t in step_part.items()], launch, np.inf)
     row([(T_ep, 1)] + [(vi, -t) for vi, t in dram_time.items()], launch, np.inf)

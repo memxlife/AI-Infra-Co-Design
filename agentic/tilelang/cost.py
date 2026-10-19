@@ -49,11 +49,13 @@ def default_terms(chip: dict) -> dict:
         "u_warps": {128: 1.0, 256: 1.0, 512: 1.0},                        # tensor-pipe efficiency by consumer threads per block
         "B_HBM": chip["dram_bytes_per_s"],                                # bytes/s from DRAM
         "B_L2_per_sm": chip["tma_bytes_per_s_per_sm_by_residency"].get("tile=16384,resident=1", 3.1e10),  # TMA bytes/s per SM, one block
-        "B_L2_chip": chip["l2_bytes_per_s"],
+        # the chip-wide L2 rate TMA loads reach (the TMA/cp.async mix benchmark), above the plain streaming L2 rate
+        "B_L2_chip": max(chip["l2_bytes_per_s"], max((chip.get("tma_mix_bytes_per_s") or {}).values(), default=0.0)),
         "l2_bytes_effective": chip["l2_bytes_effective"],
         "t_tile_latency": chip["tma_bulk_latency_s"].get("16384", 5e-7),  # one TMA tile from L2
         "t_tile_fixed": {128: 0.0, 256: 0.0, 512: 0.0},                   # per tile: prologue, fill, the C store (seconds)
         "t_step": {2: 0.0, 3: 0.0, 4: 0.0, 5: 0.0},                       # per k-step, by pipeline depth (seconds)
+        "t_fill": {2: 0.0, 3: 0.0, 4: 0.0, 5: 0.0},                       # per tile: filling the pipeline, by depth (seconds)
         "launch_s": chip["launch_s"],
         "overlap": "max",                                                 # how copy and tensor time combine per tile: max | sum
         "scale": 1.0,                                                     # one-sided deflation of the per-SM time (calibrate.py)
@@ -106,17 +108,17 @@ def predict(h: dict, shape: dict, chip: dict, terms: dict | None = None) -> dict
     bytes_tile = k_steps * (bm + bn) * bk * 2
     t_copy_tile = bytes_tile / t["B_L2_per_sm"]
     swz = t["swizzle_penalty"].get(h.get("swizzle", 0), t["swizzle_penalty"].get(str(h.get("swizzle", 0)), 1.0))
-    fixed = _lookup(t["t_tile_fixed"], th); step = _lookup(t["t_step"], st)
-    t_pipe = fixed if fixed else min(st, k_steps) * t["t_tile_latency"]   # fill: the first STAGES tiles must land before the pipe is full
+    fixed = _lookup(t["t_tile_fixed"], th); step = _lookup(t["t_step"], st); fill = _lookup(t.get("t_fill", {}), st)
+    t_pipe = (fixed + fill) if (fixed or fill) else min(st, k_steps) * t["t_tile_latency"]   # per tile: start-up and filling the pipeline
     if t.get("overlap", "max") == "sum":        # copies and tensor work charged one after the other
         t_tile = (t_compute_tile + t_copy_tile) * swz + k_steps * step
     else:                                        # perfect overlap: the longer of the two
         t_tile = max(t_compute_tile, t_copy_tile) * swz + k_steps * step
-    t_sm = waves * (t_tile + t_pipe) * t.get("scale", 1.0)
+    t_sm = waves * (t_tile + t_pipe)
     tr = traffic_bytes(h, shape, t, chip, bps)
     t_dram = tr["dram"] / t["B_HBM"]
     t_l2 = tr["l2_reads"] / t["B_L2_chip"]
-    time = max(t_sm, t_dram, t_l2) + t["launch_s"]
+    time = max(t_sm, t_dram, t_l2) * t.get("scale", 1.0) + t["launch_s"]     # one-sided deflation (calibrate.py)
     bound = max(("tensor", t_sm) if t_compute_tile >= t_copy_tile else ("copy", t_sm), ("dram", t_dram), ("l2", t_l2), key=lambda x: x[1])[0]
     return {"ok": True, "time_s": time, "time_us": time * 1e6, "bound": bound, "waves": waves, "tiles": tiles, "blocks_per_sm": bps,
             "terms": {"t_sm": t_sm, "t_compute_tile": t_compute_tile, "t_copy_tile": t_copy_tile, "t_pipe": t_pipe, "t_dram": t_dram, "t_l2": t_l2,
