@@ -1,0 +1,380 @@
+{
+ "ablation 1024x1024x1024 (cp.async, warm)": {
+  "n": 22,
+  "spearman": 0.7501425638830903,
+  "regret": 0.1270566727605118,
+  "top5_overlap": 2,
+  "pick": {
+   "block_M": 128,
+   "block_N": 128,
+   "block_K": 32,
+   "num_stages": 3,
+   "threads": 128,
+   "swizzle": 0
+  },
+  "pick_measured_us": 39.456,
+  "pick_predicted_us": 34.64130241924432,
+  "best_measured_us": 35.008,
+  "best_holes": {
+   "block_M": 64,
+   "block_N": 128,
+   "block_K": 32,
+   "num_stages": 3,
+   "threads": 256,
+   "swizzle": 0
+  },
+  "best_predicted_us": 37.225189307472526,
+  "bottleneck_of_best10": {
+   "port": 8,
+   "tensor": 2
+  },
+  "median_abs_err": 0.05419746749646388
+ },
+ "r1 1024x1024x1024 (TMA, do_bench)": {
+  "n": 512,
+  "spearman": 0.7321289147918414,
+  "regret": 0.0171717308313053,
+  "top5_overlap": 0,
+  "pick": {
+   "block_M": 128,
+   "block_N": 256,
+   "block_K": 64,
+   "num_stages": 2,
+   "threads": 256,
+   "swizzle": 0
+  },
+  "pick_measured_us": 64.44799900054932,
+  "pick_predicted_us": 40.74189931350115,
+  "best_measured_us": 63.35999816656113,
+  "best_holes": {
+   "block_M": 256,
+   "block_N": 128,
+   "block_K": 64,
+   "num_stages": 2,
+   "threads": 256,
+   "swizzle": 0
+  },
+  "best_predicted_us": 40.74189931350115,
+  "bottleneck_of_best10": {
+   "dram": 10
+  },
+  "median_abs_err": 0.2152077777378067
+ },
+ "r1 32x4096x4096 (TMA, do_bench)": {
+  "n": 468,
+  "spearman": 0.6898061455050715,
+  "regret": 0.01596676205919989,
+  "top5_overlap": 0,
+  "pick": {
+   "block_M": 32,
+   "block_N": 256,
+   "block_K": 32,
+   "num_stages": 3,
+   "threads": 128,
+   "swizzle": 0
+  },
+  "pick_measured_us": 203.61599326133728,
+  "pick_predicted_us": 182.25593830128204,
+  "best_measured_us": 200.41599869728088,
+  "best_holes": {
+   "block_M": 16,
+   "block_N": 256,
+   "block_K": 32,
+   "num_stages": 5,
+   "threads": 256,
+   "swizzle": 0
+  },
+  "best_predicted_us": 182.38393830128206,
+  "bottleneck_of_best10": {
+   "dram": 10
+  },
+  "median_abs_err": 0.09609613266453838
+ },
+ "r1 4096x4096x4096 (TMA, do_bench)": {
+  "n": 512,
+  "spearman": 0.81184487374856,
+  "regret": 0.0,
+  "top5_overlap": 2,
+  "pick": {
+   "block_M": 128,
+   "block_N": 256,
+   "block_K": 64,
+   "num_stages": 2,
+   "threads": 256,
+   "swizzle": 8
+  },
+  "pick_measured_us": 1377.4080276489258,
+  "pick_predicted_us": 1429.2551270149693,
+  "best_measured_us": 1377.4080276489258,
+  "best_holes": {
+   "block_M": 128,
+   "block_N": 256,
+   "block_K": 64,
+   "num_stages": 2,
+   "threads": 256,
+   "swizzle": 8
+  },
+  "best_predicted_us": 1429.2551270149693,
+  "bottleneck_of_best10": {
+   "tensor": 9,
+   "dram": 1
+  },
+  "median_abs_err": 0.2684178429648987
+ },
+ "r2 sample 1024x1024x1024 (mixed, do_bench)": {
+  "n": 187,
+  "spearman": 0.8695299031050132,
+  "regret": 0.04841229132507663,
+  "top5_overlap": 1,
+  "pick": {
+   "block_M": 128,
+   "block_N": 256,
+   "block_K": 32,
+   "num_stages": 3,
+   "threads": 256,
+   "swizzle": 4,
+   "prefetch": 0,
+   "warp_policy": 1,
+   "vec_width": 16,
+   "tma": 1,
+   "warp_spec": 1,
+   "smem_layout": "swizzled"
+  },
+  "pick_measured_us": 64.44799900054932,
+  "pick_predicted_us": 42.106313725490196,
+  "best_measured_us": 61.47199869155884,
+  "best_holes": {
+   "block_M": 64,
+   "block_N": 256,
+   "block_K": 32,
+   "num_stages": 4,
+   "threads": 256,
+   "swizzle": 8,
+   "prefetch": 1,
+   "warp_policy": 2,
+   "vec_width": 0,
+   "tma": 0,
+   "warp_spec": 0,
+   "smem_layout": "inferred"
+  },
+  "best_predicted_us": 42.36231372549019,
+  "bottleneck_of_best10": {
+   "dram": 10
+  },
+  "median_abs_err": 0.20311213668152384
+ },
+ "r2 sample 32x4096x4096 (mixed, do_bench)": {
+  "n": 182,
+  "spearman": 0.6417682984393531,
+  "regret": 0.014601980226686129,
+  "top5_overlap": 0,
+  "pick": {
+   "block_M": 32,
+   "block_N": 256,
+   "block_K": 32,
+   "num_stages": 4,
+   "threads": 512,
+   "swizzle": 16,
+   "prefetch": 1,
+   "warp_policy": 2,
+   "vec_width": 0,
+   "tma": 1,
+   "warp_spec": 1,
+   "smem_layout": "inferred"
+  },
+  "pick_measured_us": 206.7839950323105,
+  "pick_predicted_us": 182.25593830128204,
+  "best_measured_us": 203.80799472332,
+  "best_holes": {
+   "block_M": 64,
+   "block_N": 128,
+   "block_K": 64,
+   "num_stages": 3,
+   "threads": 256,
+   "swizzle": 16,
+   "prefetch": 2,
+   "warp_policy": 2,
+   "vec_width": 4,
+   "tma": 0,
+   "warp_spec": 1,
+   "smem_layout": "swizzled"
+  },
+  "best_predicted_us": 184.15191335836911,
+  "bottleneck_of_best10": {
+   "dram": 10
+  },
+  "median_abs_err": 0.1178202771573652
+ },
+ "r3 oos 128x4096x4096 (mixed, do_bench)": {
+  "n": 29,
+  "spearman": 0.25651920241663045,
+  "regret": 0.2954124765395174,
+  "top5_overlap": 0,
+  "pick": {
+   "block_M": 128,
+   "block_N": 256,
+   "block_K": 32,
+   "num_stages": 3,
+   "threads": 512,
+   "swizzle": 16,
+   "prefetch": 1,
+   "warp_policy": 2,
+   "vec_width": 0,
+   "tma": 1,
+   "warp_spec": 0,
+   "smem_layout": "swizzled"
+  },
+  "pick_measured_us": 269.27998661994934,
+  "pick_predicted_us": 185.6847275641026,
+  "best_measured_us": 207.87200331687927,
+  "best_holes": {
+   "block_M": 64,
+   "block_N": 64,
+   "block_K": 64,
+   "num_stages": 3,
+   "threads": 256,
+   "swizzle": 8,
+   "prefetch": 1,
+   "warp_policy": 0,
+   "vec_width": 16,
+   "tma": 0,
+   "warp_spec": 1,
+   "smem_layout": "swizzled"
+  },
+  "best_predicted_us": 197.07079433638447,
+  "bottleneck_of_best10": {
+   "dram": 10
+  },
+  "median_abs_err": 0.11790320445754944
+ },
+ "r3 oos 2048x2048x2048 (mixed, do_bench)": {
+  "n": 29,
+  "spearman": 0.8443349753694579,
+  "regret": 0.0,
+  "top5_overlap": 4,
+  "pick": {
+   "block_M": 128,
+   "block_N": 256,
+   "block_K": 32,
+   "num_stages": 4,
+   "threads": 256,
+   "swizzle": 8,
+   "prefetch": 0,
+   "warp_policy": 0,
+   "vec_width": 0,
+   "tma": 1,
+   "warp_spec": 1,
+   "smem_layout": "inferred"
+  },
+  "pick_measured_us": 242.68800020217896,
+  "pick_predicted_us": 206.87076004261866,
+  "best_measured_us": 242.68800020217896,
+  "best_holes": {
+   "block_M": 128,
+   "block_N": 256,
+   "block_K": 32,
+   "num_stages": 4,
+   "threads": 256,
+   "swizzle": 8,
+   "prefetch": 0,
+   "warp_policy": 0,
+   "vec_width": 0,
+   "tma": 1,
+   "warp_spec": 1,
+   "smem_layout": "inferred"
+  },
+  "best_predicted_us": 206.87076004261866,
+  "bottleneck_of_best10": {
+   "tensor": 2,
+   "port": 8
+  },
+  "median_abs_err": 0.1179756039991682
+ },
+ "r3 oos 4096x4096x1024 (mixed, do_bench)": {
+  "n": 29,
+  "spearman": 0.8807881773399013,
+  "regret": 0.0,
+  "top5_overlap": 4,
+  "pick": {
+   "block_M": 256,
+   "block_N": 128,
+   "block_K": 64,
+   "num_stages": 2,
+   "threads": 256,
+   "swizzle": 16,
+   "prefetch": 0,
+   "warp_policy": 0,
+   "vec_width": 0,
+   "tma": 1,
+   "warp_spec": 1,
+   "smem_layout": "inferred"
+  },
+  "pick_measured_us": 461.8239998817444,
+  "pick_predicted_us": 407.0399383066367,
+  "best_measured_us": 461.8239998817444,
+  "best_holes": {
+   "block_M": 256,
+   "block_N": 128,
+   "block_K": 64,
+   "num_stages": 2,
+   "threads": 256,
+   "swizzle": 16,
+   "prefetch": 0,
+   "warp_policy": 0,
+   "vec_width": 0,
+   "tma": 1,
+   "warp_spec": 1,
+   "smem_layout": "inferred"
+  },
+  "best_predicted_us": 407.0399383066367,
+  "bottleneck_of_best10": {
+   "tensor": 3,
+   "port": 7
+  },
+  "median_abs_err": 0.08182332433021441
+ },
+ "r3 oos 8192x8192x8192 (mixed, do_bench)": {
+  "n": 29,
+  "spearman": 0.9541871921182266,
+  "regret": 0.0,
+  "top5_overlap": 5,
+  "pick": {
+   "block_M": 128,
+   "block_N": 256,
+   "block_K": 32,
+   "num_stages": 4,
+   "threads": 256,
+   "swizzle": 16,
+   "prefetch": 0,
+   "warp_policy": 0,
+   "vec_width": 0,
+   "tma": 1,
+   "warp_spec": 1,
+   "smem_layout": "inferred"
+  },
+  "pick_measured_us": 11539.23225402832,
+  "pick_predicted_us": 11237.279062240992,
+  "best_measured_us": 11539.23225402832,
+  "best_holes": {
+   "block_M": 128,
+   "block_N": 256,
+   "block_K": 32,
+   "num_stages": 4,
+   "threads": 256,
+   "swizzle": 16,
+   "prefetch": 0,
+   "warp_policy": 0,
+   "vec_width": 0,
+   "tma": 1,
+   "warp_spec": 1,
+   "smem_layout": "inferred"
+  },
+  "best_predicted_us": 11237.279062240992,
+  "bottleneck_of_best10": {
+   "tensor": 3,
+   "port": 5,
+   "dram": 2
+  },
+  "median_abs_err": 0.09712565277690396
+ }
+}

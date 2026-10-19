@@ -1,0 +1,43 @@
+# ablated tiles as loads
+RESULT bytes=8388608 pitch=2048 rows=192 seg=64 threads=128 stages=3 blocks=128 per_sm=2 ktiles=32 flush=0 us=37.76 GBs=1332.9 GBs_per_SM=27.8
+RESULT bytes=8388608 pitch=2048 rows=192 seg=64 threads=256 stages=3 blocks=128 per_sm=2 ktiles=32 flush=0 us=33.31 GBs=1510.9 GBs_per_SM=31.5
+RESULT bytes=8388608 pitch=2048 rows=256 seg=64 threads=128 stages=3 blocks=64 per_sm=2 ktiles=32 flush=0 us=22.94 GBs=1462.4 GBs_per_SM=30.5
+RESULT bytes=8388608 pitch=2048 rows=256 seg=64 threads=256 stages=3 blocks=64 per_sm=2 ktiles=32 flush=0 us=23.20 GBs=1446.3 GBs_per_SM=30.1
+RESULT bytes=8388608 pitch=2048 rows=128 seg=64 threads=128 stages=3 blocks=256 per_sm=4 ktiles=32 flush=0 us=40.00 GBs=1677.7 GBs_per_SM=35.0
+RESULT bytes=8388608 pitch=2048 rows=128 seg=64 threads=256 stages=3 blocks=256 per_sm=4 ktiles=32 flush=0 us=41.66 GBs=1610.7 GBs_per_SM=33.6
+RESULT bytes=8388608 pitch=2048 rows=192 seg=128 threads=128 stages=3 blocks=128 per_sm=1 ktiles=32 flush=0 us=59.78 GBs=1684.0 GBs_per_SM=35.1
+RESULT bytes=8388608 pitch=2048 rows=192 seg=128 threads=256 stages=3 blocks=128 per_sm=1 ktiles=32 flush=0 us=57.86 GBs=1739.9 GBs_per_SM=36.2
+RESULT bytes=8388608 pitch=2048 rows=256 seg=128 threads=128 stages=3 blocks=64 per_sm=1 ktiles=32 flush=0 us=49.63 GBs=1352.1 GBs_per_SM=28.2
+RESULT bytes=8388608 pitch=2048 rows=256 seg=128 threads=256 stages=3 blocks=64 per_sm=1 ktiles=32 flush=0 us=45.60 GBs=1471.7 GBs_per_SM=30.7
+RESULT bytes=8388608 pitch=2048 rows=384 seg=64 threads=256 stages=3 blocks=32 per_sm=1 ktiles=32 flush=0 us=20.96 GBs=1200.7 GBs_per_SM=37.5
+RESULT bytes=8388608 pitch=2048 rows=384 seg=128 threads=256 stages=2 blocks=32 per_sm=1 ktiles=32 flush=0 us=27.97 GBs=1799.6 GBs_per_SM=56.2
+RESULT bytes=8388608 pitch=2048 rows=320 seg=64 threads=128 stages=3 blocks=64 per_sm=1 ktiles=32 flush=0 us=41.31 GBs=1015.3 GBs_per_SM=21.2
+RESULT bytes=8388608 pitch=2048 rows=320 seg=64 threads=256 stages=3 blocks=64 per_sm=1 ktiles=32 flush=0 us=35.30 GBs=1188.3 GBs_per_SM=24.8
+RESULT bytes=8388608 pitch=2048 rows=128 seg=256 threads=128 stages=3 blocks=256 per_sm=1 ktiles=32 flush=0 us=146.56 GBs=1831.6 GBs_per_SM=38.2
+# one block alone by tile bytes (seg 64), 128 and 256 threads, 3 stages
+RESULT bytes=8388608 pitch=2048 rows=64 seg=64 threads=128 stages=3 blocks=1 per_sm=7 ktiles=256 flush=0 us=70.21 GBs=14.9 GBs_per_SM=14.9
+RESULT bytes=8388608 pitch=2048 rows=64 seg=64 threads=256 stages=3 blocks=1 per_sm=6 ktiles=256 flush=0 us=64.93 GBs=16.1 GBs_per_SM=16.1
+RESULT bytes=8388608 pitch=2048 rows=128 seg=64 threads=128 stages=3 blocks=1 per_sm=4 ktiles=256 flush=0 us=78.46 GBs=26.7 GBs_per_SM=26.7
+RESULT bytes=8388608 pitch=2048 rows=128 seg=64 threads=256 stages=3 blocks=1 per_sm=4 ktiles=256 flush=0 us=80.32 GBs=26.1 GBs_per_SM=26.1
+RESULT bytes=8388608 pitch=2048 rows=192 seg=64 threads=128 stages=3 blocks=1 per_sm=2 ktiles=256 flush=0 us=112.86 GBs=27.9 GBs_per_SM=27.9
+RESULT bytes=8388608 pitch=2048 rows=192 seg=64 threads=256 stages=3 blocks=1 per_sm=2 ktiles=256 flush=0 us=93.57 GBs=33.6 GBs_per_SM=33.6
+RESULT bytes=8388608 pitch=2048 rows=256 seg=64 threads=128 stages=3 blocks=1 per_sm=2 ktiles=256 flush=0 us=111.42 GBs=37.6 GBs_per_SM=37.6
+RESULT bytes=8388608 pitch=2048 rows=256 seg=64 threads=256 stages=3 blocks=1 per_sm=2 ktiles=256 flush=0 us=96.70 GBs=43.4 GBs_per_SM=43.4
+RESULT bytes=8388608 pitch=2048 rows=384 seg=64 threads=128 stages=3 blocks=1 per_sm=1 ktiles=256 flush=0 us=142.37 GBs=44.2 GBs_per_SM=44.2
+RESULT bytes=8388608 pitch=2048 rows=384 seg=64 threads=256 stages=3 blocks=1 per_sm=1 ktiles=256 flush=0 us=136.19 GBs=46.2 GBs_per_SM=46.2
+# DRAM source, clean, no wrap: pitch = seg x 256 k-tiles; seg 64 / 256; 128 rows; blocks 8..96; stages 2 and 4
+RESULT bytes=536870912 pitch=16384 rows=128 seg=64 threads=128 stages=2 blocks=8 per_sm=5 ktiles=256 flush=2 us=159.20 GBs=105.4 GBs_per_SM=13.2
+RESULT bytes=536870912 pitch=16384 rows=128 seg=64 threads=128 stages=4 blocks=8 per_sm=3 ktiles=256 flush=2 us=117.41 GBs=142.9 GBs_per_SM=17.9
+RESULT bytes=536870912 pitch=16384 rows=128 seg=64 threads=128 stages=2 blocks=16 per_sm=5 ktiles=256 flush=2 us=232.03 GBs=144.6 GBs_per_SM=9.0
+RESULT bytes=536870912 pitch=16384 rows=128 seg=64 threads=128 stages=4 blocks=16 per_sm=3 ktiles=256 flush=2 us=187.65 GBs=178.8 GBs_per_SM=11.2
+RESULT bytes=536870912 pitch=16384 rows=128 seg=64 threads=128 stages=2 blocks=32 per_sm=5 ktiles=256 flush=2 us=352.86 GBs=190.2 GBs_per_SM=5.9
+RESULT bytes=536870912 pitch=16384 rows=128 seg=64 threads=128 stages=4 blocks=32 per_sm=3 ktiles=256 flush=2 us=334.53 GBs=200.6 GBs_per_SM=6.3
+RESULT bytes=536870912 pitch=16384 rows=128 seg=64 threads=128 stages=2 blocks=48 per_sm=5 ktiles=256 flush=2 us=500.58 GBs=201.1 GBs_per_SM=4.2
+RESULT bytes=536870912 pitch=16384 rows=128 seg=64 threads=128 stages=4 blocks=48 per_sm=3 ktiles=256 flush=2 us=499.68 GBs=201.5 GBs_per_SM=4.2
+RESULT bytes=536870912 pitch=16384 rows=128 seg=64 threads=128 stages=2 blocks=96 per_sm=5 ktiles=256 flush=2 us=986.05 GBs=204.2 GBs_per_SM=4.3
+RESULT bytes=536870912 pitch=16384 rows=128 seg=64 threads=128 stages=4 blocks=96 per_sm=3 ktiles=256 flush=2 us=987.42 GBs=203.9 GBs_per_SM=4.2
+RESULT bytes=536870912 pitch=65536 rows=128 seg=256 threads=128 stages=2 blocks=8 per_sm=1 ktiles=256 flush=2 us=298.75 GBs=224.6 GBs_per_SM=28.1
+RESULT bytes=536870912 pitch=65536 rows=128 seg=256 threads=128 stages=2 blocks=16 per_sm=1 ktiles=256 flush=2 us=576.00 GBs=233.0 GBs_per_SM=14.6
+RESULT bytes=536870912 pitch=65536 rows=128 seg=256 threads=128 stages=2 blocks=32 per_sm=1 ktiles=256 flush=2 us=1145.38 GBs=234.4 GBs_per_SM=7.3
+RESULT bytes=536870912 pitch=65536 rows=128 seg=256 threads=128 stages=2 blocks=48 per_sm=1 ktiles=256 flush=2 us=1751.39 GBs=229.9 GBs_per_SM=4.8
+RESULT bytes=536870912 pitch=65536 rows=128 seg=256 threads=128 stages=2 blocks=96 per_sm=1 ktiles=256 flush=2 us=3463.23 GBs=232.5 GBs_per_SM=4.8

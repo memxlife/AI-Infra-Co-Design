@@ -1,0 +1,200 @@
+{
+ "_doc": "GB10 GPU, functional model constants. spec = the chip's design or the driver; probe = a microbenchmark that isolates one unit; ablation = a real kernel with one mechanism removed. No value here is fitted to kernel times.",
+ "sms": {
+  "value": 48,
+  "source": "spec: driver"
+ },
+ "smsp_per_sm": {
+  "value": 4,
+  "source": "spec: Blackwell SM, four sub-partitions"
+ },
+ "clock_GHz": {
+  "value": 2.52,
+  "source": "probe: clock.cu, clock64 against globaltimer, 48 blocks of dependent FMAs"
+ },
+ "tensor_flop_per_clk_per_sm": {
+  "value": 1024,
+  "source": "spec: mma.sync m16n8k16 fp16 in, fp32 accumulate; probe mma_rate.cu reached 2.58 TF/s per SM = 1024 x 2.52 GHz with 8+ warps"
+ },
+ "tensor_eff_pure_mma": {
+  "value": {
+   "1": 0.93,
+   "2": 1.0
+  },
+  "source": "probe: mma_rate.cu, warps per sub-partition 1 / 2+, two or more independent accumulators per warp"
+ },
+ "tensor_eff_gemm_loop": {
+  "value": {
+   "1": 0.833,
+   "2": 0.895,
+   "4": 0.895
+  },
+  "source": "ablation: noload variants of 22 cp.async kernels at 1024^3, median ideal/measured compute per k-tile by warps per sub-partition (1: n=9, range 0.76-0.88; 2: n=13, range 0.81-0.96); the loss to the pure-mma probe is ldmatrix interleaved with mma in the same warps. 4 per sub-partition not ablated: taken as 2"
+ },
+ "smem_bytes_per_clk_per_sm": {
+  "value": 128,
+  "source": "spec: 32 banks x 4 B"
+ },
+ "smem_per_sm_bytes": {
+  "value": 102400,
+  "source": "spec: driver"
+ },
+ "smem_reserved_per_block_bytes": {
+  "value": 1024,
+  "source": "spec: driver"
+ },
+ "regs_per_sm": {
+  "value": 65536,
+  "source": "spec: driver"
+ },
+ "reg_alloc_unit_per_warp": {
+  "value": 256,
+  "source": "spec: register allocation granularity per warp"
+ },
+ "max_threads_per_sm": {
+  "value": 1536,
+  "source": "spec: driver"
+ },
+ "max_blocks_per_sm": {
+  "value": 24,
+  "source": "spec: driver"
+ },
+ "l2_bytes": {
+  "value": 25165824,
+  "source": "spec: driver"
+ },
+ "l2_effective_bytes": {
+  "value": 16780000.0,
+  "source": "probe (round 2): reuse distance at which a re-read stops hitting; 2/3 of the 24 MB (sets and the CPU's share)"
+ },
+ "port_GBs_per_sm": {
+  "value": 80.7,
+  "source": "probe: mlp_stream.cu warm L2, 1-32 blocks of 512 threads: 80.7 GB/s each = 32.0 B per clock; TMA (81) and cp.async (76-80) loads alone in the ablations hit the same ceiling"
+ },
+ "l2_aggregate_GBs": {
+  "value": 3465,
+  "source": "probe: mlp_stream.cu warm L2, 48 blocks x 512 threads x 4 loads in flight: 3.47 TB/s (96 blocks: 3.5-4.6)"
+ },
+ "dram_read_GBs": {
+  "value": 237,
+  "source": "probe: mlp_stream.cu, 64 MB read on a clean L2: 237 GB/s = 87 % of the 273 GB/s spec (256 bits x 8533 MT/s)"
+ },
+ "lat_l1_ns": {
+  "value": 17,
+  "source": "probe: chase.cu, 16 KB, .ca"
+ },
+ "lat_l2_ns": {
+  "value": 136,
+  "source": "probe: chase.cu, 16-64 KB, .cg (beyond 1 MB the random chase pays TLB misses, ~400 ns)"
+ },
+ "lat_dram_ns": {
+  "value": 440,
+  "source": "probe: mlp_stream.cu cold, Little's law at low load: 2-32 KB in flight / measured rate = 436-456 ns"
+ },
+ "launch_us": {
+  "value": 2.59,
+  "source": "ablation (step 2c): kt0_nostore, 1 block, event time"
+ },
+ "block_issue_us": {
+  "value": 0.008,
+  "source": "ablation (step 2c): full grid minus 1 block over blocks at 8192^3"
+ },
+ "block_setup_us": {
+  "value": 0.1,
+  "source": "ablation: %globaltimer span of an empty block"
+ },
+ "store_ns_per_KB": {
+  "value": 28,
+  "source": "ablation: kt0 minus kt0_nostore, 1 block"
+ },
+ "bubble_us_per_k16_single_block_cpasync": {
+  "value": 0.104,
+  "source": "ablation: full minus max(compute, loads) per k-tile on the cp.async kernels whose SMs hold one block (0.22 us at block_K 32, 0.39 at 64): per 16-wide k step. With two or more resident blocks it measured 0-0.06: the other block fills it (superseded by cpasync_t0_us, the same mechanism measured directly)"
+ },
+ "bubble_us_per_ktile_tma_ws": {
+  "value": 0.09,
+  "source": "ablation (step 2c): full minus max(compute, loads under load) per k-tile at the seven TMA picks, median"
+ },
+ "dirty_l2_extra_us": {
+  "value": [
+   [
+    2,
+    11.9
+   ],
+   [
+    4,
+    18.7
+   ],
+   [
+    8,
+    25.6
+   ],
+   [
+    12,
+    27.8
+   ],
+   [
+    16,
+    29.5
+   ],
+   [
+    24,
+    31.6
+   ],
+   [
+    32,
+    35.0
+   ],
+   [
+    64,
+    37.9
+   ]
+  ],
+  "source": "probe: mlp_stream.cu, MB read after a 256 MB write flush minus after a read flush: the write-back of dirty L2 lines. TileLang's do_bench leaves the L2 this way"
+ },
+ "cpasync_t0_us": {
+  "value": 0.22,
+  "source": "probe: tileload.cu, one block of 128-256 threads, 3 stages: time per k-tile = 0.22 us + bytes / 71 GB/s (4 KB 0.275 us ... 24 KB 0.556 us); independent of the stage count (2-5): the loop's serial issue, wait and two barriers, not memory latency. A second resident block fills it (2 blocks/SM: 0.22 + 2 x bytes/71 per round). The ablation's single-block 'bubble' (0.22 us per k-tile at block_K 32) is the same cost"
+ },
+ "cpasync_r_GBs": {
+  "value": 71,
+  "source": "probe: tileload.cu, slope of time per k-tile against tile bytes, one block"
+ },
+ "tma_r_GBs_alone": {
+  "value": 81,
+  "source": "ablation (step 2c): TMA loads-only variant, one block"
+ },
+ "tma_l2_aggregate_GBs": {
+  "value": 1580,
+  "source": "ablation (step 2c): TMA loads-only variant of the 1024^3 pick, 48 blocks, L2-resident: 1.58 TB/s chip"
+ },
+ "cpasync_l2_aggregate_GBs": {
+  "value": 2250,
+  "source": "probe: tileload.cu, 96-192 blocks (2 per SM), 16 KB tiles, L2-resident: 2.25 TB/s chip"
+ },
+ "dram_peak_by_segment_GBs": {
+  "value": [
+   [
+    64,
+    204
+   ],
+   [
+    256,
+    233
+   ],
+   [
+    4096,
+    237
+   ]
+  ],
+  "source": "probe: tileload.cu, DRAM source, clean L2, 48-96 blocks: 64-byte row segments 201-204 GB/s, 256-byte 230-234; mlp_stream contiguous 237"
+ },
+ "dram_little_latency_us": {
+  "value": 0.62,
+  "source": "probe: tileload.cu, DRAM source, 8 blocks x 2 stages x 8 KB: 64 KB in flight at 105 GB/s = 0.62 us (the knee of Little's law; deeper queues raise it)"
+ },
+ "cpasync_overlap_p": {
+  "value": 2.0,
+  "source": "ablation: 21 cp.async kernels at 1024^3, each one's whole block time (minus setup) against its compute alone and its loads alone under the full grid; the exponent p with (compute^p + loads^p)^(1/p) = whole has median 1.97 (18 of 21 within 1.5-2.4; three 64x128 tiles overlap almost fully, p 3.7-6). The same warps issue the copies and the mma, so they share issue slots and barriers: balanced parts hide about half of the smaller one, loads 2-4x compute hide 75-86 %. The TMA path, with its own producer warps, overlaps fully (step 2c: max(compute, loads) + sync at every pick)"
+ }
+}
