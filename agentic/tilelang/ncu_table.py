@@ -18,17 +18,17 @@ def parse(path: Path) -> dict:
             return float(mm.group(1).replace(",", "")) if mm else None
         v = float(mm.group(2).replace(",", "")); u = mm.group(1)
         if unit == "bytes":
-            v *= {"byte": 1, "Kbyte": 1e3, "Mbyte": 1e6, "Gbyte": 1e9}.get(u, 1)
+            v *= {"byte": 1, "Kbyte": 1e3, "Mbyte": 1e6, "Gbyte": 1e9}.get(u.split("/")[0], 1)
         if unit == "us":
             v *= {"ns": 1e-3, "us": 1, "usecond": 1, "ms": 1e3, "msecond": 1e3, "nsecond": 1e-3}.get(u, 1)
         return v
     out["duration_us"] = num("Duration", "us")
-    out["regs"] = num("Registers Per Thread"); out["smem_kb"] = (num("Dynamic Shared Memory Per Block", "bytes") or 0) / 1e3
+    out["regs"] = num("Registers Per Thread"); out["smem_kb"] = ((num("Dynamic Shared Memory Per Block", "bytes") or 0) + (num("Static Shared Memory Per Block", "bytes") or 0)) / 1e3
     out["theoretical_occ_pct"] = num("Theoretical Occupancy"); out["achieved_occ_pct"] = num("Achieved Occupancy")
     out["blocks_limit_regs"] = num("Block Limit Registers"); out["blocks_limit_smem"] = num("Block Limit Shared Mem"); out["blocks_limit_sm"] = num("Block Limit SM")
     out["waves"] = num("Waves Per SM")
     out["tensor_pct"] = num("Tensor (All) Pipe Active") if "Tensor (All)" in t else None
-    for key, lab in (("dram_pct", "DRAM Throughput"), ("l2_hit_pct", "L2 Hit Rate"), ("mem_pct", "Memory Throughput"), ("compute_pct", "Compute (SM) Throughput")):
+    for key, lab in (("mem_busy_pct", "Mem Busy"), ("l2_hit_pct", "L2 Hit Rate"), ("l1_hit_pct", "L1/TEX Hit Rate"), ("mem_pct", "Memory Throughput"), ("compute_pct", "Compute (SM) Throughput")):
         out[key] = num(lab)
     def metric(name):
         mm = re.search(re.escape(name) + r"\s+(\S+)?\s*([\d.,]+)\s*$", t, re.M)
@@ -40,7 +40,7 @@ def parse(path: Path) -> dict:
     out["warps_active_pct"] = metric("sm__warps_active.avg.pct_of_peak_sustained_active")
     stalls = re.findall(r"Stall (\w[\w ]*?)\s+[\d.]+ cycles", t)
     sec = t[t.find("Section: Warp State Statistics"):]
-    mm = re.search(r"is spending ([\d.]+) cycles being stalled ([^.]+)\.", sec)
+    mm = re.search(r"spends ([\d.]+) cycles being stalled ([^.]+?)(?:\. |\.$|\n)", sec)
     out["top_stall"] = (mm.group(2).strip()[:60] + f" ({mm.group(1)} cycles)") if mm else None
     return out
 
@@ -52,7 +52,7 @@ def main(d: str):
         who, shape = f.stem.split("_", 1)
         rows.setdefault(shape, {})[who] = parse(f)
     cols = ["kernel", "grid", "block", "regs", "smem_kb", "theoretical_occ_pct", "achieved_occ_pct", "blocks_limit_regs", "blocks_limit_smem", "waves",
-            "duration_us", "tensor_metric_pct", "warps_active_pct", "dram_mb", "l2_read_mb", "dram_pct", "l2_hit_pct", "top_stall"]
+            "duration_us", "tensor_metric_pct", "warps_active_pct", "dram_mb", "l2_read_mb", "mem_busy_pct", "l2_hit_pct", "l1_hit_pct", "top_stall"]
     for shape, r in rows.items():
         print(f"\n### {shape}\n\n| counter | cuBLASLt | ours |\n|---|---|---|")
         for c in cols:

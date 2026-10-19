@@ -1,0 +1,40 @@
+==PROF== Connected to process 3537083 (/home/lishang/work/research/AI-Infra-Co-Design-calib/tilelang/cublaslt_gemm)
+==PROF== Profiling "nvjet_sm121_hsh_mma_192x24x32..." - 0 (1/1): 0%....50%....100% - 5 passes
+algo 0: median 0.2274 ms (min 0.1646)
+algo 1: median 0.1611 ms (min 0.1318)
+algo 2: median 0.1734 ms (min 0.1380)
+algo 3: median 0.1641 ms (min 0.1359)
+algo 4: median 0.1623 ms (min 0.1339)
+algo 5: median 0.1664 ms (min 0.1370)
+RESULT M=32 N=4096 K=4096 cublaslt_best_ms=0.1611 tflops=6.67 algo=1 candidates=6
+==PROF== Disconnected from process 3537083
+[3537083] cublaslt_gemm@127.0.0.1
+  nvjet_sm121_hsh_mma_192x24x32_7_64x24x32_tmaAB_bz_NNNN (16, 3, 1)x(32, 3, 1), Context 1, Stream 7, Device 0, CC 12.1
+    Section: Command line profiler metrics
+    --------------------------------------------------------------------------- --------------- ------------
+    Metric Name                                                                     Metric Unit Metric Value
+    --------------------------------------------------------------------------- --------------- ------------
+    gpu__time_duration.sum                                                                   us       181.38
+    launch__block_size                                                                                    96
+    launch__grid_size                                                                                     48
+    launch__occupancy_limit_registers                                                     block            2
+    launch__occupancy_limit_shared_mem                                                    block            1
+    launch__registers_per_thread                                                register/thread          255
+    launch__shared_mem_per_block_dynamic                                            Kbyte/block       101.38
+    launch__waves_per_multiprocessor                                                                       1
+    lts__t_sectors_op_read.sum                                                           sector    2,436,171
+    lts__t_sectors_op_read_lookup_miss.sum                                               sector    1,057,579
+    lts__t_sectors_op_write.sum                                                          sector        9,774
+    lts__t_sectors_op_write_lookup_miss.sum                                              sector        2,371
+    sm__pipe_tensor_cycles_active.avg.pct_of_peak_sustained_active                            %        10.50
+    sm__warps_active.avg.pct_of_peak_sustained_active                                         %         6.25
+    smsp__average_warps_issue_stalled_barrier_per_issue_active.ratio                       inst         4.10
+    smsp__average_warps_issue_stalled_long_scoreboard_per_issue_active.ratio               inst        15.58
+    smsp__average_warps_issue_stalled_math_pipe_throttle_per_issue_active.ratio            inst         3.84
+    smsp__average_warps_issue_stalled_membar_per_issue_active.ratio                        inst            0
+    smsp__average_warps_issue_stalled_mio_throttle_per_issue_active.ratio                  inst         0.22
+    smsp__average_warps_issue_stalled_sleeping_per_issue_active.ratio                      inst         0.23
+    smsp__average_warps_issue_stalled_wait_per_issue_active.ratio                          inst         1.55
+    smsp__issue_active.avg.pct_of_peak_sustained_active                                       %         3.59
+    --------------------------------------------------------------------------- --------------- ------------
+

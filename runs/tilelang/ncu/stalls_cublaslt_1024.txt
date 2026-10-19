@@ -1,0 +1,38 @@
+==PROF== Connected to process 3536976 (/home/lishang/work/research/AI-Infra-Co-Design-calib/tilelang/cublaslt_gemm)
+==PROF== Profiling "Kernel2" - 0 (1/1): 0%....50%....100% - 5 passes
+algo 0: median 0.1395 ms (min 0.0686)
+algo 1: median 0.0693 ms (min 0.0420)
+algo 2: median 0.0701 ms (min 0.0399)
+algo 3: median 0.0743 ms (min 0.0468)
+RESULT M=1024 N=1024 K=1024 cublaslt_best_ms=0.0693 tflops=30.97 algo=1 candidates=4
+==PROF== Disconnected from process 3536976
+[3536976] cublaslt_gemm@127.0.0.1
+  void Kernel2<cutlass_80_tensorop_f16_s16816gemm_relu_f16_256x128_32x3_nn_align8>(Params) (32, 1, 1)x(256, 1, 1), Context 1, Stream 7, Device 0, CC 12.1
+    Section: Command line profiler metrics
+    --------------------------------------------------------------------------- --------------- ------------
+    Metric Name                                                                     Metric Unit Metric Value
+    --------------------------------------------------------------------------- --------------- ------------
+    gpu__time_duration.sum                                                                   us        47.26
+    launch__block_size                                                                                   256
+    launch__grid_size                                                                                     32
+    launch__occupancy_limit_registers                                                     block            1
+    launch__occupancy_limit_shared_mem                                                    block            1
+    launch__registers_per_thread                                                register/thread          218
+    launch__shared_mem_per_block_dynamic                                            Kbyte/block        73.73
+    launch__waves_per_multiprocessor                                                                    0.67
+    lts__t_sectors_op_read.sum                                                           sector      795,105
+    lts__t_sectors_op_read_lookup_miss.sum                                               sector      133,359
+    lts__t_sectors_op_write.sum                                                          sector       65,967
+    lts__t_sectors_op_write_lookup_miss.sum                                              sector       65,820
+    sm__pipe_tensor_cycles_active.avg.pct_of_peak_sustained_active                            %        69.61
+    sm__warps_active.avg.pct_of_peak_sustained_active                                         %        16.64
+    smsp__average_warps_issue_stalled_barrier_per_issue_active.ratio                       inst         0.65
+    smsp__average_warps_issue_stalled_long_scoreboard_per_issue_active.ratio               inst         1.69
+    smsp__average_warps_issue_stalled_math_pipe_throttle_per_issue_active.ratio            inst         4.34
+    smsp__average_warps_issue_stalled_membar_per_issue_active.ratio                        inst            0
+    smsp__average_warps_issue_stalled_mio_throttle_per_issue_active.ratio                  inst         0.20
+    smsp__average_warps_issue_stalled_sleeping_per_issue_active.ratio                      inst            0
+    smsp__average_warps_issue_stalled_wait_per_issue_active.ratio                          inst         4.21
+    smsp__issue_active.avg.pct_of_peak_sustained_active                                       %        15.68
+    --------------------------------------------------------------------------- --------------- ------------
+

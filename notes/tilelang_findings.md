@@ -242,3 +242,38 @@ by 1.3–1.8x at 1024³, 2048³ and the decode shapes. cuBLASLt holds 85–98 TF
 family's best at 1024³ is 34 TFLOP/s and at 2048³ 70. The gap is the family, not the solver: at 2048³ the solver's pick
 is the best of the 31 kernels we measured there, and at 1024³ it is 1.6 % from the sweep's best of 504. S2 is about
 the family.
+
+### Step 0: cuBLASLt under ncu, beside our pick
+
+Same sections and metrics for both, one launch each (`runs/tilelang/ncu/`, `agentic/tilelang/ncu_table.py`). Durations
+are ncu's (clock control on), so they sit above the event timings; the ratios hold.
+
+| | 1024³ cuBLASLt | 1024³ ours | M=32 cuBLASLt | M=32 ours | 4096³ cuBLASLt | 4096³ ours |
+|---|---|---|---|---|---|---|
+| kernel | CUTLASS `cutlass_80_tensorop_f16_s16816gemm_relu_f16_256x128_32x3_nn_align8` | TileLang 256x128x32, 3 st | `nvjet_sm121_hsh_mma_192x24x32_7_64x24x32_tmaAB_bz_NNNN` | TileLang 64x256x64, 2 st | CUTLASS `..._128x256_32x3_nn_align8` | TileLang 256x128x64, 2 st, panel 4 |
+| grid x block | 32 x 256 | 32 x 384 | 48 x 96 | 16 x 384 | 512 x 256 | 512 x 384 |
+| registers | 218 | 168 | 255 | 168 | 228 | 168 |
+| shared memory | 73.7 KB | 74.8 KB | 101.4 KB | 82.9 KB | 73.7 KB | 99.3 KB |
+| blocks per SM (limit) | 1 | 1 | 2 (regs) / 1 (smem) | 1 | 1 | 1 |
+| achieved occupancy | 16.6 % | 17.7 % | 6.2 % | 18.7 % | 16.7 % | 18.5 % |
+| waves | 0.67 | 0.67 | 1.0 | 0.33 | 10.7 | 10.7 |
+| duration (ncu) | 47.3 µs | 70.5 µs | 161 µs | 203 µs | 1700 µs | 1690 µs |
+| tensor pipe active | 75.8 % | 68.7 % | 12.0 % | 42.2 % | 77.8 % | 82.2 % |
+| DRAM bytes | 6.4 MB | 4.8 MB | 33.9 MB | 33.9 MB | 245 MB | 203 MB |
+| L2 read bytes | 25.4 MB | 25.3 MB | 77.9 MB | 42.1 MB | 1611 MB | 1611 MB |
+| L1 hit | 0 % | 83 % | 87.5 % | 87.5 % | 0 % | 85 % |
+| top stall | fixed-latency execution, 4.2 cycles | fixed-latency execution, 4.8 cycles | scoreboard (memory), 16.2 cycles | all threads in the warp, 16.1 cycles | fixed-latency, 4.4 | fixed-latency, 5.7 |
+
+What it says. **1024³:** cuBLASLt picked the same tile as our solver (256x128, K slice 32, 3 stages, 8 warps, 32
+blocks, two-thirds of a wave), with the same L2 traffic, and runs it in two-thirds of the time. The difference is
+inside the tile: a CUTLASS sm80-style kernel (`cp.async` multistage, every warp computes, 218 registers, L1 bypassed)
+against TileLang's TMA + producer-warp-group kernel (384 threads, 168 registers). The tensor pipe is 76 % against 69 %
+busy while active; the rest of the gap is time the pipe is not active at all: the start-up of each tile (tensor-map
+and barrier setup, the producer hand-off) and its epilogue, which a 32-step K loop does not amortize. At 4096³ the
+same two kernels tie (1700 vs 1690 µs), so the per-tile fixed cost is the whole 1024³ story. **M=32:** cuBLASLt uses a
+decode kernel, 48 blocks of 96 threads, one per SM, 255 registers and 101 KB of shared memory each, 12 % tensor
+activity, stalled on memory (scoreboard) as a streaming kernel should be; it moves the same 33.9 MB from DRAM in
+161 µs against our 203. Our pick runs 16 blocks (64-row tiles over M=32: a third of the SMs), and the split-K probe
+showed 256 blocks do no better. The design hint for S2 is not block count but bytes in flight per SM: cuBLASLt keeps
+101 KB of B staged per SM with 3 warps, ours keeps 83 KB with 12 warps and a producer that issues one TMA box at a
+time. **4096³:** tie; closed. Not done at 2048³ in step 0; the step-2 profiles cover it.

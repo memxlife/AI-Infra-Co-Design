@@ -1,0 +1,159 @@
+Loading tilelang libs from dev root: /home/lishang/work/research/tilelang-work/tilelang/build
+==PROF== Connected to process 3534836 (/usr/bin/python3.12)
+==PROF== Profiling "matmul_kernel": 0%....50%....100% - 19 passes
+==PROF== Disconnected from process 3534836
+[3534836] python3.12@127.0.0.1
+  matmul_kernel (8, 4, 1)x(384, 1, 1), Context 1, Stream 7, Device 0, CC 12.1
+    Section: Command line profiler metrics
+    -------------------------------------------------------------- --------------- ------------
+    Metric Name                                                        Metric Unit Metric Value
+    -------------------------------------------------------------- --------------- ------------
+    gpu__time_duration.sum                                                      us        70.50
+    launch__block_size                                                                      384
+    launch__grid_size                                                                        32
+    launch__occupancy_limit_blocks                                           block           24
+    launch__occupancy_limit_registers                                        block            1
+    launch__occupancy_limit_shared_mem                                       block            1
+    launch__registers_per_thread                                   register/thread          168
+    launch__shared_mem_per_block_dynamic                               Kbyte/block        73.73
+    launch__shared_mem_per_block_static                                Kbyte/block         1.02
+    launch__waves_per_multiprocessor                                                       0.67
+    lts__t_sectors_op_read.sum                                              sector      789,790
+    lts__t_sectors_op_read_lookup_miss.sum                                  sector      132,094
+    lts__t_sectors_op_write.sum                                             sector      125,740
+    lts__t_sectors_op_write_lookup_miss.sum                                 sector       18,986
+    sm__pipe_tensor_cycles_active.avg.pct_of_peak_sustained_active               %        68.69
+    sm__warps_active.avg.pct_of_peak_sustained_active                            %        17.73
+    -------------------------------------------------------------- --------------- ------------
+
+    Section: GPU Speed Of Light Throughput
+    ----------------------- ----------- ------------
+    Metric Name             Metric Unit Metric Value
+    ----------------------- ----------- ------------
+    SM Frequency                    Ghz         2.09
+    Elapsed Cycles                cycle      147,751
+    Memory Throughput                 %        21.19
+    Duration                         us        70.50
+    L1/TEX Cache Throughput           %        25.90
+    L2 Cache Throughput               %        21.19
+    SM Active Cycles              cycle    63,604.50
+    Compute (SM) Throughput           %        29.60
+    ----------------------- ----------- ------------
+
+    OPT   This kernel grid is too small to fill the available resources on this device, resulting in only 0.7 full      
+          waves across all SMs. Look at Launch Statistics for more details.                                             
+
+    Section: Compute Workload Analysis
+    -------------------- ----------- ------------
+    Metric Name          Metric Unit Metric Value
+    -------------------- ----------- ------------
+    Executed Ipc Active   inst/cycle         0.56
+    Executed Ipc Elapsed  inst/cycle         0.24
+    Issue Slots Busy               %         6.08
+    Issued Ipc Active     inst/cycle         0.56
+    SM Busy                        %        29.60
+    -------------------- ----------- ------------
+
+    INF   Tensor is the highest-utilized pipeline (29.6%) based on elapsed cycles in the workload, taking into account  
+          the rates of its different instructions. It is the logical aggregation of individual tensor pipelines. It's   
+          dominated by its Tensor (FP) sub-pipeline. It is well-utilized, but should not be a bottleneck.               
+
+    Section: Memory Workload Analysis
+    -------------------------------------- ----------- ------------
+    Metric Name                            Metric Unit Metric Value
+    -------------------------------------- ----------- ------------
+    Local Memory Spilling Requests                                0
+    Local Memory Spilling Request Overhead           %      no data
+    Mem Busy                                         %        21.19
+    Max Bandwidth                                    %        18.83
+    L1/TEX Hit Rate                                  %        83.02
+    L2 Persisting Size                           Mbyte         4.72
+    L2 Compression Success Rate                      %            0
+    L2 Compression Ratio                                          0
+    L2 Compression Input Sectors                sector            0
+    L2 Hit Rate                                      %        83.59
+    Mem Pipes Busy                                   %         5.10
+    -------------------------------------- ----------- ------------
+
+    Section: Warp State Statistics
+    ---------------------------------------- ----------- ------------
+    Metric Name                              Metric Unit Metric Value
+    ---------------------------------------- ----------- ------------
+    Warp Cycles Per Issued Instruction             cycle        15.46
+    Warp Cycles Per Executed Instruction           cycle        15.48
+    Avg. Active Threads Per Warp                                31.94
+    Avg. Not Predicated Off Threads Per Warp                    31.70
+    ---------------------------------------- ----------- ------------
+
+    WRN   The optional metric smsp__pcsamp_sample_count could not be found. Collecting it as an additional metric could 
+          enable the rule to provide more guidance.                                                                     
+    ----- --------------------------------------------------------------------------------------------------------------
+    OPT   Est. Local Speedup: 31.11%                                                                                    
+          On average, each warp of this workload spends 4.8 cycles being stalled waiting on a fixed latency execution   
+          dependency. Typically, this stall reason should be very low and only shows up as a top contributor in         
+          already highly optimized kernels. Try to hide the corresponding instruction latencies by increasing the       
+          number of active warps, restructuring the code or unrolling loops. Furthermore, consider switching to         
+          lower-latency instructions, e.g. by making use of fast math compiler options. This stall type represents      
+          about 31.1% of the total average of 15.5 cycles between issuing two instructions.                             
+    ----- --------------------------------------------------------------------------------------------------------------
+    INF   Check the Warp Stall Sampling (All Samples) table for the top stall locations in your source based on         
+          sampling data. The Profiling Guide                                                                            
+          (https://docs.nvidia.com/nsight-compute/ProfilingGuide/index.html#metrics-reference) provides more details    
+          on each stall reason.                                                                                         
+
+    Section: Launch Statistics
+    -------------------------------- --------------- ---------------
+    Metric Name                          Metric Unit    Metric Value
+    -------------------------------- --------------- ---------------
+    Block Size                                                   384
+    Cluster Scheduling Policy                           PolicySpread
+    Cluster Size                                                   0
+    Function Cache Configuration                     CachePreferNone
+    Grid Size                                                     32
+    Preferred Cluster Size                                         0
+    Registers Per Thread             register/thread             168
+    Shared Memory Configuration Size           Kbyte          102.40
+    Driver Shared Memory Per Block       Kbyte/block            1.02
+    Dynamic Shared Memory Per Block      Kbyte/block           73.73
+    Static Shared Memory Per Block       Kbyte/block            1.02
+    # SMs                                         SM              48
+    Stack Size                                                 1,024
+    Threads                                   thread          12,288
+    # TPCs                                                        24
+    Enabled TPC IDs                                              all
+    Uses Green Context                                             0
+    Waves Per SM                                                0.67
+    -------------------------------- --------------- ---------------
+
+    OPT   Est. Speedup: 33.33%                                                                                          
+          The grid for this launch is configured to execute only 32 blocks, which is less than the GPU's 48             
+          multiprocessors. This can underutilize some multiprocessors. If you do not intend to execute this kernel      
+          concurrently with other workloads, consider reducing the block size to have at least one block per            
+          multiprocessor or increase the size of the grid to fully utilize the available hardware resources. See the    
+          Hardware Model (https://docs.nvidia.com/nsight-compute/ProfilingGuide/index.html#metrics-hw-model)            
+          description for more details on launch configurations.                                                        
+
+    Section: Occupancy
+    ------------------------------- ----------- ------------
+    Metric Name                     Metric Unit Metric Value
+    ------------------------------- ----------- ------------
+    Max Active Clusters                 cluster            0
+    Max Cluster Size                      block            8
+    Overall GPU Occupancy                     %            0
+    Cluster Occupancy                         %            0
+    Block Limit Barriers                  block           24
+    Block Limit SM                        block           24
+    Block Limit Registers                 block            1
+    Block Limit Shared Mem                block            1
+    Block Limit Warps                     block            4
+    Theoretical Active Warps per SM        warp           12
+    Theoretical Occupancy                     %           25
+    Achieved Occupancy                        %        17.73
+    Achieved Active Warps Per SM           warp         8.51
+    ------------------------------- ----------- ------------
+
+    OPT   Est. Local Speedup: 75%                                                                                       
+          The 3.00 theoretical warps per scheduler this kernel can issue according to its occupancy are below the       
+          hardware maximum of 12. This kernel's theoretical occupancy (25.0%) is limited by the number of required      
+          registers, and the required amount of shared memory.                                                          
+

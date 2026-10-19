@@ -1,0 +1,318 @@
+==PROF== Connected to process 3534913 (/home/lishang/work/research/AI-Infra-Co-Design-calib/tilelang/cublaslt_gemm)
+==PROF== Profiling "nvjet_sm121_hsh_mma_192x24x32..." - 0 (1/2): 0%....50%....100% - 19 passes
+==PROF== Profiling "nvjet_sm121_hsh_mma_192x24x32..." - 1 (2/2): 0%....50%....100% - 19 passes
+algo 0: median 452.9737 ms (min 0.2514)
+algo 1: median 0.1681 ms (min 0.1370)
+algo 2: median 0.1819 ms (min 0.1462)
+algo 3: median 0.1733 ms (min 0.1462)
+algo 4: median 0.1682 ms (min 0.1390)
+algo 5: median 0.1712 ms (min 0.1442)
+RESULT M=32 N=4096 K=4096 cublaslt_best_ms=0.1681 tflops=6.39 algo=1 candidates=6
+==PROF== Disconnected from process 3534913
+[3534913] cublaslt_gemm@127.0.0.1
+  nvjet_sm121_hsh_mma_192x24x32_7_64x24x32_tmaAB_bz_NNNN (16, 3, 1)x(32, 3, 1), Context 1, Stream 7, Device 0, CC 12.1
+    Section: Command line profiler metrics
+    -------------------------------------------------------------- --------------- ------------
+    Metric Name                                                        Metric Unit Metric Value
+    -------------------------------------------------------------- --------------- ------------
+    gpu__time_duration.sum                                                      us       161.25
+    launch__block_size                                                                       96
+    launch__grid_size                                                                        48
+    launch__occupancy_limit_blocks                                           block           24
+    launch__occupancy_limit_registers                                        block            2
+    launch__occupancy_limit_shared_mem                                       block            1
+    launch__registers_per_thread                                   register/thread          255
+    launch__shared_mem_per_block_dynamic                               Kbyte/block       101.38
+    launch__shared_mem_per_block_static                                 byte/block            0
+    launch__waves_per_multiprocessor                                                          1
+    lts__t_sectors_op_read.sum                                              sector    2,435,317
+    lts__t_sectors_op_read_lookup_miss.sum                                  sector    1,057,561
+    lts__t_sectors_op_write.sum                                             sector        9,586
+    lts__t_sectors_op_write_lookup_miss.sum                                 sector        2,401
+    sm__pipe_tensor_cycles_active.avg.pct_of_peak_sustained_active               %        12.00
+    sm__warps_active.avg.pct_of_peak_sustained_active                            %         6.25
+    -------------------------------------------------------------- --------------- ------------
+
+    Section: GPU Speed Of Light Throughput
+    ----------------------- ----------- ------------
+    Metric Name             Metric Unit Metric Value
+    ----------------------- ----------- ------------
+    SM Frequency                    Ghz         2.13
+    Elapsed Cycles                cycle      343,575
+    Memory Throughput                 %        24.60
+    Duration                         us       161.25
+    L1/TEX Cache Throughput           %        18.00
+    L2 Cache Throughput               %        24.60
+    SM Active Cycles              cycle   281,572.44
+    Compute (SM) Throughput           %         9.84
+    ----------------------- ----------- ------------
+
+    OPT   This workload exhibits low compute throughput and memory bandwidth utilization relative to the peak           
+          performance of this device. Achieved compute throughput and/or memory bandwidth below 60.0% of peak           
+          typically indicate latency issues. Look at Scheduler Statistics and Warp State Statistics for potential       
+          reasons.                                                                                                      
+
+    Section: Compute Workload Analysis
+    -------------------- ----------- ------------
+    Metric Name          Metric Unit Metric Value
+    -------------------- ----------- ------------
+    Executed Ipc Active   inst/cycle         0.11
+    Executed Ipc Elapsed  inst/cycle         0.09
+    Issue Slots Busy               %         2.20
+    Issued Ipc Active     inst/cycle         0.11
+    SM Busy                        %         9.84
+    -------------------- ----------- ------------
+
+    OPT   Est. Local Speedup: 90.16%                                                                                    
+          All compute pipelines are under-utilized. Either this workload is very small or it doesn't issue enough warps 
+          per scheduler. Check the Launch Statistics and Scheduler Statistics sections for further details.             
+
+    Section: Memory Workload Analysis
+    -------------------------------------- ----------- ------------
+    Metric Name                            Metric Unit Metric Value
+    -------------------------------------- ----------- ------------
+    Local Memory Spilling Requests                                0
+    Local Memory Spilling Request Overhead           %      no data
+    Mem Busy                                         %        24.60
+    Max Bandwidth                                    %        24.50
+    L1/TEX Hit Rate                                  %        87.50
+    L2 Persisting Size                           Mbyte         4.72
+    L2 Compression Success Rate                      %            0
+    L2 Compression Ratio                                          0
+    L2 Compression Input Sectors                sector            0
+    L2 Hit Rate                                      %        56.65
+    Mem Pipes Busy                                   %         2.34
+    -------------------------------------- ----------- ------------
+
+    Section: Warp State Statistics
+    ---------------------------------------- ----------- ------------
+    Metric Name                              Metric Unit Metric Value
+    ---------------------------------------- ----------- ------------
+    Warp Cycles Per Issued Instruction             cycle        27.90
+    Warp Cycles Per Executed Instruction           cycle        27.99
+    Avg. Active Threads Per Warp                                32.00
+    Avg. Not Predicated Off Threads Per Warp                    28.80
+    ---------------------------------------- ----------- ------------
+
+    WRN   The optional metric smsp__pcsamp_sample_count could not be found. Collecting it as an additional metric could 
+          enable the rule to provide more guidance.                                                                     
+    ----- --------------------------------------------------------------------------------------------------------------
+    OPT   Est. Local Speedup: 57.92%                                                                                    
+          On average, each warp of this workload spends 16.2 cycles being stalled waiting for a scoreboard dependency   
+          on a L1TEX (local, global, surface, texture) operation. Find the instruction producing the data being waited  
+          upon to identify the culprit. To reduce the number of cycles waiting on L1TEX data accesses verify the        
+          memory access patterns are optimal for the target architecture, attempt to increase cache hit rates by        
+          increasing data locality (coalescing), or by changing the cache configuration. Consider moving frequently     
+          used data to shared memory. This stall type represents about 57.9% of the total average of 27.9 cycles        
+          between issuing two instructions.                                                                             
+    ----- --------------------------------------------------------------------------------------------------------------
+    INF   Check the Warp Stall Sampling (All Samples) table for the top stall locations in your source based on         
+          sampling data. The Profiling Guide                                                                            
+          (https://docs.nvidia.com/nsight-compute/ProfilingGuide/index.html#metrics-reference) provides more details    
+          on each stall reason.                                                                                         
+
+    Section: Launch Statistics
+    -------------------------------- --------------- ---------------
+    Metric Name                          Metric Unit    Metric Value
+    -------------------------------- --------------- ---------------
+    Block Size                                                    96
+    Cluster Scheduling Policy                           PolicySpread
+    Cluster Size                                                   0
+    Function Cache Configuration                     CachePreferNone
+    Grid Size                                                     48
+    Preferred Cluster Size                                         0
+    Registers Per Thread             register/thread             255
+    Shared Memory Configuration Size           Kbyte          102.40
+    Driver Shared Memory Per Block       Kbyte/block            1.02
+    Dynamic Shared Memory Per Block      Kbyte/block          101.38
+    Static Shared Memory Per Block        byte/block               0
+    # SMs                                         SM              48
+    Stack Size                                                 1,024
+    Threads                                   thread           4,608
+    # TPCs                                                        24
+    Enabled TPC IDs                                              all
+    Uses Green Context                                             0
+    Waves Per SM                                                   1
+    -------------------------------- --------------- ---------------
+
+    OPT   If you execute __syncthreads() to synchronize the threads of a block, it is recommended to have at least two  
+          blocks per multiprocessor (compared to the currently executed 1.0 blocks) This way, blocks that aren't        
+          waiting for __syncthreads() can keep the hardware busy.                                                       
+
+    Section: Occupancy
+    ------------------------------- ----------- ------------
+    Metric Name                     Metric Unit Metric Value
+    ------------------------------- ----------- ------------
+    Max Active Clusters                 cluster            0
+    Max Cluster Size                      block            8
+    Overall GPU Occupancy                     %            0
+    Cluster Occupancy                         %            0
+    Block Limit Barriers                  block           12
+    Block Limit SM                        block           24
+    Block Limit Registers                 block            2
+    Block Limit Shared Mem                block            1
+    Block Limit Warps                     block           16
+    Theoretical Active Warps per SM        warp            3
+    Theoretical Occupancy                     %         6.25
+    Achieved Occupancy                        %         6.25
+    Achieved Active Warps Per SM           warp         3.00
+    ------------------------------- ----------- ------------
+
+    OPT   Est. Local Speedup: 91.67%                                                                                    
+          The 1.00 theoretical warps per scheduler this kernel can issue according to its occupancy are below the       
+          hardware maximum of 12. This kernel's theoretical occupancy (8.3%) is limited by the required amount of       
+          shared memory.                                                                                                
+
+  nvjet_sm121_hsh_mma_192x24x32_7_64x24x32_tmaAB_bz_NNNN (16, 3, 1)x(32, 3, 1), Context 1, Stream 7, Device 0, CC 12.1
+    Section: Command line profiler metrics
+    -------------------------------------------------------------- --------------- ------------
+    Metric Name                                                        Metric Unit Metric Value
+    -------------------------------------------------------------- --------------- ------------
+    gpu__time_duration.sum                                                      us       149.34
+    launch__block_size                                                                       96
+    launch__grid_size                                                                        48
+    launch__occupancy_limit_blocks                                           block           24
+    launch__occupancy_limit_registers                                        block            2
+    launch__occupancy_limit_shared_mem                                       block            1
+    launch__registers_per_thread                                   register/thread          255
+    launch__shared_mem_per_block_dynamic                               Kbyte/block       101.38
+    launch__shared_mem_per_block_static                                 byte/block            0
+    launch__waves_per_multiprocessor                                                          1
+    lts__t_sectors_op_read.sum                                              sector    2,435,297
+    lts__t_sectors_op_read_lookup_miss.sum                                  sector    1,057,511
+    lts__t_sectors_op_write.sum                                             sector        9,407
+    lts__t_sectors_op_write_lookup_miss.sum                                 sector        2,381
+    sm__pipe_tensor_cycles_active.avg.pct_of_peak_sustained_active               %        12.03
+    sm__warps_active.avg.pct_of_peak_sustained_active                            %         6.25
+    -------------------------------------------------------------- --------------- ------------
+
+    Section: GPU Speed Of Light Throughput
+    ----------------------- ----------- ------------
+    Metric Name             Metric Unit Metric Value
+    ----------------------- ----------- ------------
+    SM Frequency                    Ghz         2.13
+    Elapsed Cycles                cycle      318,053
+    Memory Throughput                 %        26.56
+    Duration                         us       149.34
+    L1/TEX Cache Throughput           %        18.04
+    L2 Cache Throughput               %        26.56
+    SM Active Cycles              cycle   280,942.77
+    Compute (SM) Throughput           %        10.63
+    ----------------------- ----------- ------------
+
+    OPT   This workload exhibits low compute throughput and memory bandwidth utilization relative to the peak           
+          performance of this device. Achieved compute throughput and/or memory bandwidth below 60.0% of peak           
+          typically indicate latency issues. Look at Scheduler Statistics and Warp State Statistics for potential       
+          reasons.                                                                                                      
+
+    Section: Compute Workload Analysis
+    -------------------- ----------- ------------
+    Metric Name          Metric Unit Metric Value
+    -------------------- ----------- ------------
+    Executed Ipc Active   inst/cycle         0.11
+    Executed Ipc Elapsed  inst/cycle         0.09
+    Issue Slots Busy               %         2.38
+    Issued Ipc Active     inst/cycle         0.11
+    SM Busy                        %        10.63
+    -------------------- ----------- ------------
+
+    OPT   Est. Local Speedup: 89.37%                                                                                    
+          All compute pipelines are under-utilized. Either this workload is very small or it doesn't issue enough warps 
+          per scheduler. Check the Launch Statistics and Scheduler Statistics sections for further details.             
+
+    Section: Memory Workload Analysis
+    -------------------------------------- ----------- ------------
+    Metric Name                            Metric Unit Metric Value
+    -------------------------------------- ----------- ------------
+    Local Memory Spilling Requests                                0
+    Local Memory Spilling Request Overhead           %      no data
+    Mem Busy                                         %        26.56
+    Max Bandwidth                                    %        26.46
+    L1/TEX Hit Rate                                  %        87.50
+    L2 Persisting Size                           Mbyte         4.72
+    L2 Compression Success Rate                      %            0
+    L2 Compression Ratio                                          0
+    L2 Compression Input Sectors                sector            0
+    L2 Hit Rate                                      %        56.65
+    Mem Pipes Busy                                   %         2.52
+    -------------------------------------- ----------- ------------
+
+    Section: Warp State Statistics
+    ---------------------------------------- ----------- ------------
+    Metric Name                              Metric Unit Metric Value
+    ---------------------------------------- ----------- ------------
+    Warp Cycles Per Issued Instruction             cycle        27.69
+    Warp Cycles Per Executed Instruction           cycle        27.77
+    Avg. Active Threads Per Warp                                32.00
+    Avg. Not Predicated Off Threads Per Warp                    28.84
+    ---------------------------------------- ----------- ------------
+
+    WRN   The optional metric smsp__pcsamp_sample_count could not be found. Collecting it as an additional metric could 
+          enable the rule to provide more guidance.                                                                     
+    ----- --------------------------------------------------------------------------------------------------------------
+    OPT   Est. Local Speedup: 57.47%                                                                                    
+          On average, each warp of this workload spends 15.9 cycles being stalled waiting for a scoreboard dependency   
+          on a L1TEX (local, global, surface, texture) operation. Find the instruction producing the data being waited  
+          upon to identify the culprit. To reduce the number of cycles waiting on L1TEX data accesses verify the        
+          memory access patterns are optimal for the target architecture, attempt to increase cache hit rates by        
+          increasing data locality (coalescing), or by changing the cache configuration. Consider moving frequently     
+          used data to shared memory. This stall type represents about 57.5% of the total average of 27.7 cycles        
+          between issuing two instructions.                                                                             
+    ----- --------------------------------------------------------------------------------------------------------------
+    INF   Check the Warp Stall Sampling (All Samples) table for the top stall locations in your source based on         
+          sampling data. The Profiling Guide                                                                            
+          (https://docs.nvidia.com/nsight-compute/ProfilingGuide/index.html#metrics-reference) provides more details    
+          on each stall reason.                                                                                         
+
+    Section: Launch Statistics
+    -------------------------------- --------------- ---------------
+    Metric Name                          Metric Unit    Metric Value
+    -------------------------------- --------------- ---------------
+    Block Size                                                    96
+    Cluster Scheduling Policy                           PolicySpread
+    Cluster Size                                                   0
+    Function Cache Configuration                     CachePreferNone
+    Grid Size                                                     48
+    Preferred Cluster Size                                         0
+    Registers Per Thread             register/thread             255
+    Shared Memory Configuration Size           Kbyte          102.40
+    Driver Shared Memory Per Block       Kbyte/block            1.02
+    Dynamic Shared Memory Per Block      Kbyte/block          101.38
+    Static Shared Memory Per Block        byte/block               0
+    # SMs                                         SM              48
+    Stack Size                                                 1,024
+    Threads                                   thread           4,608
+    # TPCs                                                        24
+    Enabled TPC IDs                                              all
+    Uses Green Context                                             0
+    Waves Per SM                                                   1
+    -------------------------------- --------------- ---------------
+
+    OPT   If you execute __syncthreads() to synchronize the threads of a block, it is recommended to have at least two  
+          blocks per multiprocessor (compared to the currently executed 1.0 blocks) This way, blocks that aren't        
+          waiting for __syncthreads() can keep the hardware busy.                                                       
+
+    Section: Occupancy
+    ------------------------------- ----------- ------------
+    Metric Name                     Metric Unit Metric Value
+    ------------------------------- ----------- ------------
+    Max Active Clusters                 cluster            0
+    Max Cluster Size                      block            8
+    Overall GPU Occupancy                     %            0
+    Cluster Occupancy                         %            0
+    Block Limit Barriers                  block           12
+    Block Limit SM                        block           24
+    Block Limit Registers                 block            2
+    Block Limit Shared Mem                block            1
+    Block Limit Warps                     block           16
+    Theoretical Active Warps per SM        warp            3
+    Theoretical Occupancy                     %         6.25
+    Achieved Occupancy                        %         6.25
+    Achieved Active Warps Per SM           warp         3.00
+    ------------------------------- ----------- ------------
+
+    OPT   Est. Local Speedup: 91.67%                                                                                    
+          The 1.00 theoretical warps per scheduler this kernel can issue according to its occupancy are below the       
+          hardware maximum of 12. This kernel's theoretical occupancy (8.3%) is limited by the required amount of       
+          shared memory.                                                                                                
+
