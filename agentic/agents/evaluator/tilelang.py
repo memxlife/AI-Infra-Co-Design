@@ -28,7 +28,8 @@ def measure(T: dict, x: dict, host: str, kernel: dict, reps: int = 100, ncu: boo
     chip = T["scope"]["chip"]
     terms = terms or _terms_of(T) or default_terms(chip)
     p = predict(x["values"], shape, chip, terms)
-    r = run_kernel(host, kernel["source"], shape["M"], shape["N"], shape["K"], {}, func=T["scope"]["structure"].get("func", "matmul"), reps=reps, ncu=ncu)
+    r = run_kernel(host, kernel["source"], shape["M"], shape["N"], shape["K"], {}, func=T["scope"]["structure"].get("func", "matmul"), reps=reps, ncu=ncu,
+                   inout_c=T["scope"]["structure"].get("func_kind") == "inout_c")
     if not r.get("ok"):
         raise RuntimeError(f"kernel did not run on {host}: {str(r.get('error', '?'))[:400]}")
     measured_us = r["latency_ms"] * 1e3

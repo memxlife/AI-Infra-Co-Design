@@ -70,5 +70,15 @@
   },
   "written_by": "Claude Code (claude-fable-5-1) acting as the Formulator in the session, following prompts/tilelang_family.md",
   "reply": "{\"family\": \"gemm_basic\", \"menus\": {\"block_M\": [128, 256], \"block_N\": [128, 256], \"block_K\": [32, 64, 128], \"num_stages\": [2, 3, 4], \"threads\": [256, 512], \"swizzle\": [0, 4, 8]}, \"structure\": {\"name\": \"bottleneck_dominance\", \"bucket\": \"objective\", \"regime\": \"compute-bound: A and B are 16 MB together, at the edge of L2; the tensor work is about 370 us\", \"move\": \"big tiles, a few panels in case B spills out of L2\", \"obligation\": \"the tensor term stays the longest\", \"strength\": \"observed\"}, \"rationale\": \"Short K: only 8 to 32 pipeline steps per tile, so the fixed per-tile cost matters and big tiles with few steps win. The inputs just about fit L2, so I keep panels of 4 and 8 as insurance. I expect 256x128 or 256x256 with 2 or 3 stages; a DRAM count well above 48 MB would show the L2 did not hold.\"}"
+ },
+ {
+  "shape": {
+   "M": 32,
+   "N": 4096,
+   "K": 4096
+  },
+  "family_choice": "gemm_splitk",
+  "written_by": "Claude Code (claude-fable-5-1) acting as the Formulator in the session, following prompts/tilelang_family.md; written live in round 2 from the probe's tiles-per-SM",
+  "reply": "{\"family\": \"gemm_splitk\", \"menus\": {\"block_M\": [16, 32], \"block_N\": [128, 256], \"block_K\": [32, 64], \"num_stages\": [2, 3, 4], \"threads\": [128, 256], \"swizzle\": [0], \"split_k\": [2, 4, 8]}, \"structure\": {\"name\": \"bottleneck_dominance\", \"bucket\": \"objective\", \"regime\": \"memory-bound: B (32 MB) streams once from DRAM, 143 us at the measured bandwidth; the gemm_basic kernel reaches 200 us with 32 tiles on 48 SMs, so a third of the machine never pulls bandwidth\", \"move\": \"cut K into parts so there are more blocks than SMs; every SM streams its share of B; the FP32 atomics on C cost split_k x 0.5 MB, nothing against 32 MB of B\", \"obligation\": \"exact-once: the parts of K are whole multiples of the K slice, so no product is added twice; the DRAM term stays the longest\", \"strength\": \"observed\"}, \"rationale\": \"The probe for gemm_basic at M=32 says 32 tiles for 48 SMs (16x256) or 64 tiles (16x128), one block per SM: the kernel cannot use the whole chip and sits at 200 us against a 143 us floor. Split-K is the structural move: with split_k 2 to 8 there are 64 to 512 blocks, so every SM streams B. C is only 32x4096 FP32 = 0.5 MB, so the atomics are cheap. I keep block_M at 16 or 32 to cover M without padding and the swizzle off (nothing is re-read). I expect split_k 4 with 16x256 or 16x128 tiles to land between 150 and 180 us; if it does not beat 200 us by more than the 0.5 % noise band, the limit is not the block count but the per-SM streaming rate, and the family choice was wrong.\"}"
  }
 ]

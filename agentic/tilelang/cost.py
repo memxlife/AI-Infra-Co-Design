@@ -104,14 +104,15 @@ def predict(h: dict, shape: dict, chip: dict, terms: dict | None = None) -> dict
     t = terms or default_terms(chip)
     M, N, K = shape["M"], shape["N"], shape["K"]
     bm, bn, bk, st, th = h["block_M"], h["block_N"], h["block_K"], h["num_stages"], h["threads"]
-    tiles = math.ceil(M / bm) * math.ceil(N / bn)
+    sk = int(h.get("split_k", 1) or 1)
+    tiles = math.ceil(M / bm) * math.ceil(N / bn) * sk
     bps = blocks_per_sm(h, chip)
     if bps == 0:
         return {"ok": False, "reason": "does not fit one block per SM", "time_s": math.inf}
     sms = chip["sms"]
     waves = math.ceil(tiles / (sms * bps))
     # per tile: tensor time at the per-SM rate times the warp efficiency; copy time through L2 at the per-SM TMA rate
-    k_steps = math.ceil(K / bk)
+    k_steps = math.ceil(K / sk / bk)
     flops_tile = 2.0 * bm * bn * (k_steps * bk)
     u = t["u_warps"].get(th, t["u_warps"].get(str(th), 1.0))
     ut = (t.get("u_tile") or {}).get(th) or (t.get("u_tile") or {}).get(str(th))      # R2: the rate by (threads, tile) when known
@@ -136,6 +137,9 @@ def predict(h: dict, shape: dict, chip: dict, terms: dict | None = None) -> dict
             kf *= float(table.get(h[knob], table.get(str(h[knob]), 1.0)))
     t_sm *= kf
     tr = traffic_bytes(h, shape, t, chip, bps)
+    if sk > 1:                                                           # the atomics: each part reads and writes its FP32 tile of C
+        tr["dram"] += 2.0 * M * N * 4 * sk - M * N * 2
+        tr["atomic_bytes"] = 2.0 * M * N * 4 * sk
     t_dram = tr["dram"] / t["B_HBM"]
     t_l2 = tr["l2_reads"] / t["B_L2_chip"]
     time = max(t_sm, t_dram, t_l2) * t.get("scale", 1.0) + t["launch_s"]     # one-sided deflation (calibrate.py)

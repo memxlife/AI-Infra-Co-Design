@@ -16,7 +16,7 @@ def _ssh(host: str, cmd: str, timeout: int = 1200) -> subprocess.CompletedProces
 
 
 def run_kernel(host: str, kernel_source: str, m: int, n: int, k: int, holes: dict, func: str = "matmul", reps: int = 100,
-               warmup: int = 25, ncu: bool = False) -> dict:
+               warmup: int = 25, ncu: bool = False, inout_c: bool = False) -> dict:
     """Compile, check, time and report one TileLang kernel on the Spark. Returns the kernel_report dict."""
     _ssh(host, f"mkdir -p {REMOTE_DIR}")
     subprocess.run(["rsync", "-az", str(HERE / "spark_runner.py"), f"{host}:{REMOTE_DIR}/spark_runner.py"], check=True, capture_output=True)
@@ -25,7 +25,7 @@ def run_kernel(host: str, kernel_source: str, m: int, n: int, k: int, holes: dic
     subprocess.run(["rsync", "-az", local, f"{host}:{REMOTE_DIR}/kernel.py"], check=True, capture_output=True)
     holes_json = json.dumps(holes).replace("'", "")
     cmd = (f"{SPARK_ENV}; cd {REMOTE_DIR} && {SPARK_PYTHON} spark_runner.py --kernel kernel.py --func {func} --m {m} --n {n} --k {k} "
-           f"--holes '{holes_json}' --reps {reps} --warmup {warmup} --out report.json" + (" --ncu" if ncu else ""))
+           f"--holes '{holes_json}' --reps {reps} --warmup {warmup} --out report.json" + (" --ncu" if ncu else "") + (" --inout-c" if inout_c else ""))
     r = _ssh(host, cmd)
     i = r.stdout.find("{")
     if i < 0:

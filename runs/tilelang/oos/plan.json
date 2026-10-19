@@ -1,0 +1,2854 @@
+[
+ {
+  "label": "2048:pick",
+  "shape": {
+   "M": 2048,
+   "N": 2048,
+   "K": 2048
+  },
+  "holes": {
+   "block_M": 128,
+   "block_N": 256,
+   "block_K": 32,
+   "num_stages": 4,
+   "threads": 256,
+   "swizzle": 8,
+   "prefetch": 0,
+   "warp_policy": 0,
+   "vec_width": 0,
+   "tma": 1,
+   "warp_spec": 1,
+   "smem_layout": "inferred"
+  },
+  "kernel": "oos/2048_pick.py"
+ },
+ {
+  "label": "2048:sample00",
+  "shape": {
+   "M": 2048,
+   "N": 2048,
+   "K": 2048
+  },
+  "holes": {
+   "block_M": 128,
+   "block_N": 64,
+   "block_K": 64,
+   "num_stages": 2,
+   "threads": 128,
+   "swizzle": 0,
+   "prefetch": 1,
+   "warp_policy": 2,
+   "vec_width": 0,
+   "tma": 1,
+   "warp_spec": 1,
+   "smem_layout": "inferred"
+  },
+  "kernel": "oos/2048_s00.py"
+ },
+ {
+  "label": "2048:sample01",
+  "shape": {
+   "M": 2048,
+   "N": 2048,
+   "K": 2048
+  },
+  "holes": {
+   "block_M": 128,
+   "block_N": 128,
+   "block_K": 32,
+   "num_stages": 3,
+   "threads": 128,
+   "swizzle": 16,
+   "prefetch": 0,
+   "warp_policy": 2,
+   "vec_width": 0,
+   "tma": 1,
+   "warp_spec": 1,
+   "smem_layout": "linear"
+  },
+  "kernel": "oos/2048_s01.py"
+ },
+ {
+  "label": "2048:sample02",
+  "shape": {
+   "M": 2048,
+   "N": 2048,
+   "K": 2048
+  },
+  "holes": {
+   "block_M": 256,
+   "block_N": 64,
+   "block_K": 32,
+   "num_stages": 3,
+   "threads": 256,
+   "swizzle": 0,
+   "prefetch": 2,
+   "warp_policy": 2,
+   "vec_width": 0,
+   "tma": 1,
+   "warp_spec": 1,
+   "smem_layout": "swizzled"
+  },
+  "kernel": "oos/2048_s02.py"
+ },
+ {
+  "label": "2048:sample03",
+  "shape": {
+   "M": 2048,
+   "N": 2048,
+   "K": 2048
+  },
+  "holes": {
+   "block_M": 256,
+   "block_N": 64,
+   "block_K": 64,
+   "num_stages": 2,
+   "threads": 128,
+   "swizzle": 8,
+   "prefetch": 0,
+   "warp_policy": 2,
+   "vec_width": 4,
+   "tma": 0,
+   "warp_spec": 0,
+   "smem_layout": "swizzled"
+  },
+  "kernel": "oos/2048_s03.py"
+ },
+ {
+  "label": "2048:sample04",
+  "shape": {
+   "M": 2048,
+   "N": 2048,
+   "K": 2048
+  },
+  "holes": {
+   "block_M": 128,
+   "block_N": 64,
+   "block_K": 32,
+   "num_stages": 2,
+   "threads": 128,
+   "swizzle": 4,
+   "prefetch": 0,
+   "warp_policy": 2,
+   "vec_width": 4,
+   "tma": 1,
+   "warp_spec": 0,
+   "smem_layout": "linear"
+  },
+  "kernel": "oos/2048_s04.py"
+ },
+ {
+  "label": "2048:sample05",
+  "shape": {
+   "M": 2048,
+   "N": 2048,
+   "K": 2048
+  },
+  "holes": {
+   "block_M": 64,
+   "block_N": 128,
+   "block_K": 32,
+   "num_stages": 2,
+   "threads": 256,
+   "swizzle": 0,
+   "prefetch": 0,
+   "warp_policy": 0,
+   "vec_width": 4,
+   "tma": 1,
+   "warp_spec": 0,
+   "smem_layout": "linear"
+  },
+  "kernel": "oos/2048_s05.py"
+ },
+ {
+  "label": "2048:sample06",
+  "shape": {
+   "M": 2048,
+   "N": 2048,
+   "K": 2048
+  },
+  "holes": {
+   "block_M": 64,
+   "block_N": 64,
+   "block_K": 32,
+   "num_stages": 5,
+   "threads": 128,
+   "swizzle": 8,
+   "prefetch": 1,
+   "warp_policy": 2,
+   "vec_width": 8,
+   "tma": 0,
+   "warp_spec": 1,
+   "smem_layout": "inferred"
+  },
+  "kernel": "oos/2048_s06.py"
+ },
+ {
+  "label": "2048:sample07",
+  "shape": {
+   "M": 2048,
+   "N": 2048,
+   "K": 2048
+  },
+  "holes": {
+   "block_M": 64,
+   "block_N": 256,
+   "block_K": 32,
+   "num_stages": 3,
+   "threads": 512,
+   "swizzle": 8,
+   "prefetch": 0,
+   "warp_policy": 2,
+   "vec_width": 0,
+   "tma": 0,
+   "warp_spec": 1,
+   "smem_layout": "linear"
+  },
+  "kernel": "oos/2048_s07.py"
+ },
+ {
+  "label": "2048:sample08",
+  "shape": {
+   "M": 2048,
+   "N": 2048,
+   "K": 2048
+  },
+  "holes": {
+   "block_M": 128,
+   "block_N": 256,
+   "block_K": 32,
+   "num_stages": 3,
+   "threads": 512,
+   "swizzle": 16,
+   "prefetch": 1,
+   "warp_policy": 2,
+   "vec_width": 0,
+   "tma": 1,
+   "warp_spec": 0,
+   "smem_layout": "swizzled"
+  },
+  "kernel": "oos/2048_s08.py"
+ },
+ {
+  "label": "2048:sample09",
+  "shape": {
+   "M": 2048,
+   "N": 2048,
+   "K": 2048
+  },
+  "holes": {
+   "block_M": 64,
+   "block_N": 128,
+   "block_K": 32,
+   "num_stages": 5,
+   "threads": 512,
+   "swizzle": 0,
+   "prefetch": 1,
+   "warp_policy": 2,
+   "vec_width": 8,
+   "tma": 1,
+   "warp_spec": 1,
+   "smem_layout": "swizzled"
+  },
+  "kernel": "oos/2048_s09.py"
+ },
+ {
+  "label": "2048:sample10",
+  "shape": {
+   "M": 2048,
+   "N": 2048,
+   "K": 2048
+  },
+  "holes": {
+   "block_M": 64,
+   "block_N": 256,
+   "block_K": 32,
+   "num_stages": 3,
+   "threads": 128,
+   "swizzle": 0,
+   "prefetch": 0,
+   "warp_policy": 2,
+   "vec_width": 16,
+   "tma": 1,
+   "warp_spec": 0,
+   "smem_layout": "linear"
+  },
+  "kernel": "oos/2048_s10.py"
+ },
+ {
+  "label": "2048:sample11",
+  "shape": {
+   "M": 2048,
+   "N": 2048,
+   "K": 2048
+  },
+  "holes": {
+   "block_M": 64,
+   "block_N": 64,
+   "block_K": 64,
+   "num_stages": 3,
+   "threads": 256,
+   "swizzle": 4,
+   "prefetch": 2,
+   "warp_policy": 1,
+   "vec_width": 8,
+   "tma": 0,
+   "warp_spec": 1,
+   "smem_layout": "inferred"
+  },
+  "kernel": "oos/2048_s11.py"
+ },
+ {
+  "label": "2048:sample12",
+  "shape": {
+   "M": 2048,
+   "N": 2048,
+   "K": 2048
+  },
+  "holes": {
+   "block_M": 64,
+   "block_N": 64,
+   "block_K": 32,
+   "num_stages": 3,
+   "threads": 256,
+   "swizzle": 0,
+   "prefetch": 2,
+   "warp_policy": 0,
+   "vec_width": 8,
+   "tma": 0,
+   "warp_spec": 1,
+   "smem_layout": "linear"
+  },
+  "kernel": "oos/2048_s12.py"
+ },
+ {
+  "label": "2048:sample13",
+  "shape": {
+   "M": 2048,
+   "N": 2048,
+   "K": 2048
+  },
+  "holes": {
+   "block_M": 64,
+   "block_N": 64,
+   "block_K": 32,
+   "num_stages": 4,
+   "threads": 128,
+   "swizzle": 0,
+   "prefetch": 2,
+   "warp_policy": 1,
+   "vec_width": 0,
+   "tma": 1,
+   "warp_spec": 0,
+   "smem_layout": "swizzled"
+  },
+  "kernel": "oos/2048_s13.py"
+ },
+ {
+  "label": "2048:sample14",
+  "shape": {
+   "M": 2048,
+   "N": 2048,
+   "K": 2048
+  },
+  "holes": {
+   "block_M": 64,
+   "block_N": 128,
+   "block_K": 32,
+   "num_stages": 5,
+   "threads": 128,
+   "swizzle": 16,
+   "prefetch": 1,
+   "warp_policy": 1,
+   "vec_width": 0,
+   "tma": 1,
+   "warp_spec": 0,
+   "smem_layout": "inferred"
+  },
+  "kernel": "oos/2048_s14.py"
+ },
+ {
+  "label": "2048:sample15",
+  "shape": {
+   "M": 2048,
+   "N": 2048,
+   "K": 2048
+  },
+  "holes": {
+   "block_M": 64,
+   "block_N": 256,
+   "block_K": 64,
+   "num_stages": 2,
+   "threads": 128,
+   "swizzle": 8,
+   "prefetch": 0,
+   "warp_policy": 1,
+   "vec_width": 4,
+   "tma": 0,
+   "warp_spec": 1,
+   "smem_layout": "linear"
+  },
+  "kernel": "oos/2048_s15.py"
+ },
+ {
+  "label": "2048:sample16",
+  "shape": {
+   "M": 2048,
+   "N": 2048,
+   "K": 2048
+  },
+  "holes": {
+   "block_M": 64,
+   "block_N": 128,
+   "block_K": 64,
+   "num_stages": 3,
+   "threads": 512,
+   "swizzle": 4,
+   "prefetch": 0,
+   "warp_policy": 2,
+   "vec_width": 16,
+   "tma": 0,
+   "warp_spec": 0,
+   "smem_layout": "swizzled"
+  },
+  "kernel": "oos/2048_s16.py"
+ },
+ {
+  "label": "2048:sample17",
+  "shape": {
+   "M": 2048,
+   "N": 2048,
+   "K": 2048
+  },
+  "holes": {
+   "block_M": 64,
+   "block_N": 128,
+   "block_K": 64,
+   "num_stages": 2,
+   "threads": 512,
+   "swizzle": 8,
+   "prefetch": 0,
+   "warp_policy": 1,
+   "vec_width": 16,
+   "tma": 0,
+   "warp_spec": 1,
+   "smem_layout": "swizzled"
+  },
+  "kernel": "oos/2048_s17.py"
+ },
+ {
+  "label": "2048:sample18",
+  "shape": {
+   "M": 2048,
+   "N": 2048,
+   "K": 2048
+  },
+  "holes": {
+   "block_M": 64,
+   "block_N": 64,
+   "block_K": 64,
+   "num_stages": 3,
+   "threads": 256,
+   "swizzle": 8,
+   "prefetch": 1,
+   "warp_policy": 0,
+   "vec_width": 16,
+   "tma": 0,
+   "warp_spec": 1,
+   "smem_layout": "swizzled"
+  },
+  "kernel": "oos/2048_s18.py"
+ },
+ {
+  "label": "2048:sample19",
+  "shape": {
+   "M": 2048,
+   "N": 2048,
+   "K": 2048
+  },
+  "holes": {
+   "block_M": 64,
+   "block_N": 64,
+   "block_K": 64,
+   "num_stages": 2,
+   "threads": 256,
+   "swizzle": 0,
+   "prefetch": 1,
+   "warp_policy": 2,
+   "vec_width": 16,
+   "tma": 0,
+   "warp_spec": 1,
+   "smem_layout": "inferred"
+  },
+  "kernel": "oos/2048_s19.py"
+ },
+ {
+  "label": "2048:sample20",
+  "shape": {
+   "M": 2048,
+   "N": 2048,
+   "K": 2048
+  },
+  "holes": {
+   "block_M": 64,
+   "block_N": 128,
+   "block_K": 64,
+   "num_stages": 3,
+   "threads": 256,
+   "swizzle": 8,
+   "prefetch": 0,
+   "warp_policy": 1,
+   "vec_width": 0,
+   "tma": 1,
+   "warp_spec": 1,
+   "smem_layout": "linear"
+  },
+  "kernel": "oos/2048_s20.py"
+ },
+ {
+  "label": "2048:sample21",
+  "shape": {
+   "M": 2048,
+   "N": 2048,
+   "K": 2048
+  },
+  "holes": {
+   "block_M": 128,
+   "block_N": 256,
+   "block_K": 32,
+   "num_stages": 3,
+   "threads": 256,
+   "swizzle": 4,
+   "prefetch": 2,
+   "warp_policy": 2,
+   "vec_width": 4,
+   "tma": 0,
+   "warp_spec": 0,
+   "smem_layout": "inferred"
+  },
+  "kernel": "oos/2048_s21.py"
+ },
+ {
+  "label": "2048:sample22",
+  "shape": {
+   "M": 2048,
+   "N": 2048,
+   "K": 2048
+  },
+  "holes": {
+   "block_M": 64,
+   "block_N": 64,
+   "block_K": 32,
+   "num_stages": 4,
+   "threads": 256,
+   "swizzle": 4,
+   "prefetch": 0,
+   "warp_policy": 0,
+   "vec_width": 16,
+   "tma": 0,
+   "warp_spec": 1,
+   "smem_layout": "linear"
+  },
+  "kernel": "oos/2048_s22.py"
+ },
+ {
+  "label": "2048:sample23",
+  "shape": {
+   "M": 2048,
+   "N": 2048,
+   "K": 2048
+  },
+  "holes": {
+   "block_M": 128,
+   "block_N": 64,
+   "block_K": 64,
+   "num_stages": 3,
+   "threads": 128,
+   "swizzle": 8,
+   "prefetch": 1,
+   "warp_policy": 0,
+   "vec_width": 8,
+   "tma": 0,
+   "warp_spec": 0,
+   "smem_layout": "linear"
+  },
+  "kernel": "oos/2048_s23.py"
+ },
+ {
+  "label": "2048:sample24",
+  "shape": {
+   "M": 2048,
+   "N": 2048,
+   "K": 2048
+  },
+  "holes": {
+   "block_M": 128,
+   "block_N": 64,
+   "block_K": 32,
+   "num_stages": 4,
+   "threads": 128,
+   "swizzle": 8,
+   "prefetch": 0,
+   "warp_policy": 0,
+   "vec_width": 8,
+   "tma": 0,
+   "warp_spec": 1,
+   "smem_layout": "swizzled"
+  },
+  "kernel": "oos/2048_s24.py"
+ },
+ {
+  "label": "2048:sample25",
+  "shape": {
+   "M": 2048,
+   "N": 2048,
+   "K": 2048
+  },
+  "holes": {
+   "block_M": 64,
+   "block_N": 128,
+   "block_K": 32,
+   "num_stages": 4,
+   "threads": 256,
+   "swizzle": 4,
+   "prefetch": 0,
+   "warp_policy": 2,
+   "vec_width": 4,
+   "tma": 0,
+   "warp_spec": 0,
+   "smem_layout": "linear"
+  },
+  "kernel": "oos/2048_s25.py"
+ },
+ {
+  "label": "2048:sample26",
+  "shape": {
+   "M": 2048,
+   "N": 2048,
+   "K": 2048
+  },
+  "holes": {
+   "block_M": 128,
+   "block_N": 64,
+   "block_K": 64,
+   "num_stages": 3,
+   "threads": 128,
+   "swizzle": 16,
+   "prefetch": 2,
+   "warp_policy": 2,
+   "vec_width": 4,
+   "tma": 1,
+   "warp_spec": 1,
+   "smem_layout": "inferred"
+  },
+  "kernel": "oos/2048_s26.py"
+ },
+ {
+  "label": "2048:sample27",
+  "shape": {
+   "M": 2048,
+   "N": 2048,
+   "K": 2048
+  },
+  "holes": {
+   "block_M": 64,
+   "block_N": 64,
+   "block_K": 32,
+   "num_stages": 4,
+   "threads": 128,
+   "swizzle": 16,
+   "prefetch": 1,
+   "warp_policy": 2,
+   "vec_width": 0,
+   "tma": 1,
+   "warp_spec": 1,
+   "smem_layout": "swizzled"
+  },
+  "kernel": "oos/2048_s27.py"
+ },
+ {
+  "label": "2048:sample28",
+  "shape": {
+   "M": 2048,
+   "N": 2048,
+   "K": 2048
+  },
+  "holes": {
+   "block_M": 128,
+   "block_N": 128,
+   "block_K": 64,
+   "num_stages": 3,
+   "threads": 128,
+   "swizzle": 0,
+   "prefetch": 2,
+   "warp_policy": 0,
+   "vec_width": 4,
+   "tma": 0,
+   "warp_spec": 0,
+   "smem_layout": "inferred"
+  },
+  "kernel": "oos/2048_s28.py"
+ },
+ {
+  "label": "2048:sample29",
+  "shape": {
+   "M": 2048,
+   "N": 2048,
+   "K": 2048
+  },
+  "holes": {
+   "block_M": 64,
+   "block_N": 128,
+   "block_K": 32,
+   "num_stages": 4,
+   "threads": 256,
+   "swizzle": 16,
+   "prefetch": 0,
+   "warp_policy": 0,
+   "vec_width": 0,
+   "tma": 0,
+   "warp_spec": 0,
+   "smem_layout": "swizzled"
+  },
+  "kernel": "oos/2048_s29.py"
+ },
+ {
+  "label": "8192:pick",
+  "shape": {
+   "M": 8192,
+   "N": 8192,
+   "K": 8192
+  },
+  "holes": {
+   "block_M": 128,
+   "block_N": 256,
+   "block_K": 32,
+   "num_stages": 4,
+   "threads": 256,
+   "swizzle": 16,
+   "prefetch": 0,
+   "warp_policy": 0,
+   "vec_width": 0,
+   "tma": 1,
+   "warp_spec": 1,
+   "smem_layout": "inferred"
+  },
+  "kernel": "oos/8192_pick.py"
+ },
+ {
+  "label": "8192:sample00",
+  "shape": {
+   "M": 8192,
+   "N": 8192,
+   "K": 8192
+  },
+  "holes": {
+   "block_M": 128,
+   "block_N": 64,
+   "block_K": 64,
+   "num_stages": 2,
+   "threads": 128,
+   "swizzle": 0,
+   "prefetch": 1,
+   "warp_policy": 2,
+   "vec_width": 0,
+   "tma": 1,
+   "warp_spec": 1,
+   "smem_layout": "inferred"
+  },
+  "kernel": "oos/8192_s00.py"
+ },
+ {
+  "label": "8192:sample01",
+  "shape": {
+   "M": 8192,
+   "N": 8192,
+   "K": 8192
+  },
+  "holes": {
+   "block_M": 128,
+   "block_N": 128,
+   "block_K": 32,
+   "num_stages": 3,
+   "threads": 128,
+   "swizzle": 16,
+   "prefetch": 0,
+   "warp_policy": 2,
+   "vec_width": 0,
+   "tma": 1,
+   "warp_spec": 1,
+   "smem_layout": "linear"
+  },
+  "kernel": "oos/8192_s01.py"
+ },
+ {
+  "label": "8192:sample02",
+  "shape": {
+   "M": 8192,
+   "N": 8192,
+   "K": 8192
+  },
+  "holes": {
+   "block_M": 256,
+   "block_N": 64,
+   "block_K": 32,
+   "num_stages": 3,
+   "threads": 256,
+   "swizzle": 0,
+   "prefetch": 2,
+   "warp_policy": 2,
+   "vec_width": 0,
+   "tma": 1,
+   "warp_spec": 1,
+   "smem_layout": "swizzled"
+  },
+  "kernel": "oos/8192_s02.py"
+ },
+ {
+  "label": "8192:sample03",
+  "shape": {
+   "M": 8192,
+   "N": 8192,
+   "K": 8192
+  },
+  "holes": {
+   "block_M": 256,
+   "block_N": 64,
+   "block_K": 64,
+   "num_stages": 2,
+   "threads": 128,
+   "swizzle": 8,
+   "prefetch": 0,
+   "warp_policy": 2,
+   "vec_width": 4,
+   "tma": 0,
+   "warp_spec": 0,
+   "smem_layout": "swizzled"
+  },
+  "kernel": "oos/8192_s03.py"
+ },
+ {
+  "label": "8192:sample04",
+  "shape": {
+   "M": 8192,
+   "N": 8192,
+   "K": 8192
+  },
+  "holes": {
+   "block_M": 128,
+   "block_N": 64,
+   "block_K": 32,
+   "num_stages": 2,
+   "threads": 128,
+   "swizzle": 4,
+   "prefetch": 0,
+   "warp_policy": 2,
+   "vec_width": 4,
+   "tma": 1,
+   "warp_spec": 0,
+   "smem_layout": "linear"
+  },
+  "kernel": "oos/8192_s04.py"
+ },
+ {
+  "label": "8192:sample05",
+  "shape": {
+   "M": 8192,
+   "N": 8192,
+   "K": 8192
+  },
+  "holes": {
+   "block_M": 64,
+   "block_N": 128,
+   "block_K": 32,
+   "num_stages": 2,
+   "threads": 256,
+   "swizzle": 0,
+   "prefetch": 0,
+   "warp_policy": 0,
+   "vec_width": 4,
+   "tma": 1,
+   "warp_spec": 0,
+   "smem_layout": "linear"
+  },
+  "kernel": "oos/8192_s05.py"
+ },
+ {
+  "label": "8192:sample06",
+  "shape": {
+   "M": 8192,
+   "N": 8192,
+   "K": 8192
+  },
+  "holes": {
+   "block_M": 64,
+   "block_N": 64,
+   "block_K": 32,
+   "num_stages": 5,
+   "threads": 128,
+   "swizzle": 8,
+   "prefetch": 1,
+   "warp_policy": 2,
+   "vec_width": 8,
+   "tma": 0,
+   "warp_spec": 1,
+   "smem_layout": "inferred"
+  },
+  "kernel": "oos/8192_s06.py"
+ },
+ {
+  "label": "8192:sample07",
+  "shape": {
+   "M": 8192,
+   "N": 8192,
+   "K": 8192
+  },
+  "holes": {
+   "block_M": 64,
+   "block_N": 256,
+   "block_K": 32,
+   "num_stages": 3,
+   "threads": 512,
+   "swizzle": 8,
+   "prefetch": 0,
+   "warp_policy": 2,
+   "vec_width": 0,
+   "tma": 0,
+   "warp_spec": 1,
+   "smem_layout": "linear"
+  },
+  "kernel": "oos/8192_s07.py"
+ },
+ {
+  "label": "8192:sample08",
+  "shape": {
+   "M": 8192,
+   "N": 8192,
+   "K": 8192
+  },
+  "holes": {
+   "block_M": 128,
+   "block_N": 256,
+   "block_K": 32,
+   "num_stages": 3,
+   "threads": 512,
+   "swizzle": 16,
+   "prefetch": 1,
+   "warp_policy": 2,
+   "vec_width": 0,
+   "tma": 1,
+   "warp_spec": 0,
+   "smem_layout": "swizzled"
+  },
+  "kernel": "oos/8192_s08.py"
+ },
+ {
+  "label": "8192:sample09",
+  "shape": {
+   "M": 8192,
+   "N": 8192,
+   "K": 8192
+  },
+  "holes": {
+   "block_M": 64,
+   "block_N": 128,
+   "block_K": 32,
+   "num_stages": 5,
+   "threads": 512,
+   "swizzle": 0,
+   "prefetch": 1,
+   "warp_policy": 2,
+   "vec_width": 8,
+   "tma": 1,
+   "warp_spec": 1,
+   "smem_layout": "swizzled"
+  },
+  "kernel": "oos/8192_s09.py"
+ },
+ {
+  "label": "8192:sample10",
+  "shape": {
+   "M": 8192,
+   "N": 8192,
+   "K": 8192
+  },
+  "holes": {
+   "block_M": 64,
+   "block_N": 256,
+   "block_K": 32,
+   "num_stages": 3,
+   "threads": 128,
+   "swizzle": 0,
+   "prefetch": 0,
+   "warp_policy": 2,
+   "vec_width": 16,
+   "tma": 1,
+   "warp_spec": 0,
+   "smem_layout": "linear"
+  },
+  "kernel": "oos/8192_s10.py"
+ },
+ {
+  "label": "8192:sample11",
+  "shape": {
+   "M": 8192,
+   "N": 8192,
+   "K": 8192
+  },
+  "holes": {
+   "block_M": 64,
+   "block_N": 64,
+   "block_K": 64,
+   "num_stages": 3,
+   "threads": 256,
+   "swizzle": 4,
+   "prefetch": 2,
+   "warp_policy": 1,
+   "vec_width": 8,
+   "tma": 0,
+   "warp_spec": 1,
+   "smem_layout": "inferred"
+  },
+  "kernel": "oos/8192_s11.py"
+ },
+ {
+  "label": "8192:sample12",
+  "shape": {
+   "M": 8192,
+   "N": 8192,
+   "K": 8192
+  },
+  "holes": {
+   "block_M": 64,
+   "block_N": 64,
+   "block_K": 32,
+   "num_stages": 3,
+   "threads": 256,
+   "swizzle": 0,
+   "prefetch": 2,
+   "warp_policy": 0,
+   "vec_width": 8,
+   "tma": 0,
+   "warp_spec": 1,
+   "smem_layout": "linear"
+  },
+  "kernel": "oos/8192_s12.py"
+ },
+ {
+  "label": "8192:sample13",
+  "shape": {
+   "M": 8192,
+   "N": 8192,
+   "K": 8192
+  },
+  "holes": {
+   "block_M": 64,
+   "block_N": 64,
+   "block_K": 32,
+   "num_stages": 4,
+   "threads": 128,
+   "swizzle": 0,
+   "prefetch": 2,
+   "warp_policy": 1,
+   "vec_width": 0,
+   "tma": 1,
+   "warp_spec": 0,
+   "smem_layout": "swizzled"
+  },
+  "kernel": "oos/8192_s13.py"
+ },
+ {
+  "label": "8192:sample14",
+  "shape": {
+   "M": 8192,
+   "N": 8192,
+   "K": 8192
+  },
+  "holes": {
+   "block_M": 64,
+   "block_N": 128,
+   "block_K": 32,
+   "num_stages": 5,
+   "threads": 128,
+   "swizzle": 16,
+   "prefetch": 1,
+   "warp_policy": 1,
+   "vec_width": 0,
+   "tma": 1,
+   "warp_spec": 0,
+   "smem_layout": "inferred"
+  },
+  "kernel": "oos/8192_s14.py"
+ },
+ {
+  "label": "8192:sample15",
+  "shape": {
+   "M": 8192,
+   "N": 8192,
+   "K": 8192
+  },
+  "holes": {
+   "block_M": 64,
+   "block_N": 256,
+   "block_K": 64,
+   "num_stages": 2,
+   "threads": 128,
+   "swizzle": 8,
+   "prefetch": 0,
+   "warp_policy": 1,
+   "vec_width": 4,
+   "tma": 0,
+   "warp_spec": 1,
+   "smem_layout": "linear"
+  },
+  "kernel": "oos/8192_s15.py"
+ },
+ {
+  "label": "8192:sample16",
+  "shape": {
+   "M": 8192,
+   "N": 8192,
+   "K": 8192
+  },
+  "holes": {
+   "block_M": 64,
+   "block_N": 128,
+   "block_K": 64,
+   "num_stages": 3,
+   "threads": 512,
+   "swizzle": 4,
+   "prefetch": 0,
+   "warp_policy": 2,
+   "vec_width": 16,
+   "tma": 0,
+   "warp_spec": 0,
+   "smem_layout": "swizzled"
+  },
+  "kernel": "oos/8192_s16.py"
+ },
+ {
+  "label": "8192:sample17",
+  "shape": {
+   "M": 8192,
+   "N": 8192,
+   "K": 8192
+  },
+  "holes": {
+   "block_M": 64,
+   "block_N": 128,
+   "block_K": 64,
+   "num_stages": 2,
+   "threads": 512,
+   "swizzle": 8,
+   "prefetch": 0,
+   "warp_policy": 1,
+   "vec_width": 16,
+   "tma": 0,
+   "warp_spec": 1,
+   "smem_layout": "swizzled"
+  },
+  "kernel": "oos/8192_s17.py"
+ },
+ {
+  "label": "8192:sample18",
+  "shape": {
+   "M": 8192,
+   "N": 8192,
+   "K": 8192
+  },
+  "holes": {
+   "block_M": 64,
+   "block_N": 64,
+   "block_K": 64,
+   "num_stages": 3,
+   "threads": 256,
+   "swizzle": 8,
+   "prefetch": 1,
+   "warp_policy": 0,
+   "vec_width": 16,
+   "tma": 0,
+   "warp_spec": 1,
+   "smem_layout": "swizzled"
+  },
+  "kernel": "oos/8192_s18.py"
+ },
+ {
+  "label": "8192:sample19",
+  "shape": {
+   "M": 8192,
+   "N": 8192,
+   "K": 8192
+  },
+  "holes": {
+   "block_M": 64,
+   "block_N": 64,
+   "block_K": 64,
+   "num_stages": 2,
+   "threads": 256,
+   "swizzle": 0,
+   "prefetch": 1,
+   "warp_policy": 2,
+   "vec_width": 16,
+   "tma": 0,
+   "warp_spec": 1,
+   "smem_layout": "inferred"
+  },
+  "kernel": "oos/8192_s19.py"
+ },
+ {
+  "label": "8192:sample20",
+  "shape": {
+   "M": 8192,
+   "N": 8192,
+   "K": 8192
+  },
+  "holes": {
+   "block_M": 64,
+   "block_N": 128,
+   "block_K": 64,
+   "num_stages": 3,
+   "threads": 256,
+   "swizzle": 8,
+   "prefetch": 0,
+   "warp_policy": 1,
+   "vec_width": 0,
+   "tma": 1,
+   "warp_spec": 1,
+   "smem_layout": "linear"
+  },
+  "kernel": "oos/8192_s20.py"
+ },
+ {
+  "label": "8192:sample21",
+  "shape": {
+   "M": 8192,
+   "N": 8192,
+   "K": 8192
+  },
+  "holes": {
+   "block_M": 128,
+   "block_N": 256,
+   "block_K": 32,
+   "num_stages": 3,
+   "threads": 256,
+   "swizzle": 4,
+   "prefetch": 2,
+   "warp_policy": 2,
+   "vec_width": 4,
+   "tma": 0,
+   "warp_spec": 0,
+   "smem_layout": "inferred"
+  },
+  "kernel": "oos/8192_s21.py"
+ },
+ {
+  "label": "8192:sample22",
+  "shape": {
+   "M": 8192,
+   "N": 8192,
+   "K": 8192
+  },
+  "holes": {
+   "block_M": 64,
+   "block_N": 64,
+   "block_K": 32,
+   "num_stages": 4,
+   "threads": 256,
+   "swizzle": 4,
+   "prefetch": 0,
+   "warp_policy": 0,
+   "vec_width": 16,
+   "tma": 0,
+   "warp_spec": 1,
+   "smem_layout": "linear"
+  },
+  "kernel": "oos/8192_s22.py"
+ },
+ {
+  "label": "8192:sample23",
+  "shape": {
+   "M": 8192,
+   "N": 8192,
+   "K": 8192
+  },
+  "holes": {
+   "block_M": 128,
+   "block_N": 64,
+   "block_K": 64,
+   "num_stages": 3,
+   "threads": 128,
+   "swizzle": 8,
+   "prefetch": 1,
+   "warp_policy": 0,
+   "vec_width": 8,
+   "tma": 0,
+   "warp_spec": 0,
+   "smem_layout": "linear"
+  },
+  "kernel": "oos/8192_s23.py"
+ },
+ {
+  "label": "8192:sample24",
+  "shape": {
+   "M": 8192,
+   "N": 8192,
+   "K": 8192
+  },
+  "holes": {
+   "block_M": 128,
+   "block_N": 64,
+   "block_K": 32,
+   "num_stages": 4,
+   "threads": 128,
+   "swizzle": 8,
+   "prefetch": 0,
+   "warp_policy": 0,
+   "vec_width": 8,
+   "tma": 0,
+   "warp_spec": 1,
+   "smem_layout": "swizzled"
+  },
+  "kernel": "oos/8192_s24.py"
+ },
+ {
+  "label": "8192:sample25",
+  "shape": {
+   "M": 8192,
+   "N": 8192,
+   "K": 8192
+  },
+  "holes": {
+   "block_M": 64,
+   "block_N": 128,
+   "block_K": 32,
+   "num_stages": 4,
+   "threads": 256,
+   "swizzle": 4,
+   "prefetch": 0,
+   "warp_policy": 2,
+   "vec_width": 4,
+   "tma": 0,
+   "warp_spec": 0,
+   "smem_layout": "linear"
+  },
+  "kernel": "oos/8192_s25.py"
+ },
+ {
+  "label": "8192:sample26",
+  "shape": {
+   "M": 8192,
+   "N": 8192,
+   "K": 8192
+  },
+  "holes": {
+   "block_M": 128,
+   "block_N": 64,
+   "block_K": 64,
+   "num_stages": 3,
+   "threads": 128,
+   "swizzle": 16,
+   "prefetch": 2,
+   "warp_policy": 2,
+   "vec_width": 4,
+   "tma": 1,
+   "warp_spec": 1,
+   "smem_layout": "inferred"
+  },
+  "kernel": "oos/8192_s26.py"
+ },
+ {
+  "label": "8192:sample27",
+  "shape": {
+   "M": 8192,
+   "N": 8192,
+   "K": 8192
+  },
+  "holes": {
+   "block_M": 64,
+   "block_N": 64,
+   "block_K": 32,
+   "num_stages": 4,
+   "threads": 128,
+   "swizzle": 16,
+   "prefetch": 1,
+   "warp_policy": 2,
+   "vec_width": 0,
+   "tma": 1,
+   "warp_spec": 1,
+   "smem_layout": "swizzled"
+  },
+  "kernel": "oos/8192_s27.py"
+ },
+ {
+  "label": "8192:sample28",
+  "shape": {
+   "M": 8192,
+   "N": 8192,
+   "K": 8192
+  },
+  "holes": {
+   "block_M": 128,
+   "block_N": 128,
+   "block_K": 64,
+   "num_stages": 3,
+   "threads": 128,
+   "swizzle": 0,
+   "prefetch": 2,
+   "warp_policy": 0,
+   "vec_width": 4,
+   "tma": 0,
+   "warp_spec": 0,
+   "smem_layout": "inferred"
+  },
+  "kernel": "oos/8192_s28.py"
+ },
+ {
+  "label": "8192:sample29",
+  "shape": {
+   "M": 8192,
+   "N": 8192,
+   "K": 8192
+  },
+  "holes": {
+   "block_M": 64,
+   "block_N": 128,
+   "block_K": 32,
+   "num_stages": 4,
+   "threads": 256,
+   "swizzle": 16,
+   "prefetch": 0,
+   "warp_policy": 0,
+   "vec_width": 0,
+   "tma": 0,
+   "warp_spec": 0,
+   "smem_layout": "swizzled"
+  },
+  "kernel": "oos/8192_s29.py"
+ },
+ {
+  "label": "k1024:pick",
+  "shape": {
+   "M": 4096,
+   "N": 4096,
+   "K": 1024
+  },
+  "holes": {
+   "block_M": 256,
+   "block_N": 128,
+   "block_K": 64,
+   "num_stages": 2,
+   "threads": 256,
+   "swizzle": 16,
+   "prefetch": 0,
+   "warp_policy": 0,
+   "vec_width": 0,
+   "tma": 1,
+   "warp_spec": 1,
+   "smem_layout": "inferred"
+  },
+  "kernel": "oos/k1024_pick.py"
+ },
+ {
+  "label": "k1024:sample00",
+  "shape": {
+   "M": 4096,
+   "N": 4096,
+   "K": 1024
+  },
+  "holes": {
+   "block_M": 128,
+   "block_N": 64,
+   "block_K": 64,
+   "num_stages": 2,
+   "threads": 128,
+   "swizzle": 0,
+   "prefetch": 1,
+   "warp_policy": 2,
+   "vec_width": 0,
+   "tma": 1,
+   "warp_spec": 1,
+   "smem_layout": "inferred"
+  },
+  "kernel": "oos/k1024_s00.py"
+ },
+ {
+  "label": "k1024:sample01",
+  "shape": {
+   "M": 4096,
+   "N": 4096,
+   "K": 1024
+  },
+  "holes": {
+   "block_M": 128,
+   "block_N": 128,
+   "block_K": 32,
+   "num_stages": 3,
+   "threads": 128,
+   "swizzle": 16,
+   "prefetch": 0,
+   "warp_policy": 2,
+   "vec_width": 0,
+   "tma": 1,
+   "warp_spec": 1,
+   "smem_layout": "linear"
+  },
+  "kernel": "oos/k1024_s01.py"
+ },
+ {
+  "label": "k1024:sample02",
+  "shape": {
+   "M": 4096,
+   "N": 4096,
+   "K": 1024
+  },
+  "holes": {
+   "block_M": 256,
+   "block_N": 64,
+   "block_K": 32,
+   "num_stages": 3,
+   "threads": 256,
+   "swizzle": 0,
+   "prefetch": 2,
+   "warp_policy": 2,
+   "vec_width": 0,
+   "tma": 1,
+   "warp_spec": 1,
+   "smem_layout": "swizzled"
+  },
+  "kernel": "oos/k1024_s02.py"
+ },
+ {
+  "label": "k1024:sample03",
+  "shape": {
+   "M": 4096,
+   "N": 4096,
+   "K": 1024
+  },
+  "holes": {
+   "block_M": 256,
+   "block_N": 64,
+   "block_K": 64,
+   "num_stages": 2,
+   "threads": 128,
+   "swizzle": 8,
+   "prefetch": 0,
+   "warp_policy": 2,
+   "vec_width": 4,
+   "tma": 0,
+   "warp_spec": 0,
+   "smem_layout": "swizzled"
+  },
+  "kernel": "oos/k1024_s03.py"
+ },
+ {
+  "label": "k1024:sample04",
+  "shape": {
+   "M": 4096,
+   "N": 4096,
+   "K": 1024
+  },
+  "holes": {
+   "block_M": 128,
+   "block_N": 64,
+   "block_K": 32,
+   "num_stages": 2,
+   "threads": 128,
+   "swizzle": 4,
+   "prefetch": 0,
+   "warp_policy": 2,
+   "vec_width": 4,
+   "tma": 1,
+   "warp_spec": 0,
+   "smem_layout": "linear"
+  },
+  "kernel": "oos/k1024_s04.py"
+ },
+ {
+  "label": "k1024:sample05",
+  "shape": {
+   "M": 4096,
+   "N": 4096,
+   "K": 1024
+  },
+  "holes": {
+   "block_M": 64,
+   "block_N": 128,
+   "block_K": 32,
+   "num_stages": 2,
+   "threads": 256,
+   "swizzle": 0,
+   "prefetch": 0,
+   "warp_policy": 0,
+   "vec_width": 4,
+   "tma": 1,
+   "warp_spec": 0,
+   "smem_layout": "linear"
+  },
+  "kernel": "oos/k1024_s05.py"
+ },
+ {
+  "label": "k1024:sample06",
+  "shape": {
+   "M": 4096,
+   "N": 4096,
+   "K": 1024
+  },
+  "holes": {
+   "block_M": 64,
+   "block_N": 64,
+   "block_K": 32,
+   "num_stages": 5,
+   "threads": 128,
+   "swizzle": 8,
+   "prefetch": 1,
+   "warp_policy": 2,
+   "vec_width": 8,
+   "tma": 0,
+   "warp_spec": 1,
+   "smem_layout": "inferred"
+  },
+  "kernel": "oos/k1024_s06.py"
+ },
+ {
+  "label": "k1024:sample07",
+  "shape": {
+   "M": 4096,
+   "N": 4096,
+   "K": 1024
+  },
+  "holes": {
+   "block_M": 64,
+   "block_N": 256,
+   "block_K": 32,
+   "num_stages": 3,
+   "threads": 512,
+   "swizzle": 8,
+   "prefetch": 0,
+   "warp_policy": 2,
+   "vec_width": 0,
+   "tma": 0,
+   "warp_spec": 1,
+   "smem_layout": "linear"
+  },
+  "kernel": "oos/k1024_s07.py"
+ },
+ {
+  "label": "k1024:sample08",
+  "shape": {
+   "M": 4096,
+   "N": 4096,
+   "K": 1024
+  },
+  "holes": {
+   "block_M": 128,
+   "block_N": 256,
+   "block_K": 32,
+   "num_stages": 3,
+   "threads": 512,
+   "swizzle": 16,
+   "prefetch": 1,
+   "warp_policy": 2,
+   "vec_width": 0,
+   "tma": 1,
+   "warp_spec": 0,
+   "smem_layout": "swizzled"
+  },
+  "kernel": "oos/k1024_s08.py"
+ },
+ {
+  "label": "k1024:sample09",
+  "shape": {
+   "M": 4096,
+   "N": 4096,
+   "K": 1024
+  },
+  "holes": {
+   "block_M": 64,
+   "block_N": 128,
+   "block_K": 32,
+   "num_stages": 5,
+   "threads": 512,
+   "swizzle": 0,
+   "prefetch": 1,
+   "warp_policy": 2,
+   "vec_width": 8,
+   "tma": 1,
+   "warp_spec": 1,
+   "smem_layout": "swizzled"
+  },
+  "kernel": "oos/k1024_s09.py"
+ },
+ {
+  "label": "k1024:sample10",
+  "shape": {
+   "M": 4096,
+   "N": 4096,
+   "K": 1024
+  },
+  "holes": {
+   "block_M": 64,
+   "block_N": 256,
+   "block_K": 32,
+   "num_stages": 3,
+   "threads": 128,
+   "swizzle": 0,
+   "prefetch": 0,
+   "warp_policy": 2,
+   "vec_width": 16,
+   "tma": 1,
+   "warp_spec": 0,
+   "smem_layout": "linear"
+  },
+  "kernel": "oos/k1024_s10.py"
+ },
+ {
+  "label": "k1024:sample11",
+  "shape": {
+   "M": 4096,
+   "N": 4096,
+   "K": 1024
+  },
+  "holes": {
+   "block_M": 64,
+   "block_N": 64,
+   "block_K": 64,
+   "num_stages": 3,
+   "threads": 256,
+   "swizzle": 4,
+   "prefetch": 2,
+   "warp_policy": 1,
+   "vec_width": 8,
+   "tma": 0,
+   "warp_spec": 1,
+   "smem_layout": "inferred"
+  },
+  "kernel": "oos/k1024_s11.py"
+ },
+ {
+  "label": "k1024:sample12",
+  "shape": {
+   "M": 4096,
+   "N": 4096,
+   "K": 1024
+  },
+  "holes": {
+   "block_M": 64,
+   "block_N": 64,
+   "block_K": 32,
+   "num_stages": 3,
+   "threads": 256,
+   "swizzle": 0,
+   "prefetch": 2,
+   "warp_policy": 0,
+   "vec_width": 8,
+   "tma": 0,
+   "warp_spec": 1,
+   "smem_layout": "linear"
+  },
+  "kernel": "oos/k1024_s12.py"
+ },
+ {
+  "label": "k1024:sample13",
+  "shape": {
+   "M": 4096,
+   "N": 4096,
+   "K": 1024
+  },
+  "holes": {
+   "block_M": 64,
+   "block_N": 64,
+   "block_K": 32,
+   "num_stages": 4,
+   "threads": 128,
+   "swizzle": 0,
+   "prefetch": 2,
+   "warp_policy": 1,
+   "vec_width": 0,
+   "tma": 1,
+   "warp_spec": 0,
+   "smem_layout": "swizzled"
+  },
+  "kernel": "oos/k1024_s13.py"
+ },
+ {
+  "label": "k1024:sample14",
+  "shape": {
+   "M": 4096,
+   "N": 4096,
+   "K": 1024
+  },
+  "holes": {
+   "block_M": 64,
+   "block_N": 128,
+   "block_K": 32,
+   "num_stages": 5,
+   "threads": 128,
+   "swizzle": 16,
+   "prefetch": 1,
+   "warp_policy": 1,
+   "vec_width": 0,
+   "tma": 1,
+   "warp_spec": 0,
+   "smem_layout": "inferred"
+  },
+  "kernel": "oos/k1024_s14.py"
+ },
+ {
+  "label": "k1024:sample15",
+  "shape": {
+   "M": 4096,
+   "N": 4096,
+   "K": 1024
+  },
+  "holes": {
+   "block_M": 64,
+   "block_N": 256,
+   "block_K": 64,
+   "num_stages": 2,
+   "threads": 128,
+   "swizzle": 8,
+   "prefetch": 0,
+   "warp_policy": 1,
+   "vec_width": 4,
+   "tma": 0,
+   "warp_spec": 1,
+   "smem_layout": "linear"
+  },
+  "kernel": "oos/k1024_s15.py"
+ },
+ {
+  "label": "k1024:sample16",
+  "shape": {
+   "M": 4096,
+   "N": 4096,
+   "K": 1024
+  },
+  "holes": {
+   "block_M": 64,
+   "block_N": 128,
+   "block_K": 64,
+   "num_stages": 3,
+   "threads": 512,
+   "swizzle": 4,
+   "prefetch": 0,
+   "warp_policy": 2,
+   "vec_width": 16,
+   "tma": 0,
+   "warp_spec": 0,
+   "smem_layout": "swizzled"
+  },
+  "kernel": "oos/k1024_s16.py"
+ },
+ {
+  "label": "k1024:sample17",
+  "shape": {
+   "M": 4096,
+   "N": 4096,
+   "K": 1024
+  },
+  "holes": {
+   "block_M": 64,
+   "block_N": 128,
+   "block_K": 64,
+   "num_stages": 2,
+   "threads": 512,
+   "swizzle": 8,
+   "prefetch": 0,
+   "warp_policy": 1,
+   "vec_width": 16,
+   "tma": 0,
+   "warp_spec": 1,
+   "smem_layout": "swizzled"
+  },
+  "kernel": "oos/k1024_s17.py"
+ },
+ {
+  "label": "k1024:sample18",
+  "shape": {
+   "M": 4096,
+   "N": 4096,
+   "K": 1024
+  },
+  "holes": {
+   "block_M": 64,
+   "block_N": 64,
+   "block_K": 64,
+   "num_stages": 3,
+   "threads": 256,
+   "swizzle": 8,
+   "prefetch": 1,
+   "warp_policy": 0,
+   "vec_width": 16,
+   "tma": 0,
+   "warp_spec": 1,
+   "smem_layout": "swizzled"
+  },
+  "kernel": "oos/k1024_s18.py"
+ },
+ {
+  "label": "k1024:sample19",
+  "shape": {
+   "M": 4096,
+   "N": 4096,
+   "K": 1024
+  },
+  "holes": {
+   "block_M": 64,
+   "block_N": 64,
+   "block_K": 64,
+   "num_stages": 2,
+   "threads": 256,
+   "swizzle": 0,
+   "prefetch": 1,
+   "warp_policy": 2,
+   "vec_width": 16,
+   "tma": 0,
+   "warp_spec": 1,
+   "smem_layout": "inferred"
+  },
+  "kernel": "oos/k1024_s19.py"
+ },
+ {
+  "label": "k1024:sample20",
+  "shape": {
+   "M": 4096,
+   "N": 4096,
+   "K": 1024
+  },
+  "holes": {
+   "block_M": 64,
+   "block_N": 128,
+   "block_K": 64,
+   "num_stages": 3,
+   "threads": 256,
+   "swizzle": 8,
+   "prefetch": 0,
+   "warp_policy": 1,
+   "vec_width": 0,
+   "tma": 1,
+   "warp_spec": 1,
+   "smem_layout": "linear"
+  },
+  "kernel": "oos/k1024_s20.py"
+ },
+ {
+  "label": "k1024:sample21",
+  "shape": {
+   "M": 4096,
+   "N": 4096,
+   "K": 1024
+  },
+  "holes": {
+   "block_M": 128,
+   "block_N": 256,
+   "block_K": 32,
+   "num_stages": 3,
+   "threads": 256,
+   "swizzle": 4,
+   "prefetch": 2,
+   "warp_policy": 2,
+   "vec_width": 4,
+   "tma": 0,
+   "warp_spec": 0,
+   "smem_layout": "inferred"
+  },
+  "kernel": "oos/k1024_s21.py"
+ },
+ {
+  "label": "k1024:sample22",
+  "shape": {
+   "M": 4096,
+   "N": 4096,
+   "K": 1024
+  },
+  "holes": {
+   "block_M": 64,
+   "block_N": 64,
+   "block_K": 32,
+   "num_stages": 4,
+   "threads": 256,
+   "swizzle": 4,
+   "prefetch": 0,
+   "warp_policy": 0,
+   "vec_width": 16,
+   "tma": 0,
+   "warp_spec": 1,
+   "smem_layout": "linear"
+  },
+  "kernel": "oos/k1024_s22.py"
+ },
+ {
+  "label": "k1024:sample23",
+  "shape": {
+   "M": 4096,
+   "N": 4096,
+   "K": 1024
+  },
+  "holes": {
+   "block_M": 128,
+   "block_N": 64,
+   "block_K": 64,
+   "num_stages": 3,
+   "threads": 128,
+   "swizzle": 8,
+   "prefetch": 1,
+   "warp_policy": 0,
+   "vec_width": 8,
+   "tma": 0,
+   "warp_spec": 0,
+   "smem_layout": "linear"
+  },
+  "kernel": "oos/k1024_s23.py"
+ },
+ {
+  "label": "k1024:sample24",
+  "shape": {
+   "M": 4096,
+   "N": 4096,
+   "K": 1024
+  },
+  "holes": {
+   "block_M": 128,
+   "block_N": 64,
+   "block_K": 32,
+   "num_stages": 4,
+   "threads": 128,
+   "swizzle": 8,
+   "prefetch": 0,
+   "warp_policy": 0,
+   "vec_width": 8,
+   "tma": 0,
+   "warp_spec": 1,
+   "smem_layout": "swizzled"
+  },
+  "kernel": "oos/k1024_s24.py"
+ },
+ {
+  "label": "k1024:sample25",
+  "shape": {
+   "M": 4096,
+   "N": 4096,
+   "K": 1024
+  },
+  "holes": {
+   "block_M": 64,
+   "block_N": 128,
+   "block_K": 32,
+   "num_stages": 4,
+   "threads": 256,
+   "swizzle": 4,
+   "prefetch": 0,
+   "warp_policy": 2,
+   "vec_width": 4,
+   "tma": 0,
+   "warp_spec": 0,
+   "smem_layout": "linear"
+  },
+  "kernel": "oos/k1024_s25.py"
+ },
+ {
+  "label": "k1024:sample26",
+  "shape": {
+   "M": 4096,
+   "N": 4096,
+   "K": 1024
+  },
+  "holes": {
+   "block_M": 128,
+   "block_N": 64,
+   "block_K": 64,
+   "num_stages": 3,
+   "threads": 128,
+   "swizzle": 16,
+   "prefetch": 2,
+   "warp_policy": 2,
+   "vec_width": 4,
+   "tma": 1,
+   "warp_spec": 1,
+   "smem_layout": "inferred"
+  },
+  "kernel": "oos/k1024_s26.py"
+ },
+ {
+  "label": "k1024:sample27",
+  "shape": {
+   "M": 4096,
+   "N": 4096,
+   "K": 1024
+  },
+  "holes": {
+   "block_M": 64,
+   "block_N": 64,
+   "block_K": 32,
+   "num_stages": 4,
+   "threads": 128,
+   "swizzle": 16,
+   "prefetch": 1,
+   "warp_policy": 2,
+   "vec_width": 0,
+   "tma": 1,
+   "warp_spec": 1,
+   "smem_layout": "swizzled"
+  },
+  "kernel": "oos/k1024_s27.py"
+ },
+ {
+  "label": "k1024:sample28",
+  "shape": {
+   "M": 4096,
+   "N": 4096,
+   "K": 1024
+  },
+  "holes": {
+   "block_M": 128,
+   "block_N": 128,
+   "block_K": 64,
+   "num_stages": 3,
+   "threads": 128,
+   "swizzle": 0,
+   "prefetch": 2,
+   "warp_policy": 0,
+   "vec_width": 4,
+   "tma": 0,
+   "warp_spec": 0,
+   "smem_layout": "inferred"
+  },
+  "kernel": "oos/k1024_s28.py"
+ },
+ {
+  "label": "k1024:sample29",
+  "shape": {
+   "M": 4096,
+   "N": 4096,
+   "K": 1024
+  },
+  "holes": {
+   "block_M": 64,
+   "block_N": 128,
+   "block_K": 32,
+   "num_stages": 4,
+   "threads": 256,
+   "swizzle": 16,
+   "prefetch": 0,
+   "warp_policy": 0,
+   "vec_width": 0,
+   "tma": 0,
+   "warp_spec": 0,
+   "smem_layout": "swizzled"
+  },
+  "kernel": "oos/k1024_s29.py"
+ },
+ {
+  "label": "m128:pick",
+  "shape": {
+   "M": 128,
+   "N": 4096,
+   "K": 4096
+  },
+  "holes": {
+   "block_M": 256,
+   "block_N": 64,
+   "block_K": 32,
+   "num_stages": 2,
+   "threads": 128,
+   "swizzle": 0,
+   "prefetch": 0,
+   "warp_policy": 0,
+   "vec_width": 0,
+   "tma": 1,
+   "warp_spec": 1,
+   "smem_layout": "inferred"
+  },
+  "kernel": "oos/m128_pick.py"
+ },
+ {
+  "label": "m128:sample00",
+  "shape": {
+   "M": 128,
+   "N": 4096,
+   "K": 4096
+  },
+  "holes": {
+   "block_M": 128,
+   "block_N": 64,
+   "block_K": 64,
+   "num_stages": 2,
+   "threads": 128,
+   "swizzle": 0,
+   "prefetch": 1,
+   "warp_policy": 2,
+   "vec_width": 0,
+   "tma": 1,
+   "warp_spec": 1,
+   "smem_layout": "inferred"
+  },
+  "kernel": "oos/m128_s00.py"
+ },
+ {
+  "label": "m128:sample01",
+  "shape": {
+   "M": 128,
+   "N": 4096,
+   "K": 4096
+  },
+  "holes": {
+   "block_M": 128,
+   "block_N": 128,
+   "block_K": 32,
+   "num_stages": 3,
+   "threads": 128,
+   "swizzle": 16,
+   "prefetch": 0,
+   "warp_policy": 2,
+   "vec_width": 0,
+   "tma": 1,
+   "warp_spec": 1,
+   "smem_layout": "linear"
+  },
+  "kernel": "oos/m128_s01.py"
+ },
+ {
+  "label": "m128:sample02",
+  "shape": {
+   "M": 128,
+   "N": 4096,
+   "K": 4096
+  },
+  "holes": {
+   "block_M": 256,
+   "block_N": 64,
+   "block_K": 32,
+   "num_stages": 3,
+   "threads": 256,
+   "swizzle": 0,
+   "prefetch": 2,
+   "warp_policy": 2,
+   "vec_width": 0,
+   "tma": 1,
+   "warp_spec": 1,
+   "smem_layout": "swizzled"
+  },
+  "kernel": "oos/m128_s02.py"
+ },
+ {
+  "label": "m128:sample03",
+  "shape": {
+   "M": 128,
+   "N": 4096,
+   "K": 4096
+  },
+  "holes": {
+   "block_M": 256,
+   "block_N": 64,
+   "block_K": 64,
+   "num_stages": 2,
+   "threads": 128,
+   "swizzle": 8,
+   "prefetch": 0,
+   "warp_policy": 2,
+   "vec_width": 4,
+   "tma": 0,
+   "warp_spec": 0,
+   "smem_layout": "swizzled"
+  },
+  "kernel": "oos/m128_s03.py"
+ },
+ {
+  "label": "m128:sample04",
+  "shape": {
+   "M": 128,
+   "N": 4096,
+   "K": 4096
+  },
+  "holes": {
+   "block_M": 128,
+   "block_N": 64,
+   "block_K": 32,
+   "num_stages": 2,
+   "threads": 128,
+   "swizzle": 4,
+   "prefetch": 0,
+   "warp_policy": 2,
+   "vec_width": 4,
+   "tma": 1,
+   "warp_spec": 0,
+   "smem_layout": "linear"
+  },
+  "kernel": "oos/m128_s04.py"
+ },
+ {
+  "label": "m128:sample05",
+  "shape": {
+   "M": 128,
+   "N": 4096,
+   "K": 4096
+  },
+  "holes": {
+   "block_M": 64,
+   "block_N": 128,
+   "block_K": 32,
+   "num_stages": 2,
+   "threads": 256,
+   "swizzle": 0,
+   "prefetch": 0,
+   "warp_policy": 0,
+   "vec_width": 4,
+   "tma": 1,
+   "warp_spec": 0,
+   "smem_layout": "linear"
+  },
+  "kernel": "oos/m128_s05.py"
+ },
+ {
+  "label": "m128:sample06",
+  "shape": {
+   "M": 128,
+   "N": 4096,
+   "K": 4096
+  },
+  "holes": {
+   "block_M": 64,
+   "block_N": 64,
+   "block_K": 32,
+   "num_stages": 5,
+   "threads": 128,
+   "swizzle": 8,
+   "prefetch": 1,
+   "warp_policy": 2,
+   "vec_width": 8,
+   "tma": 0,
+   "warp_spec": 1,
+   "smem_layout": "inferred"
+  },
+  "kernel": "oos/m128_s06.py"
+ },
+ {
+  "label": "m128:sample07",
+  "shape": {
+   "M": 128,
+   "N": 4096,
+   "K": 4096
+  },
+  "holes": {
+   "block_M": 64,
+   "block_N": 256,
+   "block_K": 32,
+   "num_stages": 3,
+   "threads": 512,
+   "swizzle": 8,
+   "prefetch": 0,
+   "warp_policy": 2,
+   "vec_width": 0,
+   "tma": 0,
+   "warp_spec": 1,
+   "smem_layout": "linear"
+  },
+  "kernel": "oos/m128_s07.py"
+ },
+ {
+  "label": "m128:sample08",
+  "shape": {
+   "M": 128,
+   "N": 4096,
+   "K": 4096
+  },
+  "holes": {
+   "block_M": 128,
+   "block_N": 256,
+   "block_K": 32,
+   "num_stages": 3,
+   "threads": 512,
+   "swizzle": 16,
+   "prefetch": 1,
+   "warp_policy": 2,
+   "vec_width": 0,
+   "tma": 1,
+   "warp_spec": 0,
+   "smem_layout": "swizzled"
+  },
+  "kernel": "oos/m128_s08.py"
+ },
+ {
+  "label": "m128:sample09",
+  "shape": {
+   "M": 128,
+   "N": 4096,
+   "K": 4096
+  },
+  "holes": {
+   "block_M": 64,
+   "block_N": 128,
+   "block_K": 32,
+   "num_stages": 5,
+   "threads": 512,
+   "swizzle": 0,
+   "prefetch": 1,
+   "warp_policy": 2,
+   "vec_width": 8,
+   "tma": 1,
+   "warp_spec": 1,
+   "smem_layout": "swizzled"
+  },
+  "kernel": "oos/m128_s09.py"
+ },
+ {
+  "label": "m128:sample10",
+  "shape": {
+   "M": 128,
+   "N": 4096,
+   "K": 4096
+  },
+  "holes": {
+   "block_M": 64,
+   "block_N": 256,
+   "block_K": 32,
+   "num_stages": 3,
+   "threads": 128,
+   "swizzle": 0,
+   "prefetch": 0,
+   "warp_policy": 2,
+   "vec_width": 16,
+   "tma": 1,
+   "warp_spec": 0,
+   "smem_layout": "linear"
+  },
+  "kernel": "oos/m128_s10.py"
+ },
+ {
+  "label": "m128:sample11",
+  "shape": {
+   "M": 128,
+   "N": 4096,
+   "K": 4096
+  },
+  "holes": {
+   "block_M": 64,
+   "block_N": 64,
+   "block_K": 64,
+   "num_stages": 3,
+   "threads": 256,
+   "swizzle": 4,
+   "prefetch": 2,
+   "warp_policy": 1,
+   "vec_width": 8,
+   "tma": 0,
+   "warp_spec": 1,
+   "smem_layout": "inferred"
+  },
+  "kernel": "oos/m128_s11.py"
+ },
+ {
+  "label": "m128:sample12",
+  "shape": {
+   "M": 128,
+   "N": 4096,
+   "K": 4096
+  },
+  "holes": {
+   "block_M": 64,
+   "block_N": 64,
+   "block_K": 32,
+   "num_stages": 3,
+   "threads": 256,
+   "swizzle": 0,
+   "prefetch": 2,
+   "warp_policy": 0,
+   "vec_width": 8,
+   "tma": 0,
+   "warp_spec": 1,
+   "smem_layout": "linear"
+  },
+  "kernel": "oos/m128_s12.py"
+ },
+ {
+  "label": "m128:sample13",
+  "shape": {
+   "M": 128,
+   "N": 4096,
+   "K": 4096
+  },
+  "holes": {
+   "block_M": 64,
+   "block_N": 64,
+   "block_K": 32,
+   "num_stages": 4,
+   "threads": 128,
+   "swizzle": 0,
+   "prefetch": 2,
+   "warp_policy": 1,
+   "vec_width": 0,
+   "tma": 1,
+   "warp_spec": 0,
+   "smem_layout": "swizzled"
+  },
+  "kernel": "oos/m128_s13.py"
+ },
+ {
+  "label": "m128:sample14",
+  "shape": {
+   "M": 128,
+   "N": 4096,
+   "K": 4096
+  },
+  "holes": {
+   "block_M": 64,
+   "block_N": 128,
+   "block_K": 32,
+   "num_stages": 5,
+   "threads": 128,
+   "swizzle": 16,
+   "prefetch": 1,
+   "warp_policy": 1,
+   "vec_width": 0,
+   "tma": 1,
+   "warp_spec": 0,
+   "smem_layout": "inferred"
+  },
+  "kernel": "oos/m128_s14.py"
+ },
+ {
+  "label": "m128:sample15",
+  "shape": {
+   "M": 128,
+   "N": 4096,
+   "K": 4096
+  },
+  "holes": {
+   "block_M": 64,
+   "block_N": 256,
+   "block_K": 64,
+   "num_stages": 2,
+   "threads": 128,
+   "swizzle": 8,
+   "prefetch": 0,
+   "warp_policy": 1,
+   "vec_width": 4,
+   "tma": 0,
+   "warp_spec": 1,
+   "smem_layout": "linear"
+  },
+  "kernel": "oos/m128_s15.py"
+ },
+ {
+  "label": "m128:sample16",
+  "shape": {
+   "M": 128,
+   "N": 4096,
+   "K": 4096
+  },
+  "holes": {
+   "block_M": 64,
+   "block_N": 128,
+   "block_K": 64,
+   "num_stages": 3,
+   "threads": 512,
+   "swizzle": 4,
+   "prefetch": 0,
+   "warp_policy": 2,
+   "vec_width": 16,
+   "tma": 0,
+   "warp_spec": 0,
+   "smem_layout": "swizzled"
+  },
+  "kernel": "oos/m128_s16.py"
+ },
+ {
+  "label": "m128:sample17",
+  "shape": {
+   "M": 128,
+   "N": 4096,
+   "K": 4096
+  },
+  "holes": {
+   "block_M": 64,
+   "block_N": 128,
+   "block_K": 64,
+   "num_stages": 2,
+   "threads": 512,
+   "swizzle": 8,
+   "prefetch": 0,
+   "warp_policy": 1,
+   "vec_width": 16,
+   "tma": 0,
+   "warp_spec": 1,
+   "smem_layout": "swizzled"
+  },
+  "kernel": "oos/m128_s17.py"
+ },
+ {
+  "label": "m128:sample18",
+  "shape": {
+   "M": 128,
+   "N": 4096,
+   "K": 4096
+  },
+  "holes": {
+   "block_M": 64,
+   "block_N": 64,
+   "block_K": 64,
+   "num_stages": 3,
+   "threads": 256,
+   "swizzle": 8,
+   "prefetch": 1,
+   "warp_policy": 0,
+   "vec_width": 16,
+   "tma": 0,
+   "warp_spec": 1,
+   "smem_layout": "swizzled"
+  },
+  "kernel": "oos/m128_s18.py"
+ },
+ {
+  "label": "m128:sample19",
+  "shape": {
+   "M": 128,
+   "N": 4096,
+   "K": 4096
+  },
+  "holes": {
+   "block_M": 64,
+   "block_N": 64,
+   "block_K": 64,
+   "num_stages": 2,
+   "threads": 256,
+   "swizzle": 0,
+   "prefetch": 1,
+   "warp_policy": 2,
+   "vec_width": 16,
+   "tma": 0,
+   "warp_spec": 1,
+   "smem_layout": "inferred"
+  },
+  "kernel": "oos/m128_s19.py"
+ },
+ {
+  "label": "m128:sample20",
+  "shape": {
+   "M": 128,
+   "N": 4096,
+   "K": 4096
+  },
+  "holes": {
+   "block_M": 64,
+   "block_N": 128,
+   "block_K": 64,
+   "num_stages": 3,
+   "threads": 256,
+   "swizzle": 8,
+   "prefetch": 0,
+   "warp_policy": 1,
+   "vec_width": 0,
+   "tma": 1,
+   "warp_spec": 1,
+   "smem_layout": "linear"
+  },
+  "kernel": "oos/m128_s20.py"
+ },
+ {
+  "label": "m128:sample21",
+  "shape": {
+   "M": 128,
+   "N": 4096,
+   "K": 4096
+  },
+  "holes": {
+   "block_M": 128,
+   "block_N": 256,
+   "block_K": 32,
+   "num_stages": 3,
+   "threads": 256,
+   "swizzle": 4,
+   "prefetch": 2,
+   "warp_policy": 2,
+   "vec_width": 4,
+   "tma": 0,
+   "warp_spec": 0,
+   "smem_layout": "inferred"
+  },
+  "kernel": "oos/m128_s21.py"
+ },
+ {
+  "label": "m128:sample22",
+  "shape": {
+   "M": 128,
+   "N": 4096,
+   "K": 4096
+  },
+  "holes": {
+   "block_M": 64,
+   "block_N": 64,
+   "block_K": 32,
+   "num_stages": 4,
+   "threads": 256,
+   "swizzle": 4,
+   "prefetch": 0,
+   "warp_policy": 0,
+   "vec_width": 16,
+   "tma": 0,
+   "warp_spec": 1,
+   "smem_layout": "linear"
+  },
+  "kernel": "oos/m128_s22.py"
+ },
+ {
+  "label": "m128:sample23",
+  "shape": {
+   "M": 128,
+   "N": 4096,
+   "K": 4096
+  },
+  "holes": {
+   "block_M": 128,
+   "block_N": 64,
+   "block_K": 64,
+   "num_stages": 3,
+   "threads": 128,
+   "swizzle": 8,
+   "prefetch": 1,
+   "warp_policy": 0,
+   "vec_width": 8,
+   "tma": 0,
+   "warp_spec": 0,
+   "smem_layout": "linear"
+  },
+  "kernel": "oos/m128_s23.py"
+ },
+ {
+  "label": "m128:sample24",
+  "shape": {
+   "M": 128,
+   "N": 4096,
+   "K": 4096
+  },
+  "holes": {
+   "block_M": 128,
+   "block_N": 64,
+   "block_K": 32,
+   "num_stages": 4,
+   "threads": 128,
+   "swizzle": 8,
+   "prefetch": 0,
+   "warp_policy": 0,
+   "vec_width": 8,
+   "tma": 0,
+   "warp_spec": 1,
+   "smem_layout": "swizzled"
+  },
+  "kernel": "oos/m128_s24.py"
+ },
+ {
+  "label": "m128:sample25",
+  "shape": {
+   "M": 128,
+   "N": 4096,
+   "K": 4096
+  },
+  "holes": {
+   "block_M": 64,
+   "block_N": 128,
+   "block_K": 32,
+   "num_stages": 4,
+   "threads": 256,
+   "swizzle": 4,
+   "prefetch": 0,
+   "warp_policy": 2,
+   "vec_width": 4,
+   "tma": 0,
+   "warp_spec": 0,
+   "smem_layout": "linear"
+  },
+  "kernel": "oos/m128_s25.py"
+ },
+ {
+  "label": "m128:sample26",
+  "shape": {
+   "M": 128,
+   "N": 4096,
+   "K": 4096
+  },
+  "holes": {
+   "block_M": 128,
+   "block_N": 64,
+   "block_K": 64,
+   "num_stages": 3,
+   "threads": 128,
+   "swizzle": 16,
+   "prefetch": 2,
+   "warp_policy": 2,
+   "vec_width": 4,
+   "tma": 1,
+   "warp_spec": 1,
+   "smem_layout": "inferred"
+  },
+  "kernel": "oos/m128_s26.py"
+ },
+ {
+  "label": "m128:sample27",
+  "shape": {
+   "M": 128,
+   "N": 4096,
+   "K": 4096
+  },
+  "holes": {
+   "block_M": 64,
+   "block_N": 64,
+   "block_K": 32,
+   "num_stages": 4,
+   "threads": 128,
+   "swizzle": 16,
+   "prefetch": 1,
+   "warp_policy": 2,
+   "vec_width": 0,
+   "tma": 1,
+   "warp_spec": 1,
+   "smem_layout": "swizzled"
+  },
+  "kernel": "oos/m128_s27.py"
+ },
+ {
+  "label": "m128:sample28",
+  "shape": {
+   "M": 128,
+   "N": 4096,
+   "K": 4096
+  },
+  "holes": {
+   "block_M": 128,
+   "block_N": 128,
+   "block_K": 64,
+   "num_stages": 3,
+   "threads": 128,
+   "swizzle": 0,
+   "prefetch": 2,
+   "warp_policy": 0,
+   "vec_width": 4,
+   "tma": 0,
+   "warp_spec": 0,
+   "smem_layout": "inferred"
+  },
+  "kernel": "oos/m128_s28.py"
+ },
+ {
+  "label": "m128:sample29",
+  "shape": {
+   "M": 128,
+   "N": 4096,
+   "K": 4096
+  },
+  "holes": {
+   "block_M": 64,
+   "block_N": 128,
+   "block_K": 32,
+   "num_stages": 4,
+   "threads": 256,
+   "swizzle": 16,
+   "prefetch": 0,
+   "warp_policy": 0,
+   "vec_width": 0,
+   "tma": 0,
+   "warp_spec": 0,
+   "smem_layout": "swizzled"
+  },
+  "kernel": "oos/m128_s29.py"
+ }
+]

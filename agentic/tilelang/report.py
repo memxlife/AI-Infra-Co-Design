@@ -47,7 +47,16 @@ def main():
                    f"{n['best']['latency_us']:.1f} µs ({n['best']['tflops']:.1f} TF/s) | {_h(p['pick'])} | {p['measured_us'] and f'{p[chr(109)+chr(101)+chr(97)+chr(115)+chr(117)+chr(114)+chr(101)+chr(100)+chr(95)+chr(117)+chr(115)]:.1f} µs'} | "
                    f"{p['gap'] is not None and f'{p[chr(103)+chr(97)+chr(112)]:+.1%}'} | {t.get('spearman_all')} | {t.get('broken_bound_fraction', 0):.1%} | {t.get('model_pick_gap')} |")
     out += ["", "Removed by the constraints: the shared-memory rule, the register rule (launch bounds), the tile-per-thread rule. Spill: ptxas spill bytes > 0 among the configurations that ran. The solver's pick: the MILP over J-hat's tables with the calibrated terms, found in the sweep table (one compile and one profile instead of the grid). Bound broken: the share of points where J-hat predicted a slower time than measured (the one-sided test; 5 % allowed).", ""]
-    out += ["## Baselines", ""]
+    out += ["", "## Two claims about TileLang's autotuner, kept apart (R4)", "",
+            "**The menu claim.** TileLang's autotuner list (`example_gemm_autotune.py`, 144 configurations) has no traversal-panel knob. "
+            "At 4096^3 its best is 1941.5 µs after 132 compiles; the best of our menu, which has the panel, is 1377.4 µs (exhaustive, 504 "
+            "legal points) and the loop's one compile gave 1434.5 µs. The difference is the panel, a knob the list does not contain; it says "
+            "nothing about the solver.", "",
+            "**The solver claim.** Over our own menu, exhaustive timing of the 504 legal points at 4096^3 gives 1377.4 µs; the solver's one "
+            "compile gives 1379.4 µs (the round-1 terms) and 1414.1 µs (the round-2 envelope terms, a model tie broken the other way). "
+            "At 1024^3: 63.4 µs exhaustive against 64.4 µs; at M=32: 200.4 against 202.7 µs. These gaps are the solver's; the noise band "
+            "within one session is 1.4 % at 1024^3 and 0.3-0.5 % at 4096^3 (R3).", "",
+            "## Baselines", ""]
     for name, shape in SHAPES.items():
         f = RUNS / f"baseline_{name}.json"
         if not f.exists():

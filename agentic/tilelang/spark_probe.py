@@ -35,7 +35,11 @@ def main():
                 rep["n_regs"] = fn.get("registers"); rep["n_spills"] = (fn.get("spill_stores", 0) + fn.get("spill_loads", 0)) if fn else None
                 rep["uses"] = {"tma": "CUtensorMap" in src, "cp_async": "cp.async" in src or "LDGSTS" in (px.get("sass_text") or ""), "mma": "mma" in src.lower()}
                 A = torch.randn(M, K, device="cuda").half(); B = torch.randn(K, N, device="cuda").half()
-                C = k(A, B); torch.cuda.synchronize(); ref = A @ B
+                if item.get("inout_c"):                 # split-K: the kernel adds into a zeroed FP32 C
+                    C = torch.zeros(M, N, device="cuda", dtype=torch.float32); k(A, B, C)
+                else:
+                    C = k(A, B)
+                torch.cuda.synchronize(); ref = A @ B
                 diff = (C.float() - ref.float()).abs(); tol = 1e-2 + 1e-2 * ref.float().abs()
                 rep["correct"] = bool((diff <= tol).all()); rep["max_abs_err"] = float(diff.max())
                 p = k.get_profiler(); rep["clock_before"] = smi_state()

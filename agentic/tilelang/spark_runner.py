@@ -82,7 +82,7 @@ def main():
     ap.add_argument("--kernel", required=True); ap.add_argument("--func", default="matmul")
     ap.add_argument("--m", type=int, required=True); ap.add_argument("--n", type=int, required=True); ap.add_argument("--k", type=int, required=True)
     ap.add_argument("--holes", default="{}"); ap.add_argument("--reps", type=int, default=100); ap.add_argument("--warmup", type=int, default=25)
-    ap.add_argument("--ncu", action="store_true"); ap.add_argument("--out", default=None); ap.add_argument("--rtol", type=float, default=1e-2); ap.add_argument("--atol", type=float, default=1e-2)
+    ap.add_argument("--ncu", action="store_true"); ap.add_argument("--out", default=None); ap.add_argument("--inout-c", action="store_true", help="the kernel takes a zeroed FP32 C and adds into it (split-K)"); ap.add_argument("--rtol", type=float, default=1e-2); ap.add_argument("--atol", type=float, default=1e-2)
     a = ap.parse_args()
     t0 = time.time()
     import torch, tilelang
@@ -99,7 +99,11 @@ def main():
     except Exception as e:
         rep.update(ok=False, stage="compile", error=str(e)[-2000:]); print(json.dumps(rep)); return
     A = torch.randn(a.m, a.k, device="cuda").half(); B = torch.randn(a.k, a.n, device="cuda").half()
-    C = k(A, B); torch.cuda.synchronize()
+    if a.inout_c:                                   # split-K: the kernel adds into a zeroed FP32 C
+        C = torch.zeros(a.m, a.n, device="cuda", dtype=torch.float32); k(A, B, C)
+    else:
+        C = k(A, B)
+    torch.cuda.synchronize()
     ref = A @ B
     diff = (C.float() - ref.float()).abs(); tol = a.atol + a.rtol * ref.float().abs()
     rep["correct"] = bool((diff <= tol).all()); rep["max_abs_err"] = float(diff.max()); rep["mismatches"] = int((diff > tol).sum())

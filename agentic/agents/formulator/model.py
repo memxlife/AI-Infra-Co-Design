@@ -17,7 +17,7 @@ from ...tilelang.tools import inventory, menus_for
 from . import catalog_entry
 
 PROMPT = Path(__file__).resolve().parent / "prompts" / "tilelang_family.md"
-FAMILIES = ["gemm_basic"]
+FAMILIES = ["gemm_basic", "gemm_splitk"]
 DEFAULT_MODEL = "claude-fable-5-1"
 
 

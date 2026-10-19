@@ -1,0 +1,247 @@
+[
+ {
+  "label": "m32:gemm_basic base",
+  "shape": {
+   "M": 32,
+   "N": 4096,
+   "K": 4096
+  },
+  "holes": {
+   "block_M": 16,
+   "block_N": 256,
+   "block_K": 32,
+   "num_stages": 4,
+   "threads": 256,
+   "swizzle": 0
+  },
+  "kernel": "splitk/basic_base.py"
+ },
+ {
+  "label": "m32:splitk 16x256 split2 st2",
+  "shape": {
+   "M": 32,
+   "N": 4096,
+   "K": 4096
+  },
+  "holes": {
+   "block_M": 16,
+   "block_N": 256,
+   "block_K": 32,
+   "num_stages": 2,
+   "threads": 256,
+   "swizzle": 0,
+   "split_k": 2
+  },
+  "kernel": "splitk/splitk_16x256_s2_st2.py",
+  "inout_c": true
+ },
+ {
+  "label": "m32:splitk 16x256 split2 st4",
+  "shape": {
+   "M": 32,
+   "N": 4096,
+   "K": 4096
+  },
+  "holes": {
+   "block_M": 16,
+   "block_N": 256,
+   "block_K": 32,
+   "num_stages": 4,
+   "threads": 256,
+   "swizzle": 0,
+   "split_k": 2
+  },
+  "kernel": "splitk/splitk_16x256_s2_st4.py",
+  "inout_c": true
+ },
+ {
+  "label": "m32:splitk 16x256 split4 st2",
+  "shape": {
+   "M": 32,
+   "N": 4096,
+   "K": 4096
+  },
+  "holes": {
+   "block_M": 16,
+   "block_N": 256,
+   "block_K": 32,
+   "num_stages": 2,
+   "threads": 256,
+   "swizzle": 0,
+   "split_k": 4
+  },
+  "kernel": "splitk/splitk_16x256_s4_st2.py",
+  "inout_c": true
+ },
+ {
+  "label": "m32:splitk 16x256 split4 st4",
+  "shape": {
+   "M": 32,
+   "N": 4096,
+   "K": 4096
+  },
+  "holes": {
+   "block_M": 16,
+   "block_N": 256,
+   "block_K": 32,
+   "num_stages": 4,
+   "threads": 256,
+   "swizzle": 0,
+   "split_k": 4
+  },
+  "kernel": "splitk/splitk_16x256_s4_st4.py",
+  "inout_c": true
+ },
+ {
+  "label": "m32:splitk 16x256 split8 st2",
+  "shape": {
+   "M": 32,
+   "N": 4096,
+   "K": 4096
+  },
+  "holes": {
+   "block_M": 16,
+   "block_N": 256,
+   "block_K": 32,
+   "num_stages": 2,
+   "threads": 256,
+   "swizzle": 0,
+   "split_k": 8
+  },
+  "kernel": "splitk/splitk_16x256_s8_st2.py",
+  "inout_c": true
+ },
+ {
+  "label": "m32:splitk 16x256 split8 st4",
+  "shape": {
+   "M": 32,
+   "N": 4096,
+   "K": 4096
+  },
+  "holes": {
+   "block_M": 16,
+   "block_N": 256,
+   "block_K": 32,
+   "num_stages": 4,
+   "threads": 256,
+   "swizzle": 0,
+   "split_k": 8
+  },
+  "kernel": "splitk/splitk_16x256_s8_st4.py",
+  "inout_c": true
+ },
+ {
+  "label": "m32:splitk 32x128 split2 st2",
+  "shape": {
+   "M": 32,
+   "N": 4096,
+   "K": 4096
+  },
+  "holes": {
+   "block_M": 32,
+   "block_N": 128,
+   "block_K": 32,
+   "num_stages": 2,
+   "threads": 256,
+   "swizzle": 0,
+   "split_k": 2
+  },
+  "kernel": "splitk/splitk_32x128_s2_st2.py",
+  "inout_c": true
+ },
+ {
+  "label": "m32:splitk 32x128 split2 st4",
+  "shape": {
+   "M": 32,
+   "N": 4096,
+   "K": 4096
+  },
+  "holes": {
+   "block_M": 32,
+   "block_N": 128,
+   "block_K": 32,
+   "num_stages": 4,
+   "threads": 256,
+   "swizzle": 0,
+   "split_k": 2
+  },
+  "kernel": "splitk/splitk_32x128_s2_st4.py",
+  "inout_c": true
+ },
+ {
+  "label": "m32:splitk 32x128 split4 st2",
+  "shape": {
+   "M": 32,
+   "N": 4096,
+   "K": 4096
+  },
+  "holes": {
+   "block_M": 32,
+   "block_N": 128,
+   "block_K": 32,
+   "num_stages": 2,
+   "threads": 256,
+   "swizzle": 0,
+   "split_k": 4
+  },
+  "kernel": "splitk/splitk_32x128_s4_st2.py",
+  "inout_c": true
+ },
+ {
+  "label": "m32:splitk 32x128 split4 st4",
+  "shape": {
+   "M": 32,
+   "N": 4096,
+   "K": 4096
+  },
+  "holes": {
+   "block_M": 32,
+   "block_N": 128,
+   "block_K": 32,
+   "num_stages": 4,
+   "threads": 256,
+   "swizzle": 0,
+   "split_k": 4
+  },
+  "kernel": "splitk/splitk_32x128_s4_st4.py",
+  "inout_c": true
+ },
+ {
+  "label": "m32:splitk 32x128 split8 st2",
+  "shape": {
+   "M": 32,
+   "N": 4096,
+   "K": 4096
+  },
+  "holes": {
+   "block_M": 32,
+   "block_N": 128,
+   "block_K": 32,
+   "num_stages": 2,
+   "threads": 256,
+   "swizzle": 0,
+   "split_k": 8
+  },
+  "kernel": "splitk/splitk_32x128_s8_st2.py",
+  "inout_c": true
+ },
+ {
+  "label": "m32:splitk 32x128 split8 st4",
+  "shape": {
+   "M": 32,
+   "N": 4096,
+   "K": 4096
+  },
+  "holes": {
+   "block_M": 32,
+   "block_N": 128,
+   "block_K": 32,
+   "num_stages": 4,
+   "threads": 256,
+   "swizzle": 0,
+   "split_k": 8
+  },
+  "kernel": "splitk/splitk_32x128_s8_st4.py",
+  "inout_c": true
+ }
+]

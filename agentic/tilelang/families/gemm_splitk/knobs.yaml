@@ -1,0 +1,58 @@
+# Family gemm_splitk: TileLang's examples/gemm_splitk/example_tilelang_gemm_splitk.py (vectorized atomic_add variant) with the six
+# round-1 holes plus split_k. Structural difference from gemm_basic: the grid has a z axis over parts of K and the output is
+# accumulated with atomics into an FP32 C the caller zeroes. Obligation: exact-once (every A[i,k] B[k,j] added once).
+family: gemm_splitk
+source: examples/gemm_splitk/example_tilelang_gemm_splitk_vectorize_atomicadd.py at the pinned commit (PINNED.md)
+func: matmul
+func_kind: inout_c          # the kernel takes C (FP32, zeroed) and adds into it; the runner zeroes C before the check
+kernel: kernel.py.j2
+knobs:
+  - name: block_M
+    kind: int_menu
+    menu: [64, 128, 256]
+    binds: "alloc_shared((block_M, block_K)), Kernel grid rows"
+    enters: [smem, regs, divisibility, waves]
+    meaning: rows of C per block
+  - name: block_N
+    kind: int_menu
+    menu: [64, 128, 256]
+    binds: "alloc_shared((block_K, block_N)), Kernel grid columns"
+    enters: [smem, regs, divisibility, waves]
+    meaning: columns of C per block
+  - name: block_K
+    kind: int_menu
+    menu: [32, 64, 128]
+    binds: "alloc_shared, Pipelined bound"
+    enters: [smem, divisibility, exact_once]
+    meaning: slice of K per pipeline step
+  - name: num_stages
+    kind: int_menu
+    menu: [2, 3, 4, 5]
+    binds: "Pipelined(num_stages=)"
+    enters: [smem]
+    meaning: pipeline depth (tiles in flight)
+  - name: threads
+    kind: int_menu
+    menu: [128, 256, 512]
+    binds: "Kernel(threads=)"
+    enters: [regs, threads]
+    meaning: threads per block
+  - name: swizzle
+    kind: int_menu
+    menu: [0, 4, 8, 16]
+    binds: "use_swizzle(panel_size=)"
+    enters: []
+    meaning: thread-block traversal panel
+  - name: split_k
+    kind: int_menu
+    menu: [2, 4, 8]
+    binds: "Kernel(..., split_k) grid z; atomic_add(C[...], C_local) (tilelang/language/atomic.py)"
+    enters: [exact_once, waves, traffic]
+    meaning: parts of K multiplied by different blocks and added with atomics
+skinny_menus:
+  block_M: [16, 32, 64]
+structural:
+  - name: output_path
+    choice: [atomic_add into FP32 C]
+    binds: atomic_add
+    note: the structural choice of this family; gemm_basic writes C once from the fragment

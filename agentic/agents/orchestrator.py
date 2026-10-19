@@ -440,8 +440,13 @@ class Orchestrator:
                                           "note": pr["note"]}, tid)
 
         if abs(M["discrepancy"]) > self.params["discrepancy_tol"]:
-            self._diagnose(f"measured vs predicted differs by {M['discrepancy']:+.1%}", "cost_model",
-                           "revise the cost model, not the template", m)
+            d = self._diagnose(f"measured vs predicted differs by {M['discrepancy']:+.1%}", "cost_model",
+                               "revise the cost model, not the template", m)
+            if T["template"] == "gemm_tilelang" and M["measured_cost"] < M["predicted_cost"]:
+                # R7: the loop reacts. Re-fit the one term to blame from this measurement, derive a contract that carries
+                # the new terms, solve again, and run the new pick once; the ledger shows measured -> diagnosis ->
+                # recalibration -> new pick.
+                return self._recalibrate_and_resolve(T, tid, X, M, m, d, v)
 
         if extra and strength == "proved":
             strength = "observed"            # extrapolating: a modeled bound may steer, not gate
@@ -451,6 +456,45 @@ class Orchestrator:
         cur["coarse_template"] = tid
         cur["step"] += 1
         self._checkpoint("admitted", tid)
+        return False
+
+    def _recalibrate_and_resolve(self, T, tid, X, M, m, d, v) -> bool:
+        from ..tilelang.recalibrate import recalibrate
+        from ..agents.solver import _terms_of
+        from ..tilelang import verify as tl_verify
+        from .evaluator import tilelang as tl_eval
+        shape = {k: T["scope"]["workload"][k] for k in ("M", "N", "K")}
+        terms = _terms_of(T)
+        prof = ((M.get("detail") or {}).get("kernel_report") or {}).get("ncu") or {}
+        new_terms, note = recalibrate(X["values"], shape, T["scope"]["chip"], terms, M["measured_cost"],
+                                      dram_bytes_measured=prof.get("dram_bytes") if prof.get("ok") else None)
+        self._append("note", {"recalibration": note, "diagnosis": d}, m)
+        if not note.get("changed"):
+            cur = self.cursor; cur["step"] += 1
+            return False
+        T2 = {k: vv for k, vv in T.items() if k not in ("id", "status", "certificate")}
+        T2["cost"] = {**T["cost"], "terms_values": {k: vv for k, vv in new_terms.items() if k != "fit"}, "calibrated": new_terms.get("source")}
+        T2["status"] = "proposed"; T2["parent"] = T.get("parent")
+        T2["provenance"] = {**T["provenance"], "derived_from": tid, "edited_by": "recalibration", "refines": f"term {note['changed']['term']} re-fitted from measurement {m}"}
+        T2["rationale"] = (T.get("rationale", "") + f" Recalibrated: {note['changed']['term']} {note['changed']['from']:.4g} -> {note['changed']['to']:.4g} after the kernel ran {M['measured_cost']:.1f} µs against {M['predicted_cost']:.1f} predicted.")
+        tid2 = self.ledger.put("contract", T2, "tmpl"); T2 = self.ledger.get(tid2)
+        self._append("proposed", {"step": self.cursor["step"], "structure": T2["structure"], "refines": T2["provenance"]["refines"],
+                                  "workload": T2["scope"]["workload"], "formulator_time": 0.0, "recalibrated_from": tid}, tid2)
+        x2 = self.ledger.put("assignment", solver_svc.solve(T2), "asgn"); X2 = self.ledger.get(x2)
+        self._append("solved", {"objective": X2["objective"], "bound": X2["bound"], "gap": X2["gap"], "solver_time": X2["solver_time"], "values": X2["values"],
+                                "pick_changed": X2["values"] != X["values"]}, x2)
+        w2 = self.ledger.put("verdict", tl_verify.check_instance(T2, X2), "inst"); W2 = self.ledger.get(w2)
+        self._append("instance_check", {"verdict": W2["verdict"], "checker_time": W2["checker_time"], "failed": []}, w2)
+        kid = self.ledger.put("kernel", tl_eval.kernel_artifact(T2, X2), "kern")
+        m2 = self.ledger.put("measurement", tl_eval.measure(T2, X2, self.backend.split(":", 1)[1], self.ledger.get(kid)), "meas"); M2 = self.ledger.get(m2)
+        self._append("measured", {"predicted": M2["predicted_cost"], "measured": M2["measured_cost"], "discrepancy": M2["discrepancy"],
+                                  "utilizations": M2["utilizations"], "dominant_resource": M2["dominant_resource"], "simulator": M2["simulator"],
+                                  "evaluator_time": 0.0, "reference_agrees": M2.get("reference_agrees"), "after_recalibration": True}, m2)
+        self.optimism.update(M2["predicted_cost"], M2["measured_cost"], m2)
+        self._append("admitted", {"certificate": v, "assignment": x2, "measurement": m2, "strength": "observed", "extrapolating": False,
+                                  "evaluator": self.backend, "objective": X2["objective"], "measured": M2["measured_cost"], "recalibrated": True}, tid2)
+        self.cursor["coarse_template"] = tid2; self.cursor["step"] += 1
+        self._checkpoint("admitted", tid2)
         return False
 
     # ------------------------------------------------------- architect commands

@@ -20,7 +20,7 @@ GB10 = {"smem_per_block": 101376, "smem_per_sm": 102400, "regs_per_sm": 65536, "
 def inventory(family: str, chip: str = "spark-6951-gb10") -> dict:
     """The knob list of a family: name, kind (int_menu / structural), menu, the primitive it binds, the constraints it enters."""
     y = yaml.safe_load((FAMILIES / family / "knobs.yaml").read_text())
-    return {"family": family, "chip": chip, "func": y["func"], "knobs": y["knobs"], "structural": y.get("structural", []),
+    return {"family": family, "chip": chip, "func": y["func"], "func_kind": y.get("func_kind", "returns_c"), "knobs": y["knobs"], "structural": y.get("structural", []),
             "menus": {k["name"]: k["menu"] for k in y["knobs"]}, "skinny_menus": y.get("skinny_menus", {})}
 
 
@@ -136,10 +136,16 @@ def legalize(family: str, holes: dict, shape: dict, chip: dict | None = None, dt
     if bm * bn // th < 16:
         reasons.append(f"tile too small for the threads: {bm}x{bn} over {th} threads leaves {bm * bn // th} values per thread")
     m, n, k = shape["M"], shape["N"], shape["K"]
+    if family == "gemm_splitk":
+        sk = holes.get("split_k", 1)
+        if sk < 2 or k % sk:
+            reasons.append(f"exact-once: K = {k} does not divide into {sk} equal parts")
+        elif (k // sk) % bk:
+            reasons.append(f"exact-once: a part of K ({k // sk}) is not a whole number of {bk}-slices; the last slice of a part would read into the next part and add it twice")
     waste = 1.0
     for name, tile, ext in (("block_M", bm, m), ("block_N", bn, n), ("block_K", bk, k)):
         waste *= (-(-ext // tile) * tile) / ext        # the padded work over the real work; TileLang predicates the edge tiles
     blocks = max(1, min(c["smem_per_sm"] // max(1, smem + 1024), c["regs_per_sm"] // max(1, budget * launched), c["max_threads_per_sm"] // launched))
-    tiles = -(-m // bm) * -(-n // bn)
+    tiles = -(-m // bm) * -(-n // bn) * (holes.get("split_k", 1) if family == "gemm_splitk" else 1)
     return {"ok": not reasons, "reason": "; ".join(reasons) or None, "smem_bytes_est": smem, "regs_est": regs,
             "blocks_per_sm_est": blocks, "tiles": tiles, "waves": -(-tiles // (c["sms"] * blocks)), "padding_waste": round(waste - 1, 4)}
