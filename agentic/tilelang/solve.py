@@ -21,6 +21,7 @@ def solve_family(T: dict, terms: dict | None = None, time_limit: float = 30.0) -
     terms = terms or default_terms(chip)
     menus = {k: v["domain"] for k, v in T["decisions"].items()}
     names = list(menus)
+    ROUND1 = ("block_M", "block_N", "block_K", "num_stages", "threads", "swizzle")
     # variables: one-hot per knob; z over (block_M, block_N, block_K, threads) for the per-SM tile time; w over
     # (num_stages, block_K) for the pipeline fill; v over (block_M, block_N, swizzle) for the DRAM term; T_ep the epigraph
     idx, var_names = {}, []
@@ -81,14 +82,42 @@ def solve_family(T: dict, terms: dict | None = None, time_limit: float = 30.0) -
         p = predict(h, shape, chip, terms)
         dram_time[vi] = scale * p["terms"]["t_dram"]; l2_time[vi] = scale * p["terms"]["t_l2"]
     launch = terms.get("launch_s", 0.0)
-    row([(T_ep, 1)] + [(zi, -t) for zi, t in tile_part.items()] + [(si, -t) for si, t in step_part.items()], launch, np.inf)
+    # round 2 knobs: T_sm = base * prod_k f_k[x_k]. Linearized as base + sum_k (f_k[x_k] - 1) * base_lb, with base_lb the
+    # smallest base in the table: a lower bound of the product when every factor is >= 1, exact when base is at its minimum.
+    # Factors below 1 (a knob value that speeds the kernel up) are kept as they are: they lower the bound further.
+    kf = terms.get("knob_factors") or {}
+    base_lb = min(tile_part.values()) if tile_part else 0.0
+    knob_terms = []
+    for knob, table in kf.items():
+        if knob not in menus:
+            continue
+        for val in menus[knob]:
+            f = float(table.get(val, table.get(str(val), 1.0)))
+            knob_terms.append((x[knob, val], -(f - 1.0) * base_lb))
+    row([(T_ep, 1)] + [(zi, -t) for zi, t in tile_part.items()] + [(si, -t) for si, t in step_part.items()] + knob_terms, launch, np.inf)
     row([(T_ep, 1)] + [(vi, -t) for vi, t in dram_time.items()], launch, np.inf)
     row([(T_ep, 1)] + [(vi, -t) for vi, t in l2_time.items()], launch, np.inf)
-    c = np.zeros(n); c[T_ep] = 1.0
+    # round 2 rules the tables cannot hold: a prefetch of P k-steps needs more than P buffers (TileLang infers the depth
+    # as max(stage) + 1), so x[prefetch=P] + x[num_stages=S] <= 1 whenever P >= S
+    if "prefetch" in menus:
+        for pv in menus["prefetch"]:
+            for sv in menus["num_stages"]:
+                if pv >= sv:
+                    row([(x["prefetch", pv], 1), (x["num_stages", sv], 1)], -np.inf, 1)
+    c = np.zeros(n); c[T_ep] = 1e6                # the objective in microseconds, so the solver's gap tolerances mean something
+    # tie-break: a knob value that the model prices the same as TileLang's default costs an epsilon, so the solver
+    # returns the default unless a term says otherwise (the pick stays reproducible and the kernel stays the example's)
+    from .tools import ROUND2_DEFAULTS
+    eps = 1e-3                                   # a thousandth of a microsecond per non-default value
+    for knob, dv in ROUND2_DEFAULTS.items():
+        if knob in menus:
+            for val in menus[knob]:
+                if val != dv:
+                    c[x[knob, val]] += eps
     integrality = np.ones(n); integrality[T_ep] = 0
     lb = np.zeros(n); ub[T_ep] = np.inf
     res = milp(c, constraints=LinearConstraint(np.array(rows), lo, hi), integrality=integrality, bounds=Bounds(lb, ub),
-               options={"time_limit": time_limit})
+               options={"time_limit": time_limit, "mip_rel_gap": 1e-7})
     if res.x is None:
         return {"contract": T["id"], "values": None, "objective": None, "bound": None, "gap": None, "status": res.message,
                 "solver_time": perf_counter() - t0, "diagnostics": {"variables": n, "constraints": len(rows)}, "provenance": {"service": "agentic.tilelang.solve"}}

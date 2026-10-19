@@ -1,0 +1,94 @@
+[
+ {
+  "label": "1024:pick",
+  "shape": {
+   "M": 1024,
+   "N": 1024,
+   "K": 1024
+  },
+  "holes": {
+   "block_M": 256,
+   "block_N": 128,
+   "block_K": 32,
+   "num_stages": 3,
+   "threads": 256,
+   "swizzle": 0,
+   "prefetch": 0,
+   "warp_policy": 0,
+   "vec_width": 0,
+   "tma": 1,
+   "warp_spec": 1,
+   "smem_layout": "inferred"
+  },
+  "kernel": "sample/pick_1024_pick.py"
+ },
+ {
+  "label": "1024:round1",
+  "shape": {
+   "M": 1024,
+   "N": 1024,
+   "K": 1024
+  },
+  "holes": {
+   "block_M": 256,
+   "block_N": 128,
+   "block_K": 32,
+   "num_stages": 3,
+   "threads": 512,
+   "swizzle": 0,
+   "prefetch": 0,
+   "warp_policy": 0,
+   "vec_width": 0,
+   "tma": 1,
+   "warp_spec": 1,
+   "smem_layout": "inferred"
+  },
+  "kernel": "sample/pick_1024_round1.py"
+ },
+ {
+  "label": "m32:pick",
+  "shape": {
+   "M": 32,
+   "N": 4096,
+   "K": 4096
+  },
+  "holes": {
+   "block_M": 64,
+   "block_N": 256,
+   "block_K": 64,
+   "num_stages": 2,
+   "threads": 256,
+   "swizzle": 0,
+   "prefetch": 0,
+   "warp_policy": 0,
+   "vec_width": 0,
+   "tma": 1,
+   "warp_spec": 1,
+   "smem_layout": "inferred"
+  },
+  "kernel": "sample/pick_m32_pick.py"
+ },
+ {
+  "label": "m32:round1",
+  "shape": {
+   "M": 32,
+   "N": 4096,
+   "K": 4096
+  },
+  "holes": {
+   "block_M": 16,
+   "block_N": 256,
+   "block_K": 64,
+   "num_stages": 2,
+   "threads": 128,
+   "swizzle": 0,
+   "prefetch": 0,
+   "warp_policy": 0,
+   "vec_width": 0,
+   "tma": 1,
+   "warp_spec": 1,
+   "smem_layout": "inferred"
+  },
+  "kernel": "sample/pick_m32_round1.py"
+ }
+]

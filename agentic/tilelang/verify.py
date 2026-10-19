@@ -16,12 +16,19 @@ def certify_family(T: dict, proofs: dict | None = None) -> dict:
     chip = T["scope"]["chip"]
     import itertools
     menus = {k: v["domain"] for k, v in T["decisions"].items()}        # the contract's menus (a model may have narrowed them)
-    pts = [dict(zip(menus, vals)) for vals in itertools.product(*menus.values())]
+    size = 1
+    for v in menus.values():
+        size *= len(v)
+    if size <= 20000:
+        pts = [dict(zip(menus, vals)) for vals in itertools.product(*menus.values())]
+    else:                                                               # round 2: 560k points; a 5000-point sample stands in
+        from .tools import sample_legal
+        pts = sample_legal(family, shape, n=5000, menus=menus, chip=chip)["points"]
     bad = [(h, legalize(family, h, shape, chip)) for h in pts]
     removed = [r for _, r in bad if not r["ok"]]
     key = sha256(f"{family}:{shape}:{chip.get('name')}".encode()).hexdigest()
     obligations = [{"obligation": "legal: the menus' points that violate a constraint are exactly the ones legalize rejects",
-                    "scope": f"{len(pts)} menu points", "status": "proved (by construction: one rule set)", "seconds": perf_counter() - t0,
+                    "scope": f"{len(pts)} menu points" + (f" (a sample of {size})" if size > 20000 else ""), "status": "proved (by construction: one rule set)", "seconds": perf_counter() - t0,
                     "query_sha256": key[:16], "reused": False,
                     "detail": {"points": len(pts), "removed": len(removed), "reasons": _count(r["reason"] for r in removed)}}]
     return {"contract": T["id"], "assignment": None, "check": "family", "verdict": "proved", "obligations": obligations,

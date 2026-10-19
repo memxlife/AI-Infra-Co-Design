@@ -58,11 +58,12 @@ def measure(T: dict, x: dict, host: str, kernel: dict, reps: int = 100, ncu: boo
 
 def probe(T: dict, terms: dict | None = None, sample: int = 64) -> dict:
     """Does the assumed regime hold as a bound over the legal menu? J-hat's longest term on a sample of legal points."""
-    from ...tilelang.tools import grid, legalize
+    from ...tilelang.tools import sample_legal
     shape = {k: T["scope"]["workload"][k] for k in ("M", "N", "K")}
     chip = T["scope"]["chip"]; family = T["scope"]["structure"]["family"]
     terms = terms or _terms_of(T) or default_terms(chip)
-    pts = [h for h in grid(family, shape) if legalize(family, h, shape, chip)["ok"]]
+    menus = {k: v["domain"] for k, v in T["decisions"].items()}
+    pts = sample_legal(family, shape, n=2000, menus=menus, chip=chip)["points"]
     step = max(1, len(pts) // sample)
     counts = {}
     for h in pts[::step]:
@@ -76,15 +77,14 @@ def probe(T: dict, terms: dict | None = None, sample: int = 64) -> dict:
 
 def feasible_designs(T: dict, terms: dict | None = None) -> list[dict]:
     """Every legal menu point with J-hat's time and its longest term, named as a resource for regime_of."""
-    from ...tilelang.tools import grid, legalize
+    from ...tilelang.tools import sample_legal
     shape = {k: T["scope"]["workload"][k] for k in ("M", "N", "K")}
     chip = T["scope"]["chip"]; family = T["scope"]["structure"]["family"]
     terms = terms or _terms_of(T) or default_terms(chip)
     res = {"tensor": "tensor", "copy": "L2", "dram": "DRAM", "l2": "L2"}
+    menus = {k: v["domain"] for k, v in T["decisions"].items()}
     out = []
-    for h in grid(family, shape):
-        if not legalize(family, h, shape, chip)["ok"]:
-            continue
+    for h in sample_legal(family, shape, n=2000, menus=menus, chip=chip)["points"]:
         p = predict(h, shape, chip, terms)
         if p["ok"]:
             out.append({"design": h, "time_us": p["time_us"], "dominant_resource": res.get(p["bound"], p["bound"])})

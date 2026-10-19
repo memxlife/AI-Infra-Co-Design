@@ -42,6 +42,50 @@ knobs:
     binds: "use_swizzle(panel_size=)"
     enters: []
     meaning: thread-block traversal panel (0 = TileLang's default order; no use_swizzle line)
+  # ---- round 2, Group A (integer menus, solver-owned). Each confirmed against the TileLang source at fe6d319c.
+  - name: prefetch
+    kind: int_menu
+    menu: [0, 1, 2]
+    binds: "Pipelined(order=[0,1,2], stage=[0,0,prefetch]) (tilelang/language/loop.py:112-117); 0 = TileLang's inferred schedule"
+    enters: [pipeline]
+    meaning: how many k-steps the copies run ahead of the multiply (0 = let TileLang decide)
+    round: 2
+  - name: warp_policy
+    kind: int_menu
+    menu: [0, 1, 2]
+    binds: "gemm(policy=GemmWarpPolicy) (tilelang/language/gemm_op.py:160-166; tilelang/tileop/base.py:5: Square=0, FullRow=1, FullCol=2)"
+    enters: []
+    meaning: how the warps split the tile (square, all along rows, all along columns)
+    round: 2
+  - name: vec_width
+    kind: int_menu
+    menu: [0, 4, 8, 16]
+    binds: "copy(coalesced_width=) (tilelang/language/copy_op.py:59-63); 0 = unset"
+    enters: []
+    meaning: elements per copy instruction
+    round: 2
+  # ---- round 2, Group B (switches, solver-owned)
+  - name: tma
+    kind: int_menu
+    menu: [1, 0]
+    binds: "tilelang.cuda.language.copy(disable_tma=True) per copy (tilelang/cuda/language/copy_op.py:24); the pass config tl.disable_tma_lower is deprecated at this commit (pass_config.py:378)"
+    enters: []
+    meaning: 1 = copies through TMA (what TileLang picks), 0 = cp.async
+    round: 2
+  - name: warp_spec
+    kind: int_menu
+    menu: [1, 0]
+    binds: "tilelang.jit(pass_configs={'tl.disable_warp_specialized': True}) (tilelang/transform/pass_config.py:73)"
+    enters: [regs]
+    meaning: 1 = the 128-thread producer warp group, 0 = none (no T+128 register cliff)
+    round: 2
+  - name: smem_layout
+    kind: menu
+    menu: ["inferred", "swizzled", "linear"]
+    binds: "annotate_layout({A_s: make_swizzled_layout | make_linear_layout}) (tilelang/language/annotations.py:45, tilelang/layout/swizzle.py:66,129)"
+    enters: []
+    meaning: the shared-memory layout of the A and B tiles (bank-conflict penalty on or off)
+    round: 2
 skinny_menus:   # when M < 64 the block_M menu is replaced by this one
   block_M: [16, 32, 64]
 structural:

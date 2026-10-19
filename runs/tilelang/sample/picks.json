@@ -1,0 +1,70 @@
+{
+ "1024": {
+  "pick": {
+   "block_M": 256,
+   "block_N": 128,
+   "block_K": 32,
+   "num_stages": 3,
+   "threads": 256,
+   "swizzle": 0,
+   "prefetch": 0,
+   "warp_policy": 0,
+   "vec_width": 0,
+   "tma": 1,
+   "warp_spec": 1,
+   "smem_layout": "inferred"
+  },
+  "predicted_us": 63.35999816656113,
+  "solver_ms": 19.928458146750927,
+  "variables": 275,
+  "round1_pick": {
+   "block_M": 256,
+   "block_N": 128,
+   "block_K": 32,
+   "num_stages": 3,
+   "threads": 512,
+   "swizzle": 0,
+   "prefetch": 0,
+   "warp_policy": 0,
+   "vec_width": 0,
+   "tma": 1,
+   "warp_spec": 1,
+   "smem_layout": "inferred"
+  },
+  "round1_predicted_us": 63.48799914121628
+ },
+ "m32": {
+  "pick": {
+   "block_M": 64,
+   "block_N": 256,
+   "block_K": 64,
+   "num_stages": 2,
+   "threads": 256,
+   "swizzle": 0,
+   "prefetch": 0,
+   "warp_policy": 0,
+   "vec_width": 0,
+   "tma": 1,
+   "warp_spec": 1,
+   "smem_layout": "inferred"
+  },
+  "predicted_us": 200.41599869728088,
+  "solver_ms": 37.56125015206635,
+  "variables": 275,
+  "round1_pick": {
+   "block_M": 16,
+   "block_N": 256,
+   "block_K": 64,
+   "num_stages": 2,
+   "threads": 128,
+   "swizzle": 0,
+   "prefetch": 0,
+   "warp_policy": 0,
+   "vec_width": 0,
+   "tma": 1,
+   "warp_spec": 1,
+   "smem_layout": "inferred"
+  },
+  "round1_predicted_us": 200.67200064659116
+ }
+}

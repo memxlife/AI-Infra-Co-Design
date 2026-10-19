@@ -29,8 +29,13 @@ def test_t2_partial_render_leaves_holes_as_parameters():
 
 def test_t2_inventory_and_legalize():
     inv = inventory("gemm_basic")
-    assert [k["name"] for k in inv["knobs"]] == ["block_M", "block_N", "block_K", "num_stages", "threads", "swizzle"]
+    assert [k["name"] for k in inv["knobs"]][:6] == ["block_M", "block_N", "block_K", "num_stages", "threads", "swizzle"]
+    assert [k["name"] for k in inv["knobs"]][6:] == ["prefetch", "warp_policy", "vec_width", "tma", "warp_spec", "smem_layout"]   # round 2
     assert len(grid("gemm_basic", SHAPE)) == 3 * 3 * 3 * 4 * 3 * 4 and menus_for("gemm_basic", {"M": 32, "N": 4096, "K": 4096})["block_M"] == [16, 32, 64]
+    full = 1
+    for m in menus_for("gemm_basic", SHAPE).values():
+        full *= len(m)
+    assert full == 559872
     ok = legalize("gemm_basic", EXAMPLE, SHAPE)
     assert ok["ok"] and ok["smem_bytes_est"] == 3 * (128 * 32 + 32 * 128) * 2
     bad = legalize("gemm_basic", {"block_M": 256, "block_N": 256, "block_K": 32, "num_stages": 8, "threads": 256}, SHAPE)

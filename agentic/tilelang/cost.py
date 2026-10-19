@@ -17,27 +17,28 @@ import math
 PRODUCER_THREADS = 128
 
 
-def launched_threads(threads: int) -> int:
-    return threads + PRODUCER_THREADS
+def launched_threads(threads: int, warp_spec: int = 1) -> int:
+    return threads + (PRODUCER_THREADS if warp_spec else 0)
 
 
-def regs_per_thread(threads: int, chip: dict) -> int:
-    """ptxas fills the launch-bounds budget, rounded down to a multiple of 8, capped at 255."""
-    budget = chip["regs_per_sm"] // launched_threads(threads)
-    return min(255, budget - budget % 8)
+def regs_per_thread(threads: int, chip: dict, warp_spec: int = 1, maxrreg: int = 0) -> int:
+    """ptxas fills the launch-bounds budget, rounded down to a multiple of 8, capped at 255 (or at maxrregcount)."""
+    budget = chip["regs_per_sm"] // launched_threads(threads, warp_spec)
+    budget = min(255, budget - budget % 8)
+    return min(budget, maxrreg) if maxrreg else budget
 
 
 def spills(h: dict, chip: dict) -> bool:
     """The accumulators plus about 24 registers over ptxas's launch-bounds budget: the kernel spills (5x slower at 1024^3)."""
-    return h["block_M"] * h["block_N"] // h["threads"] + 24 > regs_per_thread(h["threads"], chip)
+    return h["block_M"] * h["block_N"] // h["threads"] + 24 > regs_per_thread(h["threads"], chip, h.get("warp_spec", 1), h.get("maxrreg", 0))
 
 
 def blocks_per_sm(h: dict, chip: dict, dyn_smem: int | None = None) -> int:
     smem = dyn_smem if dyn_smem is not None else h["num_stages"] * (h["block_M"] * h["block_K"] + h["block_K"] * h["block_N"]) * 2
     smem += 1024                                          # the static part (mbarriers)
-    lt = launched_threads(h["threads"])
+    lt = launched_threads(h["threads"], h.get("warp_spec", 1))
     by_smem = chip["smem_bytes_per_sm"] // max(1, smem)
-    by_regs = chip["regs_per_sm"] // (regs_per_thread(h["threads"], chip) * lt)
+    by_regs = chip["regs_per_sm"] // (regs_per_thread(h["threads"], chip, h.get("warp_spec", 1), h.get("maxrreg", 0)) * lt)
     by_threads = chip.get("max_threads_per_sm", 1536) // lt
     return max(0, min(by_smem, by_regs, by_threads))
 
@@ -60,6 +61,9 @@ def default_terms(chip: dict) -> dict:
         "overlap": "max",                                                 # how copy and tensor time combine per tile: max | sum
         "scale": 1.0,                                                     # one-sided deflation of the per-SM time (calibrate.py)
         "swizzle_penalty": {0: 1.0, 4: 1.0, 8: 1.0, 16: 1.0},             # bank-conflict / traversal factor by SWZ
+        # round 2: one factor per new knob value on the per-SM time, from the knob curves (calibrate.fit_knob_curves);
+        # a factor is the smallest ratio measured against the round-1 base, so the product stays a lower bound
+        "knob_factors": {},
         "source": "contract defaults",
     }
 
@@ -126,6 +130,11 @@ def predict(h: dict, shape: dict, chip: dict, terms: dict | None = None) -> dict
     else:                                        # perfect overlap: the longer of the two
         t_tile = max(t_compute_tile, t_copy_tile) * swz + k_steps * step
     t_sm = waves * (t_tile + t_pipe + t.get("t_wave_startup", 0.0))
+    kf = 1.0
+    for knob, table in (t.get("knob_factors") or {}).items():
+        if knob in h:
+            kf *= float(table.get(h[knob], table.get(str(h[knob]), 1.0)))
+    t_sm *= kf
     tr = traffic_bytes(h, shape, t, chip, bps)
     t_dram = tr["dram"] / t["B_HBM"]
     t_l2 = tr["l2_reads"] / t["B_L2_chip"]
@@ -134,5 +143,5 @@ def predict(h: dict, shape: dict, chip: dict, terms: dict | None = None) -> dict
     return {"ok": True, "time_s": time, "time_us": time * 1e6, "bound": bound, "waves": waves, "tiles": tiles, "blocks_per_sm": bps,
             "terms": {"t_sm": t_sm, "t_compute_tile": t_compute_tile, "t_copy_tile": t_copy_tile, "t_pipe": t_pipe, "t_dram": t_dram, "t_l2": t_l2,
                       "dram_bytes": tr["dram"], "l2_read_bytes": tr["l2_reads"], "regs_per_thread": regs_per_thread(th, chip),
-                      "k_steps": k_steps, "flops_tile": flops_tile, "bytes_tile": bytes_tile,
+                      "k_steps": k_steps, "flops_tile": flops_tile, "bytes_tile": bytes_tile, "knob_factor": kf,
                       "launched_threads": launched_threads(th)}}

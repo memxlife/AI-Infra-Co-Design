@@ -33,24 +33,75 @@ def menus_for(family: str, shape: dict) -> dict:
     return m
 
 
-def grid(family: str, shape: dict) -> list[dict]:
-    """Every combination of the menus, in menu order."""
+ROUND1 = ("block_M", "block_N", "block_K", "num_stages", "threads", "swizzle")
+
+
+def grid(family: str, shape: dict, knobs: tuple | None = ROUND1) -> list[dict]:
+    """Every combination of the menus of the named knobs (the six round-1 knobs by default; None = every knob, which
+    is 560k points for gemm_basic: use sample_legal for that)."""
     import itertools
     m = menus_for(family, shape)
-    names = list(m)
+    names = [n for n in m if knobs is None or n in knobs]
     return [dict(zip(names, vals)) for vals in itertools.product(*(m[n] for n in names))]
 
 
-def render(family: str, holes: dict) -> str:
-    """TileLang source with the holes filled; an unfilled hole stays a named parameter of the function (a constexpr)."""
+def sample_legal(family: str, shape: dict, n: int = 200, seed: int = 20261019, menus: dict | None = None, chip: dict | None = None) -> dict:
+    """n distinct random legal points of the full space (or of the given menus), with the legal fraction seen."""
+    import random
+    rng = random.Random(seed)
+    m = menus or menus_for(family, shape); names = list(m)
+    seen, legal, tries, reasons = set(), [], 0, {}
+    while len(legal) < n and tries < 200 * n:
+        tries += 1
+        h = {k: rng.choice(m[k]) for k in names}; key = tuple(h[k] for k in names)
+        if key in seen:
+            continue
+        seen.add(key)
+        r = legalize(family, h, shape, chip)
+        if r["ok"]:
+            legal.append(h)
+        else:
+            k = (r["reason"] or "?").split(":")[0]; reasons[k] = reasons.get(k, 0) + 1
+    return {"points": legal, "tries": tries, "legal_fraction": len(legal) / max(1, len(seen)), "removed_why": reasons}
+
+
+ROUND2_DEFAULTS = {"prefetch": 0, "warp_policy": 0, "vec_width": 0, "tma": 1, "warp_spec": 1, "smem_layout": "inferred"}
+
+
+def jit_args(holes: dict) -> str:
+    """The decorator arguments the round-2 switches need: a pass config to drop the producer warp group, a compile
+    flag for the register cap. Empty when every switch is at TileLang's default."""
+    parts = []
+    pc = {}
+    if holes.get("warp_spec", 1) == 0:
+        pc["tl.disable_warp_specialized"] = True
+    if pc:
+        parts.append(f"pass_configs={pc!r}")
+    if holes.get("maxrreg", 0):
+        parts.append(f"compile_flags=['-maxrregcount={int(holes['maxrreg'])}']")
+    return ", ".join(parts)
+
+
+def render(family: str, holes: dict, open_knobs: set | None = None) -> str:
+    """TileLang source with the holes filled. A round-1 hole left unfilled stays a named parameter of the function; a
+    round-2 knob left unfilled takes TileLang's default (so the example renders byte for byte) unless it is named in
+    `open_knobs`, in which case it stays a parameter too."""
     from jinja2 import Template
     y = yaml.safe_load((FAMILIES / family / "knobs.yaml").read_text())
     names = [k["name"] for k in y["knobs"]]
-    missing = [n for n in names if n not in holes]
-    vals = {n: (holes[n] if n in holes else n) for n in names}
+    vals, missing = {}, []
+    for n in names:
+        if n in holes:
+            vals[n] = holes[n]
+        elif n in ROUND2_DEFAULTS and n not in (open_knobs or ()):
+            vals[n] = ROUND2_DEFAULTS[n]
+        else:
+            vals[n] = n; missing.append(n)
+    vals["jit_args"] = jit_args({k: v for k, v in vals.items() if not isinstance(v, str) or k == "smem_layout"} | {k: holes[k] for k in holes})
+    if any(isinstance(vals.get(k), str) and vals[k] == k for k in ("maxrreg", "warp_spec")):
+        vals["jit_args"] = ""          # a switch left open cannot be a decorator argument; it is fixed at compile time by the caller
     params = "".join(f", {n}" for n in missing)
-    src = Template((FAMILIES / family / "kernel.py.j2").read_text()).render(params=params, **vals)
-    return src
+    return Template((FAMILIES / family / "kernel.py.j2").read_text()).render(params=params, **vals)
 
 
 def legalize(family: str, holes: dict, shape: dict, chip: dict | None = None, dtype_bytes: int = 2) -> dict:
@@ -61,6 +112,10 @@ def legalize(family: str, holes: dict, shape: dict, chip: dict | None = None, dt
         return {"ok": False, "reason": "every hole must be filled to legalize"}
     if holes.get("swizzle", 0) not in (0, 4, 8, 16):
         return {"ok": False, "reason": f"swizzle panel {holes['swizzle']} is not in the menu"}
+    if holes.get("prefetch", 0) >= holes.get("num_stages", 1):
+        return {"ok": False, "reason": f"pipeline: a prefetch of {holes['prefetch']} k-steps needs more than {holes['num_stages']} buffers (TileLang's manual schedule infers the depth as max(stage) + 1)"}
+    if holes.get("warp_spec", 1) == 0 and holes.get("tma", 1) == 1:
+        pass                                                        # TileLang drops TMA without the producer group; the kernel builds, so it is allowed
     smem = st * (bm * bk + bk * bn) * dtype_bytes
     reasons = []
     if smem > c["smem_per_block"]:
@@ -69,8 +124,10 @@ def legalize(family: str, holes: dict, shape: dict, chip: dict | None = None, dt
     # may use floor(65536 / (th + 128)) registers per thread, rounded down to 8 (240, 168, 96 for 128, 256, 512). The FP32
     # accumulators alone take bm*bn/th; the sweep shows about 24 more for addresses and fragments. Over the budget means
     # spills, and the 1024^3 sweep measured those at 5x the time.
-    launched = th + PRODUCER_THREADS
+    launched = th + (PRODUCER_THREADS if holes.get("warp_spec", 1) else 0)
     budget = c["regs_per_sm"] // launched; budget = min(c["max_regs_per_thread"], budget - budget % 8)
+    if holes.get("maxrreg"):
+        budget = min(budget, int(holes["maxrreg"]))
     acc_regs = bm * bn // th                     # FP32 accumulators per thread (one 32-bit register each)
     regs = acc_regs + 24
     if regs > budget:

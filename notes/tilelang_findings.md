@@ -80,3 +80,47 @@ solver's pick is inside the noise band of the sweep's best when its gap is under
 today the gaps are +1.7 % / +2.7 % / +2.7 %, so the picks are just outside the within-session band and inside the
 between-session one. The gaps at 4096³ and M=32 are ties in the model broken the wrong way: the MILP returns one of
 several points with the same bound.
+
+### Step 2: opening Group A and Group B
+
+Every name was checked against the TileLang source at fe6d319c (the file and line are in `knobs.yaml`, column
+`binds`). Each knob was then varied alone around round 1's best at 1024³ (256x128x64, 2 stages, 256 threads) and at
+M=32 (16x256x32, 5 stages, 256 threads), one compile and one timing per value (`runs/tilelang/probe/probe.jsonl`).
+The base configuration itself was timed seven times in that run: mean 61.8 µs, spread 3.4 % at 1024³ (the timer
+steps in whole microseconds there: 60.4 / 61.4 / 62.4 µs appear verbatim), 202.2 µs, spread 0.5 % at M=32. A knob
+value inside that spread gets factor 1.0 in `tilelang_terms.yaml`.
+
+- **PREFETCH** (`T.Pipelined(order=, stage=)`, `tilelang/language/loop.py:112-117`). Copies at stage 0, the multiply at
+  stage P. TileLang infers the pipeline depth as max(stage)+1, so P needs P+1 buffers: at 256x128x64 a prefetch of 2 or
+  3 asks for 147 or 196 KB of shared memory and fails at launch (the rule is now in legalize). P = 1 against the
+  inferred schedule: −1.6 % at 1024³, −0.5 % at M=32, inside the spread. Factor 1.0.
+- **WARP_POLICY** (`T.gemm(policy=GemmWarpPolicy)`, `gemm_op.py:160-166`, `tileop/base.py:5`: Square, FullRow, FullCol).
+  −1.6 / 0 / −3.2 % at 1024³, within ±0.5 % at M=32. Inside the spread. Factor 1.0.
+- **VEC_WIDTH** (`T.copy(coalesced_width=)`, `copy_op.py:59-63`). 4 / 8 / 16 elements: 0 / −3.3 / 0 % at 1024³, within
+  ±0.5 % at M=32. Inside the spread (the copies are TMA; the width hint does not reach them), and 16 is silently
+  clamped to 8 by the compiler ("Requested coalesced_width=16 is incompatible with the geometry-supported vector
+  width 8; using 8", `src/op/parallel.cc:1049`), so the menu is really {4, 8}. Factor 1.0.
+- **MAXRREG dropped.** `tilelang.jit(compile_flags=['-maxrregcount=N'])` is accepted (`tilelang/jit/__init__.py:104`) and
+  stored on the kernel, but the compiled cubin keeps 168 registers at N = 128 (`cuobjdump --dump-resource-usage` on
+  the cached `kernel.cubin`): the flag never reaches nvcc with the tvm_ffi backend at this commit. No way to move the
+  register cliff from outside; removed from `knobs.yaml`.
+- **TMA_LOWER** (`tilelang.cuda.language.copy(disable_tma=True)` per copy, `tilelang/cuda/language/copy_op.py:24`; the
+  pass config `tl.disable_tma_lower` is deprecated, `pass_config.py:378`). Off: the copies become `cp.async`, TileLang
+  drops the producer warp group (256 threads launched instead of 384) and ptxas uses 201 registers; −3.3 % at 1024³,
+  +0.5 % at M=32. Inside the spread; factor 1.0. The register rule in legalize follows it (no +128 threads).
+- **WARP_SPEC** (`pass_configs={'tl.disable_warp_specialized': True}`, `pass_config.py:73`). Off: no producer group and,
+  as a consequence, no TMA either (the kernel falls to `cp.async`, 256 threads, 201 registers); +3.2 % at 1024³ (factor
+  1.043), +0.5 % at M=32. So the T+128 register cliff of round 1 can be removed, at a small cost on the big shape.
+- **SMEM_SWIZZLE** (`T.annotate_layout({A_s: make_swizzled_layout(A_s), ...})`, `annotations.py:45`,
+  `layout/swizzle.py:66,129`). The explicit swizzled layout equals the inferred one (+1.3 %, inside the spread). The
+  linear (row-major) layout is the one real cliff among the new knobs: **+36 % at 1024³** (bank conflicts in the
+  shared-memory reads), and nothing at M=32, where the kernel streams B from DRAM and the SMs are idle anyway.
+  Factor 1.36, applied to the per-SM term; at M=32 that over-predicts the linear layout by 37 % (the only bound
+  exception the new knobs introduce), because the model's per-SM term there is really the DRAM time in disguise.
+
+Net: of the seven candidate knobs, one does not work (MAXRREG), one is a cliff the solver must avoid (linear layout),
+one trades the register cliff for 3–4 % (WARP_SPEC), and four are inside the noise at these two shapes. The full
+space is 559,872 points; the constraints admit about 31–33 % of random draws (612 / 663 draws for 200 legal points).
+The solver now has 279 binaries over 12 knobs and still answers in ~20 ms. Lines changed to expose the seven knobs
+(`agentic/tilelang/`): the template 18, `knobs.yaml` 48, `tools.py` 41, `cost.py` 15, `solve.py` 14, the probe runner
+78 — about 215 lines, of which the family-specific part (template and knobs.yaml) is 66.

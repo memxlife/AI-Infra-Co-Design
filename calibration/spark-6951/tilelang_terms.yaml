@@ -36,7 +36,8 @@ terms:
   source: 'R2 lower envelopes: tile rate per (threads, tile) = best observed over
     the three sweeps (51 keys); per-SM copy rate = best observed; B_HBM = best streaming
     rate at M=32; wave start-up = smallest residual per wave at M=32; no scale, overlap
-    max'
+    max; round-2 knob factors from the 1024^3 curves (runs/tilelang/probe) against
+    the mean of 7 base timings, clamped to 1 inside the base spread'
   u_tile:
     128:
       64x64@1024: 0.286166534969388
@@ -124,8 +125,64 @@ terms:
       32x256: 0.13315874493785138
   t_wave_startup: 0.0
   t_wave_startup_m32_only: 0.0
+  knob_factors: &id001
+    prefetch:
+      0: 1.0
+      1: 1.0
+    warp_policy:
+      0: 1.0
+      1: 1.0
+      2: 1.0
+    vec_width:
+      0: 1.0
+      4: 1.0
+      8: 1.0
+      16: 1.0
+    tma:
+      1: 1.0
+      0: 1.0
+    warp_spec:
+      1: 1.0
+      0: 1.043
+    smem_layout:
+      inferred: 1.0
+      swizzled: 1.0
+      linear: 1.36
 fit_detail:
   rate_keys: 51
   wave_startup_us: 0.0
   wave_startup_m32_only_us: 0.0
   B_HBM_GBps: 171.76795084714513
+knob_curves:
+  '1024':
+    base_mean_us: 61.83771416544914
+    base_spread: 0.034153873309543364
+    factors: *id001
+  m32:
+    base_mean_us: 202.15771453721183
+    base_spread: 0.004907060337854312
+    factors:
+      prefetch:
+        0: 1.0
+        1: 1.0
+        2: 1.0
+        3: 1.0
+      warp_policy:
+        0: 1.0
+        1: 1.0
+        2: 1.0
+      vec_width:
+        0: 1.0
+        4: 1.0
+        8: 1.0
+        16: 1.0
+      tma:
+        1: 1.0
+        0: 1.008
+      warp_spec:
+        1: 1.0
+        0: 1.008
+      smem_layout:
+        inferred: 1.0
+        swizzled: 1.0
+        linear: 1.0
