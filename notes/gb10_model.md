@@ -126,3 +126,23 @@ too fast. The probes behind that split:
   read the same A rows and B columns as their neighbours at the same time; the probe's blocks don't. The hypothesis is
   contention on the L2 slices holding those shared lines. The probe to test it: the lean loop with blocks sharing
   panels the way a GEMM grid does.
+
+### Oct 20, the copy-path interference and what is left
+
+- **Same-line contention: refuted.** `shareload.cu` loads GEMM-shaped tiles with neighbours sharing A and B, once in
+  lockstep (as the kernels do) and once staggered in k: identical times for all six tile shapes. It also matches the
+  simulator's loads-only time (12.8 µs per block at 32 blocks, simulator 12.5).
+- **Clock throttling: refuted.** clock64 against globaltimer inside the real kernels: 2.39-2.53 GHz at full grid.
+- **Issue interference from other warps: small.** `interfere.cu`: a copy from another warp on the same sub-partition
+  costs the mma stream 2.3 cycles (global load 1.9, ldmatrix 0.4, integer add 0).
+- **Found: the load unit's address stage.** ncu on the whole kernel against its mma-only version (one block):
+  long_scoreboard 0.80 vs 0.00, mio throttle 1.12 vs 0.28, lg throttle 1.78 vs 0.98, barrier 1.19 vs 0.28, tensor
+  active 68 % vs 84 %, no bank conflicts. The machine code explains it: after its copies, each warp updates addresses
+  with instructions that wait for the copies to read their address registers, which happens only when the load unit
+  processes them. Rule: one 128-byte line per cycle per SM; a copy with 64-byte rows touches 8 lines, wider rows 4.
+  Predicted loss per k-tile for one block: 320 / 160 / 96 cycles; measured 390 / 174 / 79. In the simulator: one block
+  alone, whole kernels now within −13 to +2 % (five kernels timed alone on an idle chip).
+- **Open: a chip-level step.** A TileLang kernel's per-block time rises about 8 % as soon as a second SM is busy (even
+  with no loads), then stays flat to 24 blocks; the final C store also slows from 2.4 to 5.4 µs with 32 blocks storing
+  at once. The pure-mma probe shows no such step, so it is something else TileLang's loop shares across SMs. Not
+  identified.

@@ -1,0 +1,10 @@
+RESULT kind=none      mma_cycles=1379236 ideal=1280000 lost=99236 mem_instr_per_warp=33056 lost_per_mem_instr=3.00
+RESULT kind=int-add   mma_cycles=1381196 ideal=1280000 lost=101196 mem_instr_per_warp=33104 lost_per_mem_instr=3.06
+RESULT kind=ldmatrix  mma_cycles=1392996 ideal=1280000 lost=112996 mem_instr_per_warp=33344 lost_per_mem_instr=3.39
+RESULT kind=ld.global mma_cycles=1419188 ideal=1280000 lost=139188 mem_instr_per_warp=21282 lost_per_mem_instr=6.54
+RESULT kind=cp.async  mma_cycles=1434046 ideal=1280000 lost=154046 mem_instr_per_warp=24048 lost_per_mem_instr=6.41
+RESULT kind=none      mma_cycles=1379322 ideal=1280000 lost=99322 mem_instr_per_warp=31880 lost_per_mem_instr=3.12
+RESULT kind=int-add   mma_cycles=1381731 ideal=1280000 lost=101731 mem_instr_per_warp=31936 lost_per_mem_instr=3.19
+RESULT kind=ldmatrix  mma_cycles=1392365 ideal=1280000 lost=112365 mem_instr_per_warp=32128 lost_per_mem_instr=3.50
+RESULT kind=ld.global mma_cycles=1419216 ideal=1280000 lost=139216 mem_instr_per_warp=21278 lost_per_mem_instr=6.54
+RESULT kind=cp.async  mma_cycles=1432965 ideal=1280000 lost=152965 mem_instr_per_warp=23638 lost_per_mem_instr=6.47

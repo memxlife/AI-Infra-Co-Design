@@ -1,0 +1,20 @@
+c256x128x32_st3_th256 full full grid (8 4): CLOCK blocks=32 mean_GHz=2.508 RESULT grid=8x4 blocks=32 median_us=43.264 block_mean_us=38.803 
+c256x128x32_st3_th256 full one block: CLOCK blocks=1 mean_GHz=2.531 RESULT grid=1x1 blocks=1 median_us=37.408 block_mean_us=34.816 
+c256x128x32_st3_th256 noload full grid (8 4): CLOCK blocks=32 mean_GHz=2.530 RESULT grid=8x4 blocks=32 median_us=37.248 block_mean_us=33.434 
+c256x128x32_st3_th256 noload one block: CLOCK blocks=1 mean_GHz=2.530 RESULT grid=1x1 blocks=1 median_us=33.184 block_mean_us=29.920 
+c128x256x32_st3_th256 full full grid (4 8): CLOCK blocks=32 mean_GHz=2.521 RESULT grid=4x8 blocks=32 median_us=43.392 block_mean_us=39.824 
+c128x256x32_st3_th256 full one block: CLOCK blocks=1 mean_GHz=2.529 RESULT grid=1x1 blocks=1 median_us=39.360 block_mean_us=35.680 
+c128x256x32_st3_th256 noload full grid (4 8): CLOCK blocks=32 mean_GHz=2.532 RESULT grid=4x8 blocks=32 median_us=39.296 block_mean_us=36.305 
+c128x256x32_st3_th256 noload one block: CLOCK blocks=1 mean_GHz=2.533 RESULT grid=1x1 blocks=1 median_us=35.264 block_mean_us=32.320 
+c128x128x64_st3_th128 full full grid (8 8): CLOCK blocks=64 mean_GHz=2.471 RESULT grid=8x8 blocks=64 median_us=46.400 block_mean_us=21.978 
+c128x128x64_st3_th128 full one block: CLOCK blocks=1 mean_GHz=2.498 RESULT grid=1x1 blocks=1 median_us=20.928 block_mean_us=18.624 
+c128x128x64_st3_th128 noload full grid (8 8): CLOCK blocks=64 mean_GHz=2.525 RESULT grid=8x8 blocks=64 median_us=41.408 block_mean_us=19.270 
+c128x128x64_st3_th128 noload one block: CLOCK blocks=1 mean_GHz=2.520 RESULT grid=1x1 blocks=1 median_us=18.912 block_mean_us=16.320 
+c128x64x32_st3_th128 full full grid (16 8): CLOCK blocks=128 mean_GHz=2.424 RESULT grid=16x8 blocks=128 median_us=37.120 block_mean_us=18.346 
+c128x64x32_st3_th128 full one block: CLOCK blocks=1 mean_GHz=2.482 RESULT grid=1x1 blocks=1 median_us=12.960 block_mean_us=10.720 
+c128x64x32_st3_th128 noload full grid (16 8): CLOCK blocks=128 mean_GHz=2.530 RESULT grid=16x8 blocks=128 median_us=28.160 block_mean_us=14.000 
+c128x64x32_st3_th128 noload one block: CLOCK blocks=1 mean_GHz=2.482 RESULT grid=1x1 blocks=1 median_us=13.344 block_mean_us=8.544 
+c64x64x32_st3_th128 full full grid (16 16): CLOCK blocks=256 mean_GHz=2.388 RESULT grid=16x16 blocks=256 median_us=39.264 block_mean_us=20.739 
+c64x64x32_st3_th128 full one block: CLOCK blocks=1 mean_GHz=2.458 RESULT grid=1x1 blocks=1 median_us=8.704 block_mean_us=5.728 
+c64x64x32_st3_th128 noload full grid (16 16): CLOCK blocks=256 mean_GHz=2.508 RESULT grid=16x16 blocks=256 median_us=24.992 block_mean_us=11.967 
+c64x64x32_st3_th128 noload one block: CLOCK blocks=1 mean_GHz=2.458 RESULT grid=1x1 blocks=1 median_us=8.288 block_mean_us=4.672 

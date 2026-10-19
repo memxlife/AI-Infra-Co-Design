@@ -29,10 +29,11 @@ class Warp:
     committed: dict = field(default_factory=dict)   # group -> dependency counter its commit set
     at_bar: bool = False
     ldsm_next: int = 0
+    ncopy: int = 0
 
 
 class SM:
-    def __init__(self, ins: list[Ins], threads: int, blocks: int, trips: int, mem: str = "l2", stats: bool = True, active_sms: int = 1):
+    def __init__(self, ins: list[Ins], threads: int, blocks: int, trips: int, mem: str = "l2", stats: bool = True, active_sms: int = 1, copy_lines: list | None = None):
         self.ins = ins; self.trips = trips; self.mem = mem
         # this SM's share of the chip's L2 return bandwidth (or its own return path, if fewer SMs are pulling)
         self.ret_clk = max(P["l2_return_clk_per_512B"], 512 * active_sms / P["l2_aggregate_B_per_clk_cpasync"])
@@ -42,6 +43,8 @@ class SM:
             for w in range(wpb): self.warps.append(Warp(wid=len(self.warps), block=b, smsp=w % 4))
         self.wpb = wpb; self.blocks = blocks
         self.tensor_free = [0] * 4; self.smem_free = 0; self.fill_free = 0; self.mio_free = [0] * 4
+        # lines each copy of a k-tile touches, in program order (A rows then B rows); cycles them per warp
+        self.copy_lines = copy_lines or [4]; self.lsu_free = 0
         self.events = []            # (time, seq, kind, warp, arg)
         self.seq = 0; self.bar_arrived = {}; self.last_issue = [None] * 4
         self.count = {"issued": 0, "HMMA": 0, "LDSM": 0, "LDGSTS": 0, "BAR": 0}
@@ -65,7 +68,7 @@ class SM:
     def issue(self, w: Warp, now: int):
         x = self.ins[w.pc]; self.count["issued"] += 1
         executes = x.pred != "@!PT"
-        lat_done = None
+        lat_done = None; lsu_done = now
         if executes:
             if x.base == "HMMA":
                 self.tensor_free[w.smsp] = now + P["hmma_16816_pipe_clk"]; self.count["HMMA"] += 1; self.busy["tensor"] += P["hmma_16816_pipe_clk"]
@@ -78,8 +81,12 @@ class SM:
                 # issue holds the sub-partition's memory slot; the data comes back through the SM's L2 return path after the
                 # round trip and is written into the shared-memory array (the same array ldmatrix reads)
                 self.mio_free[w.smsp] = now + P["mio_ldgsts_clk"]
+                # the load unit's address stage: one 128-byte line per cycle; the copy reads its address registers there
+                lines = self.copy_lines[w.ncopy % len(self.copy_lines)]; w.ncopy += 1
+                t_lsu = max(now, self.lsu_free); self.lsu_free = t_lsu + lines * P["lsu_clk_per_line"]; self.busy["lsu"] = self.busy.get("lsu", 0) + lines
+                lsu_done = self.lsu_free
                 lat = P["ldgsts_l2_latency_clk"] if self.mem == "l2" else P["ldgsts_dram_latency_clk"]
-                ret = max(now + lat, self.fill_free); self.fill_free = ret + self.ret_clk; self.busy["fill"] += self.ret_clk
+                ret = max(lsu_done + lat, self.fill_free); self.fill_free = ret + self.ret_clk; self.busy["fill"] += self.ret_clk
                 w.pending[w.gid] = w.pending.get(w.gid, 0) + 1
                 self.ev(ret, "write", w, w.gid); self.count["LDGSTS"] += 1
             elif x.base == "LDGDEPBAR":
@@ -104,7 +111,8 @@ class SM:
             if x.wbar is not None and lat_done is not None and x.base != "LDGDEPBAR":
                 w.sb[x.wbar] += 1; self.ev(lat_done, "sb", w, x.wbar)
             if x.rbar is not None:
-                w.sb[x.rbar] += 1; self.ev(now + P["rbar_release_clk"], "sb", w, x.rbar)
+                rel = lsu_done if (x.base == "LDGSTS" and executes) else now + P["rbar_release_clk"]
+                w.sb[x.rbar] += 1; self.ev(rel, "sb", w, x.rbar)
         w.ready = now + max(1, x.stall)
         # next pc: the k-loop back edge is taken trips-1 times; other branches fall through unless unconditional
         if x.base == "BRA" and x.target is not None:

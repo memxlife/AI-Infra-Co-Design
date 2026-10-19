@@ -29,10 +29,20 @@ def sass_trips(ins, h: dict, src_trips: int) -> int:
     return max(1, round(src_trips / max(1, round(u))))
 
 
+def copy_lines(h: dict) -> list:
+    """Lines each copy (32 lanes x 16 B) touches, per warp, in the order TileLang issues them: the A tile's copies (rows
+    of block_K*2 bytes) then the B tile's (rows of block_N*2 bytes). A 512-byte copy spans 512/row rows; each row covers
+    max(1, row/128) lines."""
+    def lines(row):
+        rows = max(1, 512 // row); return rows * max(1, min(row, 512) // 128)
+    nA = h["block_M"] * h["block_K"] * 2 // 16 // h["threads"]; nB = h["block_K"] * h["block_N"] * 2 // 16 // h["threads"]
+    return [lines(h["block_K"] * 2)] * max(1, nA) + [lines(h["block_N"] * 2)] * max(1, nB)
+
+
 def simulate(name: str, variant: str, blocks: int, active: int = 1) -> dict:
     ins = kernel_sass(SASS / f"{name}__{variant}.sass")
     h = json.load(open(AB / "mechanisms.json"))[name]["pick"]
-    sm = SM(ins, h["threads"], blocks, sass_trips(ins, h, trips(name, variant)), active_sms=active); t = time.time(); r = sm.run(); r["wall_s"] = round(time.time() - t, 2)
+    sm = SM(ins, h["threads"], blocks, sass_trips(ins, h, trips(name, variant)), active_sms=active, copy_lines=copy_lines(h)); t = time.time(); r = sm.run(); r["wall_s"] = round(time.time() - t, 2)
     r["us"] = r["cycles"] / F; return r
 
 

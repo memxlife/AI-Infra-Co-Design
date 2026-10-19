@@ -1,0 +1,12 @@
+RESULT tile=256x128x32 st=3 thr=256 blocks=32 lockstep event_us=16.8 block_mean_us=12.8 per_block_GBs=61.5 chip_GBs=1501
+RESULT tile=128x256x32 st=3 thr=256 blocks=32 lockstep event_us=16.8 block_mean_us=12.7 per_block_GBs=62.0 chip_GBs=1498
+RESULT tile=128x128x64 st=3 thr=128 blocks=64 lockstep event_us=24.0 block_mean_us=11.2 per_block_GBs=47.0 chip_GBs=1400
+RESULT tile=128x128x32 st=3 thr=128 blocks=64 lockstep event_us=21.0 block_mean_us=15.9 per_block_GBs=33.0 chip_GBs=1601
+RESULT tile=64x128x32 st=3 thr=256 blocks=128 lockstep event_us=37.2 block_mean_us=17.4 per_block_GBs=22.5 chip_GBs=1351
+RESULT tile=64x64x32 st=3 thr=128 blocks=256 lockstep event_us=35.2 block_mean_us=18.9 per_block_GBs=13.9 chip_GBs=1907
+RESULT tile=256x128x32 st=3 thr=256 blocks=32 stagger  event_us=15.6 block_mean_us=12.6 per_block_GBs=62.6 chip_GBs=1618
+RESULT tile=128x256x32 st=3 thr=256 blocks=32 stagger  event_us=16.8 block_mean_us=12.6 per_block_GBs=62.2 chip_GBs=1501
+RESULT tile=128x128x64 st=3 thr=128 blocks=64 stagger  event_us=24.0 block_mean_us=11.1 per_block_GBs=47.1 chip_GBs=1396
+RESULT tile=128x128x32 st=3 thr=128 blocks=64 stagger  event_us=21.0 block_mean_us=16.1 per_block_GBs=32.6 chip_GBs=1601
+RESULT tile=64x128x32 st=3 thr=256 blocks=128 stagger  event_us=37.3 block_mean_us=17.2 per_block_GBs=22.8 chip_GBs=1348
+RESULT tile=64x64x32 st=3 thr=128 blocks=256 stagger  event_us=34.9 block_mean_us=18.7 per_block_GBs=14.0 chip_GBs=1920
