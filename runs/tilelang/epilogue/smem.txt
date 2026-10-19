@@ -1,0 +1,8 @@
+256x128x32 st3 direct: buffers {'A_shared': 0, 'B_shared': 49152} | host smem [] | pipeline 73728 C tile 65536 sum 139264 max 73728
+256x128x32 st3 staged: buffers {'A_shared': 0, 'C_shared': 0, 'B_shared': 49152} | host smem [] | pipeline 73728 C tile 65536 sum 139264 max 73728
+128x128x32 st3 direct: buffers {'A_shared': 0, 'B_shared': 24576} | host smem [] | pipeline 49152 C tile 32768 sum 81920 max 49152
+128x128x32 st3 staged: buffers {'A_shared': 0, 'C_shared': 0, 'B_shared': 24576} | host smem [] | pipeline 49152 C tile 32768 sum 81920 max 49152
+128x128x64 st3 direct: buffers {'A_shared': 0, 'B_shared': 49152} | host smem [] | pipeline 98304 C tile 32768 sum 131072 max 98304
+128x128x64 st3 staged: buffers {'A_shared': 0, 'C_shared': 0, 'B_shared': 49152} | host smem [] | pipeline 98304 C tile 32768 sum 131072 max 98304
+128x256x64 st2 direct: buffers {'A_shared': 0, 'B_shared': 32768} | host smem [] | pipeline 98304 C tile 65536 sum 163840 max 98304
+128x256x64 st2 staged: buffers {'A_shared': 0, 'C_shared': 0, 'B_shared': 32768} | host smem [] | pipeline 98304 C tile 65536 sum 163840 max 98304

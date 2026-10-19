@@ -1,0 +1,15 @@
+cp.async 128x128x32 st3 th128 direct: err 0.060 warm   38.9 us | stores {'STG.E': 64}
+cp.async 128x128x32 st3 th128 staged: err 0.060 warm   34.7 us | stores {'STSM.16.M88.4': 16, 'UTMASTG.2D': 2}
+   staged saves +4.2 us (+12% faster)
+cp.async 256x128x32 st3 th256 direct: err 0.060 warm   42.3 us | stores {'STG.E': 64}
+cp.async 256x128x32 st3 th256 staged: err 0.060 warm   37.9 us | stores {'STSM.16.M88.4': 16, 'UTMASTG.2D': 2}
+   staged saves +4.4 us (+12% faster)
+cp.async 64x128x32 st3 th256 direct: err 0.060 warm   33.3 us | stores {'STG.E': 16}
+cp.async 64x128x32 st3 th256 staged: err 0.060 warm   30.6 us | stores {'STSM.16.M88.4': 4, 'UTMASTG.2D': 2}
+   staged saves +2.7 us (+9% faster)
+TMA  128x128x32 st3 th128 direct: err 0.060 warm   45.0 us | stores {'STG.E': 64}
+TMA  128x128x32 st3 th128 staged: err 0.060 warm   41.1 us | stores {'STSM.16.M88.4': 16, 'UTMASTG.2D': 2}
+   staged saves +4.0 us (+10% faster)
+TMA  256x128x32 st3 th256 direct: err 0.060 warm   37.8 us | stores {'STG.E': 64}
+TMA  256x128x32 st3 th256 staged: err 0.060 warm   35.0 us | stores {'STSM.16.M88.4': 16, 'UTMASTG.2D': 2}
+   staged saves +2.8 us (+8% faster)
