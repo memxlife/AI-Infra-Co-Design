@@ -47,11 +47,12 @@ def kernel_us(name, h, shape, variant="full", warm=True, sass_path=None):
         rb = secs = 0.0
         for wv in sp["waves"]:
             r_, s_ = wave_dram(h, shape, wv, warm); rb += r_; secs += s_
-        cb = tiles * KT * (h["block_M"] + h["block_N"]) * h["block_K"] * 2; eq = min(48.0, float(tiles))
+        # TMA moves only rows and columns inside the matrix (out-of-range rows of a box are zero-filled, no traffic)
+        cb = tiles * KT * (min(h["block_M"], shape["M"]) + min(h["block_N"], shape["N"])) * h["block_K"] * 2; eq = min(48.0, float(tiles))
         return 2.6 + ws_sim(name, variant, h, shape, eq, min(1.0, rb / cb) if cb else 0.0, dram_clk(rb, secs, eq), sass_path, nblocks=math.ceil(tiles / 48), grid=tiles)["us"]
     left, t, w = tiles, 2.6, 0
     while left > 0:
-        n = min(left, 48); cb = n * KT * (h["block_M"] + h["block_N"]) * h["block_K"] * 2
+        n = min(left, 48); cb = n * KT * (min(h["block_M"], shape["M"]) + min(h["block_N"], shape["N"])) * h["block_K"] * 2
         wv = sp["waves"][w] if w < len(sp["waves"]) else {"A": 0.0, "B": 0.0, "cols": 1, "blocks": n}
         rb, secs = wave_dram(h, shape, wv, warm)
         t += ws_sim(name, variant, h, shape, n, min(1.0, rb / cb) if cb else 0.0, dram_clk(rb, secs, n), sass_path)["us"]; left -= n; w += 1

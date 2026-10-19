@@ -68,9 +68,15 @@ def wave_dram(h: dict, shape: dict, wave: dict, warm: bool = True) -> tuple[floa
     run_a = min(bk, K) * 2 if K > bk else min(bm, M) * K * 2
     run_b = min(N, wave["cols"] * bn) * 2
     c_w = wave.get("c_bytes", wave["blocks"] * min(bm, M) * min(bn, N) * 2)
+    if not warm:
+        # timed after a flush: C ends the kernel dirty in the L2 and goes back to DRAM later (in the next flush), except
+        # what the kernel itself pushes out because C does not fit beside the stream
+        cap = MC["l2_effective_bytes"]; c_all = M * N * 2
+        c_w *= max(0.0, c_all - cap) / c_all if c_all else 0.0
     wpeak = max(10.0, MC["dram_write_GBs"] - CPU_DRAM_GBs * (197.0 / 273.0))
-    secs = (wave["A"] / dram_peak(run_a) + wave["B"] / dram_peak(run_b) + c_w / wpeak) / 1e9
-    return wave["A"] + wave["B"], secs
+    c_r = 0.0 if warm else wave.get("c_read", 0.0)                # C rows are contiguous: streamed like B
+    secs = (wave["A"] / dram_peak(run_a) + (wave["B"] + c_r) / dram_peak(run_b) + c_w / wpeak) / 1e9
+    return wave["A"] + wave["B"] + c_r, secs
 
 
 def dram_clk(read_bytes: float, secs: float, blocks_eq: float) -> float:
@@ -88,7 +94,7 @@ def ldsm_ways(h: dict) -> tuple:
 
 
 def simulate_kernel(sass_path, h: dict, shape: dict, regs: int, smem: int | None = None, warm: bool = True, split: int = 1,
-                    kernel: str = "matmul_kernel") -> dict:
+                    kernel: str = "matmul_kernel", atomic_c: bool = False) -> dict:
     """split > 1: split-K, a third grid dimension (outermost in launch order); each block runs K/split and adds its C
     tile with global atomics (in the machine code)."""
     ins = kernel_sass(sass_path, kernel=kernel)
@@ -98,6 +104,8 @@ def simulate_kernel(sass_path, h: dict, shape: dict, regs: int, smem: int | None
     trips = sass_trips(ins, h, KT - (h["num_stages"] - 1))
     if split == 1:
         sp = dram_split_kslice(h, shape, 48 * Rmax)
+        if atomic_c:   # C added with atomics (fp32): lines not in the L2 are read from DRAM first
+            sp = {"waves": [dict(w_, c_read=w_["blocks"] * min(h["block_M"], M) * min(h["block_N"], N) * 4) for w_ in sp["waves"]], "c_over": sp["c_over"]}
     else:
         # each split is its own GEMM over K/split with its own A columns and B rows; spread its misses over its blocks
         one = dram_split_kslice(h, {"M": M, "N": N, "K": K // split}, 48 * Rmax); t1 = tiles // split
@@ -105,8 +113,11 @@ def simulate_kernel(sass_path, h: dict, shape: dict, regs: int, smem: int | None
         sp = {"waves": [], "c_over": one["c_over"]}; left_ = tiles
         while left_ > 0:
             # the fp32 C stays in the L2 while the splits add into it; it goes back to DRAM once per run
+            # atomics on C lines not in the L2 make it read them from DRAM first (probe ldg_atomic.cu redtile): after a
+            # flush the first split to touch a C line pays a read of it
             nb_ = min(left_, 48 * Rmax); sp["waves"].append({"A": nb_ * a_b, "B": nb_ * b_b, "cols": min(nb_, math.ceil(N / h["block_N"])), "blocks": nb_,
-                                                           "c_bytes": nb_ / split * min(h["block_M"], M) * min(h["block_N"], N) * 4}); left_ -= nb_
+                                                           "c_bytes": nb_ / split * min(h["block_M"], M) * min(h["block_N"], N) * 4,
+                                                           "c_read": nb_ / split * min(h["block_M"], M) * min(h["block_N"], N) * 4}); left_ -= nb_
     traffic = 0.0
     if FLOW:
         rb = secs = 0.0

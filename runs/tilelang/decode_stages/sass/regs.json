@@ -1,0 +1,106 @@
+{
+ "M128_256x64x32_st2": {
+  "regs": 240,
+  "kernel_name": "matmul_kernel"
+ },
+ "M128_256x64x32_st3": {
+  "regs": 240,
+  "kernel_name": "matmul_kernel"
+ },
+ "M128_256x64x32_st4": {
+  "regs": 240,
+  "kernel_name": "matmul_kernel"
+ },
+ "M128_128x64x32_st2": {
+  "regs": 240,
+  "kernel_name": "matmul_kernel"
+ },
+ "M128_128x64x32_st3": {
+  "regs": 240,
+  "kernel_name": "matmul_kernel"
+ },
+ "M128_128x64x32_st4": {
+  "regs": 240,
+  "kernel_name": "matmul_kernel"
+ },
+ "M128_128x64x32_st6": {
+  "regs": 240,
+  "kernel_name": "matmul_kernel"
+ },
+ "M128_128x64x64_st2": {
+  "regs": 240,
+  "kernel_name": "matmul_kernel"
+ },
+ "M128_128x64x64_st3": {
+  "regs": 240,
+  "kernel_name": "matmul_kernel"
+ },
+ "M128_128x64x64_st4": {
+  "regs": 240,
+  "kernel_name": "matmul_kernel"
+ },
+ "M128_128x128x32_st2": {
+  "regs": 240,
+  "kernel_name": "matmul_kernel"
+ },
+ "M128_128x128x32_st3": {
+  "regs": 240,
+  "kernel_name": "matmul_kernel"
+ },
+ "M128_128x128x32_st4": {
+  "regs": 240,
+  "kernel_name": "matmul_kernel"
+ },
+ "M128_128x128x32_st6": {
+  "regs": 240,
+  "kernel_name": "matmul_kernel"
+ },
+ "M128_128x32x64_st2": {
+  "regs": 240,
+  "kernel_name": "matmul_kernel"
+ },
+ "M128_128x32x64_st4": {
+  "regs": 240,
+  "kernel_name": "matmul_kernel"
+ },
+ "M32_32x128x128_st2": {
+  "regs": 240,
+  "kernel_name": "matmul_kernel"
+ },
+ "M32_32x128x64_st2": {
+  "regs": 240,
+  "kernel_name": "matmul_kernel"
+ },
+ "M32_32x128x64_st3": {
+  "regs": 240,
+  "kernel_name": "matmul_kernel"
+ },
+ "M32_32x128x64_st4": {
+  "regs": 240,
+  "kernel_name": "matmul_kernel"
+ },
+ "M32_32x64x128_st2": {
+  "regs": 240,
+  "kernel_name": "matmul_kernel"
+ },
+ "M32_32x64x128_st3": {
+  "regs": 240,
+  "kernel_name": "matmul_kernel"
+ },
+ "M32_32x64x128_st4": {
+  "regs": 240,
+  "kernel_name": "matmul_kernel"
+ },
+ "M32_32x64x64_st2": {
+  "regs": 240,
+  "kernel_name": "matmul_kernel"
+ },
+ "M32_32x64x64_st4": {
+  "regs": 240,
+  "kernel_name": "matmul_kernel"
+ },
+ "M32_32x64x64_st6": {
+  "regs": 240,
+  "kernel_name": "matmul_kernel"
+ }
+}

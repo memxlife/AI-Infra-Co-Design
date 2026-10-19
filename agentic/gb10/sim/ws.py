@@ -82,21 +82,24 @@ class WSSM(SM):
             # a consumer warp releases its stage (the empty barrier)
             self.empty_arrives[w.block] = self.empty_arrives.get(w.block, 0) + 1
             self.release_t.setdefault(w.block, []).append(now)
+            self.ev(now + P["mbar_wake_clk"], "wake", w, None)     # the producer may get through then: re-check
             self.log.append(("release", w.wid, w.n_full - 1, now))
         elif x.op.startswith("SYNCS.ARRIVE") and w.role == "producer":
             # the producer arrives on k-tile k's full barrier (with the bytes it expects, or none if loads are removed)
             self.arrived[(w.block, max(0, w.k_prod))] = now; self.log.append(("arrive", w.wid, w.k_prod, now))
+            self.ev(now + P["mbar_wake_clk"], "wake", w, None)
         elif x.base == "UTMALDG" and executes:
             k = max(0, w.k_prod); key = (w.block, k)
             start = max(now, self.tma_free); self.tma_free = start + self.ctiles * self.tma_clk_per_B
             # the box's bytes that miss the L2 (this wave's share) come from DRAM at this SM's share of the DRAM rate
             miss_B = self.ctiles * self.miss_frac
             if miss_B > 0:
-                t_d = max(start + P["ldgsts_dram_latency_clk"], self.dram_free); self.dram_free = t_d + miss_B * self.dram_clk / 512.0
+                # (TMA's own base latencies, probe dramlat.cu: 1170 cycles from DRAM, 440 from L2, before the transfer)
+                t_d = max(start + P["tma_dram_latency_clk"], self.dram_free); self.dram_free = t_d + miss_B * self.dram_clk / 512.0
                 self.busy["dram"] = self.busy.get("dram", 0) + miss_B * self.dram_clk / 512.0
-                land = max(start + P["ldgsts_l2_latency_clk"], self.tma_free, self.dram_free)
+                land = max(start + P["tma_l2_latency_clk"], self.tma_free, self.dram_free)
             else:
-                land = max(start + P["ldgsts_l2_latency_clk"], self.tma_free)
+                land = max(start + P["tma_l2_latency_clk"], self.tma_free)
             # the box is written into the shared-memory array when it arrives (an event then, not a reservation now)
             self.pend[key] = self.pend.get(key, 0) + 1; self.landed[key] = float("inf")
             self.ev(land, "tmawrite", w, key); self.log.append(("tma", w.wid, k, now, start, land))
@@ -148,7 +151,10 @@ class WSSM(SM):
             self.ev(t_w + self.ctiles / 128.0, "tmalanded", w, key)
         elif kind == "tmalanded":
             self.pend[key] -= 1; self.land_t[key] = max(self.land_t.get(key, 0.0), now)
-            if self.pend[key] == 0: self.landed[key] = self.land_t[key]
+            if self.pend[key] == 0:
+                self.landed[key] = self.land_t[key]
+                # the waiting consumers see it P["mbar_wake_clk"] later: an event then, so the simulation re-checks them
+                self.ev(self.land_t[key] + P["mbar_wake_clk"], "wake", w, None)
 
 
     def _is_work_loop(self, end_pc, target_addr):

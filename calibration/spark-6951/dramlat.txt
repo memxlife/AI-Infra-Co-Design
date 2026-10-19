@@ -1,0 +1,40 @@
+RESULT chase sleep_ns=-1 ns_per_hop=421.1 background_GBs=0.0
+RESULT tma sleep_ns=-1 box_KB=4 median_ns=512 p10=480 p90=576 (background as in the chase line)
+RESULT tma sleep_ns=-1 box_KB=8 median_ns=608 p10=576 p90=704 (background as in the chase line)
+RESULT tma sleep_ns=-1 box_KB=16 median_ns=704 p10=672 p90=736 (background as in the chase line)
+RESULT tma sleep_ns=-1 box_KB=32 median_ns=896 p10=864 p90=928 (background as in the chase line)
+RESULT chase sleep_ns=20000 ns_per_hop=403.3 background_GBs=32.9
+RESULT tma sleep_ns=20000 box_KB=4 median_ns=512 p10=480 p90=576 (background as in the chase line)
+RESULT tma sleep_ns=20000 box_KB=8 median_ns=544 p10=544 p90=608 (background as in the chase line)
+RESULT tma sleep_ns=20000 box_KB=16 median_ns=640 p10=608 p90=704 (background as in the chase line)
+RESULT tma sleep_ns=20000 box_KB=32 median_ns=864 p10=832 p90=864 (background as in the chase line)
+RESULT chase sleep_ns=5000 ns_per_hop=554.2 background_GBs=121.2
+RESULT tma sleep_ns=5000 box_KB=4 median_ns=512 p10=480 p90=1760 (background as in the chase line)
+RESULT tma sleep_ns=5000 box_KB=8 median_ns=544 p10=512 p90=2112 (background as in the chase line)
+RESULT tma sleep_ns=5000 box_KB=16 median_ns=640 p10=608 p90=3168 (background as in the chase line)
+RESULT tma sleep_ns=5000 box_KB=32 median_ns=864 p10=832 p90=3168 (background as in the chase line)
+RESULT chase sleep_ns=2000 ns_per_hop=1158.7 background_GBs=208.4
+RESULT tma sleep_ns=2000 box_KB=4 median_ns=2368 p10=512 p90=3712 (background as in the chase line)
+RESULT tma sleep_ns=2000 box_KB=8 median_ns=2112 p10=544 p90=3616 (background as in the chase line)
+RESULT tma sleep_ns=2000 box_KB=16 median_ns=2848 p10=672 p90=3808 (background as in the chase line)
+RESULT tma sleep_ns=2000 box_KB=32 median_ns=3392 p10=1408 p90=4096 (background as in the chase line)
+RESULT chase sleep_ns=1000 ns_per_hop=1475.6 background_GBs=260.4
+RESULT tma sleep_ns=1000 box_KB=4 median_ns=3136 p10=2624 p90=3744 (background as in the chase line)
+RESULT tma sleep_ns=1000 box_KB=8 median_ns=3232 p10=2752 p90=4096 (background as in the chase line)
+RESULT tma sleep_ns=1000 box_KB=16 median_ns=3552 p10=2880 p90=4736 (background as in the chase line)
+RESULT tma sleep_ns=1000 box_KB=32 median_ns=3968 p10=3360 p90=5024 (background as in the chase line)
+RESULT chase sleep_ns=500 ns_per_hop=1697.2 background_GBs=254.7
+RESULT tma sleep_ns=500 box_KB=4 median_ns=3488 p10=3008 p90=4352 (background as in the chase line)
+RESULT tma sleep_ns=500 box_KB=8 median_ns=3456 p10=3008 p90=4096 (background as in the chase line)
+RESULT tma sleep_ns=500 box_KB=16 median_ns=4128 p10=3360 p90=5664 (background as in the chase line)
+RESULT tma sleep_ns=500 box_KB=32 median_ns=4320 p10=3744 p90=5760 (background as in the chase line)
+RESULT chase sleep_ns=200 ns_per_hop=1828.7 background_GBs=253.1
+RESULT tma sleep_ns=200 box_KB=4 median_ns=4032 p10=3200 p90=5504 (background as in the chase line)
+RESULT tma sleep_ns=200 box_KB=8 median_ns=3680 p10=3200 p90=4768 (background as in the chase line)
+RESULT tma sleep_ns=200 box_KB=16 median_ns=3936 p10=3424 p90=4896 (background as in the chase line)
+RESULT tma sleep_ns=200 box_KB=32 median_ns=4384 p10=3712 p90=5344 (background as in the chase line)
+RESULT chase sleep_ns=0 ns_per_hop=1928.5 background_GBs=256.4
+RESULT tma sleep_ns=0 box_KB=4 median_ns=3648 p10=3200 p90=4576 (background as in the chase line)
+RESULT tma sleep_ns=0 box_KB=8 median_ns=3936 p10=3360 p90=4896 (background as in the chase line)
+RESULT tma sleep_ns=0 box_KB=16 median_ns=4096 p10=3520 p90=5280 (background as in the chase line)
+RESULT tma sleep_ns=0 box_KB=32 median_ns=4640 p10=3904 p90=5664 (background as in the chase line)

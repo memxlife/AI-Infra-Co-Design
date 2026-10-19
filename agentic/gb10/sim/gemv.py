@@ -79,7 +79,7 @@ def gemv_us(name: str, m: dict, warm: bool = True) -> float:
 def splitk_us(name: str, m: dict, warm: bool = True) -> float:
     h = {"block_M": m["bm"], "block_N": m["bn"], "block_K": m["bk"], "num_stages": m["stages"], "threads": m["threads"], "swizzle": 0}
     shape = {"M": m["M"], "N": m["N"], "K": m["K"]}
-    return simulate_kernel(D / "sass" / f"{name}.sass", h, shape, m["regs"], split=m["split"], kernel=m["kernel_name"], warm=warm)["us"]
+    return simulate_kernel(D / "sass" / f"{name}.sass", h, shape, m["regs"], split=m["split"], kernel=m["kernel_name"], warm=warm, atomic_c=True)["us"]
 
 
 def run() -> list:

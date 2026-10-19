@@ -416,3 +416,41 @@ land, consumers wake) takes about 3,100 cycles before the hand-off delays, so 2 
 k-tile; the hardware does 1,600. The fixed 1,560-cycle DRAM latency on the TMA path is the suspect: the next probe is
 TMA load latency from DRAM with all SMs streaming. (Letting an SM bank DRAM share it leaves unused changed nothing, so
 idle gaps in the per-SM DRAM queue are not the cause.)
+
+### Oct 20, decode shapes on the TMA path: two bugs, two measured latencies
+
+**The test set** (`runs/tilelang/decode_stages/`, `python -m agentic.gb10.sim.decode_sweep`): 26 TileLang TMA GEMMs at
+M = 32 and M = 128 (N = K = 4096), tiles × pipeline depth, all correct, timed after an L2 flush. Measured, deeper
+pipelines help at M = 128 until DRAM is saturated (128x128x32: 164 → 152 → 148.5 µs for 2 → 3 → 4 stages, 233 GB/s);
+at M = 32 every kernel already runs at 226-236 GB/s.
+
+**Found and fixed:**
+1. *Hand-offs that were never re-checked.* With the 134-cycle mbarrier delay, a waiting warp could go only at "landed
+   + 134", but nothing in the simulation happened then, so it was re-checked only at the next event, often thousands of
+   cycles later. 2-stage kernels wait the most, so they came out far too slow. Each hand-off now schedules an event.
+2. *DRAM bytes of tiles taller than M.* The share of TMA bytes that miss to DRAM was divided by the full tile, though
+   rows past M move no data. 256-row tiles at M = 128 got 40 % too few DRAM bytes and came out 25 % too fast.
+3. *TMA's own latencies* (`dramlat.cu`): a lone TMA box from DRAM takes about 1,170 cycles plus its transfer (4 KB
+   512 ns, 32 KB 896 ns), from L2 about 440. The simulator had used cp.async's 1,560 and 350. Under load a box waits
+   behind everyone's queued bytes (4 KB: 2.4 µs at 208 GB/s, 3.6 µs saturated), the same base-plus-queue form the
+   simulator uses.
+4. *What a flushed run pays for C.* After a flush, C ends the kernel dirty in the L2 and is written back later, so a
+   cold run pays only for C that cannot stay in the L2. But atomics on C lines that are not in the L2 read them from
+   DRAM first, so cold split-K pays a read of its fp32 C (now within 5 % at every split, was −18 to −31 %).
+
+| Decode sweep (after a flush) | Before | After |
+|---|---|---|
+| M = 32, 10 kernels: median / worst error | 3 % / 35 % | 1 % / 3 % |
+| M = 128, 16 kernels: median / worst error | 7 % / 67 % | 3 % / 9 % |
+| M = 128 rank correlation | 0.36 | 0.82 |
+| M = 128: simulator's pick against the true best | 22 % slower | 10 % slower |
+
+TMA picks at their grids now: 1024³ −11 %, 2048³ −6 %, 4096³ +4 %, 8192³ +4 % (was +22 %), 4096×4096×1024 −11 %. The
+two decode picks still read +20 % and +37 % against their old measurements (124 and 162 µs), but the same two configs
+measured today take 141 / 146 µs (M = 32, back-to-back / flushed) and 191 / 203 µs (M = 128): the old numbers were a
+session where part of B stayed in the L2. Against today's flushed times the simulator is +1 % and +7 %.
+
+**Still open:** at the DRAM ceiling the simulator sees no difference between 2 and 4 stages for 128x128x32 (flat at
+153.5 µs), while the hardware gains 10 %. A lone 4 KB box under load takes about twice a single line's latency (it
+waits for the slowest of its 32 lines); the simulator's even fair-share queue has no such spread, so it thinks 2 stages
+keep DRAM busy. A spread in box latency under load is the next mechanism to add.

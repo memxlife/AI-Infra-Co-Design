@@ -6,7 +6,7 @@
  },
  {
   "kernel": "cp_128x128x32_staged",
-  "sim_us": 34.02,
+  "sim_us": 34.03,
   "meas_us": 34.7
  },
  {
@@ -31,22 +31,22 @@
  },
  {
   "kernel": "tma_128x128x32_direct",
-  "sim_us": 42.12,
+  "sim_us": 42.11,
   "meas_us": 45.0
  },
  {
   "kernel": "tma_128x128x32_staged",
-  "sim_us": 39.24,
+  "sim_us": 39.14,
   "meas_us": 41.1
  },
  {
   "kernel": "tma_256x128x32_direct",
-  "sim_us": 35.57,
+  "sim_us": 35.54,
   "meas_us": 37.8
  },
  {
   "kernel": "tma_256x128x32_staged",
-  "sim_us": 32.62,
+  "sim_us": 32.56,
   "meas_us": 35.0
  }
 ]
