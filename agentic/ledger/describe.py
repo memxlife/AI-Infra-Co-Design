@@ -207,7 +207,9 @@ def describe(ledger: Ledger, contract_id: str, run: str | None = None, _ctx: dic
            "on_boundary": c3 is not None and bool(vals) and vals.get("P") == vals.get("S", 0) - 2 + vals.get("beta", 0),
            "size": optimization.get("size"), "solver": optimization.get("solver"), "cost_model": _math(T["cost"]["model"]),
            "math": _math}
-    for lens_dict, make in ((systems, plain.systems), (optimization, plain.optimization), (proof, plain.proof)):
+    ctx["baselines"] = _baselines_for(wl) if T.get("template") == "gemm_tilelang" else None
+    kernel = {}
+    for lens_dict, make in ((systems, plain.systems), (optimization, plain.optimization), (proof, plain.proof), (kernel, plain.kernel)):
         lens_dict["sections"] = make(ctx)
         lens_dict["text"] = plain.text_of(lens_dict["sections"])
     return {
@@ -216,8 +218,19 @@ def describe(ledger: Ledger, contract_id: str, run: str | None = None, _ctx: dic
         "parent": T.get("parent"), "parent_short": parent_short,
         "is_best": is_best, "objective": x["objective"] if x else None,
         "rationale": T.get("rationale", ""),
-        "systems": systems, "optimization": optimization, "proof": proof,
+        "systems": systems, "optimization": optimization, "proof": proof, "kernel": kernel,
     }
+
+
+def _baselines_for(wl: dict) -> dict | None:
+    """The T3 baselines of this shape (runs/tilelang/baseline_<name>.json), when they exist."""
+    import json
+    from pathlib import Path
+    name = {(1024, 1024, 1024): "1024", (4096, 4096, 4096): "4096", (32, 4096, 4096): "m32"}.get((wl.get("M"), wl.get("N"), wl.get("K")))
+    f = Path(__file__).resolve().parents[2] / "runs" / "tilelang" / f"baseline_{name}.json" if name else None
+    if not f or not f.exists():
+        return None
+    return {k: {"latency_ms": v.get("latency_ms"), "config": v.get("config")} for k, v in json.load(open(f))["kinds"].items()}
 
 
 def describe_all(ledger: Ledger, run: str) -> dict[str, dict]:

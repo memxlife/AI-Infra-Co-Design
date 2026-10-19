@@ -1,0 +1,68 @@
+# Per-template phrasing for the TileLang kernel template (agentic/tilelang): a family of TileLang kernels with integer holes.
+gemm_tilelang:
+  what_it_decides: "picks the tile sizes, pipeline depth, thread count and traversal order of a TileLang kernel for {workload}"
+  decides_in_words: >-
+    the rows and columns of C each block computes, the slice of K it loads per step, how many such slices are in flight,
+    how many threads the block runs, and the order the blocks walk over C
+  precondition_in_words:
+    precheck: "the shared-memory, register and thread rules of the chip admit the point; TileLang's own passes then compile it"
+  precondition_strictness: {precheck: 0}
+  precondition_label:
+    precheck: "precheck"
+  failure_in_words:
+    legal: "the point breaks a shared-memory, register or thread rule"
+    compiles: "TileLang's passes refuse the point"
+    agreement: "the kernel's answer differs from torch's"
+  decision_order: [block_M, block_N, block_K, num_stages, threads, swizzle]
+  decision_units:
+    block_M: "rows"
+    block_N: "columns"
+    block_K: ""
+    num_stages: "tiles in flight"
+    threads: "threads"
+    swizzle: ""
+  decision_change_in_words:
+    block_M: "{new} rows per block instead of {old}"
+    block_N: "{new} columns per block instead of {old}"
+    block_K: "K slices of {new} instead of {old}"
+    num_stages: "{new} tiles in flight instead of {old}"
+    threads: "{new} threads instead of {old}"
+    swizzle: "traversal panel {new} instead of {old}"
+  delta_fields:
+    - scope.workload.name
+    - scope.structure.family
+  # ---- plain words for the inspector (agentic/ledger/plain.py)
+  intro_in_words: >-
+    It is a real kernel: TileLang's example matrix multiplication with six numbers left open. Each block of threads computes one
+    tile of C; it streams slices of A and B through shared memory while the tensor cores multiply. The six numbers set the
+    tile, the slice, the pipeline depth, the thread count and the walking order. TileLang compiles the filled-in kernel; the
+    Spark runs it.
+  decision_words:
+    block_M: {label: "Rows of C per block", unit: "rows"}
+    block_N: {label: "Columns of C per block", unit: "columns"}
+    block_K: {label: "Slice of K per step"}
+    num_stages: {label: "Slices in flight", unit: "tiles"}
+    threads: {label: "Threads per block", unit: "threads"}
+    swizzle: {label: "Block walking order (panel)", values: {0: "TileLang's default order", 4: "panels of 4", 8: "panels of 8", 16: "panels of 16"}}
+  meaning_in_words:
+    block_M: "how many rows of C one block owns; bigger tiles reuse each loaded slice more but need more registers"
+    block_N: "how many columns of C one block owns"
+    block_K: "how much of K arrives per pipeline step; bigger slices mean fewer steps and more shared memory"
+    num_stages: "how many slices are loading while one is being multiplied"
+    threads: "threads doing the multiply; TileLang adds 128 more that only load"
+    swizzle: "walk the blocks over C in panels so neighbours share what is in the L2 cache"
+  constraints_in_words:
+    smem: "All the slices in flight must fit the shared memory one block may have (99 KB on this chip)."
+    regs: "The FP32 partial sums plus about 24 working registers must fit what the compiler may use per thread; over that it spills to memory and runs 5× slower."
+    threads: "Each thread must own at least 16 values of the tile."
+    fit: "One block must fit an SM, counting the 128 loading threads TileLang adds."
+    waves: "The blocks run in rounds of 48 (one per SM); a last partial round costs a full round."
+  goal_in_words: "Make the kernel finish as fast as possible on the Spark."
+  cost_in_words:
+    - "Per tile on its SM: a fixed cost (start-up, filling the pipeline, writing the tile out), the multiply at the tensor-core rate this thread count reaches, and a small cost per K step that deeper pipelines shrink."
+    - "Rounds: the number of tiles divided by 48 SMs, rounded up."
+    - "Memory: A and B from DRAM once if they fit L2; otherwise B again for every panel of tiles."
+  obligations_in_words:
+    legal: "The point passes the shared-memory, register and thread rules."
+    compiles: "TileLang's passes accept the point and produce a kernel."
+    agreement: "The kernel's C matches torch's A × B on random inputs."

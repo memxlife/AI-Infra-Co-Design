@@ -52,7 +52,11 @@ def default_terms(chip: dict) -> dict:
         "B_L2_chip": chip["l2_bytes_per_s"],
         "l2_bytes_effective": chip["l2_bytes_effective"],
         "t_tile_latency": chip["tma_bulk_latency_s"].get("16384", 5e-7),  # one TMA tile from L2
+        "t_tile_fixed": {128: 0.0, 256: 0.0, 512: 0.0},                   # per tile: prologue, fill, the C store (seconds)
+        "t_step": {2: 0.0, 3: 0.0, 4: 0.0, 5: 0.0},                       # per k-step, by pipeline depth (seconds)
         "launch_s": chip["launch_s"],
+        "overlap": "max",                                                 # how copy and tensor time combine per tile: max | sum
+        "scale": 1.0,                                                     # one-sided deflation of the per-SM time (calibrate.py)
         "swizzle_penalty": {0: 1.0, 4: 1.0, 8: 1.0, 16: 1.0},             # bank-conflict / traversal factor by SWZ
         "source": "contract defaults",
     }
@@ -77,6 +81,10 @@ def traffic_bytes(h: dict, shape: dict, terms: dict) -> dict:
     return {"l2_reads": l2_reads, "dram": dram, "c_bytes": c_bytes}
 
 
+def _lookup(table: dict, key):
+    return table.get(key, table.get(str(key), 0.0))
+
+
 def predict(h: dict, shape: dict, chip: dict, terms: dict | None = None) -> dict:
     t = terms or default_terms(chip)
     M, N, K = shape["M"], shape["N"], shape["K"]
@@ -95,9 +103,13 @@ def predict(h: dict, shape: dict, chip: dict, terms: dict | None = None) -> dict
     bytes_tile = k_steps * (bm + bn) * bk * 2
     t_copy_tile = bytes_tile / t["B_L2_per_sm"]
     swz = t["swizzle_penalty"].get(h.get("swizzle", 0), t["swizzle_penalty"].get(str(h.get("swizzle", 0)), 1.0))
-    t_tile = max(t_compute_tile, t_copy_tile) * swz
-    t_pipe = min(st, k_steps) * t["t_tile_latency"]                       # fill: the first STAGES tiles must land before the pipe is full
-    t_sm = waves * (t_tile + t_pipe)
+    fixed = _lookup(t["t_tile_fixed"], th); step = _lookup(t["t_step"], st)
+    t_pipe = fixed if fixed else min(st, k_steps) * t["t_tile_latency"]   # fill: the first STAGES tiles must land before the pipe is full
+    if t.get("overlap", "max") == "sum":        # copies and tensor work charged one after the other
+        t_tile = (t_compute_tile + t_copy_tile) * swz + k_steps * step
+    else:                                        # perfect overlap: the longer of the two
+        t_tile = max(t_compute_tile, t_copy_tile) * swz + k_steps * step
+    t_sm = waves * (t_tile + t_pipe) * t.get("scale", 1.0)
     tr = traffic_bytes(h, shape, t)
     t_dram = tr["dram"] / t["B_HBM"]
     t_l2 = tr["l2_reads"] / t["B_L2_chip"]
@@ -106,4 +118,5 @@ def predict(h: dict, shape: dict, chip: dict, terms: dict | None = None) -> dict
     return {"ok": True, "time_s": time, "time_us": time * 1e6, "bound": bound, "waves": waves, "tiles": tiles, "blocks_per_sm": bps,
             "terms": {"t_sm": t_sm, "t_compute_tile": t_compute_tile, "t_copy_tile": t_copy_tile, "t_pipe": t_pipe, "t_dram": t_dram, "t_l2": t_l2,
                       "dram_bytes": tr["dram"], "l2_read_bytes": tr["l2_reads"], "regs_per_thread": regs_per_thread(th, chip),
+                      "k_steps": k_steps, "flops_tile": flops_tile, "bytes_tile": bytes_tile,
                       "launched_threads": launched_threads(th)}}

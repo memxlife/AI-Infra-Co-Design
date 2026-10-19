@@ -9,7 +9,10 @@ class TileLangFormulator:
     name = "tilelang-scripted"
 
     def __init__(self, shapes: list[dict], chip: dict | str = "spark-6951-gb10", family: str = "gemm_basic", terms: dict | None = None):
-        self.shapes, self.chip, self.family, self.terms = list(shapes), chip, family, terms
+        from ...chips import load_chip
+        from ...tilelang.calibrate import load_terms
+        self.shapes, self.chip, self.family = list(shapes), chip, family
+        self.terms = terms or load_terms(load_chip(chip) if isinstance(chip, str) else chip)   # the calibrated terms when they exist
 
     def propose(self, request: dict) -> dict | None:
         i = request["step"]

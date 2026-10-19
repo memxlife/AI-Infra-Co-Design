@@ -7,14 +7,16 @@ from __future__ import annotations
 from hashlib import sha256
 from time import perf_counter
 
-from .tools import grid, legalize
+from .tools import legalize
 
 
 def certify_family(T: dict, proofs: dict | None = None) -> dict:
     t0 = perf_counter()
     family = T["scope"]["structure"]["family"]; shape = {k: T["scope"]["workload"][k] for k in ("M", "N", "K")}
     chip = T["scope"]["chip"]
-    pts = grid(family, shape)
+    import itertools
+    menus = {k: v["domain"] for k, v in T["decisions"].items()}        # the contract's menus (a model may have narrowed them)
+    pts = [dict(zip(menus, vals)) for vals in itertools.product(*menus.values())]
     bad = [(h, legalize(family, h, shape, chip)) for h in pts]
     removed = [r for _, r in bad if not r["ok"]]
     key = sha256(f"{family}:{shape}:{chip.get('name')}".encode()).hexdigest()

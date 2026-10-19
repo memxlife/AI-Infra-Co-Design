@@ -8,7 +8,7 @@ window.Inspector = (() => {
   const el = (tag, cls, text) => { const n = document.createElement(tag); if (cls) n.className = cls; if (text != null) n.textContent = text; return n; };
   const fmt = (x, d = 2) => x == null ? "–" : Number(x).toFixed(d);
   const t = s => s == null ? "?" : s < 1e-3 ? (s * 1e6).toFixed(0) + " µs" : s < 1 ? (s * 1e3).toFixed(0) + " ms" : s.toFixed(2) + " s";
-  const LENSES = [["systems", "Systems"], ["optimization", "Optimization"], ["proof", "Proof"], ["schedule", "Schedule"]];
+  const LENSES = [["systems", "Systems"], ["optimization", "Optimization"], ["proof", "Proof"], ["schedule", "Schedule"], ["kernel", "Kernel"]];
   let current = null, lens = null, view = null, desc = null;
   const stored = () => { try { return sessionStorage.getItem("agentic.lens"); } catch (e) { return null; } };
   const remember = l => { try { sessionStorage.setItem("agentic.lens", l); } catch (e) { /* ignore */ } };
@@ -34,6 +34,7 @@ window.Inspector = (() => {
     optimization: "The choices, the goal and the rules the optimizer works with",
     proof: "Is it correct, and how we know",
     schedule: "How one block runs over time",
+    kernel: "The compiled TileLang kernel: registers, shared memory, the Spark's time against the prediction and the baselines",
   };
 
   function render() {

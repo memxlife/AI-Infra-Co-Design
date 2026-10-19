@@ -127,7 +127,7 @@ def systems(c: dict) -> list[dict]:
     m = c["m"]
     if m:
         sim = str(m.get("simulator", ""))
-        how = ("measured on the Spark" if sim.startswith("cuda:") else
+        how = ("measured on the Spark" if sim.startswith(("cuda:", "tilelang:")) else
                "simulated on the GB10 model" if sim.startswith("mechanistic") else "estimated again with the same formula (not a real measurement)")
         diff = m["measured_cost"] / m["predicted_cost"] - 1 if m.get("predicted_cost") else None
         paras = [f"The time formula predicted {m['predicted_cost']:.1f} µs.",
@@ -303,4 +303,59 @@ def proof(c: dict) -> list[dict]:
         "summary": "The formal statement of what is proved",
         "items": [f"Relation: {sch.get('relation')}", f"Progress measure: {sch.get('rank')}", f"Backward map: {T.get('backward_map')}"]
                  + [f"Check {o['name']} ({o.get('kind')}, over {o.get('scope')}): {o.get('meaning')}" for o in obls]}))
+    return out
+
+
+def kernel(c: dict) -> list[dict]:
+    """The Kernel tab (TileLang templates): what TileLang compiled, what the Spark measured, how it compares."""
+    T, x, m = c["T"], c["x"], c["m"]
+    out = []
+    if T.get("template") != "gemm_tilelang":
+        return [section("No kernel", ["This template has no compiled kernel: the levels above the kernel level reason with formulas only."])]
+    s = T["scope"]["structure"]
+    out.append(section("The kernel", [f"Family {s.get('family')}: {c['ph'].get('intro_in_words', '')}",
+                                      f"Copies: {s.get('copy_lowering', '?')}. Warp roles: {s.get('warp_roles', '?')}. Layout: {s.get('layout', '?')}."]))
+    if not m:
+        out.append(section("Compiled and measured", ["Not yet. The solver's point is compiled by TileLang and timed on the Spark after the instance check."]))
+        return out
+    d = m.get("detail") or {}
+    rep = d.get("kernel_report") or {}
+    pred = d.get("prediction") or {}
+    rows = [["Time on the Spark (median)", f"{m['measured_cost']:.1f} µs"],
+            ["Predicted by the time formula", f"{m['predicted_cost']:.1f} µs ({m.get('discrepancy', 0):+.0%} off)"],
+            ["Throughput", f"{d.get('tflops', 0):.1f} TFLOP/s" if d.get("tflops") else "–"],
+            ["Registers per thread", f"{d.get('n_regs')}" + (f", {d.get('n_spills')} bytes spilled" if d.get("n_spills") else ", no spills")],
+            ["Shared memory per block", f"{(d.get('smem_bytes') or 0) / 1024:.0f} KB"],
+            ["Threads per block", f"{d.get('threads')} (asked {x['values'].get('threads') if x else '?'}; TileLang adds 128 loading threads)"],
+            ["Compile time", f"{d.get('compile_s', 0):.1f} s"],
+            ["Correct against torch", "yes" if m.get("reference_agrees") else "NO"],
+            ["TileLang / CUDA", f"{(rep.get('tilelang') or {}).get('version', '?')} / {(rep.get('cuda') or {}).get('nvcc', '?')}"]]
+    uses = rep.get("uses") or {}
+    if uses:
+        rows.append(["Instructions used", ", ".join(k for k, v in uses.items() if v) or "–"])
+    ncu = rep.get("ncu") or {}
+    if ncu.get("ok"):
+        mt = ncu.get("metrics", {})
+        rows.append(["Tensor pipe busy (ncu)", f"{mt.get('sm__pipe_tensor_cycles_active.avg.pct_of_peak_sustained_active', 0):.0f} %"])
+        rows.append(["DRAM bytes (ncu, from L2 misses)", f"{ncu.get('dram_bytes', 0) / 1e6:.1f} MB"])
+    out.append(section("Compiled and measured", [f"TileLang compiled the solver's point; the Spark timed it over {d.get('reps', '?')} ms of repeated runs (median)."],
+                       table={"cols": ["What", "Value"], "rows": rows}))
+    if pred.get("terms"):
+        t = pred["terms"]
+        out.append(section("Where the formula says the time goes",
+                           [f"Longest term: {pred.get('bound')}. {pred.get('waves')} round(s) of blocks over 48 SMs, {pred.get('tiles')} tiles, {pred.get('blocks_per_sm')} block per SM."],
+                           [f"per tile: {t.get('t_compute_tile', 0) * 1e6:.1f} µs tensor work, {t.get('t_copy_tile', 0) * 1e6:.1f} µs copies, {t.get('t_pipe', 0) * 1e6:.1f} µs fixed",
+                            f"DRAM: {t.get('dram_bytes', 0) / 1e6:.1f} MB, {t.get('t_dram', 0) * 1e6:.1f} µs at the measured bandwidth",
+                            f"L2: {t.get('l2_read_bytes', 0) / 1e6:.1f} MB read by the SMs, {t.get('t_l2', 0) * 1e6:.1f} µs"]))
+    base = c.get("baselines") or {}
+    if base:
+        rows = [[k, f"{v['latency_ms'] * 1e3:.1f} µs" if v.get("latency_ms") else "–", f"{m['measured_cost'] / (v['latency_ms'] * 1e3) - 1:+.1%}" if v.get("latency_ms") else "–",
+                 str(v.get("config", ""))[:80]] for k, v in base.items()]
+        out.append(section("Against the baselines", ["The same shape, timed the same way. The gap is this kernel's time over the baseline's (positive means slower)."],
+                           table={"cols": ["Baseline", "Time", "Gap", "Its choice"], "rows": rows}))
+    lay = x["values"] if x else {}
+    if lay:
+        out.append(section("The layout, in words", [f"Each block owns a {lay.get('block_M')} × {lay.get('block_N')} tile of C and walks K in slices of {lay.get('block_K')}, "
+                                                    f"{lay.get('num_stages')} slices in flight, {lay.get('threads')} threads multiplying"
+                                                    + (f", blocks walked in panels of {lay['swizzle']}." if lay.get("swizzle") else ", blocks in TileLang's default order.")]))
     return out

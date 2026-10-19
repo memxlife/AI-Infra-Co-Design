@@ -1,0 +1,1297 @@
+block_M,block_N,block_K,num_stages,threads,swizzle,ok,correct,latency_us,tflops,n_regs,n_spills,smem_bytes,launched_threads,compile_s,error,precheck,precheck_reason
+16,64,32,2,128,0,,,,,,,,,,,False,tile too small for the threads: 16x64 over 128 threads leaves 8 values per threa
+16,64,32,2,128,4,,,,,,,,,,,False,tile too small for the threads: 16x64 over 128 threads leaves 8 values per threa
+16,64,32,2,128,8,,,,,,,,,,,False,tile too small for the threads: 16x64 over 128 threads leaves 8 values per threa
+16,64,32,2,128,16,,,,,,,,,,,False,tile too small for the threads: 16x64 over 128 threads leaves 8 values per threa
+16,64,32,2,256,0,,,,,,,,,,,False,tile too small for the threads: 16x64 over 256 threads leaves 4 values per threa
+16,64,32,2,256,4,,,,,,,,,,,False,tile too small for the threads: 16x64 over 256 threads leaves 4 values per threa
+16,64,32,2,256,8,,,,,,,,,,,False,tile too small for the threads: 16x64 over 256 threads leaves 4 values per threa
+16,64,32,2,256,16,,,,,,,,,,,False,tile too small for the threads: 16x64 over 256 threads leaves 4 values per threa
+16,64,32,2,512,0,,,,,,,,,,,False,tile too small for the threads: 16x64 over 512 threads leaves 2 values per threa
+16,64,32,2,512,4,,,,,,,,,,,False,tile too small for the threads: 16x64 over 512 threads leaves 2 values per threa
+16,64,32,2,512,8,,,,,,,,,,,False,tile too small for the threads: 16x64 over 512 threads leaves 2 values per threa
+16,64,32,2,512,16,,,,,,,,,,,False,tile too small for the threads: 16x64 over 512 threads leaves 2 values per threa
+16,64,32,3,128,0,,,,,,,,,,,False,tile too small for the threads: 16x64 over 128 threads leaves 8 values per threa
+16,64,32,3,128,4,,,,,,,,,,,False,tile too small for the threads: 16x64 over 128 threads leaves 8 values per threa
+16,64,32,3,128,8,,,,,,,,,,,False,tile too small for the threads: 16x64 over 128 threads leaves 8 values per threa
+16,64,32,3,128,16,,,,,,,,,,,False,tile too small for the threads: 16x64 over 128 threads leaves 8 values per threa
+16,64,32,3,256,0,,,,,,,,,,,False,tile too small for the threads: 16x64 over 256 threads leaves 4 values per threa
+16,64,32,3,256,4,,,,,,,,,,,False,tile too small for the threads: 16x64 over 256 threads leaves 4 values per threa
+16,64,32,3,256,8,,,,,,,,,,,False,tile too small for the threads: 16x64 over 256 threads leaves 4 values per threa
+16,64,32,3,256,16,,,,,,,,,,,False,tile too small for the threads: 16x64 over 256 threads leaves 4 values per threa
+16,64,32,3,512,0,,,,,,,,,,,False,tile too small for the threads: 16x64 over 512 threads leaves 2 values per threa
+16,64,32,3,512,4,,,,,,,,,,,False,tile too small for the threads: 16x64 over 512 threads leaves 2 values per threa
+16,64,32,3,512,8,,,,,,,,,,,False,tile too small for the threads: 16x64 over 512 threads leaves 2 values per threa
+16,64,32,3,512,16,,,,,,,,,,,False,tile too small for the threads: 16x64 over 512 threads leaves 2 values per threa
+16,64,32,4,128,0,,,,,,,,,,,False,tile too small for the threads: 16x64 over 128 threads leaves 8 values per threa
+16,64,32,4,128,4,,,,,,,,,,,False,tile too small for the threads: 16x64 over 128 threads leaves 8 values per threa
+16,64,32,4,128,8,,,,,,,,,,,False,tile too small for the threads: 16x64 over 128 threads leaves 8 values per threa
+16,64,32,4,128,16,,,,,,,,,,,False,tile too small for the threads: 16x64 over 128 threads leaves 8 values per threa
+16,64,32,4,256,0,,,,,,,,,,,False,tile too small for the threads: 16x64 over 256 threads leaves 4 values per threa
+16,64,32,4,256,4,,,,,,,,,,,False,tile too small for the threads: 16x64 over 256 threads leaves 4 values per threa
+16,64,32,4,256,8,,,,,,,,,,,False,tile too small for the threads: 16x64 over 256 threads leaves 4 values per threa
+16,64,32,4,256,16,,,,,,,,,,,False,tile too small for the threads: 16x64 over 256 threads leaves 4 values per threa
+16,64,32,4,512,0,,,,,,,,,,,False,tile too small for the threads: 16x64 over 512 threads leaves 2 values per threa
+16,64,32,4,512,4,,,,,,,,,,,False,tile too small for the threads: 16x64 over 512 threads leaves 2 values per threa
+16,64,32,4,512,8,,,,,,,,,,,False,tile too small for the threads: 16x64 over 512 threads leaves 2 values per threa
+16,64,32,4,512,16,,,,,,,,,,,False,tile too small for the threads: 16x64 over 512 threads leaves 2 values per threa
+16,64,32,5,128,0,,,,,,,,,,,False,tile too small for the threads: 16x64 over 128 threads leaves 8 values per threa
+16,64,32,5,128,4,,,,,,,,,,,False,tile too small for the threads: 16x64 over 128 threads leaves 8 values per threa
+16,64,32,5,128,8,,,,,,,,,,,False,tile too small for the threads: 16x64 over 128 threads leaves 8 values per threa
+16,64,32,5,128,16,,,,,,,,,,,False,tile too small for the threads: 16x64 over 128 threads leaves 8 values per threa
+16,64,32,5,256,0,,,,,,,,,,,False,tile too small for the threads: 16x64 over 256 threads leaves 4 values per threa
+16,64,32,5,256,4,,,,,,,,,,,False,tile too small for the threads: 16x64 over 256 threads leaves 4 values per threa
+16,64,32,5,256,8,,,,,,,,,,,False,tile too small for the threads: 16x64 over 256 threads leaves 4 values per threa
+16,64,32,5,256,16,,,,,,,,,,,False,tile too small for the threads: 16x64 over 256 threads leaves 4 values per threa
+16,64,32,5,512,0,,,,,,,,,,,False,tile too small for the threads: 16x64 over 512 threads leaves 2 values per threa
+16,64,32,5,512,4,,,,,,,,,,,False,tile too small for the threads: 16x64 over 512 threads leaves 2 values per threa
+16,64,32,5,512,8,,,,,,,,,,,False,tile too small for the threads: 16x64 over 512 threads leaves 2 values per threa
+16,64,32,5,512,16,,,,,,,,,,,False,tile too small for the threads: 16x64 over 512 threads leaves 2 values per threa
+16,64,64,2,128,0,,,,,,,,,,,False,tile too small for the threads: 16x64 over 128 threads leaves 8 values per threa
+16,64,64,2,128,4,,,,,,,,,,,False,tile too small for the threads: 16x64 over 128 threads leaves 8 values per threa
+16,64,64,2,128,8,,,,,,,,,,,False,tile too small for the threads: 16x64 over 128 threads leaves 8 values per threa
+16,64,64,2,128,16,,,,,,,,,,,False,tile too small for the threads: 16x64 over 128 threads leaves 8 values per threa
+16,64,64,2,256,0,,,,,,,,,,,False,tile too small for the threads: 16x64 over 256 threads leaves 4 values per threa
+16,64,64,2,256,4,,,,,,,,,,,False,tile too small for the threads: 16x64 over 256 threads leaves 4 values per threa
+16,64,64,2,256,8,,,,,,,,,,,False,tile too small for the threads: 16x64 over 256 threads leaves 4 values per threa
+16,64,64,2,256,16,,,,,,,,,,,False,tile too small for the threads: 16x64 over 256 threads leaves 4 values per threa
+16,64,64,2,512,0,,,,,,,,,,,False,tile too small for the threads: 16x64 over 512 threads leaves 2 values per threa
+16,64,64,2,512,4,,,,,,,,,,,False,tile too small for the threads: 16x64 over 512 threads leaves 2 values per threa
+16,64,64,2,512,8,,,,,,,,,,,False,tile too small for the threads: 16x64 over 512 threads leaves 2 values per threa
+16,64,64,2,512,16,,,,,,,,,,,False,tile too small for the threads: 16x64 over 512 threads leaves 2 values per threa
+16,64,64,3,128,0,,,,,,,,,,,False,tile too small for the threads: 16x64 over 128 threads leaves 8 values per threa
+16,64,64,3,128,4,,,,,,,,,,,False,tile too small for the threads: 16x64 over 128 threads leaves 8 values per threa
+16,64,64,3,128,8,,,,,,,,,,,False,tile too small for the threads: 16x64 over 128 threads leaves 8 values per threa
+16,64,64,3,128,16,,,,,,,,,,,False,tile too small for the threads: 16x64 over 128 threads leaves 8 values per threa
+16,64,64,3,256,0,,,,,,,,,,,False,tile too small for the threads: 16x64 over 256 threads leaves 4 values per threa
+16,64,64,3,256,4,,,,,,,,,,,False,tile too small for the threads: 16x64 over 256 threads leaves 4 values per threa
+16,64,64,3,256,8,,,,,,,,,,,False,tile too small for the threads: 16x64 over 256 threads leaves 4 values per threa
+16,64,64,3,256,16,,,,,,,,,,,False,tile too small for the threads: 16x64 over 256 threads leaves 4 values per threa
+16,64,64,3,512,0,,,,,,,,,,,False,tile too small for the threads: 16x64 over 512 threads leaves 2 values per threa
+16,64,64,3,512,4,,,,,,,,,,,False,tile too small for the threads: 16x64 over 512 threads leaves 2 values per threa
+16,64,64,3,512,8,,,,,,,,,,,False,tile too small for the threads: 16x64 over 512 threads leaves 2 values per threa
+16,64,64,3,512,16,,,,,,,,,,,False,tile too small for the threads: 16x64 over 512 threads leaves 2 values per threa
+16,64,64,4,128,0,,,,,,,,,,,False,tile too small for the threads: 16x64 over 128 threads leaves 8 values per threa
+16,64,64,4,128,4,,,,,,,,,,,False,tile too small for the threads: 16x64 over 128 threads leaves 8 values per threa
+16,64,64,4,128,8,,,,,,,,,,,False,tile too small for the threads: 16x64 over 128 threads leaves 8 values per threa
+16,64,64,4,128,16,,,,,,,,,,,False,tile too small for the threads: 16x64 over 128 threads leaves 8 values per threa
+16,64,64,4,256,0,,,,,,,,,,,False,tile too small for the threads: 16x64 over 256 threads leaves 4 values per threa
+16,64,64,4,256,4,,,,,,,,,,,False,tile too small for the threads: 16x64 over 256 threads leaves 4 values per threa
+16,64,64,4,256,8,,,,,,,,,,,False,tile too small for the threads: 16x64 over 256 threads leaves 4 values per threa
+16,64,64,4,256,16,,,,,,,,,,,False,tile too small for the threads: 16x64 over 256 threads leaves 4 values per threa
+16,64,64,4,512,0,,,,,,,,,,,False,tile too small for the threads: 16x64 over 512 threads leaves 2 values per threa
+16,64,64,4,512,4,,,,,,,,,,,False,tile too small for the threads: 16x64 over 512 threads leaves 2 values per threa
+16,64,64,4,512,8,,,,,,,,,,,False,tile too small for the threads: 16x64 over 512 threads leaves 2 values per threa
+16,64,64,4,512,16,,,,,,,,,,,False,tile too small for the threads: 16x64 over 512 threads leaves 2 values per threa
+16,64,64,5,128,0,,,,,,,,,,,False,tile too small for the threads: 16x64 over 128 threads leaves 8 values per threa
+16,64,64,5,128,4,,,,,,,,,,,False,tile too small for the threads: 16x64 over 128 threads leaves 8 values per threa
+16,64,64,5,128,8,,,,,,,,,,,False,tile too small for the threads: 16x64 over 128 threads leaves 8 values per threa
+16,64,64,5,128,16,,,,,,,,,,,False,tile too small for the threads: 16x64 over 128 threads leaves 8 values per threa
+16,64,64,5,256,0,,,,,,,,,,,False,tile too small for the threads: 16x64 over 256 threads leaves 4 values per threa
+16,64,64,5,256,4,,,,,,,,,,,False,tile too small for the threads: 16x64 over 256 threads leaves 4 values per threa
+16,64,64,5,256,8,,,,,,,,,,,False,tile too small for the threads: 16x64 over 256 threads leaves 4 values per threa
+16,64,64,5,256,16,,,,,,,,,,,False,tile too small for the threads: 16x64 over 256 threads leaves 4 values per threa
+16,64,64,5,512,0,,,,,,,,,,,False,tile too small for the threads: 16x64 over 512 threads leaves 2 values per threa
+16,64,64,5,512,4,,,,,,,,,,,False,tile too small for the threads: 16x64 over 512 threads leaves 2 values per threa
+16,64,64,5,512,8,,,,,,,,,,,False,tile too small for the threads: 16x64 over 512 threads leaves 2 values per threa
+16,64,64,5,512,16,,,,,,,,,,,False,tile too small for the threads: 16x64 over 512 threads leaves 2 values per threa
+16,64,128,2,128,0,,,,,,,,,,,False,tile too small for the threads: 16x64 over 128 threads leaves 8 values per threa
+16,64,128,2,128,4,,,,,,,,,,,False,tile too small for the threads: 16x64 over 128 threads leaves 8 values per threa
+16,64,128,2,128,8,,,,,,,,,,,False,tile too small for the threads: 16x64 over 128 threads leaves 8 values per threa
+16,64,128,2,128,16,,,,,,,,,,,False,tile too small for the threads: 16x64 over 128 threads leaves 8 values per threa
+16,64,128,2,256,0,,,,,,,,,,,False,tile too small for the threads: 16x64 over 256 threads leaves 4 values per threa
+16,64,128,2,256,4,,,,,,,,,,,False,tile too small for the threads: 16x64 over 256 threads leaves 4 values per threa
+16,64,128,2,256,8,,,,,,,,,,,False,tile too small for the threads: 16x64 over 256 threads leaves 4 values per threa
+16,64,128,2,256,16,,,,,,,,,,,False,tile too small for the threads: 16x64 over 256 threads leaves 4 values per threa
+16,64,128,2,512,0,,,,,,,,,,,False,tile too small for the threads: 16x64 over 512 threads leaves 2 values per threa
+16,64,128,2,512,4,,,,,,,,,,,False,tile too small for the threads: 16x64 over 512 threads leaves 2 values per threa
+16,64,128,2,512,8,,,,,,,,,,,False,tile too small for the threads: 16x64 over 512 threads leaves 2 values per threa
+16,64,128,2,512,16,,,,,,,,,,,False,tile too small for the threads: 16x64 over 512 threads leaves 2 values per threa
+16,64,128,3,128,0,,,,,,,,,,,False,tile too small for the threads: 16x64 over 128 threads leaves 8 values per threa
+16,64,128,3,128,4,,,,,,,,,,,False,tile too small for the threads: 16x64 over 128 threads leaves 8 values per threa
+16,64,128,3,128,8,,,,,,,,,,,False,tile too small for the threads: 16x64 over 128 threads leaves 8 values per threa
+16,64,128,3,128,16,,,,,,,,,,,False,tile too small for the threads: 16x64 over 128 threads leaves 8 values per threa
+16,64,128,3,256,0,,,,,,,,,,,False,tile too small for the threads: 16x64 over 256 threads leaves 4 values per threa
+16,64,128,3,256,4,,,,,,,,,,,False,tile too small for the threads: 16x64 over 256 threads leaves 4 values per threa
+16,64,128,3,256,8,,,,,,,,,,,False,tile too small for the threads: 16x64 over 256 threads leaves 4 values per threa
+16,64,128,3,256,16,,,,,,,,,,,False,tile too small for the threads: 16x64 over 256 threads leaves 4 values per threa
+16,64,128,3,512,0,,,,,,,,,,,False,tile too small for the threads: 16x64 over 512 threads leaves 2 values per threa
+16,64,128,3,512,4,,,,,,,,,,,False,tile too small for the threads: 16x64 over 512 threads leaves 2 values per threa
+16,64,128,3,512,8,,,,,,,,,,,False,tile too small for the threads: 16x64 over 512 threads leaves 2 values per threa
+16,64,128,3,512,16,,,,,,,,,,,False,tile too small for the threads: 16x64 over 512 threads leaves 2 values per threa
+16,64,128,4,128,0,,,,,,,,,,,False,tile too small for the threads: 16x64 over 128 threads leaves 8 values per threa
+16,64,128,4,128,4,,,,,,,,,,,False,tile too small for the threads: 16x64 over 128 threads leaves 8 values per threa
+16,64,128,4,128,8,,,,,,,,,,,False,tile too small for the threads: 16x64 over 128 threads leaves 8 values per threa
+16,64,128,4,128,16,,,,,,,,,,,False,tile too small for the threads: 16x64 over 128 threads leaves 8 values per threa
+16,64,128,4,256,0,,,,,,,,,,,False,tile too small for the threads: 16x64 over 256 threads leaves 4 values per threa
+16,64,128,4,256,4,,,,,,,,,,,False,tile too small for the threads: 16x64 over 256 threads leaves 4 values per threa
+16,64,128,4,256,8,,,,,,,,,,,False,tile too small for the threads: 16x64 over 256 threads leaves 4 values per threa
+16,64,128,4,256,16,,,,,,,,,,,False,tile too small for the threads: 16x64 over 256 threads leaves 4 values per threa
+16,64,128,4,512,0,,,,,,,,,,,False,tile too small for the threads: 16x64 over 512 threads leaves 2 values per threa
+16,64,128,4,512,4,,,,,,,,,,,False,tile too small for the threads: 16x64 over 512 threads leaves 2 values per threa
+16,64,128,4,512,8,,,,,,,,,,,False,tile too small for the threads: 16x64 over 512 threads leaves 2 values per threa
+16,64,128,4,512,16,,,,,,,,,,,False,tile too small for the threads: 16x64 over 512 threads leaves 2 values per threa
+16,64,128,5,128,0,,,,,,,,,,,False,shared memory: 5 stages x (16x128 + 128x64) x 2 B = 102400 B exceeds the 101376 
+16,64,128,5,128,4,,,,,,,,,,,False,shared memory: 5 stages x (16x128 + 128x64) x 2 B = 102400 B exceeds the 101376 
+16,64,128,5,128,8,,,,,,,,,,,False,shared memory: 5 stages x (16x128 + 128x64) x 2 B = 102400 B exceeds the 101376 
+16,64,128,5,128,16,,,,,,,,,,,False,shared memory: 5 stages x (16x128 + 128x64) x 2 B = 102400 B exceeds the 101376 
+16,64,128,5,256,0,,,,,,,,,,,False,shared memory: 5 stages x (16x128 + 128x64) x 2 B = 102400 B exceeds the 101376 
+16,64,128,5,256,4,,,,,,,,,,,False,shared memory: 5 stages x (16x128 + 128x64) x 2 B = 102400 B exceeds the 101376 
+16,64,128,5,256,8,,,,,,,,,,,False,shared memory: 5 stages x (16x128 + 128x64) x 2 B = 102400 B exceeds the 101376 
+16,64,128,5,256,16,,,,,,,,,,,False,shared memory: 5 stages x (16x128 + 128x64) x 2 B = 102400 B exceeds the 101376 
+16,64,128,5,512,0,,,,,,,,,,,False,shared memory: 5 stages x (16x128 + 128x64) x 2 B = 102400 B exceeds the 101376 
+16,64,128,5,512,4,,,,,,,,,,,False,shared memory: 5 stages x (16x128 + 128x64) x 2 B = 102400 B exceeds the 101376 
+16,64,128,5,512,8,,,,,,,,,,,False,shared memory: 5 stages x (16x128 + 128x64) x 2 B = 102400 B exceeds the 101376 
+16,64,128,5,512,16,,,,,,,,,,,False,shared memory: 5 stages x (16x128 + 128x64) x 2 B = 102400 B exceeds the 101376 
+16,128,32,2,128,0,True,True,262.14,4.1,240,0,19456,256,0.06,,True,
+16,128,32,2,128,4,True,True,223.17,4.81,240,0,19456,256,0.0,,True,
+16,128,32,2,128,8,True,True,223.2,4.81,240,0,19456,256,0.0,,True,
+16,128,32,2,128,16,True,True,222.94,4.82,240,0,19456,256,0.0,,True,
+16,128,32,2,256,0,,,,,,,,,,,False,tile too small for the threads: 16x128 over 256 threads leaves 8 values per thre
+16,128,32,2,256,4,,,,,,,,,,,False,tile too small for the threads: 16x128 over 256 threads leaves 8 values per thre
+16,128,32,2,256,8,,,,,,,,,,,False,tile too small for the threads: 16x128 over 256 threads leaves 8 values per thre
+16,128,32,2,256,16,,,,,,,,,,,False,tile too small for the threads: 16x128 over 256 threads leaves 8 values per thre
+16,128,32,2,512,0,,,,,,,,,,,False,tile too small for the threads: 16x128 over 512 threads leaves 4 values per thre
+16,128,32,2,512,4,,,,,,,,,,,False,tile too small for the threads: 16x128 over 512 threads leaves 4 values per thre
+16,128,32,2,512,8,,,,,,,,,,,False,tile too small for the threads: 16x128 over 512 threads leaves 4 values per thre
+16,128,32,2,512,16,,,,,,,,,,,False,tile too small for the threads: 16x128 over 512 threads leaves 4 values per thre
+16,128,32,3,128,0,True,True,252.93,4.25,240,0,28672,256,0.0,,True,
+16,128,32,3,128,4,True,True,214.98,4.99,240,0,28672,256,0.0,,True,
+16,128,32,3,128,8,True,True,215.04,4.99,240,0,28672,256,0.0,,True,
+16,128,32,3,128,16,True,True,215.14,4.99,240,0,28672,256,0.0,,True,
+16,128,32,3,256,0,,,,,,,,,,,False,tile too small for the threads: 16x128 over 256 threads leaves 8 values per thre
+16,128,32,3,256,4,,,,,,,,,,,False,tile too small for the threads: 16x128 over 256 threads leaves 8 values per thre
+16,128,32,3,256,8,,,,,,,,,,,False,tile too small for the threads: 16x128 over 256 threads leaves 8 values per thre
+16,128,32,3,256,16,,,,,,,,,,,False,tile too small for the threads: 16x128 over 256 threads leaves 8 values per thre
+16,128,32,3,512,0,,,,,,,,,,,False,tile too small for the threads: 16x128 over 512 threads leaves 4 values per thre
+16,128,32,3,512,4,,,,,,,,,,,False,tile too small for the threads: 16x128 over 512 threads leaves 4 values per thre
+16,128,32,3,512,8,,,,,,,,,,,False,tile too small for the threads: 16x128 over 512 threads leaves 4 values per thre
+16,128,32,3,512,16,,,,,,,,,,,False,tile too small for the threads: 16x128 over 512 threads leaves 4 values per thre
+16,128,32,4,128,0,True,True,247.84,4.33,240,0,37888,256,0.0,,True,
+16,128,32,4,128,4,True,True,208.86,5.14,240,0,37888,256,0.0,,True,
+16,128,32,4,128,8,True,True,208.9,5.14,240,0,37888,256,0.0,,True,
+16,128,32,4,128,16,True,True,208.86,5.14,240,0,37888,256,0.0,,True,
+16,128,32,4,256,0,,,,,,,,,,,False,tile too small for the threads: 16x128 over 256 threads leaves 8 values per thre
+16,128,32,4,256,4,,,,,,,,,,,False,tile too small for the threads: 16x128 over 256 threads leaves 8 values per thre
+16,128,32,4,256,8,,,,,,,,,,,False,tile too small for the threads: 16x128 over 256 threads leaves 8 values per thre
+16,128,32,4,256,16,,,,,,,,,,,False,tile too small for the threads: 16x128 over 256 threads leaves 8 values per thre
+16,128,32,4,512,0,,,,,,,,,,,False,tile too small for the threads: 16x128 over 512 threads leaves 4 values per thre
+16,128,32,4,512,4,,,,,,,,,,,False,tile too small for the threads: 16x128 over 512 threads leaves 4 values per thre
+16,128,32,4,512,8,,,,,,,,,,,False,tile too small for the threads: 16x128 over 512 threads leaves 4 values per thre
+16,128,32,4,512,16,,,,,,,,,,,False,tile too small for the threads: 16x128 over 512 threads leaves 4 values per thre
+16,128,32,5,128,0,True,True,246.78,4.35,240,0,47104,256,0.0,,True,
+16,128,32,5,128,4,True,True,206.66,5.2,240,0,47104,256,0.0,,True,
+16,128,32,5,128,8,True,True,206.75,5.19,240,0,47104,256,0.0,,True,
+16,128,32,5,128,16,True,True,206.85,5.19,240,0,47104,256,0.0,,True,
+16,128,32,5,256,0,,,,,,,,,,,False,tile too small for the threads: 16x128 over 256 threads leaves 8 values per thre
+16,128,32,5,256,4,,,,,,,,,,,False,tile too small for the threads: 16x128 over 256 threads leaves 8 values per thre
+16,128,32,5,256,8,,,,,,,,,,,False,tile too small for the threads: 16x128 over 256 threads leaves 8 values per thre
+16,128,32,5,256,16,,,,,,,,,,,False,tile too small for the threads: 16x128 over 256 threads leaves 8 values per thre
+16,128,32,5,512,0,,,,,,,,,,,False,tile too small for the threads: 16x128 over 512 threads leaves 4 values per thre
+16,128,32,5,512,4,,,,,,,,,,,False,tile too small for the threads: 16x128 over 512 threads leaves 4 values per thre
+16,128,32,5,512,8,,,,,,,,,,,False,tile too small for the threads: 16x128 over 512 threads leaves 4 values per thre
+16,128,32,5,512,16,,,,,,,,,,,False,tile too small for the threads: 16x128 over 512 threads leaves 4 values per thre
+16,128,64,2,128,0,True,True,254.98,4.21,240,0,37888,256,0.0,,True,
+16,128,64,2,128,4,True,True,217.12,4.95,240,0,37888,256,0.0,,True,
+16,128,64,2,128,8,True,True,217.02,4.95,240,0,37888,256,0.0,,True,
+16,128,64,2,128,16,True,True,216.99,4.95,240,0,37888,256,0.0,,True,
+16,128,64,2,256,0,,,,,,,,,,,False,tile too small for the threads: 16x128 over 256 threads leaves 8 values per thre
+16,128,64,2,256,4,,,,,,,,,,,False,tile too small for the threads: 16x128 over 256 threads leaves 8 values per thre
+16,128,64,2,256,8,,,,,,,,,,,False,tile too small for the threads: 16x128 over 256 threads leaves 8 values per thre
+16,128,64,2,256,16,,,,,,,,,,,False,tile too small for the threads: 16x128 over 256 threads leaves 8 values per thre
+16,128,64,2,512,0,,,,,,,,,,,False,tile too small for the threads: 16x128 over 512 threads leaves 4 values per thre
+16,128,64,2,512,4,,,,,,,,,,,False,tile too small for the threads: 16x128 over 512 threads leaves 4 values per thre
+16,128,64,2,512,8,,,,,,,,,,,False,tile too small for the threads: 16x128 over 512 threads leaves 4 values per thre
+16,128,64,2,512,16,,,,,,,,,,,False,tile too small for the threads: 16x128 over 512 threads leaves 4 values per thre
+16,128,64,3,128,0,True,True,250.85,4.28,240,0,56320,256,0.0,,True,
+16,128,64,3,128,4,True,True,210.85,5.09,240,0,56320,256,0.0,,True,
+16,128,64,3,128,8,True,True,211.68,5.07,240,0,56320,256,0.0,,True,
+16,128,64,3,128,16,True,True,210.88,5.09,240,0,56320,256,0.0,,True,
+16,128,64,3,256,0,,,,,,,,,,,False,tile too small for the threads: 16x128 over 256 threads leaves 8 values per thre
+16,128,64,3,256,4,,,,,,,,,,,False,tile too small for the threads: 16x128 over 256 threads leaves 8 values per thre
+16,128,64,3,256,8,,,,,,,,,,,False,tile too small for the threads: 16x128 over 256 threads leaves 8 values per thre
+16,128,64,3,256,16,,,,,,,,,,,False,tile too small for the threads: 16x128 over 256 threads leaves 8 values per thre
+16,128,64,3,512,0,,,,,,,,,,,False,tile too small for the threads: 16x128 over 512 threads leaves 4 values per thre
+16,128,64,3,512,4,,,,,,,,,,,False,tile too small for the threads: 16x128 over 512 threads leaves 4 values per thre
+16,128,64,3,512,8,,,,,,,,,,,False,tile too small for the threads: 16x128 over 512 threads leaves 4 values per thre
+16,128,64,3,512,16,,,,,,,,,,,False,tile too small for the threads: 16x128 over 512 threads leaves 4 values per thre
+16,128,64,4,128,0,True,True,248.83,4.32,240,0,74752,256,0.0,,True,
+16,128,64,4,128,4,True,True,208.8,5.14,240,0,74752,256,0.0,,True,
+16,128,64,4,128,8,True,True,208.86,5.14,240,0,74752,256,0.0,,True,
+16,128,64,4,128,16,True,True,208.9,5.14,240,0,74752,256,0.0,,True,
+16,128,64,4,256,0,,,,,,,,,,,False,tile too small for the threads: 16x128 over 256 threads leaves 8 values per thre
+16,128,64,4,256,4,,,,,,,,,,,False,tile too small for the threads: 16x128 over 256 threads leaves 8 values per thre
+16,128,64,4,256,8,,,,,,,,,,,False,tile too small for the threads: 16x128 over 256 threads leaves 8 values per thre
+16,128,64,4,256,16,,,,,,,,,,,False,tile too small for the threads: 16x128 over 256 threads leaves 8 values per thre
+16,128,64,4,512,0,,,,,,,,,,,False,tile too small for the threads: 16x128 over 512 threads leaves 4 values per thre
+16,128,64,4,512,4,,,,,,,,,,,False,tile too small for the threads: 16x128 over 512 threads leaves 4 values per thre
+16,128,64,4,512,8,,,,,,,,,,,False,tile too small for the threads: 16x128 over 512 threads leaves 4 values per thre
+16,128,64,4,512,16,,,,,,,,,,,False,tile too small for the threads: 16x128 over 512 threads leaves 4 values per thre
+16,128,64,5,128,0,True,True,248.8,4.32,240,0,93184,256,0.0,,True,
+16,128,64,5,128,4,True,True,208.8,5.14,240,0,93184,256,0.0,,True,
+16,128,64,5,128,8,True,True,208.9,5.14,240,0,93184,256,0.0,,True,
+16,128,64,5,128,16,True,True,208.83,5.14,240,0,93184,256,0.0,,True,
+16,128,64,5,256,0,,,,,,,,,,,False,tile too small for the threads: 16x128 over 256 threads leaves 8 values per thre
+16,128,64,5,256,4,,,,,,,,,,,False,tile too small for the threads: 16x128 over 256 threads leaves 8 values per thre
+16,128,64,5,256,8,,,,,,,,,,,False,tile too small for the threads: 16x128 over 256 threads leaves 8 values per thre
+16,128,64,5,256,16,,,,,,,,,,,False,tile too small for the threads: 16x128 over 256 threads leaves 8 values per thre
+16,128,64,5,512,0,,,,,,,,,,,False,tile too small for the threads: 16x128 over 512 threads leaves 4 values per thre
+16,128,64,5,512,4,,,,,,,,,,,False,tile too small for the threads: 16x128 over 512 threads leaves 4 values per thre
+16,128,64,5,512,8,,,,,,,,,,,False,tile too small for the threads: 16x128 over 512 threads leaves 4 values per thre
+16,128,64,5,512,16,,,,,,,,,,,False,tile too small for the threads: 16x128 over 512 threads leaves 4 values per thre
+16,128,128,2,128,0,True,True,256.0,4.19,240,0,74752,256,0.0,,True,
+16,128,128,2,128,4,True,True,214.91,5.0,240,0,74752,256,0.0,,True,
+16,128,128,2,128,8,True,True,214.88,5.0,240,0,74752,256,0.0,,True,
+16,128,128,2,128,16,True,True,213.95,5.02,240,0,74752,256,0.0,,True,
+16,128,128,2,256,0,,,,,,,,,,,False,tile too small for the threads: 16x128 over 256 threads leaves 8 values per thre
+16,128,128,2,256,4,,,,,,,,,,,False,tile too small for the threads: 16x128 over 256 threads leaves 8 values per thre
+16,128,128,2,256,8,,,,,,,,,,,False,tile too small for the threads: 16x128 over 256 threads leaves 8 values per thre
+16,128,128,2,256,16,,,,,,,,,,,False,tile too small for the threads: 16x128 over 256 threads leaves 8 values per thre
+16,128,128,2,512,0,,,,,,,,,,,False,tile too small for the threads: 16x128 over 512 threads leaves 4 values per thre
+16,128,128,2,512,4,,,,,,,,,,,False,tile too small for the threads: 16x128 over 512 threads leaves 4 values per thre
+16,128,128,2,512,8,,,,,,,,,,,False,tile too small for the threads: 16x128 over 512 threads leaves 4 values per thre
+16,128,128,2,512,16,,,,,,,,,,,False,tile too small for the threads: 16x128 over 512 threads leaves 4 values per thre
+16,128,128,3,128,0,,,,,,,,,,,False,shared memory: 3 stages x (16x128 + 128x128) x 2 B = 110592 B exceeds the 101376
+16,128,128,3,128,4,,,,,,,,,,,False,shared memory: 3 stages x (16x128 + 128x128) x 2 B = 110592 B exceeds the 101376
+16,128,128,3,128,8,,,,,,,,,,,False,shared memory: 3 stages x (16x128 + 128x128) x 2 B = 110592 B exceeds the 101376
+16,128,128,3,128,16,,,,,,,,,,,False,shared memory: 3 stages x (16x128 + 128x128) x 2 B = 110592 B exceeds the 101376
+16,128,128,3,256,0,,,,,,,,,,,False,shared memory: 3 stages x (16x128 + 128x128) x 2 B = 110592 B exceeds the 101376
+16,128,128,3,256,4,,,,,,,,,,,False,shared memory: 3 stages x (16x128 + 128x128) x 2 B = 110592 B exceeds the 101376
+16,128,128,3,256,8,,,,,,,,,,,False,shared memory: 3 stages x (16x128 + 128x128) x 2 B = 110592 B exceeds the 101376
+16,128,128,3,256,16,,,,,,,,,,,False,shared memory: 3 stages x (16x128 + 128x128) x 2 B = 110592 B exceeds the 101376
+16,128,128,3,512,0,,,,,,,,,,,False,shared memory: 3 stages x (16x128 + 128x128) x 2 B = 110592 B exceeds the 101376
+16,128,128,3,512,4,,,,,,,,,,,False,shared memory: 3 stages x (16x128 + 128x128) x 2 B = 110592 B exceeds the 101376
+16,128,128,3,512,8,,,,,,,,,,,False,shared memory: 3 stages x (16x128 + 128x128) x 2 B = 110592 B exceeds the 101376
+16,128,128,3,512,16,,,,,,,,,,,False,shared memory: 3 stages x (16x128 + 128x128) x 2 B = 110592 B exceeds the 101376
+16,128,128,4,128,0,,,,,,,,,,,False,shared memory: 4 stages x (16x128 + 128x128) x 2 B = 147456 B exceeds the 101376
+16,128,128,4,128,4,,,,,,,,,,,False,shared memory: 4 stages x (16x128 + 128x128) x 2 B = 147456 B exceeds the 101376
+16,128,128,4,128,8,,,,,,,,,,,False,shared memory: 4 stages x (16x128 + 128x128) x 2 B = 147456 B exceeds the 101376
+16,128,128,4,128,16,,,,,,,,,,,False,shared memory: 4 stages x (16x128 + 128x128) x 2 B = 147456 B exceeds the 101376
+16,128,128,4,256,0,,,,,,,,,,,False,shared memory: 4 stages x (16x128 + 128x128) x 2 B = 147456 B exceeds the 101376
+16,128,128,4,256,4,,,,,,,,,,,False,shared memory: 4 stages x (16x128 + 128x128) x 2 B = 147456 B exceeds the 101376
+16,128,128,4,256,8,,,,,,,,,,,False,shared memory: 4 stages x (16x128 + 128x128) x 2 B = 147456 B exceeds the 101376
+16,128,128,4,256,16,,,,,,,,,,,False,shared memory: 4 stages x (16x128 + 128x128) x 2 B = 147456 B exceeds the 101376
+16,128,128,4,512,0,,,,,,,,,,,False,shared memory: 4 stages x (16x128 + 128x128) x 2 B = 147456 B exceeds the 101376
+16,128,128,4,512,4,,,,,,,,,,,False,shared memory: 4 stages x (16x128 + 128x128) x 2 B = 147456 B exceeds the 101376
+16,128,128,4,512,8,,,,,,,,,,,False,shared memory: 4 stages x (16x128 + 128x128) x 2 B = 147456 B exceeds the 101376
+16,128,128,4,512,16,,,,,,,,,,,False,shared memory: 4 stages x (16x128 + 128x128) x 2 B = 147456 B exceeds the 101376
+16,128,128,5,128,0,,,,,,,,,,,False,shared memory: 5 stages x (16x128 + 128x128) x 2 B = 184320 B exceeds the 101376
+16,128,128,5,128,4,,,,,,,,,,,False,shared memory: 5 stages x (16x128 + 128x128) x 2 B = 184320 B exceeds the 101376
+16,128,128,5,128,8,,,,,,,,,,,False,shared memory: 5 stages x (16x128 + 128x128) x 2 B = 184320 B exceeds the 101376
+16,128,128,5,128,16,,,,,,,,,,,False,shared memory: 5 stages x (16x128 + 128x128) x 2 B = 184320 B exceeds the 101376
+16,128,128,5,256,0,,,,,,,,,,,False,shared memory: 5 stages x (16x128 + 128x128) x 2 B = 184320 B exceeds the 101376
+16,128,128,5,256,4,,,,,,,,,,,False,shared memory: 5 stages x (16x128 + 128x128) x 2 B = 184320 B exceeds the 101376
+16,128,128,5,256,8,,,,,,,,,,,False,shared memory: 5 stages x (16x128 + 128x128) x 2 B = 184320 B exceeds the 101376
+16,128,128,5,256,16,,,,,,,,,,,False,shared memory: 5 stages x (16x128 + 128x128) x 2 B = 184320 B exceeds the 101376
+16,128,128,5,512,0,,,,,,,,,,,False,shared memory: 5 stages x (16x128 + 128x128) x 2 B = 184320 B exceeds the 101376
+16,128,128,5,512,4,,,,,,,,,,,False,shared memory: 5 stages x (16x128 + 128x128) x 2 B = 184320 B exceeds the 101376
+16,128,128,5,512,8,,,,,,,,,,,False,shared memory: 5 stages x (16x128 + 128x128) x 2 B = 184320 B exceeds the 101376
+16,128,128,5,512,16,,,,,,,,,,,False,shared memory: 5 stages x (16x128 + 128x128) x 2 B = 184320 B exceeds the 101376
+16,256,32,2,128,0,True,True,203.74,5.27,240,0,35840,256,0.0,,True,
+16,256,32,2,128,4,True,True,204.58,5.25,240,0,35840,256,0.0,,True,
+16,256,32,2,128,8,True,True,203.84,5.27,240,0,35840,256,0.0,,True,
+16,256,32,2,128,16,True,True,204.64,5.25,240,0,35840,256,0.0,,True,
+16,256,32,2,256,0,True,True,202.75,5.3,168,0,35840,384,0.0,,True,
+16,256,32,2,256,4,True,True,203.68,5.27,168,0,35840,384,0.0,,True,
+16,256,32,2,256,8,True,True,203.46,5.28,168,0,35840,384,0.0,,True,
+16,256,32,2,256,16,True,True,203.68,5.27,168,0,35840,384,0.0,,True,
+16,256,32,2,512,0,,,,,,,,,,,False,tile too small for the threads: 16x256 over 512 threads leaves 8 values per thre
+16,256,32,2,512,4,,,,,,,,,,,False,tile too small for the threads: 16x256 over 512 threads leaves 8 values per thre
+16,256,32,2,512,8,,,,,,,,,,,False,tile too small for the threads: 16x256 over 512 threads leaves 8 values per thre
+16,256,32,2,512,16,,,,,,,,,,,False,tile too small for the threads: 16x256 over 512 threads leaves 8 values per thre
+16,256,32,3,128,0,True,True,201.73,5.32,240,0,53248,256,0.0,,True,
+16,256,32,3,128,4,True,True,202.69,5.3,240,0,53248,256,0.0,,True,
+16,256,32,3,128,8,True,True,203.68,5.27,240,0,53248,256,0.0,,True,
+16,256,32,3,128,16,True,True,202.69,5.3,240,0,53248,256,0.0,,True,
+16,256,32,3,256,0,True,True,201.73,5.32,168,0,53248,384,0.0,,True,
+16,256,32,3,256,4,True,True,202.66,5.3,168,0,53248,384,0.0,,True,
+16,256,32,3,256,8,True,True,201.76,5.32,168,0,53248,384,0.0,,True,
+16,256,32,3,256,16,True,True,201.79,5.32,168,0,53248,384,0.01,,True,
+16,256,32,3,512,0,,,,,,,,,,,False,tile too small for the threads: 16x256 over 512 threads leaves 8 values per thre
+16,256,32,3,512,4,,,,,,,,,,,False,tile too small for the threads: 16x256 over 512 threads leaves 8 values per thre
+16,256,32,3,512,8,,,,,,,,,,,False,tile too small for the threads: 16x256 over 512 threads leaves 8 values per thre
+16,256,32,3,512,16,,,,,,,,,,,False,tile too small for the threads: 16x256 over 512 threads leaves 8 values per thre
+16,256,32,4,128,0,True,True,200.7,5.35,240,0,70656,256,0.0,,True,
+16,256,32,4,128,4,True,True,200.7,5.35,240,0,70656,256,0.0,,True,
+16,256,32,4,128,8,True,True,201.73,5.32,240,0,70656,256,0.0,,True,
+16,256,32,4,128,16,True,True,201.7,5.32,240,0,70656,256,0.0,,True,
+16,256,32,4,256,0,True,True,200.7,5.35,168,0,70656,384,0.0,,True,
+16,256,32,4,256,4,True,True,201.7,5.32,168,0,70656,384,0.0,,True,
+16,256,32,4,256,8,True,True,201.73,5.32,168,0,70656,384,0.0,,True,
+16,256,32,4,256,16,True,True,201.66,5.32,168,0,70656,384,0.0,,True,
+16,256,32,4,512,0,,,,,,,,,,,False,tile too small for the threads: 16x256 over 512 threads leaves 8 values per thre
+16,256,32,4,512,4,,,,,,,,,,,False,tile too small for the threads: 16x256 over 512 threads leaves 8 values per thre
+16,256,32,4,512,8,,,,,,,,,,,False,tile too small for the threads: 16x256 over 512 threads leaves 8 values per thre
+16,256,32,4,512,16,,,,,,,,,,,False,tile too small for the threads: 16x256 over 512 threads leaves 8 values per thre
+16,256,32,5,128,0,True,True,200.67,5.35,240,0,88064,256,0.0,,True,
+16,256,32,5,128,4,True,True,200.8,5.35,240,0,88064,256,0.0,,True,
+16,256,32,5,128,8,True,True,200.7,5.35,240,0,88064,256,0.0,,True,
+16,256,32,5,128,16,True,True,200.7,5.35,240,0,88064,256,0.0,,True,
+16,256,32,5,256,0,True,True,200.42,5.36,168,0,88064,384,0.0,,True,
+16,256,32,5,256,4,True,True,200.67,5.35,168,0,88064,384,0.0,,True,
+16,256,32,5,256,8,True,True,200.64,5.35,168,0,88064,384,0.0,,True,
+16,256,32,5,256,16,True,True,200.7,5.35,168,0,88064,384,0.0,,True,
+16,256,32,5,512,0,,,,,,,,,,,False,tile too small for the threads: 16x256 over 512 threads leaves 8 values per thre
+16,256,32,5,512,4,,,,,,,,,,,False,tile too small for the threads: 16x256 over 512 threads leaves 8 values per thre
+16,256,32,5,512,8,,,,,,,,,,,False,tile too small for the threads: 16x256 over 512 threads leaves 8 values per thre
+16,256,32,5,512,16,,,,,,,,,,,False,tile too small for the threads: 16x256 over 512 threads leaves 8 values per thre
+16,256,64,2,128,0,True,True,205.73,5.22,240,0,70656,256,0.0,,True,
+16,256,64,2,128,4,True,True,205.82,5.22,240,0,70656,256,0.0,,True,
+16,256,64,2,128,8,True,True,205.76,5.22,240,0,70656,256,0.0,,True,
+16,256,64,2,128,16,True,True,205.82,5.22,240,0,70656,256,0.0,,True,
+16,256,64,2,256,0,True,True,204.77,5.24,168,0,70656,384,0.0,,True,
+16,256,64,2,256,4,True,True,205.79,5.22,168,0,70656,384,0.0,,True,
+16,256,64,2,256,8,True,True,205.79,5.22,168,0,70656,384,0.0,,True,
+16,256,64,2,256,16,True,True,205.82,5.22,168,0,70656,384,0.0,,True,
+16,256,64,2,512,0,,,,,,,,,,,False,tile too small for the threads: 16x256 over 512 threads leaves 8 values per thre
+16,256,64,2,512,4,,,,,,,,,,,False,tile too small for the threads: 16x256 over 512 threads leaves 8 values per thre
+16,256,64,2,512,8,,,,,,,,,,,False,tile too small for the threads: 16x256 over 512 threads leaves 8 values per thre
+16,256,64,2,512,16,,,,,,,,,,,False,tile too small for the threads: 16x256 over 512 threads leaves 8 values per thre
+16,256,64,3,128,0,,,,,,,,,,,False,shared memory: 3 stages x (16x64 + 64x256) x 2 B = 104448 B exceeds the 101376 B
+16,256,64,3,128,4,,,,,,,,,,,False,shared memory: 3 stages x (16x64 + 64x256) x 2 B = 104448 B exceeds the 101376 B
+16,256,64,3,128,8,,,,,,,,,,,False,shared memory: 3 stages x (16x64 + 64x256) x 2 B = 104448 B exceeds the 101376 B
+16,256,64,3,128,16,,,,,,,,,,,False,shared memory: 3 stages x (16x64 + 64x256) x 2 B = 104448 B exceeds the 101376 B
+16,256,64,3,256,0,,,,,,,,,,,False,shared memory: 3 stages x (16x64 + 64x256) x 2 B = 104448 B exceeds the 101376 B
+16,256,64,3,256,4,,,,,,,,,,,False,shared memory: 3 stages x (16x64 + 64x256) x 2 B = 104448 B exceeds the 101376 B
+16,256,64,3,256,8,,,,,,,,,,,False,shared memory: 3 stages x (16x64 + 64x256) x 2 B = 104448 B exceeds the 101376 B
+16,256,64,3,256,16,,,,,,,,,,,False,shared memory: 3 stages x (16x64 + 64x256) x 2 B = 104448 B exceeds the 101376 B
+16,256,64,3,512,0,,,,,,,,,,,False,shared memory: 3 stages x (16x64 + 64x256) x 2 B = 104448 B exceeds the 101376 B
+16,256,64,3,512,4,,,,,,,,,,,False,shared memory: 3 stages x (16x64 + 64x256) x 2 B = 104448 B exceeds the 101376 B
+16,256,64,3,512,8,,,,,,,,,,,False,shared memory: 3 stages x (16x64 + 64x256) x 2 B = 104448 B exceeds the 101376 B
+16,256,64,3,512,16,,,,,,,,,,,False,shared memory: 3 stages x (16x64 + 64x256) x 2 B = 104448 B exceeds the 101376 B
+16,256,64,4,128,0,,,,,,,,,,,False,shared memory: 4 stages x (16x64 + 64x256) x 2 B = 139264 B exceeds the 101376 B
+16,256,64,4,128,4,,,,,,,,,,,False,shared memory: 4 stages x (16x64 + 64x256) x 2 B = 139264 B exceeds the 101376 B
+16,256,64,4,128,8,,,,,,,,,,,False,shared memory: 4 stages x (16x64 + 64x256) x 2 B = 139264 B exceeds the 101376 B
+16,256,64,4,128,16,,,,,,,,,,,False,shared memory: 4 stages x (16x64 + 64x256) x 2 B = 139264 B exceeds the 101376 B
+16,256,64,4,256,0,,,,,,,,,,,False,shared memory: 4 stages x (16x64 + 64x256) x 2 B = 139264 B exceeds the 101376 B
+16,256,64,4,256,4,,,,,,,,,,,False,shared memory: 4 stages x (16x64 + 64x256) x 2 B = 139264 B exceeds the 101376 B
+16,256,64,4,256,8,,,,,,,,,,,False,shared memory: 4 stages x (16x64 + 64x256) x 2 B = 139264 B exceeds the 101376 B
+16,256,64,4,256,16,,,,,,,,,,,False,shared memory: 4 stages x (16x64 + 64x256) x 2 B = 139264 B exceeds the 101376 B
+16,256,64,4,512,0,,,,,,,,,,,False,shared memory: 4 stages x (16x64 + 64x256) x 2 B = 139264 B exceeds the 101376 B
+16,256,64,4,512,4,,,,,,,,,,,False,shared memory: 4 stages x (16x64 + 64x256) x 2 B = 139264 B exceeds the 101376 B
+16,256,64,4,512,8,,,,,,,,,,,False,shared memory: 4 stages x (16x64 + 64x256) x 2 B = 139264 B exceeds the 101376 B
+16,256,64,4,512,16,,,,,,,,,,,False,shared memory: 4 stages x (16x64 + 64x256) x 2 B = 139264 B exceeds the 101376 B
+16,256,64,5,128,0,,,,,,,,,,,False,shared memory: 5 stages x (16x64 + 64x256) x 2 B = 174080 B exceeds the 101376 B
+16,256,64,5,128,4,,,,,,,,,,,False,shared memory: 5 stages x (16x64 + 64x256) x 2 B = 174080 B exceeds the 101376 B
+16,256,64,5,128,8,,,,,,,,,,,False,shared memory: 5 stages x (16x64 + 64x256) x 2 B = 174080 B exceeds the 101376 B
+16,256,64,5,128,16,,,,,,,,,,,False,shared memory: 5 stages x (16x64 + 64x256) x 2 B = 174080 B exceeds the 101376 B
+16,256,64,5,256,0,,,,,,,,,,,False,shared memory: 5 stages x (16x64 + 64x256) x 2 B = 174080 B exceeds the 101376 B
+16,256,64,5,256,4,,,,,,,,,,,False,shared memory: 5 stages x (16x64 + 64x256) x 2 B = 174080 B exceeds the 101376 B
+16,256,64,5,256,8,,,,,,,,,,,False,shared memory: 5 stages x (16x64 + 64x256) x 2 B = 174080 B exceeds the 101376 B
+16,256,64,5,256,16,,,,,,,,,,,False,shared memory: 5 stages x (16x64 + 64x256) x 2 B = 174080 B exceeds the 101376 B
+16,256,64,5,512,0,,,,,,,,,,,False,shared memory: 5 stages x (16x64 + 64x256) x 2 B = 174080 B exceeds the 101376 B
+16,256,64,5,512,4,,,,,,,,,,,False,shared memory: 5 stages x (16x64 + 64x256) x 2 B = 174080 B exceeds the 101376 B
+16,256,64,5,512,8,,,,,,,,,,,False,shared memory: 5 stages x (16x64 + 64x256) x 2 B = 174080 B exceeds the 101376 B
+16,256,64,5,512,16,,,,,,,,,,,False,shared memory: 5 stages x (16x64 + 64x256) x 2 B = 174080 B exceeds the 101376 B
+16,256,128,2,128,0,,,,,,,,,,,False,shared memory: 2 stages x (16x128 + 128x256) x 2 B = 139264 B exceeds the 101376
+16,256,128,2,128,4,,,,,,,,,,,False,shared memory: 2 stages x (16x128 + 128x256) x 2 B = 139264 B exceeds the 101376
+16,256,128,2,128,8,,,,,,,,,,,False,shared memory: 2 stages x (16x128 + 128x256) x 2 B = 139264 B exceeds the 101376
+16,256,128,2,128,16,,,,,,,,,,,False,shared memory: 2 stages x (16x128 + 128x256) x 2 B = 139264 B exceeds the 101376
+16,256,128,2,256,0,,,,,,,,,,,False,shared memory: 2 stages x (16x128 + 128x256) x 2 B = 139264 B exceeds the 101376
+16,256,128,2,256,4,,,,,,,,,,,False,shared memory: 2 stages x (16x128 + 128x256) x 2 B = 139264 B exceeds the 101376
+16,256,128,2,256,8,,,,,,,,,,,False,shared memory: 2 stages x (16x128 + 128x256) x 2 B = 139264 B exceeds the 101376
+16,256,128,2,256,16,,,,,,,,,,,False,shared memory: 2 stages x (16x128 + 128x256) x 2 B = 139264 B exceeds the 101376
+16,256,128,2,512,0,,,,,,,,,,,False,shared memory: 2 stages x (16x128 + 128x256) x 2 B = 139264 B exceeds the 101376
+16,256,128,2,512,4,,,,,,,,,,,False,shared memory: 2 stages x (16x128 + 128x256) x 2 B = 139264 B exceeds the 101376
+16,256,128,2,512,8,,,,,,,,,,,False,shared memory: 2 stages x (16x128 + 128x256) x 2 B = 139264 B exceeds the 101376
+16,256,128,2,512,16,,,,,,,,,,,False,shared memory: 2 stages x (16x128 + 128x256) x 2 B = 139264 B exceeds the 101376
+16,256,128,3,128,0,,,,,,,,,,,False,shared memory: 3 stages x (16x128 + 128x256) x 2 B = 208896 B exceeds the 101376
+16,256,128,3,128,4,,,,,,,,,,,False,shared memory: 3 stages x (16x128 + 128x256) x 2 B = 208896 B exceeds the 101376
+16,256,128,3,128,8,,,,,,,,,,,False,shared memory: 3 stages x (16x128 + 128x256) x 2 B = 208896 B exceeds the 101376
+16,256,128,3,128,16,,,,,,,,,,,False,shared memory: 3 stages x (16x128 + 128x256) x 2 B = 208896 B exceeds the 101376
+16,256,128,3,256,0,,,,,,,,,,,False,shared memory: 3 stages x (16x128 + 128x256) x 2 B = 208896 B exceeds the 101376
+16,256,128,3,256,4,,,,,,,,,,,False,shared memory: 3 stages x (16x128 + 128x256) x 2 B = 208896 B exceeds the 101376
+16,256,128,3,256,8,,,,,,,,,,,False,shared memory: 3 stages x (16x128 + 128x256) x 2 B = 208896 B exceeds the 101376
+16,256,128,3,256,16,,,,,,,,,,,False,shared memory: 3 stages x (16x128 + 128x256) x 2 B = 208896 B exceeds the 101376
+16,256,128,3,512,0,,,,,,,,,,,False,shared memory: 3 stages x (16x128 + 128x256) x 2 B = 208896 B exceeds the 101376
+16,256,128,3,512,4,,,,,,,,,,,False,shared memory: 3 stages x (16x128 + 128x256) x 2 B = 208896 B exceeds the 101376
+16,256,128,3,512,8,,,,,,,,,,,False,shared memory: 3 stages x (16x128 + 128x256) x 2 B = 208896 B exceeds the 101376
+16,256,128,3,512,16,,,,,,,,,,,False,shared memory: 3 stages x (16x128 + 128x256) x 2 B = 208896 B exceeds the 101376
+16,256,128,4,128,0,,,,,,,,,,,False,shared memory: 4 stages x (16x128 + 128x256) x 2 B = 278528 B exceeds the 101376
+16,256,128,4,128,4,,,,,,,,,,,False,shared memory: 4 stages x (16x128 + 128x256) x 2 B = 278528 B exceeds the 101376
+16,256,128,4,128,8,,,,,,,,,,,False,shared memory: 4 stages x (16x128 + 128x256) x 2 B = 278528 B exceeds the 101376
+16,256,128,4,128,16,,,,,,,,,,,False,shared memory: 4 stages x (16x128 + 128x256) x 2 B = 278528 B exceeds the 101376
+16,256,128,4,256,0,,,,,,,,,,,False,shared memory: 4 stages x (16x128 + 128x256) x 2 B = 278528 B exceeds the 101376
+16,256,128,4,256,4,,,,,,,,,,,False,shared memory: 4 stages x (16x128 + 128x256) x 2 B = 278528 B exceeds the 101376
+16,256,128,4,256,8,,,,,,,,,,,False,shared memory: 4 stages x (16x128 + 128x256) x 2 B = 278528 B exceeds the 101376
+16,256,128,4,256,16,,,,,,,,,,,False,shared memory: 4 stages x (16x128 + 128x256) x 2 B = 278528 B exceeds the 101376
+16,256,128,4,512,0,,,,,,,,,,,False,shared memory: 4 stages x (16x128 + 128x256) x 2 B = 278528 B exceeds the 101376
+16,256,128,4,512,4,,,,,,,,,,,False,shared memory: 4 stages x (16x128 + 128x256) x 2 B = 278528 B exceeds the 101376
+16,256,128,4,512,8,,,,,,,,,,,False,shared memory: 4 stages x (16x128 + 128x256) x 2 B = 278528 B exceeds the 101376
+16,256,128,4,512,16,,,,,,,,,,,False,shared memory: 4 stages x (16x128 + 128x256) x 2 B = 278528 B exceeds the 101376
+16,256,128,5,128,0,,,,,,,,,,,False,shared memory: 5 stages x (16x128 + 128x256) x 2 B = 348160 B exceeds the 101376
+16,256,128,5,128,4,,,,,,,,,,,False,shared memory: 5 stages x (16x128 + 128x256) x 2 B = 348160 B exceeds the 101376
+16,256,128,5,128,8,,,,,,,,,,,False,shared memory: 5 stages x (16x128 + 128x256) x 2 B = 348160 B exceeds the 101376
+16,256,128,5,128,16,,,,,,,,,,,False,shared memory: 5 stages x (16x128 + 128x256) x 2 B = 348160 B exceeds the 101376
+16,256,128,5,256,0,,,,,,,,,,,False,shared memory: 5 stages x (16x128 + 128x256) x 2 B = 348160 B exceeds the 101376
+16,256,128,5,256,4,,,,,,,,,,,False,shared memory: 5 stages x (16x128 + 128x256) x 2 B = 348160 B exceeds the 101376
+16,256,128,5,256,8,,,,,,,,,,,False,shared memory: 5 stages x (16x128 + 128x256) x 2 B = 348160 B exceeds the 101376
+16,256,128,5,256,16,,,,,,,,,,,False,shared memory: 5 stages x (16x128 + 128x256) x 2 B = 348160 B exceeds the 101376
+16,256,128,5,512,0,,,,,,,,,,,False,shared memory: 5 stages x (16x128 + 128x256) x 2 B = 348160 B exceeds the 101376
+16,256,128,5,512,4,,,,,,,,,,,False,shared memory: 5 stages x (16x128 + 128x256) x 2 B = 348160 B exceeds the 101376
+16,256,128,5,512,8,,,,,,,,,,,False,shared memory: 5 stages x (16x128 + 128x256) x 2 B = 348160 B exceeds the 101376
+16,256,128,5,512,16,,,,,,,,,,,False,shared memory: 5 stages x (16x128 + 128x256) x 2 B = 348160 B exceeds the 101376
+32,64,32,2,128,0,True,True,223.23,4.81,240,0,13312,256,0.0,,True,
+32,64,32,2,128,4,True,True,223.39,4.81,240,0,13312,256,0.0,,True,
+32,64,32,2,128,8,True,True,224.19,4.79,240,0,13312,256,0.0,,True,
+32,64,32,2,128,16,True,True,224.26,4.79,240,0,13312,256,0.0,,True,
+32,64,32,2,256,0,,,,,,,,,,,False,tile too small for the threads: 32x64 over 256 threads leaves 8 values per threa
+32,64,32,2,256,4,,,,,,,,,,,False,tile too small for the threads: 32x64 over 256 threads leaves 8 values per threa
+32,64,32,2,256,8,,,,,,,,,,,False,tile too small for the threads: 32x64 over 256 threads leaves 8 values per threa
+32,64,32,2,256,16,,,,,,,,,,,False,tile too small for the threads: 32x64 over 256 threads leaves 8 values per threa
+32,64,32,2,512,0,,,,,,,,,,,False,tile too small for the threads: 32x64 over 512 threads leaves 4 values per threa
+32,64,32,2,512,4,,,,,,,,,,,False,tile too small for the threads: 32x64 over 512 threads leaves 4 values per threa
+32,64,32,2,512,8,,,,,,,,,,,False,tile too small for the threads: 32x64 over 512 threads leaves 4 values per threa
+32,64,32,2,512,16,,,,,,,,,,,False,tile too small for the threads: 32x64 over 512 threads leaves 4 values per threa
+32,64,32,3,128,0,True,True,217.02,4.95,240,0,19456,256,0.0,,True,
+32,64,32,3,128,4,True,True,218.05,4.92,240,0,19456,256,0.0,,True,
+32,64,32,3,128,8,True,True,217.02,4.95,240,0,19456,256,0.0,,True,
+32,64,32,3,128,16,True,True,217.09,4.95,240,0,19456,256,0.0,,True,
+32,64,32,3,256,0,,,,,,,,,,,False,tile too small for the threads: 32x64 over 256 threads leaves 8 values per threa
+32,64,32,3,256,4,,,,,,,,,,,False,tile too small for the threads: 32x64 over 256 threads leaves 8 values per threa
+32,64,32,3,256,8,,,,,,,,,,,False,tile too small for the threads: 32x64 over 256 threads leaves 8 values per threa
+32,64,32,3,256,16,,,,,,,,,,,False,tile too small for the threads: 32x64 over 256 threads leaves 8 values per threa
+32,64,32,3,512,0,,,,,,,,,,,False,tile too small for the threads: 32x64 over 512 threads leaves 4 values per threa
+32,64,32,3,512,4,,,,,,,,,,,False,tile too small for the threads: 32x64 over 512 threads leaves 4 values per threa
+32,64,32,3,512,8,,,,,,,,,,,False,tile too small for the threads: 32x64 over 512 threads leaves 4 values per threa
+32,64,32,3,512,16,,,,,,,,,,,False,tile too small for the threads: 32x64 over 512 threads leaves 4 values per threa
+32,64,32,4,128,0,True,True,212.93,5.04,240,0,25600,256,0.0,,True,
+32,64,32,4,128,4,True,True,213.92,5.02,240,0,25600,256,0.0,,True,
+32,64,32,4,128,8,True,True,213.98,5.02,240,0,25600,256,0.0,,True,
+32,64,32,4,128,16,True,True,212.96,5.04,240,0,25600,256,0.0,,True,
+32,64,32,4,256,0,,,,,,,,,,,False,tile too small for the threads: 32x64 over 256 threads leaves 8 values per threa
+32,64,32,4,256,4,,,,,,,,,,,False,tile too small for the threads: 32x64 over 256 threads leaves 8 values per threa
+32,64,32,4,256,8,,,,,,,,,,,False,tile too small for the threads: 32x64 over 256 threads leaves 8 values per threa
+32,64,32,4,256,16,,,,,,,,,,,False,tile too small for the threads: 32x64 over 256 threads leaves 8 values per threa
+32,64,32,4,512,0,,,,,,,,,,,False,tile too small for the threads: 32x64 over 512 threads leaves 4 values per threa
+32,64,32,4,512,4,,,,,,,,,,,False,tile too small for the threads: 32x64 over 512 threads leaves 4 values per threa
+32,64,32,4,512,8,,,,,,,,,,,False,tile too small for the threads: 32x64 over 512 threads leaves 4 values per threa
+32,64,32,4,512,16,,,,,,,,,,,False,tile too small for the threads: 32x64 over 512 threads leaves 4 values per threa
+32,64,32,5,128,0,True,True,208.9,5.14,240,0,31744,256,0.0,,True,
+32,64,32,5,128,4,True,True,209.82,5.12,240,0,31744,256,0.0,,True,
+32,64,32,5,128,8,True,True,209.92,5.12,240,0,31744,256,0.0,,True,
+32,64,32,5,128,16,True,True,208.93,5.14,240,0,31744,256,0.0,,True,
+32,64,32,5,256,0,,,,,,,,,,,False,tile too small for the threads: 32x64 over 256 threads leaves 8 values per threa
+32,64,32,5,256,4,,,,,,,,,,,False,tile too small for the threads: 32x64 over 256 threads leaves 8 values per threa
+32,64,32,5,256,8,,,,,,,,,,,False,tile too small for the threads: 32x64 over 256 threads leaves 8 values per threa
+32,64,32,5,256,16,,,,,,,,,,,False,tile too small for the threads: 32x64 over 256 threads leaves 8 values per threa
+32,64,32,5,512,0,,,,,,,,,,,False,tile too small for the threads: 32x64 over 512 threads leaves 4 values per threa
+32,64,32,5,512,4,,,,,,,,,,,False,tile too small for the threads: 32x64 over 512 threads leaves 4 values per threa
+32,64,32,5,512,8,,,,,,,,,,,False,tile too small for the threads: 32x64 over 512 threads leaves 4 values per threa
+32,64,32,5,512,16,,,,,,,,,,,False,tile too small for the threads: 32x64 over 512 threads leaves 4 values per threa
+32,64,64,2,128,0,True,True,217.12,4.95,240,0,25600,256,0.0,,True,
+32,64,64,2,128,4,True,True,218.05,4.92,240,0,25600,256,0.0,,True,
+32,64,64,2,128,8,True,True,217.09,4.95,240,0,25600,256,0.0,,True,
+32,64,64,2,128,16,True,True,217.25,4.94,240,0,25600,256,0.0,,True,
+32,64,64,2,256,0,,,,,,,,,,,False,tile too small for the threads: 32x64 over 256 threads leaves 8 values per threa
+32,64,64,2,256,4,,,,,,,,,,,False,tile too small for the threads: 32x64 over 256 threads leaves 8 values per threa
+32,64,64,2,256,8,,,,,,,,,,,False,tile too small for the threads: 32x64 over 256 threads leaves 8 values per threa
+32,64,64,2,256,16,,,,,,,,,,,False,tile too small for the threads: 32x64 over 256 threads leaves 8 values per threa
+32,64,64,2,512,0,,,,,,,,,,,False,tile too small for the threads: 32x64 over 512 threads leaves 4 values per threa
+32,64,64,2,512,4,,,,,,,,,,,False,tile too small for the threads: 32x64 over 512 threads leaves 4 values per threa
+32,64,64,2,512,8,,,,,,,,,,,False,tile too small for the threads: 32x64 over 512 threads leaves 4 values per threa
+32,64,64,2,512,16,,,,,,,,,,,False,tile too small for the threads: 32x64 over 512 threads leaves 4 values per threa
+32,64,64,3,128,0,True,True,213.92,5.02,240,0,37888,256,0.0,,True,
+32,64,64,3,128,4,True,True,214.02,5.02,240,0,37888,256,0.0,,True,
+32,64,64,3,128,8,True,True,213.95,5.02,240,0,37888,256,0.0,,True,
+32,64,64,3,128,16,True,True,213.92,5.02,240,0,37888,256,0.0,,True,
+32,64,64,3,256,0,,,,,,,,,,,False,tile too small for the threads: 32x64 over 256 threads leaves 8 values per threa
+32,64,64,3,256,4,,,,,,,,,,,False,tile too small for the threads: 32x64 over 256 threads leaves 8 values per threa
+32,64,64,3,256,8,,,,,,,,,,,False,tile too small for the threads: 32x64 over 256 threads leaves 8 values per threa
+32,64,64,3,256,16,,,,,,,,,,,False,tile too small for the threads: 32x64 over 256 threads leaves 8 values per threa
+32,64,64,3,512,0,,,,,,,,,,,False,tile too small for the threads: 32x64 over 512 threads leaves 4 values per threa
+32,64,64,3,512,4,,,,,,,,,,,False,tile too small for the threads: 32x64 over 512 threads leaves 4 values per threa
+32,64,64,3,512,8,,,,,,,,,,,False,tile too small for the threads: 32x64 over 512 threads leaves 4 values per threa
+32,64,64,3,512,16,,,,,,,,,,,False,tile too small for the threads: 32x64 over 512 threads leaves 4 values per threa
+32,64,64,4,128,0,True,True,212.83,5.05,240,0,50176,256,0.0,,True,
+32,64,64,4,128,4,True,True,212.99,5.04,240,0,50176,256,0.0,,True,
+32,64,64,4,128,8,True,True,212.99,5.04,240,0,50176,256,0.0,,True,
+32,64,64,4,128,16,True,True,213.02,5.04,240,0,50176,256,0.0,,True,
+32,64,64,4,256,0,,,,,,,,,,,False,tile too small for the threads: 32x64 over 256 threads leaves 8 values per threa
+32,64,64,4,256,4,,,,,,,,,,,False,tile too small for the threads: 32x64 over 256 threads leaves 8 values per threa
+32,64,64,4,256,8,,,,,,,,,,,False,tile too small for the threads: 32x64 over 256 threads leaves 8 values per threa
+32,64,64,4,256,16,,,,,,,,,,,False,tile too small for the threads: 32x64 over 256 threads leaves 8 values per threa
+32,64,64,4,512,0,,,,,,,,,,,False,tile too small for the threads: 32x64 over 512 threads leaves 4 values per threa
+32,64,64,4,512,4,,,,,,,,,,,False,tile too small for the threads: 32x64 over 512 threads leaves 4 values per threa
+32,64,64,4,512,8,,,,,,,,,,,False,tile too small for the threads: 32x64 over 512 threads leaves 4 values per threa
+32,64,64,4,512,16,,,,,,,,,,,False,tile too small for the threads: 32x64 over 512 threads leaves 4 values per threa
+32,64,64,5,128,0,True,True,210.94,5.09,240,0,62464,256,0.0,,True,
+32,64,64,5,128,4,True,True,211.94,5.07,240,0,62464,256,0.0,,True,
+32,64,64,5,128,8,True,True,211.9,5.07,240,0,62464,256,0.0,,True,
+32,64,64,5,128,16,True,True,210.98,5.09,240,0,62464,256,0.0,,True,
+32,64,64,5,256,0,,,,,,,,,,,False,tile too small for the threads: 32x64 over 256 threads leaves 8 values per threa
+32,64,64,5,256,4,,,,,,,,,,,False,tile too small for the threads: 32x64 over 256 threads leaves 8 values per threa
+32,64,64,5,256,8,,,,,,,,,,,False,tile too small for the threads: 32x64 over 256 threads leaves 8 values per threa
+32,64,64,5,256,16,,,,,,,,,,,False,tile too small for the threads: 32x64 over 256 threads leaves 8 values per threa
+32,64,64,5,512,0,,,,,,,,,,,False,tile too small for the threads: 32x64 over 512 threads leaves 4 values per threa
+32,64,64,5,512,4,,,,,,,,,,,False,tile too small for the threads: 32x64 over 512 threads leaves 4 values per threa
+32,64,64,5,512,8,,,,,,,,,,,False,tile too small for the threads: 32x64 over 512 threads leaves 4 values per threa
+32,64,64,5,512,16,,,,,,,,,,,False,tile too small for the threads: 32x64 over 512 threads leaves 4 values per threa
+32,64,128,2,128,0,True,True,215.01,4.99,240,0,50176,256,0.0,,True,
+32,64,128,2,128,4,True,True,215.04,4.99,240,0,50176,256,0.0,,True,
+32,64,128,2,128,8,True,True,215.07,4.99,240,0,50176,256,0.0,,True,
+32,64,128,2,128,16,True,True,214.91,5.0,240,0,50176,256,0.0,,True,
+32,64,128,2,256,0,,,,,,,,,,,False,tile too small for the threads: 32x64 over 256 threads leaves 8 values per threa
+32,64,128,2,256,4,,,,,,,,,,,False,tile too small for the threads: 32x64 over 256 threads leaves 8 values per threa
+32,64,128,2,256,8,,,,,,,,,,,False,tile too small for the threads: 32x64 over 256 threads leaves 8 values per threa
+32,64,128,2,256,16,,,,,,,,,,,False,tile too small for the threads: 32x64 over 256 threads leaves 8 values per threa
+32,64,128,2,512,0,,,,,,,,,,,False,tile too small for the threads: 32x64 over 512 threads leaves 4 values per threa
+32,64,128,2,512,4,,,,,,,,,,,False,tile too small for the threads: 32x64 over 512 threads leaves 4 values per threa
+32,64,128,2,512,8,,,,,,,,,,,False,tile too small for the threads: 32x64 over 512 threads leaves 4 values per threa
+32,64,128,2,512,16,,,,,,,,,,,False,tile too small for the threads: 32x64 over 512 threads leaves 4 values per threa
+32,64,128,3,128,0,True,True,212.77,5.05,240,0,74752,256,0.0,,True,
+32,64,128,3,128,4,True,True,213.02,5.04,240,0,74752,256,0.0,,True,
+32,64,128,3,128,8,True,True,213.92,5.02,240,0,74752,256,0.0,,True,
+32,64,128,3,128,16,True,True,213.06,5.04,240,0,74752,256,0.0,,True,
+32,64,128,3,256,0,,,,,,,,,,,False,tile too small for the threads: 32x64 over 256 threads leaves 8 values per threa
+32,64,128,3,256,4,,,,,,,,,,,False,tile too small for the threads: 32x64 over 256 threads leaves 8 values per threa
+32,64,128,3,256,8,,,,,,,,,,,False,tile too small for the threads: 32x64 over 256 threads leaves 8 values per threa
+32,64,128,3,256,16,,,,,,,,,,,False,tile too small for the threads: 32x64 over 256 threads leaves 8 values per threa
+32,64,128,3,512,0,,,,,,,,,,,False,tile too small for the threads: 32x64 over 512 threads leaves 4 values per threa
+32,64,128,3,512,4,,,,,,,,,,,False,tile too small for the threads: 32x64 over 512 threads leaves 4 values per threa
+32,64,128,3,512,8,,,,,,,,,,,False,tile too small for the threads: 32x64 over 512 threads leaves 4 values per threa
+32,64,128,3,512,16,,,,,,,,,,,False,tile too small for the threads: 32x64 over 512 threads leaves 4 values per threa
+32,64,128,4,128,0,True,True,211.9,5.07,240,0,99328,256,0.0,,True,
+32,64,128,4,128,4,True,True,212.96,5.04,240,0,99328,256,0.0,,True,
+32,64,128,4,128,8,True,True,211.97,5.07,240,0,99328,256,0.0,,True,
+32,64,128,4,128,16,True,True,211.9,5.07,240,0,99328,256,0.0,,True,
+32,64,128,4,256,0,,,,,,,,,,,False,tile too small for the threads: 32x64 over 256 threads leaves 8 values per threa
+32,64,128,4,256,4,,,,,,,,,,,False,tile too small for the threads: 32x64 over 256 threads leaves 8 values per threa
+32,64,128,4,256,8,,,,,,,,,,,False,tile too small for the threads: 32x64 over 256 threads leaves 8 values per threa
+32,64,128,4,256,16,,,,,,,,,,,False,tile too small for the threads: 32x64 over 256 threads leaves 8 values per threa
+32,64,128,4,512,0,,,,,,,,,,,False,tile too small for the threads: 32x64 over 512 threads leaves 4 values per threa
+32,64,128,4,512,4,,,,,,,,,,,False,tile too small for the threads: 32x64 over 512 threads leaves 4 values per threa
+32,64,128,4,512,8,,,,,,,,,,,False,tile too small for the threads: 32x64 over 512 threads leaves 4 values per threa
+32,64,128,4,512,16,,,,,,,,,,,False,tile too small for the threads: 32x64 over 512 threads leaves 4 values per threa
+32,64,128,5,128,0,,,,,,,,,,,False,shared memory: 5 stages x (32x128 + 128x64) x 2 B = 122880 B exceeds the 101376 
+32,64,128,5,128,4,,,,,,,,,,,False,shared memory: 5 stages x (32x128 + 128x64) x 2 B = 122880 B exceeds the 101376 
+32,64,128,5,128,8,,,,,,,,,,,False,shared memory: 5 stages x (32x128 + 128x64) x 2 B = 122880 B exceeds the 101376 
+32,64,128,5,128,16,,,,,,,,,,,False,shared memory: 5 stages x (32x128 + 128x64) x 2 B = 122880 B exceeds the 101376 
+32,64,128,5,256,0,,,,,,,,,,,False,shared memory: 5 stages x (32x128 + 128x64) x 2 B = 122880 B exceeds the 101376 
+32,64,128,5,256,4,,,,,,,,,,,False,shared memory: 5 stages x (32x128 + 128x64) x 2 B = 122880 B exceeds the 101376 
+32,64,128,5,256,8,,,,,,,,,,,False,shared memory: 5 stages x (32x128 + 128x64) x 2 B = 122880 B exceeds the 101376 
+32,64,128,5,256,16,,,,,,,,,,,False,shared memory: 5 stages x (32x128 + 128x64) x 2 B = 122880 B exceeds the 101376 
+32,64,128,5,512,0,,,,,,,,,,,False,shared memory: 5 stages x (32x128 + 128x64) x 2 B = 122880 B exceeds the 101376 
+32,64,128,5,512,4,,,,,,,,,,,False,shared memory: 5 stages x (32x128 + 128x64) x 2 B = 122880 B exceeds the 101376 
+32,64,128,5,512,8,,,,,,,,,,,False,shared memory: 5 stages x (32x128 + 128x64) x 2 B = 122880 B exceeds the 101376 
+32,64,128,5,512,16,,,,,,,,,,,False,shared memory: 5 stages x (32x128 + 128x64) x 2 B = 122880 B exceeds the 101376 
+32,128,32,2,128,0,True,True,206.94,5.19,240,0,21504,256,0.0,,True,
+32,128,32,2,128,4,True,True,207.74,5.17,240,0,21504,256,0.0,,True,
+32,128,32,2,128,8,True,True,207.84,5.17,240,0,21504,256,0.0,,True,
+32,128,32,2,128,16,True,True,206.78,5.19,240,0,21504,256,0.0,,True,
+32,128,32,2,256,0,True,True,206.85,5.19,168,0,21504,384,0.0,,True,
+32,128,32,2,256,4,True,True,207.71,5.17,168,0,21504,384,0.0,,True,
+32,128,32,2,256,8,True,True,206.88,5.19,168,0,21504,384,0.0,,True,
+32,128,32,2,256,16,True,True,206.85,5.19,168,0,21504,384,0.0,,True,
+32,128,32,2,512,0,,,,,,,,,,,False,tile too small for the threads: 32x128 over 512 threads leaves 8 values per thre
+32,128,32,2,512,4,,,,,,,,,,,False,tile too small for the threads: 32x128 over 512 threads leaves 8 values per thre
+32,128,32,2,512,8,,,,,,,,,,,False,tile too small for the threads: 32x128 over 512 threads leaves 8 values per thre
+32,128,32,2,512,16,,,,,,,,,,,False,tile too small for the threads: 32x128 over 512 threads leaves 8 values per thre
+32,128,32,3,128,0,True,True,203.65,5.27,240,0,31744,256,0.0,,True,
+32,128,32,3,128,4,True,True,203.78,5.27,240,0,31744,256,0.0,,True,
+32,128,32,3,128,8,True,True,203.71,5.27,240,0,31744,256,0.0,,True,
+32,128,32,3,128,16,True,True,203.81,5.27,240,0,31744,256,0.0,,True,
+32,128,32,3,256,0,True,True,203.68,5.27,168,0,31744,384,0.0,,True,
+32,128,32,3,256,4,True,True,203.78,5.27,168,0,31744,384,0.0,,True,
+32,128,32,3,256,8,True,True,203.71,5.27,168,0,31744,384,0.0,,True,
+32,128,32,3,256,16,True,True,203.74,5.27,168,0,31744,384,0.0,,True,
+32,128,32,3,512,0,,,,,,,,,,,False,tile too small for the threads: 32x128 over 512 threads leaves 8 values per thre
+32,128,32,3,512,4,,,,,,,,,,,False,tile too small for the threads: 32x128 over 512 threads leaves 8 values per thre
+32,128,32,3,512,8,,,,,,,,,,,False,tile too small for the threads: 32x128 over 512 threads leaves 8 values per thre
+32,128,32,3,512,16,,,,,,,,,,,False,tile too small for the threads: 32x128 over 512 threads leaves 8 values per thre
+32,128,32,4,128,0,True,True,201.63,5.33,240,0,41984,256,0.0,,True,
+32,128,32,4,128,4,True,True,202.56,5.3,240,0,41984,256,0.0,,True,
+32,128,32,4,128,8,True,True,201.66,5.32,240,0,41984,256,0.0,,True,
+32,128,32,4,128,16,True,True,201.73,5.32,240,0,41984,256,0.0,,True,
+32,128,32,4,256,0,True,True,201.66,5.32,168,0,41984,384,0.0,,True,
+32,128,32,4,256,4,True,True,201.73,5.32,168,0,41984,384,0.0,,True,
+32,128,32,4,256,8,True,True,202.66,5.3,168,0,41984,384,0.0,,True,
+32,128,32,4,256,16,True,True,201.89,5.32,168,0,41984,384,0.0,,True,
+32,128,32,4,512,0,,,,,,,,,,,False,tile too small for the threads: 32x128 over 512 threads leaves 8 values per thre
+32,128,32,4,512,4,,,,,,,,,,,False,tile too small for the threads: 32x128 over 512 threads leaves 8 values per thre
+32,128,32,4,512,8,,,,,,,,,,,False,tile too small for the threads: 32x128 over 512 threads leaves 8 values per thre
+32,128,32,4,512,16,,,,,,,,,,,False,tile too small for the threads: 32x128 over 512 threads leaves 8 values per thre
+32,128,32,5,128,0,True,True,200.7,5.35,240,0,52224,256,0.0,,True,
+32,128,32,5,128,4,True,True,200.7,5.35,240,0,52224,256,0.0,,True,
+32,128,32,5,128,8,True,True,200.7,5.35,240,0,52224,256,0.0,,True,
+32,128,32,5,128,16,True,True,200.7,5.35,240,0,52224,256,0.0,,True,
+32,128,32,5,256,0,True,True,200.67,5.35,168,0,52224,384,0.0,,True,
+32,128,32,5,256,4,True,True,201.66,5.32,168,0,52224,384,0.0,,True,
+32,128,32,5,256,8,True,True,200.74,5.35,168,0,52224,384,0.0,,True,
+32,128,32,5,256,16,True,True,200.67,5.35,168,0,52224,384,0.0,,True,
+32,128,32,5,512,0,,,,,,,,,,,False,tile too small for the threads: 32x128 over 512 threads leaves 8 values per thre
+32,128,32,5,512,4,,,,,,,,,,,False,tile too small for the threads: 32x128 over 512 threads leaves 8 values per thre
+32,128,32,5,512,8,,,,,,,,,,,False,tile too small for the threads: 32x128 over 512 threads leaves 8 values per thre
+32,128,32,5,512,16,,,,,,,,,,,False,tile too small for the threads: 32x128 over 512 threads leaves 8 values per thre
+32,128,64,2,128,0,True,True,207.84,5.17,240,0,41984,256,0.0,,True,
+32,128,64,2,128,4,True,True,207.84,5.17,240,0,41984,256,0.0,,True,
+32,128,64,2,128,8,True,True,207.87,5.17,240,0,41984,256,0.0,,True,
+32,128,64,2,128,16,True,True,207.9,5.16,240,0,41984,256,0.0,,True,
+32,128,64,2,256,0,True,True,207.84,5.17,168,0,41984,384,0.0,,True,
+32,128,64,2,256,4,True,True,207.94,5.16,168,0,41984,384,0.0,,True,
+32,128,64,2,256,8,True,True,207.87,5.17,168,0,41984,384,0.0,,True,
+32,128,64,2,256,16,True,True,207.87,5.17,168,0,41984,384,0.0,,True,
+32,128,64,2,512,0,,,,,,,,,,,False,tile too small for the threads: 32x128 over 512 threads leaves 8 values per thre
+32,128,64,2,512,4,,,,,,,,,,,False,tile too small for the threads: 32x128 over 512 threads leaves 8 values per thre
+32,128,64,2,512,8,,,,,,,,,,,False,tile too small for the threads: 32x128 over 512 threads leaves 8 values per thre
+32,128,64,2,512,16,,,,,,,,,,,False,tile too small for the threads: 32x128 over 512 threads leaves 8 values per thre
+32,128,64,3,128,0,True,True,205.79,5.22,240,0,62464,256,0.0,,True,
+32,128,64,3,128,4,True,True,206.75,5.19,240,0,62464,256,0.0,,True,
+32,128,64,3,128,8,True,True,205.86,5.22,240,0,62464,256,0.0,,True,
+32,128,64,3,128,16,True,True,206.82,5.19,240,0,62464,256,0.0,,True,
+32,128,64,3,256,0,True,True,205.82,5.22,168,0,62464,384,0.0,,True,
+32,128,64,3,256,4,True,True,206.66,5.2,168,0,62464,384,0.0,,True,
+32,128,64,3,256,8,True,True,205.79,5.22,168,0,62464,384,0.0,,True,
+32,128,64,3,256,16,True,True,205.86,5.22,168,0,62464,384,0.0,,True,
+32,128,64,3,512,0,,,,,,,,,,,False,tile too small for the threads: 32x128 over 512 threads leaves 8 values per thre
+32,128,64,3,512,4,,,,,,,,,,,False,tile too small for the threads: 32x128 over 512 threads leaves 8 values per thre
+32,128,64,3,512,8,,,,,,,,,,,False,tile too small for the threads: 32x128 over 512 threads leaves 8 values per thre
+32,128,64,3,512,16,,,,,,,,,,,False,tile too small for the threads: 32x128 over 512 threads leaves 8 values per thre
+32,128,64,4,128,0,True,True,206.85,5.19,240,0,82944,256,0.0,,True,
+32,128,64,4,128,4,True,True,205.86,5.22,240,0,82944,256,0.0,,True,
+32,128,64,4,128,8,True,True,205.76,5.22,240,0,82944,256,0.0,,True,
+32,128,64,4,128,16,True,True,205.82,5.22,240,0,82944,256,0.0,,True,
+32,128,64,4,256,0,True,True,205.73,5.22,168,0,82944,384,0.0,,True,
+32,128,64,4,256,4,True,True,205.82,5.22,168,0,82944,384,0.0,,True,
+32,128,64,4,256,8,True,True,205.76,5.22,168,0,82944,384,0.0,,True,
+32,128,64,4,256,16,True,True,205.79,5.22,168,0,82944,384,0.0,,True,
+32,128,64,4,512,0,,,,,,,,,,,False,tile too small for the threads: 32x128 over 512 threads leaves 8 values per thre
+32,128,64,4,512,4,,,,,,,,,,,False,tile too small for the threads: 32x128 over 512 threads leaves 8 values per thre
+32,128,64,4,512,8,,,,,,,,,,,False,tile too small for the threads: 32x128 over 512 threads leaves 8 values per thre
+32,128,64,4,512,16,,,,,,,,,,,False,tile too small for the threads: 32x128 over 512 threads leaves 8 values per thre
+32,128,64,5,128,0,,,,,,,,,,,False,shared memory: 5 stages x (32x64 + 64x128) x 2 B = 102400 B exceeds the 101376 B
+32,128,64,5,128,4,,,,,,,,,,,False,shared memory: 5 stages x (32x64 + 64x128) x 2 B = 102400 B exceeds the 101376 B
+32,128,64,5,128,8,,,,,,,,,,,False,shared memory: 5 stages x (32x64 + 64x128) x 2 B = 102400 B exceeds the 101376 B
+32,128,64,5,128,16,,,,,,,,,,,False,shared memory: 5 stages x (32x64 + 64x128) x 2 B = 102400 B exceeds the 101376 B
+32,128,64,5,256,0,,,,,,,,,,,False,shared memory: 5 stages x (32x64 + 64x128) x 2 B = 102400 B exceeds the 101376 B
+32,128,64,5,256,4,,,,,,,,,,,False,shared memory: 5 stages x (32x64 + 64x128) x 2 B = 102400 B exceeds the 101376 B
+32,128,64,5,256,8,,,,,,,,,,,False,shared memory: 5 stages x (32x64 + 64x128) x 2 B = 102400 B exceeds the 101376 B
+32,128,64,5,256,16,,,,,,,,,,,False,shared memory: 5 stages x (32x64 + 64x128) x 2 B = 102400 B exceeds the 101376 B
+32,128,64,5,512,0,,,,,,,,,,,False,shared memory: 5 stages x (32x64 + 64x128) x 2 B = 102400 B exceeds the 101376 B
+32,128,64,5,512,4,,,,,,,,,,,False,shared memory: 5 stages x (32x64 + 64x128) x 2 B = 102400 B exceeds the 101376 B
+32,128,64,5,512,8,,,,,,,,,,,False,shared memory: 5 stages x (32x64 + 64x128) x 2 B = 102400 B exceeds the 101376 B
+32,128,64,5,512,16,,,,,,,,,,,False,shared memory: 5 stages x (32x64 + 64x128) x 2 B = 102400 B exceeds the 101376 B
+32,128,128,2,128,0,True,True,210.91,5.09,240,0,82944,256,0.0,,True,
+32,128,128,2,128,4,True,True,210.94,5.09,240,0,82944,256,0.0,,True,
+32,128,128,2,128,8,True,True,210.94,5.09,240,0,82944,256,0.0,,True,
+32,128,128,2,128,16,True,True,212.99,5.04,240,0,82944,256,0.0,,True,
+32,128,128,2,256,0,True,True,210.91,5.09,168,0,82944,384,0.0,,True,
+32,128,128,2,256,4,True,True,210.98,5.09,168,0,82944,384,0.0,,True,
+32,128,128,2,256,8,True,True,211.07,5.09,168,0,82944,384,0.0,,True,
+32,128,128,2,256,16,True,True,211.97,5.07,168,0,82944,384,0.0,,True,
+32,128,128,2,512,0,,,,,,,,,,,False,tile too small for the threads: 32x128 over 512 threads leaves 8 values per thre
+32,128,128,2,512,4,,,,,,,,,,,False,tile too small for the threads: 32x128 over 512 threads leaves 8 values per thre
+32,128,128,2,512,8,,,,,,,,,,,False,tile too small for the threads: 32x128 over 512 threads leaves 8 values per thre
+32,128,128,2,512,16,,,,,,,,,,,False,tile too small for the threads: 32x128 over 512 threads leaves 8 values per thre
+32,128,128,3,128,0,,,,,,,,,,,False,shared memory: 3 stages x (32x128 + 128x128) x 2 B = 122880 B exceeds the 101376
+32,128,128,3,128,4,,,,,,,,,,,False,shared memory: 3 stages x (32x128 + 128x128) x 2 B = 122880 B exceeds the 101376
+32,128,128,3,128,8,,,,,,,,,,,False,shared memory: 3 stages x (32x128 + 128x128) x 2 B = 122880 B exceeds the 101376
+32,128,128,3,128,16,,,,,,,,,,,False,shared memory: 3 stages x (32x128 + 128x128) x 2 B = 122880 B exceeds the 101376
+32,128,128,3,256,0,,,,,,,,,,,False,shared memory: 3 stages x (32x128 + 128x128) x 2 B = 122880 B exceeds the 101376
+32,128,128,3,256,4,,,,,,,,,,,False,shared memory: 3 stages x (32x128 + 128x128) x 2 B = 122880 B exceeds the 101376
+32,128,128,3,256,8,,,,,,,,,,,False,shared memory: 3 stages x (32x128 + 128x128) x 2 B = 122880 B exceeds the 101376
+32,128,128,3,256,16,,,,,,,,,,,False,shared memory: 3 stages x (32x128 + 128x128) x 2 B = 122880 B exceeds the 101376
+32,128,128,3,512,0,,,,,,,,,,,False,shared memory: 3 stages x (32x128 + 128x128) x 2 B = 122880 B exceeds the 101376
+32,128,128,3,512,4,,,,,,,,,,,False,shared memory: 3 stages x (32x128 + 128x128) x 2 B = 122880 B exceeds the 101376
+32,128,128,3,512,8,,,,,,,,,,,False,shared memory: 3 stages x (32x128 + 128x128) x 2 B = 122880 B exceeds the 101376
+32,128,128,3,512,16,,,,,,,,,,,False,shared memory: 3 stages x (32x128 + 128x128) x 2 B = 122880 B exceeds the 101376
+32,128,128,4,128,0,,,,,,,,,,,False,shared memory: 4 stages x (32x128 + 128x128) x 2 B = 163840 B exceeds the 101376
+32,128,128,4,128,4,,,,,,,,,,,False,shared memory: 4 stages x (32x128 + 128x128) x 2 B = 163840 B exceeds the 101376
+32,128,128,4,128,8,,,,,,,,,,,False,shared memory: 4 stages x (32x128 + 128x128) x 2 B = 163840 B exceeds the 101376
+32,128,128,4,128,16,,,,,,,,,,,False,shared memory: 4 stages x (32x128 + 128x128) x 2 B = 163840 B exceeds the 101376
+32,128,128,4,256,0,,,,,,,,,,,False,shared memory: 4 stages x (32x128 + 128x128) x 2 B = 163840 B exceeds the 101376
+32,128,128,4,256,4,,,,,,,,,,,False,shared memory: 4 stages x (32x128 + 128x128) x 2 B = 163840 B exceeds the 101376
+32,128,128,4,256,8,,,,,,,,,,,False,shared memory: 4 stages x (32x128 + 128x128) x 2 B = 163840 B exceeds the 101376
+32,128,128,4,256,16,,,,,,,,,,,False,shared memory: 4 stages x (32x128 + 128x128) x 2 B = 163840 B exceeds the 101376
+32,128,128,4,512,0,,,,,,,,,,,False,shared memory: 4 stages x (32x128 + 128x128) x 2 B = 163840 B exceeds the 101376
+32,128,128,4,512,4,,,,,,,,,,,False,shared memory: 4 stages x (32x128 + 128x128) x 2 B = 163840 B exceeds the 101376
+32,128,128,4,512,8,,,,,,,,,,,False,shared memory: 4 stages x (32x128 + 128x128) x 2 B = 163840 B exceeds the 101376
+32,128,128,4,512,16,,,,,,,,,,,False,shared memory: 4 stages x (32x128 + 128x128) x 2 B = 163840 B exceeds the 101376
+32,128,128,5,128,0,,,,,,,,,,,False,shared memory: 5 stages x (32x128 + 128x128) x 2 B = 204800 B exceeds the 101376
+32,128,128,5,128,4,,,,,,,,,,,False,shared memory: 5 stages x (32x128 + 128x128) x 2 B = 204800 B exceeds the 101376
+32,128,128,5,128,8,,,,,,,,,,,False,shared memory: 5 stages x (32x128 + 128x128) x 2 B = 204800 B exceeds the 101376
+32,128,128,5,128,16,,,,,,,,,,,False,shared memory: 5 stages x (32x128 + 128x128) x 2 B = 204800 B exceeds the 101376
+32,128,128,5,256,0,,,,,,,,,,,False,shared memory: 5 stages x (32x128 + 128x128) x 2 B = 204800 B exceeds the 101376
+32,128,128,5,256,4,,,,,,,,,,,False,shared memory: 5 stages x (32x128 + 128x128) x 2 B = 204800 B exceeds the 101376
+32,128,128,5,256,8,,,,,,,,,,,False,shared memory: 5 stages x (32x128 + 128x128) x 2 B = 204800 B exceeds the 101376
+32,128,128,5,256,16,,,,,,,,,,,False,shared memory: 5 stages x (32x128 + 128x128) x 2 B = 204800 B exceeds the 101376
+32,128,128,5,512,0,,,,,,,,,,,False,shared memory: 5 stages x (32x128 + 128x128) x 2 B = 204800 B exceeds the 101376
+32,128,128,5,512,4,,,,,,,,,,,False,shared memory: 5 stages x (32x128 + 128x128) x 2 B = 204800 B exceeds the 101376
+32,128,128,5,512,8,,,,,,,,,,,False,shared memory: 5 stages x (32x128 + 128x128) x 2 B = 204800 B exceeds the 101376
+32,128,128,5,512,16,,,,,,,,,,,False,shared memory: 5 stages x (32x128 + 128x128) x 2 B = 204800 B exceeds the 101376
+32,256,32,2,128,0,True,True,204.8,5.24,240,0,37888,256,0.0,,True,
+32,256,32,2,128,4,True,True,204.7,5.25,240,0,37888,256,0.0,,True,
+32,256,32,2,128,8,True,True,204.83,5.24,240,0,37888,256,0.0,,True,
+32,256,32,2,128,16,True,True,203.81,5.27,240,0,37888,256,0.0,,True,
+32,256,32,2,256,0,True,True,204.77,5.24,168,0,37888,384,0.0,,True,
+32,256,32,2,256,4,True,True,204.7,5.25,168,0,37888,384,0.0,,True,
+32,256,32,2,256,8,True,True,204.77,5.24,168,0,37888,384,0.0,,True,
+32,256,32,2,256,16,True,True,204.77,5.24,168,0,37888,384,0.0,,True,
+32,256,32,2,512,0,True,True,204.74,5.24,56,0,37888,640,0.0,,True,
+32,256,32,2,512,4,True,True,204.83,5.24,56,0,37888,640,0.0,,True,
+32,256,32,2,512,8,True,True,204.74,5.24,56,0,37888,640,0.0,,True,
+32,256,32,2,512,16,True,True,204.8,5.24,56,0,37888,640,0.0,,True,
+32,256,32,3,128,0,True,True,203.62,5.27,240,0,56320,256,0.0,,True,
+32,256,32,3,128,4,True,True,203.71,5.27,240,0,56320,256,0.0,,True,
+32,256,32,3,128,8,True,True,202.75,5.3,240,0,56320,256,0.0,,True,
+32,256,32,3,128,16,True,True,202.78,5.3,240,0,56320,256,0.0,,True,
+32,256,32,3,256,0,True,True,202.78,5.3,168,0,56320,384,0.0,,True,
+32,256,32,3,256,4,True,True,204.61,5.25,168,0,56320,384,0.0,,True,
+32,256,32,3,256,8,True,True,203.68,5.27,168,0,56320,384,0.0,,True,
+32,256,32,3,256,16,True,True,203.71,5.27,168,0,56320,384,0.0,,True,
+32,256,32,3,512,0,True,True,208.9,5.14,56,0,56320,640,0.0,,True,
+32,256,32,3,512,4,True,True,202.66,5.3,58,0,56320,640,0.01,,True,
+32,256,32,3,512,8,True,True,203.74,5.27,58,0,56320,640,0.0,,True,
+32,256,32,3,512,16,True,True,203.74,5.27,58,0,56320,640,0.0,,True,
+32,256,32,4,128,0,True,True,202.75,5.3,240,0,74752,256,0.0,,True,
+32,256,32,4,128,4,True,True,202.62,5.3,240,0,74752,256,0.0,,True,
+32,256,32,4,128,8,True,True,202.69,5.3,240,0,74752,256,0.0,,True,
+32,256,32,4,128,16,True,True,208.96,5.14,240,0,74752,256,0.0,,True,
+32,256,32,4,256,0,True,True,202.56,5.3,168,0,74752,384,0.0,,True,
+32,256,32,4,256,4,True,True,202.62,5.3,168,0,74752,384,0.0,,True,
+32,256,32,4,256,8,True,True,202.72,5.3,168,0,74752,384,0.0,,True,
+32,256,32,4,256,16,True,True,202.75,5.3,168,0,74752,384,0.0,,True,
+32,256,32,4,512,0,True,True,201.73,5.32,56,0,74752,640,0.0,,True,
+32,256,32,4,512,4,True,True,202.59,5.3,58,0,74752,640,0.0,,True,
+32,256,32,4,512,8,True,True,202.75,5.3,58,0,74752,640,0.0,,True,
+32,256,32,4,512,16,True,True,202.72,5.3,58,0,74752,640,0.0,,True,
+32,256,32,5,128,0,True,True,201.73,5.32,240,0,93184,256,0.0,,True,
+32,256,32,5,128,4,True,True,201.73,5.32,240,0,93184,256,0.0,,True,
+32,256,32,5,128,8,True,True,201.73,5.32,240,0,93184,256,0.0,,True,
+32,256,32,5,128,16,True,True,202.53,5.3,240,0,93184,256,0.0,,True,
+32,256,32,5,256,0,True,True,201.7,5.32,168,0,93184,384,0.0,,True,
+32,256,32,5,256,4,True,True,201.92,5.32,168,0,93184,384,0.0,,True,
+32,256,32,5,256,8,True,True,201.66,5.32,168,0,93184,384,0.0,,True,
+32,256,32,5,256,16,True,True,201.73,5.32,168,0,93184,384,0.0,,True,
+32,256,32,5,512,0,True,True,201.66,5.32,56,0,93184,640,0.0,,True,
+32,256,32,5,512,4,True,True,201.7,5.32,58,0,93184,640,0.0,,True,
+32,256,32,5,512,8,True,True,201.63,5.33,58,0,93184,640,0.0,,True,
+32,256,32,5,512,16,True,True,201.76,5.32,58,0,93184,640,0.0,,True,
+32,256,64,2,128,0,True,True,206.75,5.19,240,0,74752,256,0.0,,True,
+32,256,64,2,128,4,True,True,206.85,5.19,240,0,74752,256,0.0,,True,
+32,256,64,2,128,8,True,True,206.91,5.19,240,0,74752,256,0.0,,True,
+32,256,64,2,128,16,True,True,206.82,5.19,240,0,74752,256,0.0,,True,
+32,256,64,2,256,0,True,True,206.78,5.19,168,0,74752,384,0.0,,True,
+32,256,64,2,256,4,True,True,206.82,5.19,168,0,74752,384,0.0,,True,
+32,256,64,2,256,8,True,True,206.78,5.19,168,0,74752,384,0.0,,True,
+32,256,64,2,256,16,True,True,206.85,5.19,168,0,74752,384,0.0,,True,
+32,256,64,2,512,0,True,True,205.89,5.22,58,0,74752,640,0.0,,True,
+32,256,64,2,512,4,True,True,206.85,5.19,60,0,74752,640,0.0,,True,
+32,256,64,2,512,8,True,True,206.75,5.19,60,0,74752,640,0.0,,True,
+32,256,64,2,512,16,True,True,206.66,5.2,60,0,74752,640,0.0,,True,
+32,256,64,3,128,0,,,,,,,,,,,False,shared memory: 3 stages x (32x64 + 64x256) x 2 B = 110592 B exceeds the 101376 B
+32,256,64,3,128,4,,,,,,,,,,,False,shared memory: 3 stages x (32x64 + 64x256) x 2 B = 110592 B exceeds the 101376 B
+32,256,64,3,128,8,,,,,,,,,,,False,shared memory: 3 stages x (32x64 + 64x256) x 2 B = 110592 B exceeds the 101376 B
+32,256,64,3,128,16,,,,,,,,,,,False,shared memory: 3 stages x (32x64 + 64x256) x 2 B = 110592 B exceeds the 101376 B
+32,256,64,3,256,0,,,,,,,,,,,False,shared memory: 3 stages x (32x64 + 64x256) x 2 B = 110592 B exceeds the 101376 B
+32,256,64,3,256,4,,,,,,,,,,,False,shared memory: 3 stages x (32x64 + 64x256) x 2 B = 110592 B exceeds the 101376 B
+32,256,64,3,256,8,,,,,,,,,,,False,shared memory: 3 stages x (32x64 + 64x256) x 2 B = 110592 B exceeds the 101376 B
+32,256,64,3,256,16,,,,,,,,,,,False,shared memory: 3 stages x (32x64 + 64x256) x 2 B = 110592 B exceeds the 101376 B
+32,256,64,3,512,0,,,,,,,,,,,False,shared memory: 3 stages x (32x64 + 64x256) x 2 B = 110592 B exceeds the 101376 B
+32,256,64,3,512,4,,,,,,,,,,,False,shared memory: 3 stages x (32x64 + 64x256) x 2 B = 110592 B exceeds the 101376 B
+32,256,64,3,512,8,,,,,,,,,,,False,shared memory: 3 stages x (32x64 + 64x256) x 2 B = 110592 B exceeds the 101376 B
+32,256,64,3,512,16,,,,,,,,,,,False,shared memory: 3 stages x (32x64 + 64x256) x 2 B = 110592 B exceeds the 101376 B
+32,256,64,4,128,0,,,,,,,,,,,False,shared memory: 4 stages x (32x64 + 64x256) x 2 B = 147456 B exceeds the 101376 B
+32,256,64,4,128,4,,,,,,,,,,,False,shared memory: 4 stages x (32x64 + 64x256) x 2 B = 147456 B exceeds the 101376 B
+32,256,64,4,128,8,,,,,,,,,,,False,shared memory: 4 stages x (32x64 + 64x256) x 2 B = 147456 B exceeds the 101376 B
+32,256,64,4,128,16,,,,,,,,,,,False,shared memory: 4 stages x (32x64 + 64x256) x 2 B = 147456 B exceeds the 101376 B
+32,256,64,4,256,0,,,,,,,,,,,False,shared memory: 4 stages x (32x64 + 64x256) x 2 B = 147456 B exceeds the 101376 B
+32,256,64,4,256,4,,,,,,,,,,,False,shared memory: 4 stages x (32x64 + 64x256) x 2 B = 147456 B exceeds the 101376 B
+32,256,64,4,256,8,,,,,,,,,,,False,shared memory: 4 stages x (32x64 + 64x256) x 2 B = 147456 B exceeds the 101376 B
+32,256,64,4,256,16,,,,,,,,,,,False,shared memory: 4 stages x (32x64 + 64x256) x 2 B = 147456 B exceeds the 101376 B
+32,256,64,4,512,0,,,,,,,,,,,False,shared memory: 4 stages x (32x64 + 64x256) x 2 B = 147456 B exceeds the 101376 B
+32,256,64,4,512,4,,,,,,,,,,,False,shared memory: 4 stages x (32x64 + 64x256) x 2 B = 147456 B exceeds the 101376 B
+32,256,64,4,512,8,,,,,,,,,,,False,shared memory: 4 stages x (32x64 + 64x256) x 2 B = 147456 B exceeds the 101376 B
+32,256,64,4,512,16,,,,,,,,,,,False,shared memory: 4 stages x (32x64 + 64x256) x 2 B = 147456 B exceeds the 101376 B
+32,256,64,5,128,0,,,,,,,,,,,False,shared memory: 5 stages x (32x64 + 64x256) x 2 B = 184320 B exceeds the 101376 B
+32,256,64,5,128,4,,,,,,,,,,,False,shared memory: 5 stages x (32x64 + 64x256) x 2 B = 184320 B exceeds the 101376 B
+32,256,64,5,128,8,,,,,,,,,,,False,shared memory: 5 stages x (32x64 + 64x256) x 2 B = 184320 B exceeds the 101376 B
+32,256,64,5,128,16,,,,,,,,,,,False,shared memory: 5 stages x (32x64 + 64x256) x 2 B = 184320 B exceeds the 101376 B
+32,256,64,5,256,0,,,,,,,,,,,False,shared memory: 5 stages x (32x64 + 64x256) x 2 B = 184320 B exceeds the 101376 B
+32,256,64,5,256,4,,,,,,,,,,,False,shared memory: 5 stages x (32x64 + 64x256) x 2 B = 184320 B exceeds the 101376 B
+32,256,64,5,256,8,,,,,,,,,,,False,shared memory: 5 stages x (32x64 + 64x256) x 2 B = 184320 B exceeds the 101376 B
+32,256,64,5,256,16,,,,,,,,,,,False,shared memory: 5 stages x (32x64 + 64x256) x 2 B = 184320 B exceeds the 101376 B
+32,256,64,5,512,0,,,,,,,,,,,False,shared memory: 5 stages x (32x64 + 64x256) x 2 B = 184320 B exceeds the 101376 B
+32,256,64,5,512,4,,,,,,,,,,,False,shared memory: 5 stages x (32x64 + 64x256) x 2 B = 184320 B exceeds the 101376 B
+32,256,64,5,512,8,,,,,,,,,,,False,shared memory: 5 stages x (32x64 + 64x256) x 2 B = 184320 B exceeds the 101376 B
+32,256,64,5,512,16,,,,,,,,,,,False,shared memory: 5 stages x (32x64 + 64x256) x 2 B = 184320 B exceeds the 101376 B
+32,256,128,2,128,0,,,,,,,,,,,False,shared memory: 2 stages x (32x128 + 128x256) x 2 B = 147456 B exceeds the 101376
+32,256,128,2,128,4,,,,,,,,,,,False,shared memory: 2 stages x (32x128 + 128x256) x 2 B = 147456 B exceeds the 101376
+32,256,128,2,128,8,,,,,,,,,,,False,shared memory: 2 stages x (32x128 + 128x256) x 2 B = 147456 B exceeds the 101376
+32,256,128,2,128,16,,,,,,,,,,,False,shared memory: 2 stages x (32x128 + 128x256) x 2 B = 147456 B exceeds the 101376
+32,256,128,2,256,0,,,,,,,,,,,False,shared memory: 2 stages x (32x128 + 128x256) x 2 B = 147456 B exceeds the 101376
+32,256,128,2,256,4,,,,,,,,,,,False,shared memory: 2 stages x (32x128 + 128x256) x 2 B = 147456 B exceeds the 101376
+32,256,128,2,256,8,,,,,,,,,,,False,shared memory: 2 stages x (32x128 + 128x256) x 2 B = 147456 B exceeds the 101376
+32,256,128,2,256,16,,,,,,,,,,,False,shared memory: 2 stages x (32x128 + 128x256) x 2 B = 147456 B exceeds the 101376
+32,256,128,2,512,0,,,,,,,,,,,False,shared memory: 2 stages x (32x128 + 128x256) x 2 B = 147456 B exceeds the 101376
+32,256,128,2,512,4,,,,,,,,,,,False,shared memory: 2 stages x (32x128 + 128x256) x 2 B = 147456 B exceeds the 101376
+32,256,128,2,512,8,,,,,,,,,,,False,shared memory: 2 stages x (32x128 + 128x256) x 2 B = 147456 B exceeds the 101376
+32,256,128,2,512,16,,,,,,,,,,,False,shared memory: 2 stages x (32x128 + 128x256) x 2 B = 147456 B exceeds the 101376
+32,256,128,3,128,0,,,,,,,,,,,False,shared memory: 3 stages x (32x128 + 128x256) x 2 B = 221184 B exceeds the 101376
+32,256,128,3,128,4,,,,,,,,,,,False,shared memory: 3 stages x (32x128 + 128x256) x 2 B = 221184 B exceeds the 101376
+32,256,128,3,128,8,,,,,,,,,,,False,shared memory: 3 stages x (32x128 + 128x256) x 2 B = 221184 B exceeds the 101376
+32,256,128,3,128,16,,,,,,,,,,,False,shared memory: 3 stages x (32x128 + 128x256) x 2 B = 221184 B exceeds the 101376
+32,256,128,3,256,0,,,,,,,,,,,False,shared memory: 3 stages x (32x128 + 128x256) x 2 B = 221184 B exceeds the 101376
+32,256,128,3,256,4,,,,,,,,,,,False,shared memory: 3 stages x (32x128 + 128x256) x 2 B = 221184 B exceeds the 101376
+32,256,128,3,256,8,,,,,,,,,,,False,shared memory: 3 stages x (32x128 + 128x256) x 2 B = 221184 B exceeds the 101376
+32,256,128,3,256,16,,,,,,,,,,,False,shared memory: 3 stages x (32x128 + 128x256) x 2 B = 221184 B exceeds the 101376
+32,256,128,3,512,0,,,,,,,,,,,False,shared memory: 3 stages x (32x128 + 128x256) x 2 B = 221184 B exceeds the 101376
+32,256,128,3,512,4,,,,,,,,,,,False,shared memory: 3 stages x (32x128 + 128x256) x 2 B = 221184 B exceeds the 101376
+32,256,128,3,512,8,,,,,,,,,,,False,shared memory: 3 stages x (32x128 + 128x256) x 2 B = 221184 B exceeds the 101376
+32,256,128,3,512,16,,,,,,,,,,,False,shared memory: 3 stages x (32x128 + 128x256) x 2 B = 221184 B exceeds the 101376
+32,256,128,4,128,0,,,,,,,,,,,False,shared memory: 4 stages x (32x128 + 128x256) x 2 B = 294912 B exceeds the 101376
+32,256,128,4,128,4,,,,,,,,,,,False,shared memory: 4 stages x (32x128 + 128x256) x 2 B = 294912 B exceeds the 101376
+32,256,128,4,128,8,,,,,,,,,,,False,shared memory: 4 stages x (32x128 + 128x256) x 2 B = 294912 B exceeds the 101376
+32,256,128,4,128,16,,,,,,,,,,,False,shared memory: 4 stages x (32x128 + 128x256) x 2 B = 294912 B exceeds the 101376
+32,256,128,4,256,0,,,,,,,,,,,False,shared memory: 4 stages x (32x128 + 128x256) x 2 B = 294912 B exceeds the 101376
+32,256,128,4,256,4,,,,,,,,,,,False,shared memory: 4 stages x (32x128 + 128x256) x 2 B = 294912 B exceeds the 101376
+32,256,128,4,256,8,,,,,,,,,,,False,shared memory: 4 stages x (32x128 + 128x256) x 2 B = 294912 B exceeds the 101376
+32,256,128,4,256,16,,,,,,,,,,,False,shared memory: 4 stages x (32x128 + 128x256) x 2 B = 294912 B exceeds the 101376
+32,256,128,4,512,0,,,,,,,,,,,False,shared memory: 4 stages x (32x128 + 128x256) x 2 B = 294912 B exceeds the 101376
+32,256,128,4,512,4,,,,,,,,,,,False,shared memory: 4 stages x (32x128 + 128x256) x 2 B = 294912 B exceeds the 101376
+32,256,128,4,512,8,,,,,,,,,,,False,shared memory: 4 stages x (32x128 + 128x256) x 2 B = 294912 B exceeds the 101376
+32,256,128,4,512,16,,,,,,,,,,,False,shared memory: 4 stages x (32x128 + 128x256) x 2 B = 294912 B exceeds the 101376
+32,256,128,5,128,0,,,,,,,,,,,False,shared memory: 5 stages x (32x128 + 128x256) x 2 B = 368640 B exceeds the 101376
+32,256,128,5,128,4,,,,,,,,,,,False,shared memory: 5 stages x (32x128 + 128x256) x 2 B = 368640 B exceeds the 101376
+32,256,128,5,128,8,,,,,,,,,,,False,shared memory: 5 stages x (32x128 + 128x256) x 2 B = 368640 B exceeds the 101376
+32,256,128,5,128,16,,,,,,,,,,,False,shared memory: 5 stages x (32x128 + 128x256) x 2 B = 368640 B exceeds the 101376
+32,256,128,5,256,0,,,,,,,,,,,False,shared memory: 5 stages x (32x128 + 128x256) x 2 B = 368640 B exceeds the 101376
+32,256,128,5,256,4,,,,,,,,,,,False,shared memory: 5 stages x (32x128 + 128x256) x 2 B = 368640 B exceeds the 101376
+32,256,128,5,256,8,,,,,,,,,,,False,shared memory: 5 stages x (32x128 + 128x256) x 2 B = 368640 B exceeds the 101376
+32,256,128,5,256,16,,,,,,,,,,,False,shared memory: 5 stages x (32x128 + 128x256) x 2 B = 368640 B exceeds the 101376
+32,256,128,5,512,0,,,,,,,,,,,False,shared memory: 5 stages x (32x128 + 128x256) x 2 B = 368640 B exceeds the 101376
+32,256,128,5,512,4,,,,,,,,,,,False,shared memory: 5 stages x (32x128 + 128x256) x 2 B = 368640 B exceeds the 101376
+32,256,128,5,512,8,,,,,,,,,,,False,shared memory: 5 stages x (32x128 + 128x256) x 2 B = 368640 B exceeds the 101376
+32,256,128,5,512,16,,,,,,,,,,,False,shared memory: 5 stages x (32x128 + 128x256) x 2 B = 368640 B exceeds the 101376
+64,64,32,2,128,0,True,True,224.19,4.79,240,0,17408,256,0.0,,True,
+64,64,32,2,128,4,True,True,225.22,4.77,240,0,17408,256,0.0,,True,
+64,64,32,2,128,8,True,True,224.26,4.79,240,0,17408,256,0.0,,True,
+64,64,32,2,128,16,True,True,225.18,4.77,240,0,17408,256,0.0,,True,
+64,64,32,2,256,0,True,True,224.26,4.79,168,0,17408,384,0.0,,True,
+64,64,32,2,256,4,True,True,225.22,4.77,168,0,17408,384,0.0,,True,
+64,64,32,2,256,8,True,True,225.18,4.77,168,0,17408,384,0.0,,True,
+64,64,32,2,256,16,True,True,225.18,4.77,168,0,17408,384,0.0,,True,
+64,64,32,2,512,0,,,,,,,,,,,False,tile too small for the threads: 64x64 over 512 threads leaves 8 values per threa
+64,64,32,2,512,4,,,,,,,,,,,False,tile too small for the threads: 64x64 over 512 threads leaves 8 values per threa
+64,64,32,2,512,8,,,,,,,,,,,False,tile too small for the threads: 64x64 over 512 threads leaves 8 values per threa
+64,64,32,2,512,16,,,,,,,,,,,False,tile too small for the threads: 64x64 over 512 threads leaves 8 values per threa
+64,64,32,3,128,0,True,True,218.11,4.92,240,0,25600,256,0.0,,True,
+64,64,32,3,128,4,True,True,218.05,4.92,240,0,25600,256,0.01,,True,
+64,64,32,3,128,8,True,True,218.14,4.92,240,0,25600,256,0.0,,True,
+64,64,32,3,128,16,True,True,218.05,4.92,240,0,25600,256,0.0,,True,
+64,64,32,3,256,0,True,True,218.18,4.92,168,0,25600,384,0.0,,True,
+64,64,32,3,256,4,True,True,219.01,4.9,168,0,25600,384,0.0,,True,
+64,64,32,3,256,8,True,True,219.04,4.9,168,0,25600,384,0.0,,True,
+64,64,32,3,256,16,True,True,219.1,4.9,168,0,25600,384,0.0,,True,
+64,64,32,3,512,0,,,,,,,,,,,False,tile too small for the threads: 64x64 over 512 threads leaves 8 values per threa
+64,64,32,3,512,4,,,,,,,,,,,False,tile too small for the threads: 64x64 over 512 threads leaves 8 values per threa
+64,64,32,3,512,8,,,,,,,,,,,False,tile too small for the threads: 64x64 over 512 threads leaves 8 values per threa
+64,64,32,3,512,16,,,,,,,,,,,False,tile too small for the threads: 64x64 over 512 threads leaves 8 values per threa
+64,64,32,4,128,0,True,True,214.98,4.99,240,0,33792,256,0.0,,True,
+64,64,32,4,128,4,True,True,214.05,5.02,240,0,33792,256,0.0,,True,
+64,64,32,4,128,8,True,True,214.98,4.99,240,0,33792,256,0.0,,True,
+64,64,32,4,128,16,True,True,215.04,4.99,240,0,33792,256,0.0,,True,
+64,64,32,4,256,0,True,True,214.91,5.0,168,0,33792,384,0.0,,True,
+64,64,32,4,256,4,True,True,214.02,5.02,168,0,33792,384,0.0,,True,
+64,64,32,4,256,8,True,True,214.21,5.01,168,0,33792,384,0.0,,True,
+64,64,32,4,256,16,True,True,215.01,4.99,168,0,33792,384,0.0,,True,
+64,64,32,4,512,0,,,,,,,,,,,False,tile too small for the threads: 64x64 over 512 threads leaves 8 values per threa
+64,64,32,4,512,4,,,,,,,,,,,False,tile too small for the threads: 64x64 over 512 threads leaves 8 values per threa
+64,64,32,4,512,8,,,,,,,,,,,False,tile too small for the threads: 64x64 over 512 threads leaves 8 values per threa
+64,64,32,4,512,16,,,,,,,,,,,False,tile too small for the threads: 64x64 over 512 threads leaves 8 values per threa
+64,64,32,5,128,0,True,True,210.88,5.09,240,0,41984,256,0.0,,True,
+64,64,32,5,128,4,True,True,210.94,5.09,240,0,41984,256,0.0,,True,
+64,64,32,5,128,8,True,True,210.91,5.09,240,0,41984,256,0.0,,True,
+64,64,32,5,128,16,True,True,210.94,5.09,240,0,41984,256,0.0,,True,
+64,64,32,5,256,0,True,True,209.92,5.12,168,0,41984,384,0.0,,True,
+64,64,32,5,256,4,True,True,210.94,5.09,168,0,41984,384,0.0,,True,
+64,64,32,5,256,8,True,True,210.88,5.09,168,0,41984,384,0.0,,True,
+64,64,32,5,256,16,True,True,210.94,5.09,168,0,41984,384,0.0,,True,
+64,64,32,5,512,0,,,,,,,,,,,False,tile too small for the threads: 64x64 over 512 threads leaves 8 values per threa
+64,64,32,5,512,4,,,,,,,,,,,False,tile too small for the threads: 64x64 over 512 threads leaves 8 values per threa
+64,64,32,5,512,8,,,,,,,,,,,False,tile too small for the threads: 64x64 over 512 threads leaves 8 values per threa
+64,64,32,5,512,16,,,,,,,,,,,False,tile too small for the threads: 64x64 over 512 threads leaves 8 values per threa
+64,64,64,2,128,0,True,True,219.07,4.9,240,0,33792,256,0.0,,True,
+64,64,64,2,128,4,True,True,220.1,4.88,240,0,33792,256,0.0,,True,
+64,64,64,2,128,8,True,True,219.14,4.9,240,0,33792,256,0.0,,True,
+64,64,64,2,128,16,True,True,219.1,4.9,240,0,33792,256,0.0,,True,
+64,64,64,2,256,0,True,True,218.91,4.9,168,0,33792,384,0.0,,True,
+64,64,64,2,256,4,True,True,219.07,4.9,168,0,33792,384,0.0,,True,
+64,64,64,2,256,8,True,True,219.14,4.9,168,0,33792,384,0.0,,True,
+64,64,64,2,256,16,True,True,219.07,4.9,168,0,33792,384,0.0,,True,
+64,64,64,2,512,0,,,,,,,,,,,False,tile too small for the threads: 64x64 over 512 threads leaves 8 values per threa
+64,64,64,2,512,4,,,,,,,,,,,False,tile too small for the threads: 64x64 over 512 threads leaves 8 values per threa
+64,64,64,2,512,8,,,,,,,,,,,False,tile too small for the threads: 64x64 over 512 threads leaves 8 values per threa
+64,64,64,2,512,16,,,,,,,,,,,False,tile too small for the threads: 64x64 over 512 threads leaves 8 values per threa
+64,64,64,3,128,0,True,True,214.05,5.02,240,0,50176,256,0.0,,True,
+64,64,64,3,128,4,True,True,214.98,4.99,240,0,50176,256,0.0,,True,
+64,64,64,3,128,8,True,True,215.04,4.99,240,0,50176,256,0.0,,True,
+64,64,64,3,128,16,True,True,215.01,4.99,240,0,50176,256,0.0,,True,
+64,64,64,3,256,0,True,True,214.98,4.99,168,0,50176,384,0.0,,True,
+64,64,64,3,256,4,True,True,214.94,5.0,168,0,50176,384,0.0,,True,
+64,64,64,3,256,8,True,True,215.01,4.99,168,0,50176,384,0.0,,True,
+64,64,64,3,256,16,True,True,215.04,4.99,168,0,50176,384,0.0,,True,
+64,64,64,3,512,0,,,,,,,,,,,False,tile too small for the threads: 64x64 over 512 threads leaves 8 values per threa
+64,64,64,3,512,4,,,,,,,,,,,False,tile too small for the threads: 64x64 over 512 threads leaves 8 values per threa
+64,64,64,3,512,8,,,,,,,,,,,False,tile too small for the threads: 64x64 over 512 threads leaves 8 values per threa
+64,64,64,3,512,16,,,,,,,,,,,False,tile too small for the threads: 64x64 over 512 threads leaves 8 values per threa
+64,64,64,4,128,0,True,True,213.92,5.02,240,0,66560,256,0.0,,True,
+64,64,64,4,128,4,True,True,214.02,5.02,240,0,66560,256,0.0,,True,
+64,64,64,4,128,8,True,True,214.02,5.02,240,0,66560,256,0.0,,True,
+64,64,64,4,128,16,True,True,214.05,5.02,240,0,66560,256,0.0,,True,
+64,64,64,4,256,0,True,True,212.96,5.04,168,0,66560,384,0.0,,True,
+64,64,64,4,256,4,True,True,213.15,5.04,168,0,66560,384,0.0,,True,
+64,64,64,4,256,8,True,True,214.02,5.02,168,0,66560,384,0.0,,True,
+64,64,64,4,256,16,True,True,213.95,5.02,168,0,66560,384,0.0,,True,
+64,64,64,4,512,0,,,,,,,,,,,False,tile too small for the threads: 64x64 over 512 threads leaves 8 values per threa
+64,64,64,4,512,4,,,,,,,,,,,False,tile too small for the threads: 64x64 over 512 threads leaves 8 values per threa
+64,64,64,4,512,8,,,,,,,,,,,False,tile too small for the threads: 64x64 over 512 threads leaves 8 values per threa
+64,64,64,4,512,16,,,,,,,,,,,False,tile too small for the threads: 64x64 over 512 threads leaves 8 values per threa
+64,64,64,5,128,0,True,True,212.03,5.06,240,0,82944,256,0.0,,True,
+64,64,64,5,128,4,True,True,211.97,5.07,240,0,82944,256,0.01,,True,
+64,64,64,5,128,8,True,True,211.97,5.07,240,0,82944,256,0.0,,True,
+64,64,64,5,128,16,True,True,211.9,5.07,240,0,82944,256,0.0,,True,
+64,64,64,5,256,0,True,True,211.84,5.07,168,0,82944,384,0.0,,True,
+64,64,64,5,256,4,True,True,211.97,5.07,168,0,82944,384,0.0,,True,
+64,64,64,5,256,8,True,True,211.97,5.07,168,0,82944,384,0.0,,True,
+64,64,64,5,256,16,True,True,211.94,5.07,168,0,82944,384,0.0,,True,
+64,64,64,5,512,0,,,,,,,,,,,False,tile too small for the threads: 64x64 over 512 threads leaves 8 values per threa
+64,64,64,5,512,4,,,,,,,,,,,False,tile too small for the threads: 64x64 over 512 threads leaves 8 values per threa
+64,64,64,5,512,8,,,,,,,,,,,False,tile too small for the threads: 64x64 over 512 threads leaves 8 values per threa
+64,64,64,5,512,16,,,,,,,,,,,False,tile too small for the threads: 64x64 over 512 threads leaves 8 values per threa
+64,64,128,2,128,0,True,True,216.96,4.95,240,0,66560,256,0.0,,True,
+64,64,128,2,128,4,True,True,216.06,4.97,240,0,66560,256,0.0,,True,
+64,64,128,2,128,8,True,True,216.1,4.97,240,0,66560,256,0.0,,True,
+64,64,128,2,128,16,True,True,217.09,4.95,240,0,66560,256,0.0,,True,
+64,64,128,2,256,0,True,True,216.99,4.95,168,0,66560,384,0.0,,True,
+64,64,128,2,256,4,True,True,216.22,4.97,168,0,66560,384,0.0,,True,
+64,64,128,2,256,8,True,True,216.22,4.97,168,0,66560,384,0.0,,True,
+64,64,128,2,256,16,True,True,217.06,4.95,168,0,66560,384,0.0,,True,
+64,64,128,2,512,0,,,,,,,,,,,False,tile too small for the threads: 64x64 over 512 threads leaves 8 values per threa
+64,64,128,2,512,4,,,,,,,,,,,False,tile too small for the threads: 64x64 over 512 threads leaves 8 values per threa
+64,64,128,2,512,8,,,,,,,,,,,False,tile too small for the threads: 64x64 over 512 threads leaves 8 values per threa
+64,64,128,2,512,16,,,,,,,,,,,False,tile too small for the threads: 64x64 over 512 threads leaves 8 values per threa
+64,64,128,3,128,0,True,True,213.95,5.02,240,0,99328,256,0.0,,True,
+64,64,128,3,128,4,True,True,215.04,4.99,240,0,99328,256,0.0,,True,
+64,64,128,3,128,8,True,True,214.98,4.99,240,0,99328,256,0.0,,True,
+64,64,128,3,128,16,True,True,215.04,4.99,240,0,99328,256,0.0,,True,
+64,64,128,3,256,0,True,True,213.95,5.02,168,0,99328,384,0.0,,True,
+64,64,128,3,256,4,True,True,214.05,5.02,168,0,99328,384,0.0,,True,
+64,64,128,3,256,8,True,True,214.94,5.0,168,0,99328,384,0.0,,True,
+64,64,128,3,256,16,True,True,215.04,4.99,168,0,99328,384,0.0,,True,
+64,64,128,3,512,0,,,,,,,,,,,False,tile too small for the threads: 64x64 over 512 threads leaves 8 values per threa
+64,64,128,3,512,4,,,,,,,,,,,False,tile too small for the threads: 64x64 over 512 threads leaves 8 values per threa
+64,64,128,3,512,8,,,,,,,,,,,False,tile too small for the threads: 64x64 over 512 threads leaves 8 values per threa
+64,64,128,3,512,16,,,,,,,,,,,False,tile too small for the threads: 64x64 over 512 threads leaves 8 values per threa
+64,64,128,4,128,0,,,,,,,,,,,False,shared memory: 4 stages x (64x128 + 128x64) x 2 B = 131072 B exceeds the 101376 
+64,64,128,4,128,4,,,,,,,,,,,False,shared memory: 4 stages x (64x128 + 128x64) x 2 B = 131072 B exceeds the 101376 
+64,64,128,4,128,8,,,,,,,,,,,False,shared memory: 4 stages x (64x128 + 128x64) x 2 B = 131072 B exceeds the 101376 
+64,64,128,4,128,16,,,,,,,,,,,False,shared memory: 4 stages x (64x128 + 128x64) x 2 B = 131072 B exceeds the 101376 
+64,64,128,4,256,0,,,,,,,,,,,False,shared memory: 4 stages x (64x128 + 128x64) x 2 B = 131072 B exceeds the 101376 
+64,64,128,4,256,4,,,,,,,,,,,False,shared memory: 4 stages x (64x128 + 128x64) x 2 B = 131072 B exceeds the 101376 
+64,64,128,4,256,8,,,,,,,,,,,False,shared memory: 4 stages x (64x128 + 128x64) x 2 B = 131072 B exceeds the 101376 
+64,64,128,4,256,16,,,,,,,,,,,False,shared memory: 4 stages x (64x128 + 128x64) x 2 B = 131072 B exceeds the 101376 
+64,64,128,4,512,0,,,,,,,,,,,False,shared memory: 4 stages x (64x128 + 128x64) x 2 B = 131072 B exceeds the 101376 
+64,64,128,4,512,4,,,,,,,,,,,False,shared memory: 4 stages x (64x128 + 128x64) x 2 B = 131072 B exceeds the 101376 
+64,64,128,4,512,8,,,,,,,,,,,False,shared memory: 4 stages x (64x128 + 128x64) x 2 B = 131072 B exceeds the 101376 
+64,64,128,4,512,16,,,,,,,,,,,False,shared memory: 4 stages x (64x128 + 128x64) x 2 B = 131072 B exceeds the 101376 
+64,64,128,5,128,0,,,,,,,,,,,False,shared memory: 5 stages x (64x128 + 128x64) x 2 B = 163840 B exceeds the 101376 
+64,64,128,5,128,4,,,,,,,,,,,False,shared memory: 5 stages x (64x128 + 128x64) x 2 B = 163840 B exceeds the 101376 
+64,64,128,5,128,8,,,,,,,,,,,False,shared memory: 5 stages x (64x128 + 128x64) x 2 B = 163840 B exceeds the 101376 
+64,64,128,5,128,16,,,,,,,,,,,False,shared memory: 5 stages x (64x128 + 128x64) x 2 B = 163840 B exceeds the 101376 
+64,64,128,5,256,0,,,,,,,,,,,False,shared memory: 5 stages x (64x128 + 128x64) x 2 B = 163840 B exceeds the 101376 
+64,64,128,5,256,4,,,,,,,,,,,False,shared memory: 5 stages x (64x128 + 128x64) x 2 B = 163840 B exceeds the 101376 
+64,64,128,5,256,8,,,,,,,,,,,False,shared memory: 5 stages x (64x128 + 128x64) x 2 B = 163840 B exceeds the 101376 
+64,64,128,5,256,16,,,,,,,,,,,False,shared memory: 5 stages x (64x128 + 128x64) x 2 B = 163840 B exceeds the 101376 
+64,64,128,5,512,0,,,,,,,,,,,False,shared memory: 5 stages x (64x128 + 128x64) x 2 B = 163840 B exceeds the 101376 
+64,64,128,5,512,4,,,,,,,,,,,False,shared memory: 5 stages x (64x128 + 128x64) x 2 B = 163840 B exceeds the 101376 
+64,64,128,5,512,8,,,,,,,,,,,False,shared memory: 5 stages x (64x128 + 128x64) x 2 B = 163840 B exceeds the 101376 
+64,64,128,5,512,16,,,,,,,,,,,False,shared memory: 5 stages x (64x128 + 128x64) x 2 B = 163840 B exceeds the 101376 
+64,128,32,2,128,0,True,True,207.78,5.17,240,0,25600,256,0.0,,True,
+64,128,32,2,128,4,True,True,207.9,5.16,240,0,25600,256,0.0,,True,
+64,128,32,2,128,8,True,True,207.84,5.17,240,0,25600,256,0.0,,True,
+64,128,32,2,128,16,True,True,207.87,5.17,240,0,25600,256,0.0,,True,
+64,128,32,2,256,0,True,True,206.85,5.19,168,0,25600,384,0.0,,True,
+64,128,32,2,256,4,True,True,207.81,5.17,168,0,25600,384,0.0,,True,
+64,128,32,2,256,8,True,True,208.19,5.16,168,0,25600,384,0.0,,True,
+64,128,32,2,256,16,True,True,206.88,5.19,168,0,25600,384,0.0,,True,
+64,128,32,2,512,0,True,True,207.9,5.16,52,0,25600,640,0.0,,True,
+64,128,32,2,512,4,True,True,207.78,5.17,53,0,25600,640,0.0,,True,
+64,128,32,2,512,8,True,True,206.98,5.19,53,0,25600,640,0.0,,True,
+64,128,32,2,512,16,True,True,207.81,5.17,53,0,25600,640,0.0,,True,
+64,128,32,3,128,0,True,True,203.9,5.27,240,0,37888,256,0.0,,True,
+64,128,32,3,128,4,True,True,204.8,5.24,240,0,37888,256,0.0,,True,
+64,128,32,3,128,8,True,True,204.8,5.24,240,0,37888,256,0.0,,True,
+64,128,32,3,128,16,True,True,204.7,5.25,240,0,37888,256,0.0,,True,
+64,128,32,3,256,0,True,True,203.78,5.27,168,0,37888,384,0.0,,True,
+64,128,32,3,256,4,True,True,204.8,5.24,168,0,37888,384,0.0,,True,
+64,128,32,3,256,8,True,True,205.73,5.22,168,0,37888,384,0.0,,True,
+64,128,32,3,256,16,True,True,204.7,5.25,168,0,37888,384,0.0,,True,
+64,128,32,3,512,0,True,True,204.8,5.24,54,0,37888,640,0.0,,True,
+64,128,32,3,512,4,True,True,204.8,5.24,55,0,37888,640,0.0,,True,
+64,128,32,3,512,8,True,True,204.8,5.24,55,0,37888,640,0.0,,True,
+64,128,32,3,512,16,True,True,204.8,5.24,55,0,37888,640,0.0,,True,
+64,128,32,4,128,0,True,True,202.75,5.3,240,0,50176,256,0.0,,True,
+64,128,32,4,128,4,True,True,202.72,5.3,240,0,50176,256,0.0,,True,
+64,128,32,4,128,8,True,True,202.62,5.3,240,0,50176,256,0.0,,True,
+64,128,32,4,128,16,True,True,202.72,5.3,240,0,50176,256,0.0,,True,
+64,128,32,4,256,0,True,True,201.73,5.32,168,0,50176,384,0.0,,True,
+64,128,32,4,256,4,True,True,202.75,5.3,168,0,50176,384,0.0,,True,
+64,128,32,4,256,8,True,True,202.69,5.3,168,0,50176,384,0.0,,True,
+64,128,32,4,256,16,True,True,202.72,5.3,168,0,50176,384,0.0,,True,
+64,128,32,4,512,0,True,True,202.66,5.3,53,0,50176,640,0.0,,True,
+64,128,32,4,512,4,True,True,201.73,5.32,54,0,50176,640,0.0,,True,
+64,128,32,4,512,8,True,True,202.5,5.3,54,0,50176,640,0.0,,True,
+64,128,32,4,512,16,True,True,202.72,5.3,54,0,50176,640,0.0,,True,
+64,128,32,5,128,0,True,True,201.41,5.33,240,0,62464,256,0.0,,True,
+64,128,32,5,128,4,True,True,201.66,5.32,240,0,62464,256,0.0,,True,
+64,128,32,5,128,8,True,True,201.7,5.32,240,0,62464,256,0.0,,True,
+64,128,32,5,128,16,True,True,201.73,5.32,240,0,62464,256,0.0,,True,
+64,128,32,5,256,0,True,True,200.74,5.35,168,0,62464,384,0.0,,True,
+64,128,32,5,256,4,True,True,201.63,5.33,168,0,62464,384,0.0,,True,
+64,128,32,5,256,8,True,True,201.12,5.34,168,0,62464,384,0.0,,True,
+64,128,32,5,256,16,True,True,200.74,5.35,168,0,62464,384,0.0,,True,
+64,128,32,5,512,0,True,True,201.73,5.32,54,0,62464,640,0.0,,True,
+64,128,32,5,512,4,True,True,201.66,5.32,55,0,62464,640,0.0,,True,
+64,128,32,5,512,8,True,True,201.7,5.32,55,0,62464,640,0.0,,True,
+64,128,32,5,512,16,True,True,201.7,5.32,55,0,62464,640,0.0,,True,
+64,128,64,2,128,0,True,True,208.9,5.14,240,0,50176,256,0.0,,True,
+64,128,64,2,128,4,True,True,208.83,5.14,240,0,50176,256,0.0,,True,
+64,128,64,2,128,8,True,True,208.9,5.14,240,0,50176,256,0.0,,True,
+64,128,64,2,128,16,True,True,208.83,5.14,240,0,50176,256,0.0,,True,
+64,128,64,2,256,0,True,True,208.86,5.14,168,0,50176,384,0.0,,True,
+64,128,64,2,256,4,True,True,208.86,5.14,168,0,50176,384,0.0,,True,
+64,128,64,2,256,8,True,True,208.74,5.14,168,0,50176,384,0.0,,True,
+64,128,64,2,256,16,True,True,208.8,5.14,168,0,50176,384,0.0,,True,
+64,128,64,2,512,0,True,True,208.9,5.14,55,0,50176,640,0.0,,True,
+64,128,64,2,512,4,True,True,208.83,5.14,56,0,50176,640,0.0,,True,
+64,128,64,2,512,8,True,True,208.9,5.14,56,0,50176,640,0.0,,True,
+64,128,64,2,512,16,True,True,208.9,5.14,56,0,50176,640,0.0,,True,
+64,128,64,3,128,0,True,True,206.82,5.19,240,0,74752,256,0.0,,True,
+64,128,64,3,128,4,True,True,206.85,5.19,240,0,74752,256,0.0,,True,
+64,128,64,3,128,8,True,True,207.78,5.17,240,0,74752,256,0.0,,True,
+64,128,64,3,128,16,True,True,207.81,5.17,240,0,74752,256,0.0,,True,
+64,128,64,3,256,0,True,True,206.78,5.19,168,0,74752,384,0.0,,True,
+64,128,64,3,256,4,True,True,206.85,5.19,168,0,74752,384,0.0,,True,
+64,128,64,3,256,8,True,True,207.55,5.17,168,0,74752,384,0.0,,True,
+64,128,64,3,256,16,True,True,206.85,5.19,168,0,74752,384,0.0,,True,
+64,128,64,3,512,0,True,True,207.68,5.17,55,0,74752,640,0.0,,True,
+64,128,64,3,512,4,True,True,206.85,5.19,56,0,74752,640,0.0,,True,
+64,128,64,3,512,8,True,True,206.85,5.19,56,0,74752,640,0.0,,True,
+64,128,64,3,512,16,True,True,206.85,5.19,56,0,74752,640,0.0,,True,
+64,128,64,4,128,0,True,True,205.86,5.22,240,0,99328,256,0.0,,True,
+64,128,64,4,128,4,True,True,206.75,5.19,240,0,99328,256,0.0,,True,
+64,128,64,4,128,8,True,True,205.82,5.22,240,0,99328,256,0.0,,True,
+64,128,64,4,128,16,True,True,206.75,5.19,240,0,99328,256,0.0,,True,
+64,128,64,4,256,0,True,True,205.82,5.22,168,0,99328,384,0.0,,True,
+64,128,64,4,256,4,True,True,206.66,5.2,168,0,99328,384,0.0,,True,
+64,128,64,4,256,8,True,True,205.86,5.22,168,0,99328,384,0.0,,True,
+64,128,64,4,256,16,True,True,205.76,5.22,168,0,99328,384,0.0,,True,
+64,128,64,4,512,0,True,True,205.82,5.22,57,0,99328,640,0.0,,True,
+64,128,64,4,512,4,True,True,205.82,5.22,60,0,99328,640,0.0,,True,
+64,128,64,4,512,8,True,True,206.78,5.19,60,0,99328,640,0.0,,True,
+64,128,64,4,512,16,True,True,205.86,5.22,60,0,99328,640,0.0,,True,
+64,128,64,5,128,0,,,,,,,,,,,False,shared memory: 5 stages x (64x64 + 64x128) x 2 B = 122880 B exceeds the 101376 B
+64,128,64,5,128,4,,,,,,,,,,,False,shared memory: 5 stages x (64x64 + 64x128) x 2 B = 122880 B exceeds the 101376 B
+64,128,64,5,128,8,,,,,,,,,,,False,shared memory: 5 stages x (64x64 + 64x128) x 2 B = 122880 B exceeds the 101376 B
+64,128,64,5,128,16,,,,,,,,,,,False,shared memory: 5 stages x (64x64 + 64x128) x 2 B = 122880 B exceeds the 101376 B
+64,128,64,5,256,0,,,,,,,,,,,False,shared memory: 5 stages x (64x64 + 64x128) x 2 B = 122880 B exceeds the 101376 B
+64,128,64,5,256,4,,,,,,,,,,,False,shared memory: 5 stages x (64x64 + 64x128) x 2 B = 122880 B exceeds the 101376 B
+64,128,64,5,256,8,,,,,,,,,,,False,shared memory: 5 stages x (64x64 + 64x128) x 2 B = 122880 B exceeds the 101376 B
+64,128,64,5,256,16,,,,,,,,,,,False,shared memory: 5 stages x (64x64 + 64x128) x 2 B = 122880 B exceeds the 101376 B
+64,128,64,5,512,0,,,,,,,,,,,False,shared memory: 5 stages x (64x64 + 64x128) x 2 B = 122880 B exceeds the 101376 B
+64,128,64,5,512,4,,,,,,,,,,,False,shared memory: 5 stages x (64x64 + 64x128) x 2 B = 122880 B exceeds the 101376 B
+64,128,64,5,512,8,,,,,,,,,,,False,shared memory: 5 stages x (64x64 + 64x128) x 2 B = 122880 B exceeds the 101376 B
+64,128,64,5,512,16,,,,,,,,,,,False,shared memory: 5 stages x (64x64 + 64x128) x 2 B = 122880 B exceeds the 101376 B
+64,128,128,2,128,0,True,True,211.94,5.07,240,0,99328,256,0.0,,True,
+64,128,128,2,128,4,True,True,212.9,5.04,240,0,99328,256,0.0,,True,
+64,128,128,2,128,8,True,True,212.1,5.06,240,0,99328,256,0.0,,True,
+64,128,128,2,128,16,True,True,212.03,5.06,240,0,99328,256,0.0,,True,
+64,128,128,2,256,0,True,True,212.0,5.06,168,0,99328,384,0.0,,True,
+64,128,128,2,256,4,True,True,212.9,5.04,168,0,99328,384,0.0,,True,
+64,128,128,2,256,8,True,True,211.97,5.07,168,0,99328,384,0.0,,True,
+64,128,128,2,256,16,True,True,211.97,5.07,168,0,99328,384,0.0,,True,
+64,128,128,2,512,0,True,True,211.81,5.07,57,0,99328,640,0.0,,True,
+64,128,128,2,512,4,True,True,212.83,5.05,58,0,99328,640,0.0,,True,
+64,128,128,2,512,8,True,True,212.06,5.06,58,0,99328,640,0.0,,True,
+64,128,128,2,512,16,True,True,211.97,5.07,58,0,99328,640,0.0,,True,
+64,128,128,3,128,0,,,,,,,,,,,False,shared memory: 3 stages x (64x128 + 128x128) x 2 B = 147456 B exceeds the 101376
+64,128,128,3,128,4,,,,,,,,,,,False,shared memory: 3 stages x (64x128 + 128x128) x 2 B = 147456 B exceeds the 101376
+64,128,128,3,128,8,,,,,,,,,,,False,shared memory: 3 stages x (64x128 + 128x128) x 2 B = 147456 B exceeds the 101376
+64,128,128,3,128,16,,,,,,,,,,,False,shared memory: 3 stages x (64x128 + 128x128) x 2 B = 147456 B exceeds the 101376
+64,128,128,3,256,0,,,,,,,,,,,False,shared memory: 3 stages x (64x128 + 128x128) x 2 B = 147456 B exceeds the 101376
+64,128,128,3,256,4,,,,,,,,,,,False,shared memory: 3 stages x (64x128 + 128x128) x 2 B = 147456 B exceeds the 101376
+64,128,128,3,256,8,,,,,,,,,,,False,shared memory: 3 stages x (64x128 + 128x128) x 2 B = 147456 B exceeds the 101376
+64,128,128,3,256,16,,,,,,,,,,,False,shared memory: 3 stages x (64x128 + 128x128) x 2 B = 147456 B exceeds the 101376
+64,128,128,3,512,0,,,,,,,,,,,False,shared memory: 3 stages x (64x128 + 128x128) x 2 B = 147456 B exceeds the 101376
+64,128,128,3,512,4,,,,,,,,,,,False,shared memory: 3 stages x (64x128 + 128x128) x 2 B = 147456 B exceeds the 101376
+64,128,128,3,512,8,,,,,,,,,,,False,shared memory: 3 stages x (64x128 + 128x128) x 2 B = 147456 B exceeds the 101376
+64,128,128,3,512,16,,,,,,,,,,,False,shared memory: 3 stages x (64x128 + 128x128) x 2 B = 147456 B exceeds the 101376
+64,128,128,4,128,0,,,,,,,,,,,False,shared memory: 4 stages x (64x128 + 128x128) x 2 B = 196608 B exceeds the 101376
+64,128,128,4,128,4,,,,,,,,,,,False,shared memory: 4 stages x (64x128 + 128x128) x 2 B = 196608 B exceeds the 101376
+64,128,128,4,128,8,,,,,,,,,,,False,shared memory: 4 stages x (64x128 + 128x128) x 2 B = 196608 B exceeds the 101376
+64,128,128,4,128,16,,,,,,,,,,,False,shared memory: 4 stages x (64x128 + 128x128) x 2 B = 196608 B exceeds the 101376
+64,128,128,4,256,0,,,,,,,,,,,False,shared memory: 4 stages x (64x128 + 128x128) x 2 B = 196608 B exceeds the 101376
+64,128,128,4,256,4,,,,,,,,,,,False,shared memory: 4 stages x (64x128 + 128x128) x 2 B = 196608 B exceeds the 101376
+64,128,128,4,256,8,,,,,,,,,,,False,shared memory: 4 stages x (64x128 + 128x128) x 2 B = 196608 B exceeds the 101376
+64,128,128,4,256,16,,,,,,,,,,,False,shared memory: 4 stages x (64x128 + 128x128) x 2 B = 196608 B exceeds the 101376
+64,128,128,4,512,0,,,,,,,,,,,False,shared memory: 4 stages x (64x128 + 128x128) x 2 B = 196608 B exceeds the 101376
+64,128,128,4,512,4,,,,,,,,,,,False,shared memory: 4 stages x (64x128 + 128x128) x 2 B = 196608 B exceeds the 101376
+64,128,128,4,512,8,,,,,,,,,,,False,shared memory: 4 stages x (64x128 + 128x128) x 2 B = 196608 B exceeds the 101376
+64,128,128,4,512,16,,,,,,,,,,,False,shared memory: 4 stages x (64x128 + 128x128) x 2 B = 196608 B exceeds the 101376
+64,128,128,5,128,0,,,,,,,,,,,False,shared memory: 5 stages x (64x128 + 128x128) x 2 B = 245760 B exceeds the 101376
+64,128,128,5,128,4,,,,,,,,,,,False,shared memory: 5 stages x (64x128 + 128x128) x 2 B = 245760 B exceeds the 101376
+64,128,128,5,128,8,,,,,,,,,,,False,shared memory: 5 stages x (64x128 + 128x128) x 2 B = 245760 B exceeds the 101376
+64,128,128,5,128,16,,,,,,,,,,,False,shared memory: 5 stages x (64x128 + 128x128) x 2 B = 245760 B exceeds the 101376
+64,128,128,5,256,0,,,,,,,,,,,False,shared memory: 5 stages x (64x128 + 128x128) x 2 B = 245760 B exceeds the 101376
+64,128,128,5,256,4,,,,,,,,,,,False,shared memory: 5 stages x (64x128 + 128x128) x 2 B = 245760 B exceeds the 101376
+64,128,128,5,256,8,,,,,,,,,,,False,shared memory: 5 stages x (64x128 + 128x128) x 2 B = 245760 B exceeds the 101376
+64,128,128,5,256,16,,,,,,,,,,,False,shared memory: 5 stages x (64x128 + 128x128) x 2 B = 245760 B exceeds the 101376
+64,128,128,5,512,0,,,,,,,,,,,False,shared memory: 5 stages x (64x128 + 128x128) x 2 B = 245760 B exceeds the 101376
+64,128,128,5,512,4,,,,,,,,,,,False,shared memory: 5 stages x (64x128 + 128x128) x 2 B = 245760 B exceeds the 101376
+64,128,128,5,512,8,,,,,,,,,,,False,shared memory: 5 stages x (64x128 + 128x128) x 2 B = 245760 B exceeds the 101376
+64,128,128,5,512,16,,,,,,,,,,,False,shared memory: 5 stages x (64x128 + 128x128) x 2 B = 245760 B exceeds the 101376
+64,256,32,2,128,0,True,True,205.82,5.22,240,0,41984,256,0.0,,True,
+64,256,32,2,128,4,True,True,205.79,5.22,240,0,41984,256,0.0,,True,
+64,256,32,2,128,8,True,True,205.76,5.22,240,0,41984,256,0.0,,True,
+64,256,32,2,128,16,True,True,205.82,5.22,240,0,41984,256,0.0,,True,
+64,256,32,2,256,0,True,True,205.73,5.22,168,0,41984,384,0.0,,True,
+64,256,32,2,256,4,True,True,205.82,5.22,168,0,41984,384,0.0,,True,
+64,256,32,2,256,8,True,True,205.82,5.22,168,0,41984,384,0.0,,True,
+64,256,32,2,256,16,True,True,205.73,5.22,168,0,41984,384,0.0,,True,
+64,256,32,2,512,0,True,True,205.82,5.22,78,0,41984,640,0.0,,True,
+64,256,32,2,512,4,True,True,205.82,5.22,78,0,41984,640,0.0,,True,
+64,256,32,2,512,8,True,True,205.82,5.22,78,0,41984,640,0.0,,True,
+64,256,32,2,512,16,True,True,206.66,5.2,78,0,41984,640,0.0,,True,
+64,256,32,3,128,0,True,True,203.78,5.27,240,0,62464,256,0.0,,True,
+64,256,32,3,128,4,True,True,203.81,5.27,240,0,62464,256,0.0,,True,
+64,256,32,3,128,8,True,True,204.8,5.24,240,0,62464,256,0.0,,True,
+64,256,32,3,128,16,True,True,203.78,5.27,240,0,62464,256,0.0,,True,
+64,256,32,3,256,0,True,True,203.78,5.27,168,0,62464,384,0.0,,True,
+64,256,32,3,256,4,True,True,203.74,5.27,168,0,62464,384,0.0,,True,
+64,256,32,3,256,8,True,True,203.81,5.27,168,0,62464,384,0.0,,True,
+64,256,32,3,256,16,True,True,203.74,5.27,168,0,62464,384,0.0,,True,
+64,256,32,3,512,0,True,True,203.74,5.27,79,0,62464,640,0.0,,True,
+64,256,32,3,512,4,True,True,203.78,5.27,80,0,62464,640,0.0,,True,
+64,256,32,3,512,8,True,True,203.78,5.27,80,0,62464,640,0.0,,True,
+64,256,32,3,512,16,True,True,203.68,5.27,80,0,62464,640,0.0,,True,
+64,256,32,4,128,0,True,True,202.72,5.3,240,0,82944,256,0.0,,True,
+64,256,32,4,128,4,True,True,202.72,5.3,240,0,82944,256,0.0,,True,
+64,256,32,4,128,8,True,True,202.82,5.29,240,0,82944,256,0.0,,True,
+64,256,32,4,128,16,True,True,202.78,5.3,240,0,82944,256,0.0,,True,
+64,256,32,4,256,0,True,True,202.72,5.3,168,0,82944,384,0.0,,True,
+64,256,32,4,256,4,True,True,202.72,5.3,168,0,82944,384,0.0,,True,
+64,256,32,4,256,8,True,True,202.69,5.3,168,0,82944,384,0.0,,True,
+64,256,32,4,256,16,True,True,202.75,5.3,168,0,82944,384,0.0,,True,
+64,256,32,4,512,0,True,True,202.69,5.3,86,0,82944,640,0.0,,True,
+64,256,32,4,512,4,True,True,202.75,5.3,87,0,82944,640,0.0,,True,
+64,256,32,4,512,8,True,True,202.82,5.29,87,0,82944,640,0.0,,True,
+64,256,32,4,512,16,True,True,202.72,5.3,87,0,82944,640,0.0,,True,
+64,256,32,5,128,0,,,,,,,,,,,False,shared memory: 5 stages x (64x32 + 32x256) x 2 B = 102400 B exceeds the 101376 B
+64,256,32,5,128,4,,,,,,,,,,,False,shared memory: 5 stages x (64x32 + 32x256) x 2 B = 102400 B exceeds the 101376 B
+64,256,32,5,128,8,,,,,,,,,,,False,shared memory: 5 stages x (64x32 + 32x256) x 2 B = 102400 B exceeds the 101376 B
+64,256,32,5,128,16,,,,,,,,,,,False,shared memory: 5 stages x (64x32 + 32x256) x 2 B = 102400 B exceeds the 101376 B
+64,256,32,5,256,0,,,,,,,,,,,False,shared memory: 5 stages x (64x32 + 32x256) x 2 B = 102400 B exceeds the 101376 B
+64,256,32,5,256,4,,,,,,,,,,,False,shared memory: 5 stages x (64x32 + 32x256) x 2 B = 102400 B exceeds the 101376 B
+64,256,32,5,256,8,,,,,,,,,,,False,shared memory: 5 stages x (64x32 + 32x256) x 2 B = 102400 B exceeds the 101376 B
+64,256,32,5,256,16,,,,,,,,,,,False,shared memory: 5 stages x (64x32 + 32x256) x 2 B = 102400 B exceeds the 101376 B
+64,256,32,5,512,0,,,,,,,,,,,False,shared memory: 5 stages x (64x32 + 32x256) x 2 B = 102400 B exceeds the 101376 B
+64,256,32,5,512,4,,,,,,,,,,,False,shared memory: 5 stages x (64x32 + 32x256) x 2 B = 102400 B exceeds the 101376 B
+64,256,32,5,512,8,,,,,,,,,,,False,shared memory: 5 stages x (64x32 + 32x256) x 2 B = 102400 B exceeds the 101376 B
+64,256,32,5,512,16,,,,,,,,,,,False,shared memory: 5 stages x (64x32 + 32x256) x 2 B = 102400 B exceeds the 101376 B
+64,256,64,2,128,0,True,True,208.7,5.14,240,0,82944,256,0.0,,True,
+64,256,64,2,128,4,True,True,207.9,5.16,240,0,82944,256,0.0,,True,
+64,256,64,2,128,8,True,True,208.83,5.14,240,0,82944,256,0.0,,True,
+64,256,64,2,128,16,True,True,208.86,5.14,240,0,82944,256,0.0,,True,
+64,256,64,2,256,0,True,True,207.81,5.17,168,0,82944,384,0.0,,True,
+64,256,64,2,256,4,True,True,208.8,5.14,168,0,82944,384,0.0,,True,
+64,256,64,2,256,8,True,True,207.81,5.17,168,0,82944,384,0.0,,True,
+64,256,64,2,256,16,True,True,207.87,5.17,168,0,82944,384,0.0,,True,
+64,256,64,2,512,0,True,True,207.78,5.17,82,0,82944,640,0.0,,True,
+64,256,64,2,512,4,True,True,207.87,5.17,83,0,82944,640,0.0,,True,
+64,256,64,2,512,8,True,True,207.81,5.17,83,0,82944,640,0.0,,True,
+64,256,64,2,512,16,True,True,207.87,5.17,83,0,82944,640,0.0,,True,
+64,256,64,3,128,0,,,,,,,,,,,False,shared memory: 3 stages x (64x64 + 64x256) x 2 B = 122880 B exceeds the 101376 B
+64,256,64,3,128,4,,,,,,,,,,,False,shared memory: 3 stages x (64x64 + 64x256) x 2 B = 122880 B exceeds the 101376 B
+64,256,64,3,128,8,,,,,,,,,,,False,shared memory: 3 stages x (64x64 + 64x256) x 2 B = 122880 B exceeds the 101376 B
+64,256,64,3,128,16,,,,,,,,,,,False,shared memory: 3 stages x (64x64 + 64x256) x 2 B = 122880 B exceeds the 101376 B
+64,256,64,3,256,0,,,,,,,,,,,False,shared memory: 3 stages x (64x64 + 64x256) x 2 B = 122880 B exceeds the 101376 B
+64,256,64,3,256,4,,,,,,,,,,,False,shared memory: 3 stages x (64x64 + 64x256) x 2 B = 122880 B exceeds the 101376 B
+64,256,64,3,256,8,,,,,,,,,,,False,shared memory: 3 stages x (64x64 + 64x256) x 2 B = 122880 B exceeds the 101376 B
+64,256,64,3,256,16,,,,,,,,,,,False,shared memory: 3 stages x (64x64 + 64x256) x 2 B = 122880 B exceeds the 101376 B
+64,256,64,3,512,0,,,,,,,,,,,False,shared memory: 3 stages x (64x64 + 64x256) x 2 B = 122880 B exceeds the 101376 B
+64,256,64,3,512,4,,,,,,,,,,,False,shared memory: 3 stages x (64x64 + 64x256) x 2 B = 122880 B exceeds the 101376 B
+64,256,64,3,512,8,,,,,,,,,,,False,shared memory: 3 stages x (64x64 + 64x256) x 2 B = 122880 B exceeds the 101376 B
+64,256,64,3,512,16,,,,,,,,,,,False,shared memory: 3 stages x (64x64 + 64x256) x 2 B = 122880 B exceeds the 101376 B
+64,256,64,4,128,0,,,,,,,,,,,False,shared memory: 4 stages x (64x64 + 64x256) x 2 B = 163840 B exceeds the 101376 B
+64,256,64,4,128,4,,,,,,,,,,,False,shared memory: 4 stages x (64x64 + 64x256) x 2 B = 163840 B exceeds the 101376 B
+64,256,64,4,128,8,,,,,,,,,,,False,shared memory: 4 stages x (64x64 + 64x256) x 2 B = 163840 B exceeds the 101376 B
+64,256,64,4,128,16,,,,,,,,,,,False,shared memory: 4 stages x (64x64 + 64x256) x 2 B = 163840 B exceeds the 101376 B
+64,256,64,4,256,0,,,,,,,,,,,False,shared memory: 4 stages x (64x64 + 64x256) x 2 B = 163840 B exceeds the 101376 B
+64,256,64,4,256,4,,,,,,,,,,,False,shared memory: 4 stages x (64x64 + 64x256) x 2 B = 163840 B exceeds the 101376 B
+64,256,64,4,256,8,,,,,,,,,,,False,shared memory: 4 stages x (64x64 + 64x256) x 2 B = 163840 B exceeds the 101376 B
+64,256,64,4,256,16,,,,,,,,,,,False,shared memory: 4 stages x (64x64 + 64x256) x 2 B = 163840 B exceeds the 101376 B
+64,256,64,4,512,0,,,,,,,,,,,False,shared memory: 4 stages x (64x64 + 64x256) x 2 B = 163840 B exceeds the 101376 B
+64,256,64,4,512,4,,,,,,,,,,,False,shared memory: 4 stages x (64x64 + 64x256) x 2 B = 163840 B exceeds the 101376 B
+64,256,64,4,512,8,,,,,,,,,,,False,shared memory: 4 stages x (64x64 + 64x256) x 2 B = 163840 B exceeds the 101376 B
+64,256,64,4,512,16,,,,,,,,,,,False,shared memory: 4 stages x (64x64 + 64x256) x 2 B = 163840 B exceeds the 101376 B
+64,256,64,5,128,0,,,,,,,,,,,False,shared memory: 5 stages x (64x64 + 64x256) x 2 B = 204800 B exceeds the 101376 B
+64,256,64,5,128,4,,,,,,,,,,,False,shared memory: 5 stages x (64x64 + 64x256) x 2 B = 204800 B exceeds the 101376 B
+64,256,64,5,128,8,,,,,,,,,,,False,shared memory: 5 stages x (64x64 + 64x256) x 2 B = 204800 B exceeds the 101376 B
+64,256,64,5,128,16,,,,,,,,,,,False,shared memory: 5 stages x (64x64 + 64x256) x 2 B = 204800 B exceeds the 101376 B
+64,256,64,5,256,0,,,,,,,,,,,False,shared memory: 5 stages x (64x64 + 64x256) x 2 B = 204800 B exceeds the 101376 B
+64,256,64,5,256,4,,,,,,,,,,,False,shared memory: 5 stages x (64x64 + 64x256) x 2 B = 204800 B exceeds the 101376 B
+64,256,64,5,256,8,,,,,,,,,,,False,shared memory: 5 stages x (64x64 + 64x256) x 2 B = 204800 B exceeds the 101376 B
+64,256,64,5,256,16,,,,,,,,,,,False,shared memory: 5 stages x (64x64 + 64x256) x 2 B = 204800 B exceeds the 101376 B
+64,256,64,5,512,0,,,,,,,,,,,False,shared memory: 5 stages x (64x64 + 64x256) x 2 B = 204800 B exceeds the 101376 B
+64,256,64,5,512,4,,,,,,,,,,,False,shared memory: 5 stages x (64x64 + 64x256) x 2 B = 204800 B exceeds the 101376 B
+64,256,64,5,512,8,,,,,,,,,,,False,shared memory: 5 stages x (64x64 + 64x256) x 2 B = 204800 B exceeds the 101376 B
+64,256,64,5,512,16,,,,,,,,,,,False,shared memory: 5 stages x (64x64 + 64x256) x 2 B = 204800 B exceeds the 101376 B
+64,256,128,2,128,0,,,,,,,,,,,False,shared memory: 2 stages x (64x128 + 128x256) x 2 B = 163840 B exceeds the 101376
+64,256,128,2,128,4,,,,,,,,,,,False,shared memory: 2 stages x (64x128 + 128x256) x 2 B = 163840 B exceeds the 101376
+64,256,128,2,128,8,,,,,,,,,,,False,shared memory: 2 stages x (64x128 + 128x256) x 2 B = 163840 B exceeds the 101376
+64,256,128,2,128,16,,,,,,,,,,,False,shared memory: 2 stages x (64x128 + 128x256) x 2 B = 163840 B exceeds the 101376
+64,256,128,2,256,0,,,,,,,,,,,False,shared memory: 2 stages x (64x128 + 128x256) x 2 B = 163840 B exceeds the 101376
+64,256,128,2,256,4,,,,,,,,,,,False,shared memory: 2 stages x (64x128 + 128x256) x 2 B = 163840 B exceeds the 101376
+64,256,128,2,256,8,,,,,,,,,,,False,shared memory: 2 stages x (64x128 + 128x256) x 2 B = 163840 B exceeds the 101376
+64,256,128,2,256,16,,,,,,,,,,,False,shared memory: 2 stages x (64x128 + 128x256) x 2 B = 163840 B exceeds the 101376
+64,256,128,2,512,0,,,,,,,,,,,False,shared memory: 2 stages x (64x128 + 128x256) x 2 B = 163840 B exceeds the 101376
+64,256,128,2,512,4,,,,,,,,,,,False,shared memory: 2 stages x (64x128 + 128x256) x 2 B = 163840 B exceeds the 101376
+64,256,128,2,512,8,,,,,,,,,,,False,shared memory: 2 stages x (64x128 + 128x256) x 2 B = 163840 B exceeds the 101376
+64,256,128,2,512,16,,,,,,,,,,,False,shared memory: 2 stages x (64x128 + 128x256) x 2 B = 163840 B exceeds the 101376
+64,256,128,3,128,0,,,,,,,,,,,False,shared memory: 3 stages x (64x128 + 128x256) x 2 B = 245760 B exceeds the 101376
+64,256,128,3,128,4,,,,,,,,,,,False,shared memory: 3 stages x (64x128 + 128x256) x 2 B = 245760 B exceeds the 101376
+64,256,128,3,128,8,,,,,,,,,,,False,shared memory: 3 stages x (64x128 + 128x256) x 2 B = 245760 B exceeds the 101376
+64,256,128,3,128,16,,,,,,,,,,,False,shared memory: 3 stages x (64x128 + 128x256) x 2 B = 245760 B exceeds the 101376
+64,256,128,3,256,0,,,,,,,,,,,False,shared memory: 3 stages x (64x128 + 128x256) x 2 B = 245760 B exceeds the 101376
+64,256,128,3,256,4,,,,,,,,,,,False,shared memory: 3 stages x (64x128 + 128x256) x 2 B = 245760 B exceeds the 101376
+64,256,128,3,256,8,,,,,,,,,,,False,shared memory: 3 stages x (64x128 + 128x256) x 2 B = 245760 B exceeds the 101376
+64,256,128,3,256,16,,,,,,,,,,,False,shared memory: 3 stages x (64x128 + 128x256) x 2 B = 245760 B exceeds the 101376
+64,256,128,3,512,0,,,,,,,,,,,False,shared memory: 3 stages x (64x128 + 128x256) x 2 B = 245760 B exceeds the 101376
+64,256,128,3,512,4,,,,,,,,,,,False,shared memory: 3 stages x (64x128 + 128x256) x 2 B = 245760 B exceeds the 101376
+64,256,128,3,512,8,,,,,,,,,,,False,shared memory: 3 stages x (64x128 + 128x256) x 2 B = 245760 B exceeds the 101376
+64,256,128,3,512,16,,,,,,,,,,,False,shared memory: 3 stages x (64x128 + 128x256) x 2 B = 245760 B exceeds the 101376
+64,256,128,4,128,0,,,,,,,,,,,False,shared memory: 4 stages x (64x128 + 128x256) x 2 B = 327680 B exceeds the 101376
+64,256,128,4,128,4,,,,,,,,,,,False,shared memory: 4 stages x (64x128 + 128x256) x 2 B = 327680 B exceeds the 101376
+64,256,128,4,128,8,,,,,,,,,,,False,shared memory: 4 stages x (64x128 + 128x256) x 2 B = 327680 B exceeds the 101376
+64,256,128,4,128,16,,,,,,,,,,,False,shared memory: 4 stages x (64x128 + 128x256) x 2 B = 327680 B exceeds the 101376
+64,256,128,4,256,0,,,,,,,,,,,False,shared memory: 4 stages x (64x128 + 128x256) x 2 B = 327680 B exceeds the 101376
+64,256,128,4,256,4,,,,,,,,,,,False,shared memory: 4 stages x (64x128 + 128x256) x 2 B = 327680 B exceeds the 101376
+64,256,128,4,256,8,,,,,,,,,,,False,shared memory: 4 stages x (64x128 + 128x256) x 2 B = 327680 B exceeds the 101376
+64,256,128,4,256,16,,,,,,,,,,,False,shared memory: 4 stages x (64x128 + 128x256) x 2 B = 327680 B exceeds the 101376
+64,256,128,4,512,0,,,,,,,,,,,False,shared memory: 4 stages x (64x128 + 128x256) x 2 B = 327680 B exceeds the 101376
+64,256,128,4,512,4,,,,,,,,,,,False,shared memory: 4 stages x (64x128 + 128x256) x 2 B = 327680 B exceeds the 101376
+64,256,128,4,512,8,,,,,,,,,,,False,shared memory: 4 stages x (64x128 + 128x256) x 2 B = 327680 B exceeds the 101376
+64,256,128,4,512,16,,,,,,,,,,,False,shared memory: 4 stages x (64x128 + 128x256) x 2 B = 327680 B exceeds the 101376
+64,256,128,5,128,0,,,,,,,,,,,False,shared memory: 5 stages x (64x128 + 128x256) x 2 B = 409600 B exceeds the 101376
+64,256,128,5,128,4,,,,,,,,,,,False,shared memory: 5 stages x (64x128 + 128x256) x 2 B = 409600 B exceeds the 101376
+64,256,128,5,128,8,,,,,,,,,,,False,shared memory: 5 stages x (64x128 + 128x256) x 2 B = 409600 B exceeds the 101376
+64,256,128,5,128,16,,,,,,,,,,,False,shared memory: 5 stages x (64x128 + 128x256) x 2 B = 409600 B exceeds the 101376
+64,256,128,5,256,0,,,,,,,,,,,False,shared memory: 5 stages x (64x128 + 128x256) x 2 B = 409600 B exceeds the 101376
+64,256,128,5,256,4,,,,,,,,,,,False,shared memory: 5 stages x (64x128 + 128x256) x 2 B = 409600 B exceeds the 101376
+64,256,128,5,256,8,,,,,,,,,,,False,shared memory: 5 stages x (64x128 + 128x256) x 2 B = 409600 B exceeds the 101376
+64,256,128,5,256,16,,,,,,,,,,,False,shared memory: 5 stages x (64x128 + 128x256) x 2 B = 409600 B exceeds the 101376
+64,256,128,5,512,0,,,,,,,,,,,False,shared memory: 5 stages x (64x128 + 128x256) x 2 B = 409600 B exceeds the 101376
+64,256,128,5,512,4,,,,,,,,,,,False,shared memory: 5 stages x (64x128 + 128x256) x 2 B = 409600 B exceeds the 101376
+64,256,128,5,512,8,,,,,,,,,,,False,shared memory: 5 stages x (64x128 + 128x256) x 2 B = 409600 B exceeds the 101376
+64,256,128,5,512,16,,,,,,,,,,,False,shared memory: 5 stages x (64x128 + 128x256) x 2 B = 409600 B exceeds the 101376
