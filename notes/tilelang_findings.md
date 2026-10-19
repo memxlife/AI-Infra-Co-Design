@@ -460,3 +460,30 @@ The space is low-dimensional and the dimension changes with the shape: at 4096³
 column count) carry everything, at 1024³ only the tile shape moves the time and by a tenth, and at M=32 nothing in
 the family moves it at all, which is S2's finding seen from the knob side. The seven round-2 knobs never exceed 5 %
 on any shape.
+
+### Step 4 (S5): the price of one wall, measured
+
+The shared-memory cap the contract hands the solver, from 99 KB down in 16 KB steps; the solver re-run at 4096³ under
+each cap, its pick compiled and run (`runs/tilelang/s5/`, figure `runs/tilelang/figures/s5_smem_wall.png`):
+
+| cap | solver's pick | staged | measured | predicted |
+|---|---|---|---|---|
+| 99 KB | 128x256x32, 3 stages, 512 threads, panel 16 | 72 KB | 1573 µs | 1438 |
+| 83 KB | 128x256x32, 3 stages, 512 threads, panel 8 | 72 KB | 1432 µs | 1438 |
+| 67 KB | 128x256x32, 2 stages, 512 threads, panel 16 | 48 KB | 1587 µs | 1438 |
+| 51 KB | 128x256x32, 2 stages, 512 threads, panel 16 | 48 KB | 1581 µs | 1438 |
+| 35 KB | 128x128x32, 2 stages, 256 threads, panel 16 | 32 KB | 1819 µs | 1468 |
+| 19 KB | 64x64x32, 2 stages, 128 threads, panel 16 | 16 KB | 3696 µs | 2264 |
+
+The staircase has two steps and a flat. From 99 down to 51 KB the pick keeps its tile (128x256) and gives up one
+pipeline stage at 67 KB; the measured time moves between 1432 and 1587 µs, and that spread is not the cap: it is the
+model pricing panels 8 and 16 the same (both tensor-bound in J-hat at this shape) and breaking the tie by menu
+order, while the chip prefers panel 8 by 10 %. The first real step is at 35 KB, where the tile shape changes to
+128x128 (the pick no longer fits a 256-wide tile with two stages): +250 µs, 17 %. The second is at 19 KB, 64x64
+tiles: +2.1 ms, 2.6x. So the shadow price of shared memory at 4096³ on this chip is zero above 48 KB, about
+15 µs per KB between 48 and 32 KB, and about 115 µs per KB below that, as the family's tile menu falls away one
+column at a time. The model's prediction tracks the steps' order and under-prices both (1468 and 2264 against 1819
+and 3696), since the rate table never saw 128x128 or 64x64 at 4096³ with panel 16 under a stage shortage. The
+10 % panel tie is the one thing this experiment adds to the model's to-do list: a traffic term that separates
+panel 8 from 16 at 4096³ would need the L2's actual reuse across panels, which the microbenchmark default sets
+to zero.

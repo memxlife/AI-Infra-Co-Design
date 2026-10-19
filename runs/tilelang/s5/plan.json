@@ -1,0 +1,140 @@
+[
+ {
+  "label": "s5:cap99",
+  "shape": {
+   "M": 4096,
+   "N": 4096,
+   "K": 4096
+  },
+  "holes": {
+   "block_M": 128,
+   "block_N": 256,
+   "block_K": 32,
+   "num_stages": 3,
+   "threads": 512,
+   "swizzle": 16,
+   "prefetch": 0,
+   "warp_policy": 0,
+   "vec_width": 0,
+   "tma": 1,
+   "warp_spec": 1,
+   "smem_layout": "inferred"
+  },
+  "kernel": "s5/cap99.py"
+ },
+ {
+  "label": "s5:cap83",
+  "shape": {
+   "M": 4096,
+   "N": 4096,
+   "K": 4096
+  },
+  "holes": {
+   "block_M": 128,
+   "block_N": 256,
+   "block_K": 32,
+   "num_stages": 3,
+   "threads": 512,
+   "swizzle": 8,
+   "prefetch": 0,
+   "warp_policy": 0,
+   "vec_width": 0,
+   "tma": 1,
+   "warp_spec": 1,
+   "smem_layout": "inferred"
+  },
+  "kernel": "s5/cap83.py"
+ },
+ {
+  "label": "s5:cap67",
+  "shape": {
+   "M": 4096,
+   "N": 4096,
+   "K": 4096
+  },
+  "holes": {
+   "block_M": 128,
+   "block_N": 256,
+   "block_K": 32,
+   "num_stages": 2,
+   "threads": 512,
+   "swizzle": 16,
+   "prefetch": 0,
+   "warp_policy": 0,
+   "vec_width": 0,
+   "tma": 1,
+   "warp_spec": 1,
+   "smem_layout": "inferred"
+  },
+  "kernel": "s5/cap67.py"
+ },
+ {
+  "label": "s5:cap51",
+  "shape": {
+   "M": 4096,
+   "N": 4096,
+   "K": 4096
+  },
+  "holes": {
+   "block_M": 128,
+   "block_N": 256,
+   "block_K": 32,
+   "num_stages": 2,
+   "threads": 512,
+   "swizzle": 16,
+   "prefetch": 0,
+   "warp_policy": 0,
+   "vec_width": 0,
+   "tma": 1,
+   "warp_spec": 1,
+   "smem_layout": "inferred"
+  },
+  "kernel": "s5/cap51.py"
+ },
+ {
+  "label": "s5:cap35",
+  "shape": {
+   "M": 4096,
+   "N": 4096,
+   "K": 4096
+  },
+  "holes": {
+   "block_M": 128,
+   "block_N": 128,
+   "block_K": 32,
+   "num_stages": 2,
+   "threads": 256,
+   "swizzle": 16,
+   "prefetch": 0,
+   "warp_policy": 0,
+   "vec_width": 0,
+   "tma": 1,
+   "warp_spec": 1,
+   "smem_layout": "inferred"
+  },
+  "kernel": "s5/cap35.py"
+ },
+ {
+  "label": "s5:cap19",
+  "shape": {
+   "M": 4096,
+   "N": 4096,
+   "K": 4096
+  },
+  "holes": {
+   "block_M": 64,
+   "block_N": 64,
+   "block_K": 32,
+   "num_stages": 2,
+   "threads": 128,
+   "swizzle": 16,
+   "prefetch": 0,
+   "warp_policy": 0,
+   "vec_width": 0,
+   "tma": 1,
+   "warp_spec": 1,
+   "smem_layout": "inferred"
+  },
+  "kernel": "s5/cap19.py"
+ }
+]

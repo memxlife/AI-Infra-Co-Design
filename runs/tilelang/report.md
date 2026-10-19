@@ -116,9 +116,9 @@ Before = round 2's envelopes (commit a690de4); after = round 3's: the per-launch
 
 ## Solver
 
-- 1024: 274 variables, 1145 rows, 31 ms (HiGHS); predicted 54.9 µs
-- 4096: 274 variables, 1145 rows, 26 ms (HiGHS); predicted 1437.6 µs
-- m32: 274 variables, 1145 rows, 31 ms (HiGHS); predicted 168.4 µs
+- 1024: 274 variables, 1145 rows, 32 ms (HiGHS); predicted 54.9 µs
+- 4096: 274 variables, 1145 rows, 27 ms (HiGHS); predicted 1437.6 µs
+- m32: 274 variables, 1145 rows, 30 ms (HiGHS); predicted 168.4 µs
 
 ## Error histograms (measured minus predicted, over measured)
 
