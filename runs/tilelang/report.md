@@ -27,7 +27,8 @@ Removed by the constraints: the shared-memory rule, the register rule (launch bo
 
 | shape | our pick | measured | predicted | TFLOP/s | regs / spills | autotuner (compiles) | cuBLASLt | our time vs autotuner |
 |---|---|---|---|---|---|---|---|---|
-| 4096x4096x4096 | 256x128x64, 2 st, 256 th, swz 4 | 1434.5 µs | 1038.0 µs | 95.8 | 168 / 0 | 1941.5 µs (132 of 144) | 1456.3 µs | -26.1% |
+| 32x4096x4096 | 16x256x32, 3 st, 256 th, swz 0 | 205.8 µs | 247.7 µs | 5.2 | 168 / 0 | 204.6 µs (132 of 144) | 148.9 µs | +0.6% |
+| 32x4096x4096 | 16x256x32, 3 st, 256 th, swz 0 | 207.9 µs | 201.7 µs | 5.2 | 168 / 0 | 204.6 µs (132 of 144) | 148.9 µs | +1.6% |
 
 ## Step 3: the full 12-knob space, solver pick against 200 random legal points
 
@@ -42,6 +43,36 @@ Removed by the constraints: the shared-memory rule, the register rule (launch bo
 - model on the sample: Spearman -0.11, bound broken on 27.5%
 - solver's pick (275 binaries, 38 ms): {'block_M': 64, 'block_N': 256, 'block_K': 64, 'num_stages': 2, 'threads': 256, 'swizzle': 0, 'prefetch': 0, 'warp_policy': 0, 'vec_width': 0, 'tma': 1, 'warp_spec': 1, 'smem_layout': 'inferred'} -> measured 206.8 µs (predicted 200.4); gap to sample best +1.4%; new knobs it used: none (all at the round-1 defaults)
 - round 1's pick re-timed in this run: 203.7 µs; round 2 pick vs round 1 pick: +3.0 µs (+1.5%)
+
+## R5: out-of-sample shapes (terms calibrated on 1024^3, 4096^3 and M=32 only)
+
+| shape | solver pick | measured | predicted | sample best (of 30) | gap pick vs sample best | bound broken on the sample | Spearman on the sample | failed / wrong / spill in the sample |
+|---|---|---|---|---|---|---|---|---|
+| 2048x2048x2048 | 128x256x32, 4 st, 256 th, swz 8 | 242.7 µs | 189.6 µs | 257.0 µs (64x128x32, 5 st, 128 th, swz 16) | -5.6% | 0% | 0.20 | 0 / 2 / 0 |
+| 8192x8192x8192 | 128x256x32, 4 st, 256 th, swz 16 | 11539.2 µs | 10755.1 µs | 13231.1 µs (128x256x32, 3 st, 512 th, swz 16) | -12.8% | 50% | 0.66 | 0 / 2 / 0 |
+| 4096x4096x1024 | 256x128x64, 2 st, 256 th, swz 16 | 461.8 µs | 676.8 µs | 471.0 µs (64x128x32, 5 st, 128 th, swz 16) | -2.0% | 71% | 0.15 | 0 / 2 / 0 |
+| 128x4096x4096 | 256x64x32, 2 st, 128 th, swz 0 | 258.9 µs | 209.6 µs | 207.9 µs (64x64x64, 3 st, 256 th, swz 8) | +24.6% | 14% | 0.03 | 0 / 2 / 0 |
+
+## Step 5: the split-K family at M=32
+
+gemm_basic base (16x256x32, 4 stages, 256 threads): 203.7 µs, correct True.
+
+| kernel | split_k | measured | vs base | correct (exact-once) | regs | blocks |
+|---|---|---|---|---|---|---|
+| 16x256 st2 | 2 | 253.9 µs | +24.6% | True (err 0.117) | 168 | 64 |
+| 16x256 st4 | 2 | 249.9 µs | +22.7% | True (err 0.122) | 168 | 64 |
+| 16x256 st2 | 4 | 216.1 µs | +6.1% | True (err 0.119) | 168 | 128 |
+| 16x256 st4 | 4 | 219.0 µs | +7.5% | True (err 0.090) | 168 | 128 |
+| 16x256 st2 | 8 | 210.9 µs | +3.5% | True (err 0.109) | 168 | 256 |
+| 16x256 st4 | 8 | 208.8 µs | +2.5% | True (err 0.123) | 168 | 256 |
+| 32x128 st2 | 2 | 216.0 µs | +6.0% | True (err 0.125) | 168 | 64 |
+| 32x128 st4 | 2 | 208.8 µs | +2.5% | True (err 0.105) | 168 | 64 |
+| 32x128 st2 | 4 | 210.0 µs | +3.1% | True (err 0.115) | 168 | 128 |
+| 32x128 st4 | 4 | 208.9 µs | +2.5% | True (err 0.123) | 168 | 128 |
+| 32x128 st2 | 8 | 211.0 µs | +3.6% | True (err 0.109) | 168 | 256 |
+| 32x128 st4 | 8 | 210.9 µs | +3.6% | True (err 0.124) | 168 | 256 |
+
+Best correct split-K kernel: 208.8 µs (+2.5% against the gemm_basic base; the noise band at M=32 is 0.5 %); DRAM floor for B once: 142.6 µs.
 
 ## Solver
 

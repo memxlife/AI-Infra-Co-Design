@@ -146,3 +146,61 @@ Model on the sample: Spearman 0.67 at 1024³, −0.11 at M=32 (182 points within
 thread counts' register budgets) sit below them. The honest summary for the paper: on this family and chip, the
 six knobs TileLang's own autotuner sees are the ones that matter; the extra seven cost 215 lines to expose, and
 what they bought was one correctness rule and one register-cliff escape, not a faster kernel.
+
+### Step 4: R4 and R5
+
+**R4.** `report.md` now carries the two autotuner claims under separate headings and no merged percentage: the menu
+claim (TileLang's 144-config list has no traversal panel; 1941.5 µs after 132 compiles against our menu's best of
+1377.4 µs at 4096³) and the solver claim (over our own menu, 1377.4 µs exhaustive against 1379.4 µs from one compile
+with the round-1 terms, 1414.1 µs with the round-2 envelopes; 63.4 vs 64.4 µs at 1024³; 200.4 vs 202.7 µs at M=32).
+
+**R5, out of sample.** Terms fitted on 1024³, 4096³ and M=32 only; four new shapes, the solver's pick over the full
+space plus 30 random legal points each (`runs/tilelang/oos.md`):
+
+| shape | pick measured | sample best of 30 | pick vs sample best | predicted | bound broken on the sample |
+|---|---|---|---|---|---|
+| 2048³ | 242.7 µs | 257.0 µs | −5.6 % | 189.6 µs | 0 % |
+| 8192³ | 11539 µs | 13231 µs | −12.8 % | 10755 µs | 50 % |
+| 4096×4096×1024 | 461.8 µs | 471.0 µs | −2.0 % | 676.8 µs | 71 % |
+| 128×4096×4096 | 258.9 µs | 207.9 µs | **+24.6 %** | 209.6 µs | 14 % |
+
+The pick beats thirty random legal points on three of the four shapes without a single extra compile. It loses at
+M=128 by a quarter: the pick pads M to 256 rows (one row of 64 blocks) and streams B at 130 GB/s, while the sample's
+best (64x64 tiles, 128 blocks) reaches 165 GB/s; the model's DRAM rate is the 235 GB/s the big square reaches, and it
+has no term for the fewer, bigger blocks of a skinny shape pulling less. The bound breaks on the two shapes whose K
+is not 1024 or 4096 in the way the table expects: at K=1024 with 512 tiles (11 waves) the rate table's entry comes
+from the 1024³ sweep, where that tile ran one wave with its start-up unamortized, so the model is 47 % too slow;
+at 8192³ the "best over the K's seen" fallback is 7 % too slow for half the sample. The envelopes are bounds on the
+shapes they were fitted on and not far outside them; a per-wave start-up term and a per-block streaming cap are the
+two terms R5 says are missing. Each sample had 2 wrong answers: linear layout + TMA again (the sample was drawn
+before step 3's rule).
+
+### Step 5: the split-K family, the live Formulator call, and R7
+
+**R6, refuted.** Family `gemm_splitk` (TileLang's `examples/gemm_splitk` with the six holes plus `split_k`; the grid's
+z axis over parts of K, FP32 atomics into a zeroed C; exact-once as a legalize rule, `K mod split_k == 0` and
+`(K / split_k) mod block_K == 0`, and as a contract obligation). The Formulator (Claude Code, live in the session)
+read the probe at M=32, 32 tiles for 48 SMs, one block per SM, and chose `gemm_splitk` with split_k in {2, 4, 8},
+predicting 150–180 µs. Every split-K kernel is correct (exact-once holds; max error 0.09–0.125 against torch, the
+same as `gemm_basic`), and every one is **slower**: the best, 32x128 tiles with 4 stages and split 2 or 4, takes
+208.8 µs against 203.7 µs for the `gemm_basic` base, +2.5 %, outside the 0.5 % band in the wrong direction; split 8
+with 256 blocks is +3.5 %, split 2 with 16x256 tiles +23 %. The model had the order right (200 / 211 / 223 / 248 µs
+for split 1 / 2 / 4 / 8). So at M=32 the limit is not the block count: 32 blocks already pull 160 GB/s and 256 blocks
+pull no more, against cuBLASLt's 215 GB/s. The decode shape's remaining 40 % is in how B is streamed (the TMA box
+geometry or the per-SM copy path), not in how many blocks stream it; that is the next structural choice to open,
+and it is not split-K. The loop recorded all of it: run `tilelang-splitk-m32` in `runs/gemm-tilelang.db` has the
+proposal choosing the family, the family check with exact-once, the solver's pick (16x256, 3 stages, split 8,
+predicted 247.7 µs), the kernel correct at 205.8 µs, and then R7 firing live (below).
+
+**R7, the loop reacts once.** Mechanism: when a kernel runs faster than the model's bound at the solver's point, the
+orchestrator names the longest term, re-fits that one term from the measurement (the ncu DRAM bytes when the
+report has them, otherwise the rate the measurement implies), derives a contract that carries the new terms, solves
+again and runs the new pick (`agentic/tilelang/recalibrate.py`, `Orchestrator._recalibrate_and_resolve`). Replay
+without the GPU (`tests/test_tilelang_r7.py`, from the 4096³ sweep): the brief's injected error, the effective L2
+halved, cannot show it, because every panel pick at 4096³ is tensor-bound in the model and a wrong L2 term changes
+neither the pick nor its prediction; a DRAM rate at a quarter of its value does: the first pick is predicted 2346 µs
+and measured 2222 µs, `diagnose(cost_model)` fires, B_HBM moves from 43 to 46 GB/s (what that one measurement
+proves), the re-solve changes the pick, the new pick measures 2063 µs. The ledger shows measured → diagnosis →
+recalibration → new pick. It also fired live in the split-K run: predicted 247.7 µs, measured 205.8 µs, the per-SM
+rate entry for that tile re-fitted, the re-solve kept the same pick (the menus the Formulator left had no better
+point), the second run measured 207.9 µs.

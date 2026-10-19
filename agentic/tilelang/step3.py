@@ -12,6 +12,7 @@ from .contract import family_contract
 from .cost import predict
 from .solve import solve_family
 from .tools import render
+from .report import _h
 
 ROOT = Path(__file__).resolve().parents[2]; RUNS = ROOT / "runs" / "tilelang"; SAMPLE = RUNS / "sample"
 SHAPES = {"1024": {"M": 1024, "N": 1024, "K": 1024}, "m32": {"M": 32, "N": 4096, "K": 4096}}
