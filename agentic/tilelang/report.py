@@ -53,13 +53,17 @@ def main():
         if not f.exists():
             out.append(f"- {shape['M']}x{shape['N']}x{shape['K']}: not run yet"); continue
         b = json.load(open(f))["kinds"]; p = picks.get(name, {})
+        fx = RUNS / f"baseline_fix_{name}.json"                      # the rerun of carver (fixed mapping) and cuBLAS (second opinion)
+        if fx.exists():
+            b = {**b, **{k: v for k, v in json.load(open(fx))["kinds"].items() if v.get("latency_ms")}}
         parts = []
         for k in ("cublas", "autotune", "carver"):
             v = b.get(k, {})
             if v.get("latency_ms"):
                 us = v["latency_ms"] * 1e3
                 gap = f" (our pick {p['measured_us'] / us - 1:+.1%})" if p.get("measured_us") else ""
-                parts.append(f"{k} {us:.1f} µs{gap}" + (f" [{_h(v['config'])}]" if isinstance(v.get("config"), dict) else ""))
+                extra = f", {v['compiled']} of {v['tried']} ran" if v.get("tried") else ""
+                parts.append(f"{k} {us:.1f} µs{gap}" + (f" [{_h(v['config'])}]" if isinstance(v.get("config"), dict) else "") + extra)
             else:
                 parts.append(f"{k}: {str(v.get('error', 'no result'))[:80]}")
         out.append(f"- {shape['M']}x{shape['N']}x{shape['K']}: " + "; ".join(parts))

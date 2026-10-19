@@ -12,7 +12,8 @@ Removed by the constraints: the shared-memory rule, the register rule (launch bo
 
 ## Baselines
 
-- 1024x1024x1024: not run yet
+- 1024x1024x1024: cublas 221.3 µs (our pick -70.8%); autotune 60.2 µs (our pick +7.1%) [256x128x64, 2 st, 256 th, swz 0], 132 of 144 ran; carver: Traceback (most recent call last):
+  File "/home/lishang/work/research/AI-Infra-
 - 4096x4096x4096: not run yet
 - 32x4096x4096: not run yet
 

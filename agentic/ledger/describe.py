@@ -230,7 +230,11 @@ def _baselines_for(wl: dict) -> dict | None:
     f = Path(__file__).resolve().parents[2] / "runs" / "tilelang" / f"baseline_{name}.json" if name else None
     if not f or not f.exists():
         return None
-    return {k: {"latency_ms": v.get("latency_ms"), "config": v.get("config")} for k, v in json.load(open(f))["kinds"].items()}
+    kinds = json.load(open(f))["kinds"]
+    fx = f.with_name(f"baseline_fix_{name}.json")
+    if fx.exists():
+        kinds = {**kinds, **{k: v for k, v in json.load(open(fx))["kinds"].items() if v.get("latency_ms")}}
+    return {k: {"latency_ms": v.get("latency_ms"), "config": v.get("config")} for k, v in kinds.items()}
 
 
 def describe_all(ledger: Ledger, run: str) -> dict[str, dict]:
