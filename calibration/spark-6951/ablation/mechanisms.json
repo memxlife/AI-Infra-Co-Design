@@ -1,0 +1,502 @@
+{
+ "1024": {
+  "shape": {
+   "M": 1024,
+   "N": 1024,
+   "K": 1024
+  },
+  "pick": {
+   "block_M": 64,
+   "block_N": 128,
+   "block_K": 128,
+   "num_stages": 2,
+   "threads": 128,
+   "swizzle": 8,
+   "prefetch": 0,
+   "warp_policy": 0,
+   "vec_width": 0,
+   "tma": 1,
+   "warp_spec": 1,
+   "smem_layout": "inferred"
+  },
+  "KT": 8,
+  "blocks": 128,
+  "waves": 3,
+  "launch_us_event_1block_nostore": 2.592,
+  "block_setup_us": 0.096,
+  "launch_us_event_48blocks_nostore": 2.528,
+  "launch_us_event_full_nostore": 2.944,
+  "store_per_block_us": 0.8320000000000001,
+  "store_full_grid_us": 7.808000000000001,
+  "compute_per_ktile_us": 0.936,
+  "tensor_rate_TFs_per_SM": 2.2405470085470083,
+  "compute_full_grid_us": 33.184,
+  "load_per_ktile_us_1block": 0.636,
+  "bytes_per_ktile": 49152,
+  "load_rate_GBs_1block": 77.28301886792453,
+  "load_curve": {
+   "1": {
+    "event_us": 8.672,
+    "block_mean_us": 6.016,
+    "GBs_chip": 65.36170212765957,
+    "GBs_per_block": 77.28301886792453
+   },
+   "48": {
+    "event_us": 15.84,
+    "block_mean_us": 11.759,
+    "GBs_chip": 1485.7027707808566,
+    "GBs_per_block": 36.304681008217166
+   },
+   "96": {
+    "event_us": 31.168,
+    "block_mean_us": 13.058,
+    "GBs_chip": 1325.447191011236,
+    "GBs_per_block": 32.41681780708986
+   },
+   "128": {
+    "event_us": 39.296,
+    "block_mean_us": 12.438,
+    "GBs_chip": 1314.0050125313285,
+    "GBs_per_block": 34.1629887054735
+   }
+  },
+  "full_block_us": 14.179,
+  "full_event_us": 45.12,
+  "full_span_us": 44.064,
+  "overlap": {
+   "max_parts_us": 12.438,
+   "sum_parts_us": 19.926000000000002,
+   "measured_block_us": 14.179,
+   "compute_part_us": 7.488,
+   "load_part_us_under_full_grid": 11.51,
+   "setup_us": 0.928,
+   "sync_cost_us": 1.7409999999999997
+  }
+ },
+ "4096": {
+  "shape": {
+   "M": 4096,
+   "N": 4096,
+   "K": 4096
+  },
+  "pick": {
+   "block_M": 128,
+   "block_N": 256,
+   "block_K": 32,
+   "num_stages": 3,
+   "threads": 512,
+   "swizzle": 16,
+   "prefetch": 0,
+   "warp_policy": 0,
+   "vec_width": 0,
+   "tma": 1,
+   "warp_spec": 1,
+   "smem_layout": "inferred"
+  },
+  "KT": 128,
+  "blocks": 512,
+  "waves": 11,
+  "launch_us_event_1block_nostore": 2.56,
+  "block_setup_us": 0.16,
+  "launch_us_event_48blocks_nostore": 2.592,
+  "launch_us_event_full_nostore": 6.72,
+  "store_per_block_us": 0.28800000000000003,
+  "store_full_grid_us": 171.84,
+  "compute_per_ktile_us": 0.8472500000000001,
+  "tensor_rate_TFs_per_SM": 2.475245795219829,
+  "compute_full_grid_us": 1325.472,
+  "load_per_ktile_us_1block": 0.2995,
+  "bytes_per_ktile": 24576,
+  "load_rate_GBs_1block": 82.05676126878132,
+  "load_curve": {
+   "1": {
+    "event_us": 45.44,
+    "block_mean_us": 38.784,
+    "GBs_chip": 81.10891089108911,
+    "GBs_per_block": 82.05676126878132
+   },
+   "48": {
+    "event_us": 183.808,
+    "block_mean_us": 166.765,
+    "GBs_chip": 904.8115052732502,
+    "GBs_per_block": 18.914049676220714
+   },
+   "96": {
+    "event_us": 242.944,
+    "block_mean_us": 106.898,
+    "GBs_chip": 1323.7738813297801,
+    "GBs_per_block": 29.55122592766557
+   },
+   "512": {
+    "event_us": 1368.608,
+    "block_mean_us": 112.855,
+    "GBs_chip": 1186.703322094641,
+    "GBs_per_block": 27.98516106648162
+   }
+  },
+  "full_block_us": 127.976,
+  "full_event_us": 1510.56,
+  "full_span_us": 1491.296,
+  "overlap": {
+   "max_parts_us": 112.855,
+   "sum_parts_us": 221.303,
+   "measured_block_us": 127.976,
+   "compute_part_us": 108.44800000000001,
+   "load_part_us_under_full_grid": 112.40700000000001,
+   "setup_us": 0.448,
+   "sync_cost_us": 15.120999999999995
+  }
+ },
+ "m32": {
+  "shape": {
+   "M": 32,
+   "N": 4096,
+   "K": 4096
+  },
+  "pick": {
+   "block_M": 32,
+   "block_N": 128,
+   "block_K": 128,
+   "num_stages": 2,
+   "threads": 128,
+   "swizzle": 4,
+   "prefetch": 0,
+   "warp_policy": 0,
+   "vec_width": 0,
+   "tma": 1,
+   "warp_spec": 1,
+   "smem_layout": "inferred"
+  },
+  "KT": 32,
+  "blocks": 32,
+  "waves": 1,
+  "launch_us_event_1block_nostore": 3.04,
+  "block_setup_us": 0.096,
+  "launch_us_event_48blocks_nostore": 2.72,
+  "launch_us_event_full_nostore": 2.72,
+  "store_per_block_us": 0.44800000000000006,
+  "store_full_grid_us": 1.9519999999999995,
+  "compute_per_ktile_us": 0.485,
+  "tensor_rate_TFs_per_SM": 2.1620123711340207,
+  "compute_full_grid_us": 20.576,
+  "load_per_ktile_us_1block": 0.514,
+  "bytes_per_ktile": 40960,
+  "load_rate_GBs_1block": 79.68871595330741,
+  "load_curve": {
+   "1": {
+    "event_us": 20.832,
+    "block_mean_us": 16.992,
+    "GBs_chip": 77.13747645951037,
+    "GBs_per_block": 79.68871595330741
+   },
+   "32": {
+    "event_us": 122.112,
+    "block_mean_us": 116.394,
+    "GBs_chip": 354.6320346320347,
+    "GBs_per_block": 11.313940440224428
+   }
+  },
+  "full_block_us": 117.951,
+  "full_event_us": 123.968,
+  "full_span_us": 119.776,
+  "overlap": {
+   "max_parts_us": 116.394,
+   "sum_parts_us": 131.91400000000002,
+   "measured_block_us": 117.951,
+   "compute_part_us": 15.52,
+   "load_part_us_under_full_grid": 115.85000000000001,
+   "setup_us": 0.544,
+   "sync_cost_us": 1.556999999999988
+  }
+ },
+ "2048": {
+  "shape": {
+   "M": 2048,
+   "N": 2048,
+   "K": 2048
+  },
+  "pick": {
+   "block_M": 256,
+   "block_N": 128,
+   "block_K": 64,
+   "num_stages": 2,
+   "threads": 256,
+   "swizzle": 0,
+   "prefetch": 0,
+   "warp_policy": 0,
+   "vec_width": 0,
+   "tma": 1,
+   "warp_spec": 1,
+   "smem_layout": "inferred"
+  },
+  "KT": 32,
+  "blocks": 128,
+  "waves": 3,
+  "launch_us_event_1block_nostore": 2.752,
+  "block_setup_us": 0.16,
+  "launch_us_event_48blocks_nostore": 2.528,
+  "launch_us_event_full_nostore": 3.008,
+  "store_per_block_us": 2.784,
+  "store_full_grid_us": 26.976000000000003,
+  "compute_per_ktile_us": 1.637,
+  "tensor_rate_TFs_per_SM": 2.562189370800245,
+  "compute_full_grid_us": 186.848,
+  "load_per_ktile_us_1block": 0.605,
+  "bytes_per_ktile": 49152,
+  "load_rate_GBs_1block": 81.24297520661159,
+  "load_curve": {
+   "1": {
+    "event_us": 25.024,
+    "block_mean_us": 22.304,
+    "GBs_chip": 70.51936872309899,
+    "GBs_per_block": 81.24297520661159
+   },
+   "48": {
+    "event_us": 49.728,
+    "block_mean_us": 46.653,
+    "GBs_chip": 1580.2384460817148,
+    "GBs_per_block": 35.98490013498365
+   },
+   "96": {
+    "event_us": 95.872,
+    "block_mean_us": 45.173,
+    "GBs_chip": 1631.6016597510377,
+    "GBs_per_block": 37.24606313197093
+   },
+   "128": {
+    "event_us": 138.432,
+    "block_mean_us": 43.709,
+    "GBs_chip": 1492.280834914611,
+    "GBs_per_block": 38.58368698638537
+   }
+  },
+  "full_block_us": 65.107,
+  "full_event_us": 203.296,
+  "full_span_us": 198.528,
+  "overlap": {
+   "max_parts_us": 55.328,
+   "sum_parts_us": 96.093,
+   "measured_block_us": 65.107,
+   "compute_part_us": 52.384,
+   "load_part_us_under_full_grid": 40.765,
+   "setup_us": 2.944,
+   "sync_cost_us": 9.778999999999996
+  }
+ },
+ "8192": {
+  "shape": {
+   "M": 8192,
+   "N": 8192,
+   "K": 8192
+  },
+  "pick": {
+   "block_M": 256,
+   "block_N": 128,
+   "block_K": 64,
+   "num_stages": 2,
+   "threads": 512,
+   "swizzle": 16,
+   "prefetch": 0,
+   "warp_policy": 0,
+   "vec_width": 0,
+   "tma": 1,
+   "warp_spec": 1,
+   "smem_layout": "inferred"
+  },
+  "KT": 128,
+  "blocks": 2048,
+  "waves": 43,
+  "launch_us_event_1block_nostore": 2.496,
+  "block_setup_us": 0.096,
+  "launch_us_event_48blocks_nostore": 2.528,
+  "launch_us_event_full_nostore": 18.88,
+  "store_per_block_us": 0.31999999999999995,
+  "store_full_grid_us": 662.432,
+  "compute_per_ktile_us": 1.65025,
+  "tensor_rate_TFs_per_SM": 2.5416173307074685,
+  "compute_full_grid_us": 10016.288,
+  "load_per_ktile_us_1block": 0.604,
+  "bytes_per_ktile": 49152,
+  "load_rate_GBs_1block": 81.37748344370861,
+  "load_curve": {
+   "1": {
+    "event_us": 84.384,
+    "block_mean_us": 77.728,
+    "GBs_chip": 80.9419514203376,
+    "GBs_per_block": 81.37748344370861
+   },
+   "48": {
+    "event_us": 474.592,
+    "block_mean_us": 453.935,
+    "GBs_chip": 656.7738882316097,
+    "GBs_per_block": 13.872530147579264
+   },
+   "64": {
+    "event_us": 642.464,
+    "block_mean_us": 374.774,
+    "GBs_chip": 639.1158065826901,
+    "GBs_per_block": 16.80598785120126
+   },
+   "2048": {
+    "event_us": 15110.4,
+    "block_mean_us": 339.603,
+    "GBs_chip": 854.387513076174,
+    "GBs_per_block": 18.548635413503465
+   }
+  },
+  "full_block_us": 341.645,
+  "full_event_us": 15136.064,
+  "full_span_us": 15103.456,
+  "overlap": {
+   "max_parts_us": 339.603,
+   "sum_parts_us": 550.835,
+   "measured_block_us": 341.645,
+   "compute_part_us": 211.232,
+   "load_part_us_under_full_grid": 339.187,
+   "setup_us": 0.416,
+   "sync_cost_us": 2.041999999999973
+  }
+ },
+ "k1024": {
+  "shape": {
+   "M": 4096,
+   "N": 4096,
+   "K": 1024
+  },
+  "pick": {
+   "block_M": 256,
+   "block_N": 128,
+   "block_K": 32,
+   "num_stages": 4,
+   "threads": 512,
+   "swizzle": 0,
+   "prefetch": 0,
+   "warp_policy": 0,
+   "vec_width": 0,
+   "tma": 1,
+   "warp_spec": 1,
+   "smem_layout": "inferred"
+  },
+  "KT": 32,
+  "blocks": 512,
+  "waves": 11,
+  "launch_us_event_1block_nostore": 2.784,
+  "block_setup_us": 0.16,
+  "launch_us_event_48blocks_nostore": 2.496,
+  "launch_us_event_full_nostore": 6.592,
+  "store_per_block_us": 0.0,
+  "store_full_grid_us": 166.65599999999998,
+  "compute_per_ktile_us": 0.777,
+  "tensor_rate_TFs_per_SM": 2.699037323037323,
+  "compute_full_grid_us": 387.072,
+  "load_per_ktile_us_1block": 0.28099999999999997,
+  "bytes_per_ktile": 24576,
+  "load_rate_GBs_1block": 87.4590747330961,
+  "load_curve": {
+   "1": {
+    "event_us": 16.8,
+    "block_mean_us": 9.152,
+    "GBs_chip": 85.93006993006995,
+    "GBs_per_block": 87.4590747330961
+   },
+   "32": {
+    "event_us": 22.976,
+    "block_mean_us": 10.814,
+    "GBs_chip": 2253.3868194842407,
+    "GBs_per_block": 73.81565609160879
+   },
+   "96": {
+    "event_us": 60.864,
+    "block_mean_us": 16.328,
+    "GBs_chip": 1551.147928994083,
+    "GBs_per_block": 48.64126669965364
+   },
+   "512": {
+    "event_us": 324.832,
+    "block_mean_us": 18.339,
+    "GBs_chip": 1216.2103228300793,
+    "GBs_per_block": 43.26046537213269
+   }
+  },
+  "full_block_us": 27.917,
+  "full_event_us": 448.992,
+  "full_span_us": 432.576,
+  "overlap": {
+   "max_parts_us": 25.024,
+   "sum_parts_us": 43.203,
+   "measured_block_us": 27.917,
+   "compute_part_us": 24.864,
+   "load_part_us_under_full_grid": 18.179,
+   "setup_us": 0.16,
+   "sync_cost_us": 2.8930000000000007
+  }
+ },
+ "m128": {
+  "shape": {
+   "M": 128,
+   "N": 4096,
+   "K": 4096
+  },
+  "pick": {
+   "block_M": 256,
+   "block_N": 64,
+   "block_K": 32,
+   "num_stages": 2,
+   "threads": 128,
+   "swizzle": 0,
+   "prefetch": 0,
+   "warp_policy": 0,
+   "vec_width": 0,
+   "tma": 1,
+   "warp_spec": 1,
+   "smem_layout": "inferred"
+  },
+  "KT": 128,
+  "blocks": 64,
+  "waves": 2,
+  "launch_us_event_1block_nostore": 2.528,
+  "block_setup_us": 0.096,
+  "launch_us_event_48blocks_nostore": 2.56,
+  "launch_us_event_full_nostore": 2.592,
+  "store_per_block_us": 0.384,
+  "store_full_grid_us": 2.0479999999999996,
+  "compute_per_ktile_us": 0.47250000000000003,
+  "tensor_rate_TFs_per_SM": 2.219208465608465,
+  "compute_full_grid_us": 127.36,
+  "load_per_ktile_us_1block": 0.263,
+  "bytes_per_ktile": 20480,
+  "load_rate_GBs_1block": 77.87072243346007,
+  "load_curve": {
+   "1": {
+    "event_us": 37.312,
+    "block_mean_us": 34.144,
+    "GBs_chip": 76.77600749765698,
+    "GBs_per_block": 77.87072243346007
+   },
+   "48": {
+    "event_us": 76.352,
+    "block_mean_us": 72.17,
+    "GBs_chip": 1719.352864013992,
+    "GBs_per_block": 36.566327242293205
+   },
+   "64": {
+    "event_us": 143.904,
+    "block_mean_us": 78.73,
+    "GBs_chip": 1196.7313398767405,
+    "GBs_per_block": 33.50083067092652
+   }
+  },
+  "full_block_us": 85.478,
+  "full_event_us": 162.112,
+  "full_span_us": 158.624,
+  "overlap": {
+   "max_parts_us": 78.73,
+   "sum_parts_us": 139.21,
+   "measured_block_us": 85.478,
+   "compute_part_us": 60.480000000000004,
+   "load_part_us_under_full_grid": 78.25,
+   "setup_us": 0.48,
+   "sync_cost_us": 6.7479999999999905
+  }
+ }
+}

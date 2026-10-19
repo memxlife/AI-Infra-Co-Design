@@ -1,0 +1,291 @@
+{
+ "chip": "spark-6951-gb10",
+ "kernel_family": "gemm_basic (TileLang fe6d319c, sm_121a, TMA + producer warp group)",
+ "launch_us": {
+  "value": 2.592,
+  "source": "ablation kt0_nostore, 1 block, CUDA-event median: launch + one block's setup + event overhead",
+  "per_pick": {
+   "1024": 2.592,
+   "4096": 2.56,
+   "m32": 3.04,
+   "2048": 2.752,
+   "8192": 2.496,
+   "k1024": 2.784,
+   "m128": 2.528
+  }
+ },
+ "block_setup_us": {
+  "value": 0.096,
+  "source": "ablation kt0_nostore, 1 block, %globaltimer span inside the block: descriptor prefetch, barrier init, register reconfig"
+ },
+ "block_launch_rate_us_per_block": {
+  "value": 0.00800390815828041,
+  "source": "ablation kt0_nostore, full grid minus 1 block over blocks, at 8192^3 (2048 blocks): the block scheduler's issue rate when blocks are empty"
+ },
+ "store_us_per_KB_per_block": {
+  "value": 0.027749999999999997,
+  "source": "ablation kt0 minus kt0_nostore, 1 block, %globaltimer: the fragment-to-global store of one C tile, per KB of tile"
+ },
+ "tensor_rate_TFs_per_SM": {
+  "value": 2.475245795219829,
+  "min": 2.1620123711340207,
+  "max": 2.699037323037323,
+  "source": "ablation noload, 1 block: (block span - setup) / KT over the k-tile's FLOPs; per tile in blocks[]",
+  "cross_check_B31_TFs_per_SM": 2.5247,
+  "note": "per-pick values 2.16-2.70; B31 measured 2.52 with a full-occupancy mma loop"
+ },
+ "load_rate_alone_GBs_per_block": {
+  "value": 81.24297520661159,
+  "source": "ablation nocompute, 1 block: one block's TMA pipeline alone, bytes per k-tile over (span - setup)/KT; 77-87 GB/s on every pick",
+  "cross_check_B8_tma_bytes_per_s_per_sm_resident1": 31100000000.0,
+  "note": "B8 measured 31 GB/s per SM for a single resident 16 KB tile; the pipelined kernel reaches 2.5x that"
+ },
+ "load_rate_chip_GBs": {
+  "L2_resident_48_blocks": 1580.2384460817148,
+  "L2_resident_full_grid": {
+   "1024": 1314.0050125313285,
+   "4096": 1186.703322094641,
+   "m32": 354.6320346320347,
+   "2048": 1492.280834914611,
+   "8192": 854.387513076174,
+   "k1024": 1216.2103228300793,
+   "m128": 1196.7313398767405
+  },
+  "source": "ablation nocompute at 48 / 96 / full grid: grid bytes over kernel span; the L2-resident shapes reach 1.2-1.7 TB/s, the DRAM-bound ones (8192^3) 0.85 TB/s of L2 traffic over 211 GB/s of DRAM"
+ },
+ "dram_rate_GBs": {
+  "value": 270.23102736189986,
+  "source": "ablation full kernel at M=32 (B streamed once, 33.5 MB, warm L2, CUDA events): the rate the TMA pipeline reaches from DRAM",
+  "cross_check_contract_B_HBM_GBs": 235.4,
+  "datasheet_GBs": 273.0
+ },
+ "sync_per_ktile_us": {
+  "value": 0.09040625000000002,
+  "min": 0.01595312499999979,
+  "max": 0.3055937499999999,
+  "source": "ablation full minus max(compute alone, loads under the full grid) per block, over KT: what the mbarrier hand-off costs per k-tile when the pipeline overlaps",
+  "cross_check_B7_barrier_us": 0.0151,
+  "cross_check_mbarrier_phase_cycles": 95
+ },
+ "wave_quantisation": {
+  "blocks_47_48_49_us": [
+   109.53599959611893,
+   112.64000087976456,
+   120.03199756145477
+  ],
+  "blocks_95_96_97_us": [
+   184.12800133228302,
+   184.32000279426575,
+   184.25600230693817
+  ],
+  "source": "TileLang compiles of the 1024^3 pick's tile at one row of 47..97 tiles, do_bench timing (includes the do_bench offset below)",
+  "note": "no step at 49 or 97: the scheduler refills SMs as blocks finish; time grows with blocks/48 smoothly, ceil() is wrong"
+ },
+ "panel_traffic_4096": {
+  "panel16_dram_MB": 231.702016,
+  "panel0_dram_MB": 407.427616,
+  "panel16_l2_hit_pct": 86.2,
+  "panel0_l2_hit_pct": 75.8,
+  "panel16_us": 1650.0,
+  "panel0_us": 2090.0,
+  "source": "ncu on the 4096^3 pick with its panel (16) and with panel 0: lookup-miss sectors x 32 B"
+ },
+ "do_bench_offset_us": {
+  "value": 25.806000000000004,
+  "source": "host_overhead.py on the 1024^3 pick: TileLang do_bench event median 73.6 us against 47.8 us wall-clock per call back-to-back and 45.1 us in the ablation harness; cuTensorMapEncodeTiled is 0.47 us",
+  "note": "every sweep, sample and baseline timing taken through do_bench carries this per-call offset; the harness and cuBLASLt's harness do not",
+  "mechanism": "tilelang/profiler/bench.py: do_bench writes a 256 MB flush buffer between timed calls (fast_flush, cache_size=256). The timed kernel then starts with a cold L2 (A and B come from DRAM: 6.3 MB / 235 GB/s = 27 us at 1024^3) and with dirty lines draining to DRAM (up to 24 MB). The offset is per call, not per launch, and it is largest where the kernel is short or DRAM-bound. The ablation harness and the cuBLASLt harness time back-to-back launches with a warm L2; the two conditions are both real, and they must not be mixed."
+ },
+ "blocks": {
+  "1024": {
+   "tile": "64x128x128",
+   "threads_asked": 128,
+   "stages": 2,
+   "KT": 8,
+   "blocks": 128,
+   "compute_per_ktile_us": 0.936,
+   "tensor_rate_TFs_per_SM": 2.2405470085470083,
+   "load_per_ktile_alone_us": 0.636,
+   "bytes_per_ktile": 49152,
+   "store_per_block_us": 0.8320000000000001,
+   "block_setup_us": 0.096,
+   "load_curve_GBs_chip": {
+    "1": 65.36170212765957,
+    "48": 1485.7027707808566,
+    "96": 1325.447191011236,
+    "128": 1314.0050125313285
+   },
+   "load_curve_GBs_per_block": {
+    "1": 77.28301886792453,
+    "48": 36.304681008217166,
+    "96": 32.41681780708986,
+    "128": 34.1629887054735
+   },
+   "overlap_sync_per_ktile_us": 0.21762499999999996,
+   "full_block_us": 14.179,
+   "full_event_us": 45.12
+  },
+  "4096": {
+   "tile": "128x256x32",
+   "threads_asked": 512,
+   "stages": 3,
+   "KT": 128,
+   "blocks": 512,
+   "compute_per_ktile_us": 0.8472500000000001,
+   "tensor_rate_TFs_per_SM": 2.475245795219829,
+   "load_per_ktile_alone_us": 0.2995,
+   "bytes_per_ktile": 24576,
+   "store_per_block_us": 0.28800000000000003,
+   "block_setup_us": 0.16,
+   "load_curve_GBs_chip": {
+    "1": 81.10891089108911,
+    "48": 904.8115052732502,
+    "96": 1323.7738813297801,
+    "512": 1186.703322094641
+   },
+   "load_curve_GBs_per_block": {
+    "1": 82.05676126878132,
+    "48": 18.914049676220714,
+    "96": 29.55122592766557,
+    "512": 27.98516106648162
+   },
+   "overlap_sync_per_ktile_us": 0.11813281249999996,
+   "full_block_us": 127.976,
+   "full_event_us": 1510.56
+  },
+  "m32": {
+   "tile": "32x128x128",
+   "threads_asked": 128,
+   "stages": 2,
+   "KT": 32,
+   "blocks": 32,
+   "compute_per_ktile_us": 0.485,
+   "tensor_rate_TFs_per_SM": 2.1620123711340207,
+   "load_per_ktile_alone_us": 0.514,
+   "bytes_per_ktile": 40960,
+   "store_per_block_us": 0.44800000000000006,
+   "block_setup_us": 0.096,
+   "load_curve_GBs_chip": {
+    "1": 77.13747645951037,
+    "32": 354.6320346320347
+   },
+   "load_curve_GBs_per_block": {
+    "1": 79.68871595330741,
+    "32": 11.313940440224428
+   },
+   "overlap_sync_per_ktile_us": 0.04865624999999962,
+   "full_block_us": 117.951,
+   "full_event_us": 123.968
+  },
+  "2048": {
+   "tile": "256x128x64",
+   "threads_asked": 256,
+   "stages": 2,
+   "KT": 32,
+   "blocks": 128,
+   "compute_per_ktile_us": 1.637,
+   "tensor_rate_TFs_per_SM": 2.562189370800245,
+   "load_per_ktile_alone_us": 0.605,
+   "bytes_per_ktile": 49152,
+   "store_per_block_us": 2.784,
+   "block_setup_us": 0.16,
+   "load_curve_GBs_chip": {
+    "1": 70.51936872309899,
+    "48": 1580.2384460817148,
+    "96": 1631.6016597510377,
+    "128": 1492.280834914611
+   },
+   "load_curve_GBs_per_block": {
+    "1": 81.24297520661159,
+    "48": 35.98490013498365,
+    "96": 37.24606313197093,
+    "128": 38.58368698638537
+   },
+   "overlap_sync_per_ktile_us": 0.3055937499999999,
+   "full_block_us": 65.107,
+   "full_event_us": 203.296
+  },
+  "8192": {
+   "tile": "256x128x64",
+   "threads_asked": 512,
+   "stages": 2,
+   "KT": 128,
+   "blocks": 2048,
+   "compute_per_ktile_us": 1.65025,
+   "tensor_rate_TFs_per_SM": 2.5416173307074685,
+   "load_per_ktile_alone_us": 0.604,
+   "bytes_per_ktile": 49152,
+   "store_per_block_us": 0.31999999999999995,
+   "block_setup_us": 0.096,
+   "load_curve_GBs_chip": {
+    "1": 80.9419514203376,
+    "48": 656.7738882316097,
+    "64": 639.1158065826901,
+    "2048": 854.387513076174
+   },
+   "load_curve_GBs_per_block": {
+    "1": 81.37748344370861,
+    "48": 13.872530147579264,
+    "64": 16.80598785120126,
+    "2048": 18.548635413503465
+   },
+   "overlap_sync_per_ktile_us": 0.01595312499999979,
+   "full_block_us": 341.645,
+   "full_event_us": 15136.064
+  },
+  "k1024": {
+   "tile": "256x128x32",
+   "threads_asked": 512,
+   "stages": 4,
+   "KT": 32,
+   "blocks": 512,
+   "compute_per_ktile_us": 0.777,
+   "tensor_rate_TFs_per_SM": 2.699037323037323,
+   "load_per_ktile_alone_us": 0.28099999999999997,
+   "bytes_per_ktile": 24576,
+   "store_per_block_us": 0.0,
+   "block_setup_us": 0.16,
+   "load_curve_GBs_chip": {
+    "1": 85.93006993006995,
+    "32": 2253.3868194842407,
+    "96": 1551.147928994083,
+    "512": 1216.2103228300793
+   },
+   "load_curve_GBs_per_block": {
+    "1": 87.4590747330961,
+    "32": 73.81565609160879,
+    "96": 48.64126669965364,
+    "512": 43.26046537213269
+   },
+   "overlap_sync_per_ktile_us": 0.09040625000000002,
+   "full_block_us": 27.917,
+   "full_event_us": 448.992
+  },
+  "m128": {
+   "tile": "256x64x32",
+   "threads_asked": 128,
+   "stages": 2,
+   "KT": 128,
+   "blocks": 64,
+   "compute_per_ktile_us": 0.47250000000000003,
+   "tensor_rate_TFs_per_SM": 2.219208465608465,
+   "load_per_ktile_alone_us": 0.263,
+   "bytes_per_ktile": 20480,
+   "store_per_block_us": 0.384,
+   "block_setup_us": 0.096,
+   "load_curve_GBs_chip": {
+    "1": 76.77600749765698,
+    "48": 1719.352864013992,
+    "64": 1196.7313398767405
+   },
+   "load_curve_GBs_per_block": {
+    "1": 77.87072243346007,
+    "48": 36.566327242293205,
+    "64": 33.50083067092652
+   },
+   "overlap_sync_per_ktile_us": 0.052718749999999925,
+   "full_block_us": 85.478,
+   "full_event_us": 162.112
+  }
+ }
+}

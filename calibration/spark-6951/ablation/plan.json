@@ -1,0 +1,3202 @@
+[
+ {
+  "name": "1024",
+  "variant": "full",
+  "grid": [
+   8,
+   16
+  ],
+  "blocks": 128,
+  "full_blocks": 128,
+  "threads": 256,
+  "smem": 98300,
+  "kt": 8,
+  "shape": {
+   "M": 1024,
+   "N": 1024,
+   "K": 1024
+  },
+  "pick": {
+   "block_M": 64,
+   "block_N": 128,
+   "block_K": 128,
+   "num_stages": 2,
+   "threads": 128,
+   "swizzle": 8,
+   "prefetch": 0,
+   "warp_policy": 0,
+   "vec_width": 0,
+   "tma": 1,
+   "warp_spec": 1,
+   "smem_layout": "inferred"
+  }
+ },
+ {
+  "name": "1024",
+  "variant": "kt0",
+  "grid": [
+   1,
+   1
+  ],
+  "blocks": 1,
+  "full_blocks": 128,
+  "threads": 256,
+  "smem": 98300,
+  "kt": 8,
+  "shape": {
+   "M": 1024,
+   "N": 1024,
+   "K": 1024
+  },
+  "pick": {
+   "block_M": 64,
+   "block_N": 128,
+   "block_K": 128,
+   "num_stages": 2,
+   "threads": 128,
+   "swizzle": 8,
+   "prefetch": 0,
+   "warp_policy": 0,
+   "vec_width": 0,
+   "tma": 1,
+   "warp_spec": 1,
+   "smem_layout": "inferred"
+  }
+ },
+ {
+  "name": "1024",
+  "variant": "kt0",
+  "grid": [
+   8,
+   6
+  ],
+  "blocks": 48,
+  "full_blocks": 128,
+  "threads": 256,
+  "smem": 98300,
+  "kt": 8,
+  "shape": {
+   "M": 1024,
+   "N": 1024,
+   "K": 1024
+  },
+  "pick": {
+   "block_M": 64,
+   "block_N": 128,
+   "block_K": 128,
+   "num_stages": 2,
+   "threads": 128,
+   "swizzle": 8,
+   "prefetch": 0,
+   "warp_policy": 0,
+   "vec_width": 0,
+   "tma": 1,
+   "warp_spec": 1,
+   "smem_layout": "inferred"
+  }
+ },
+ {
+  "name": "1024",
+  "variant": "kt0",
+  "grid": [
+   8,
+   16
+  ],
+  "blocks": 128,
+  "full_blocks": 128,
+  "threads": 256,
+  "smem": 98300,
+  "kt": 8,
+  "shape": {
+   "M": 1024,
+   "N": 1024,
+   "K": 1024
+  },
+  "pick": {
+   "block_M": 64,
+   "block_N": 128,
+   "block_K": 128,
+   "num_stages": 2,
+   "threads": 128,
+   "swizzle": 8,
+   "prefetch": 0,
+   "warp_policy": 0,
+   "vec_width": 0,
+   "tma": 1,
+   "warp_spec": 1,
+   "smem_layout": "inferred"
+  }
+ },
+ {
+  "name": "1024",
+  "variant": "kt0_nostore",
+  "grid": [
+   1,
+   1
+  ],
+  "blocks": 1,
+  "full_blocks": 128,
+  "threads": 256,
+  "smem": 98300,
+  "kt": 8,
+  "shape": {
+   "M": 1024,
+   "N": 1024,
+   "K": 1024
+  },
+  "pick": {
+   "block_M": 64,
+   "block_N": 128,
+   "block_K": 128,
+   "num_stages": 2,
+   "threads": 128,
+   "swizzle": 8,
+   "prefetch": 0,
+   "warp_policy": 0,
+   "vec_width": 0,
+   "tma": 1,
+   "warp_spec": 1,
+   "smem_layout": "inferred"
+  }
+ },
+ {
+  "name": "1024",
+  "variant": "kt0_nostore",
+  "grid": [
+   8,
+   6
+  ],
+  "blocks": 48,
+  "full_blocks": 128,
+  "threads": 256,
+  "smem": 98300,
+  "kt": 8,
+  "shape": {
+   "M": 1024,
+   "N": 1024,
+   "K": 1024
+  },
+  "pick": {
+   "block_M": 64,
+   "block_N": 128,
+   "block_K": 128,
+   "num_stages": 2,
+   "threads": 128,
+   "swizzle": 8,
+   "prefetch": 0,
+   "warp_policy": 0,
+   "vec_width": 0,
+   "tma": 1,
+   "warp_spec": 1,
+   "smem_layout": "inferred"
+  }
+ },
+ {
+  "name": "1024",
+  "variant": "kt0_nostore",
+  "grid": [
+   8,
+   16
+  ],
+  "blocks": 128,
+  "full_blocks": 128,
+  "threads": 256,
+  "smem": 98300,
+  "kt": 8,
+  "shape": {
+   "M": 1024,
+   "N": 1024,
+   "K": 1024
+  },
+  "pick": {
+   "block_M": 64,
+   "block_N": 128,
+   "block_K": 128,
+   "num_stages": 2,
+   "threads": 128,
+   "swizzle": 8,
+   "prefetch": 0,
+   "warp_policy": 0,
+   "vec_width": 0,
+   "tma": 1,
+   "warp_spec": 1,
+   "smem_layout": "inferred"
+  }
+ },
+ {
+  "name": "1024",
+  "variant": "noload",
+  "grid": [
+   1,
+   1
+  ],
+  "blocks": 1,
+  "full_blocks": 128,
+  "threads": 256,
+  "smem": 98300,
+  "kt": 8,
+  "shape": {
+   "M": 1024,
+   "N": 1024,
+   "K": 1024
+  },
+  "pick": {
+   "block_M": 64,
+   "block_N": 128,
+   "block_K": 128,
+   "num_stages": 2,
+   "threads": 128,
+   "swizzle": 8,
+   "prefetch": 0,
+   "warp_policy": 0,
+   "vec_width": 0,
+   "tma": 1,
+   "warp_spec": 1,
+   "smem_layout": "inferred"
+  }
+ },
+ {
+  "name": "1024",
+  "variant": "noload",
+  "grid": [
+   8,
+   16
+  ],
+  "blocks": 128,
+  "full_blocks": 128,
+  "threads": 256,
+  "smem": 98300,
+  "kt": 8,
+  "shape": {
+   "M": 1024,
+   "N": 1024,
+   "K": 1024
+  },
+  "pick": {
+   "block_M": 64,
+   "block_N": 128,
+   "block_K": 128,
+   "num_stages": 2,
+   "threads": 128,
+   "swizzle": 8,
+   "prefetch": 0,
+   "warp_policy": 0,
+   "vec_width": 0,
+   "tma": 1,
+   "warp_spec": 1,
+   "smem_layout": "inferred"
+  }
+ },
+ {
+  "name": "1024",
+  "variant": "nocompute",
+  "grid": [
+   1,
+   1
+  ],
+  "blocks": 1,
+  "full_blocks": 128,
+  "threads": 256,
+  "smem": 98300,
+  "kt": 8,
+  "shape": {
+   "M": 1024,
+   "N": 1024,
+   "K": 1024
+  },
+  "pick": {
+   "block_M": 64,
+   "block_N": 128,
+   "block_K": 128,
+   "num_stages": 2,
+   "threads": 128,
+   "swizzle": 8,
+   "prefetch": 0,
+   "warp_policy": 0,
+   "vec_width": 0,
+   "tma": 1,
+   "warp_spec": 1,
+   "smem_layout": "inferred"
+  }
+ },
+ {
+  "name": "1024",
+  "variant": "nocompute",
+  "grid": [
+   8,
+   6
+  ],
+  "blocks": 48,
+  "full_blocks": 128,
+  "threads": 256,
+  "smem": 98300,
+  "kt": 8,
+  "shape": {
+   "M": 1024,
+   "N": 1024,
+   "K": 1024
+  },
+  "pick": {
+   "block_M": 64,
+   "block_N": 128,
+   "block_K": 128,
+   "num_stages": 2,
+   "threads": 128,
+   "swizzle": 8,
+   "prefetch": 0,
+   "warp_policy": 0,
+   "vec_width": 0,
+   "tma": 1,
+   "warp_spec": 1,
+   "smem_layout": "inferred"
+  }
+ },
+ {
+  "name": "1024",
+  "variant": "nocompute",
+  "grid": [
+   8,
+   12
+  ],
+  "blocks": 96,
+  "full_blocks": 128,
+  "threads": 256,
+  "smem": 98300,
+  "kt": 8,
+  "shape": {
+   "M": 1024,
+   "N": 1024,
+   "K": 1024
+  },
+  "pick": {
+   "block_M": 64,
+   "block_N": 128,
+   "block_K": 128,
+   "num_stages": 2,
+   "threads": 128,
+   "swizzle": 8,
+   "prefetch": 0,
+   "warp_policy": 0,
+   "vec_width": 0,
+   "tma": 1,
+   "warp_spec": 1,
+   "smem_layout": "inferred"
+  }
+ },
+ {
+  "name": "1024",
+  "variant": "nocompute",
+  "grid": [
+   8,
+   16
+  ],
+  "blocks": 128,
+  "full_blocks": 128,
+  "threads": 256,
+  "smem": 98300,
+  "kt": 8,
+  "shape": {
+   "M": 1024,
+   "N": 1024,
+   "K": 1024
+  },
+  "pick": {
+   "block_M": 64,
+   "block_N": 128,
+   "block_K": 128,
+   "num_stages": 2,
+   "threads": 128,
+   "swizzle": 8,
+   "prefetch": 0,
+   "warp_policy": 0,
+   "vec_width": 0,
+   "tma": 1,
+   "warp_spec": 1,
+   "smem_layout": "inferred"
+  }
+ },
+ {
+  "name": "1024",
+  "variant": "nocompute_nostore",
+  "grid": [
+   1,
+   1
+  ],
+  "blocks": 1,
+  "full_blocks": 128,
+  "threads": 256,
+  "smem": 98300,
+  "kt": 8,
+  "shape": {
+   "M": 1024,
+   "N": 1024,
+   "K": 1024
+  },
+  "pick": {
+   "block_M": 64,
+   "block_N": 128,
+   "block_K": 128,
+   "num_stages": 2,
+   "threads": 128,
+   "swizzle": 8,
+   "prefetch": 0,
+   "warp_policy": 0,
+   "vec_width": 0,
+   "tma": 1,
+   "warp_spec": 1,
+   "smem_layout": "inferred"
+  }
+ },
+ {
+  "name": "1024",
+  "variant": "nocompute_nostore",
+  "grid": [
+   8,
+   16
+  ],
+  "blocks": 128,
+  "full_blocks": 128,
+  "threads": 256,
+  "smem": 98300,
+  "kt": 8,
+  "shape": {
+   "M": 1024,
+   "N": 1024,
+   "K": 1024
+  },
+  "pick": {
+   "block_M": 64,
+   "block_N": 128,
+   "block_K": 128,
+   "num_stages": 2,
+   "threads": 128,
+   "swizzle": 8,
+   "prefetch": 0,
+   "warp_policy": 0,
+   "vec_width": 0,
+   "tma": 1,
+   "warp_spec": 1,
+   "smem_layout": "inferred"
+  }
+ },
+ {
+  "name": "4096",
+  "variant": "full",
+  "grid": [
+   16,
+   32
+  ],
+  "blocks": 512,
+  "full_blocks": 512,
+  "threads": 640,
+  "smem": 73730,
+  "kt": 128,
+  "shape": {
+   "M": 4096,
+   "N": 4096,
+   "K": 4096
+  },
+  "pick": {
+   "block_M": 128,
+   "block_N": 256,
+   "block_K": 32,
+   "num_stages": 3,
+   "threads": 512,
+   "swizzle": 16,
+   "prefetch": 0,
+   "warp_policy": 0,
+   "vec_width": 0,
+   "tma": 1,
+   "warp_spec": 1,
+   "smem_layout": "inferred"
+  }
+ },
+ {
+  "name": "4096",
+  "variant": "kt0",
+  "grid": [
+   1,
+   1
+  ],
+  "blocks": 1,
+  "full_blocks": 512,
+  "threads": 640,
+  "smem": 73730,
+  "kt": 128,
+  "shape": {
+   "M": 4096,
+   "N": 4096,
+   "K": 4096
+  },
+  "pick": {
+   "block_M": 128,
+   "block_N": 256,
+   "block_K": 32,
+   "num_stages": 3,
+   "threads": 512,
+   "swizzle": 16,
+   "prefetch": 0,
+   "warp_policy": 0,
+   "vec_width": 0,
+   "tma": 1,
+   "warp_spec": 1,
+   "smem_layout": "inferred"
+  }
+ },
+ {
+  "name": "4096",
+  "variant": "kt0",
+  "grid": [
+   16,
+   3
+  ],
+  "blocks": 48,
+  "full_blocks": 512,
+  "threads": 640,
+  "smem": 73730,
+  "kt": 128,
+  "shape": {
+   "M": 4096,
+   "N": 4096,
+   "K": 4096
+  },
+  "pick": {
+   "block_M": 128,
+   "block_N": 256,
+   "block_K": 32,
+   "num_stages": 3,
+   "threads": 512,
+   "swizzle": 16,
+   "prefetch": 0,
+   "warp_policy": 0,
+   "vec_width": 0,
+   "tma": 1,
+   "warp_spec": 1,
+   "smem_layout": "inferred"
+  }
+ },
+ {
+  "name": "4096",
+  "variant": "kt0",
+  "grid": [
+   16,
+   32
+  ],
+  "blocks": 512,
+  "full_blocks": 512,
+  "threads": 640,
+  "smem": 73730,
+  "kt": 128,
+  "shape": {
+   "M": 4096,
+   "N": 4096,
+   "K": 4096
+  },
+  "pick": {
+   "block_M": 128,
+   "block_N": 256,
+   "block_K": 32,
+   "num_stages": 3,
+   "threads": 512,
+   "swizzle": 16,
+   "prefetch": 0,
+   "warp_policy": 0,
+   "vec_width": 0,
+   "tma": 1,
+   "warp_spec": 1,
+   "smem_layout": "inferred"
+  }
+ },
+ {
+  "name": "4096",
+  "variant": "kt0_nostore",
+  "grid": [
+   1,
+   1
+  ],
+  "blocks": 1,
+  "full_blocks": 512,
+  "threads": 640,
+  "smem": 73730,
+  "kt": 128,
+  "shape": {
+   "M": 4096,
+   "N": 4096,
+   "K": 4096
+  },
+  "pick": {
+   "block_M": 128,
+   "block_N": 256,
+   "block_K": 32,
+   "num_stages": 3,
+   "threads": 512,
+   "swizzle": 16,
+   "prefetch": 0,
+   "warp_policy": 0,
+   "vec_width": 0,
+   "tma": 1,
+   "warp_spec": 1,
+   "smem_layout": "inferred"
+  }
+ },
+ {
+  "name": "4096",
+  "variant": "kt0_nostore",
+  "grid": [
+   16,
+   3
+  ],
+  "blocks": 48,
+  "full_blocks": 512,
+  "threads": 640,
+  "smem": 73730,
+  "kt": 128,
+  "shape": {
+   "M": 4096,
+   "N": 4096,
+   "K": 4096
+  },
+  "pick": {
+   "block_M": 128,
+   "block_N": 256,
+   "block_K": 32,
+   "num_stages": 3,
+   "threads": 512,
+   "swizzle": 16,
+   "prefetch": 0,
+   "warp_policy": 0,
+   "vec_width": 0,
+   "tma": 1,
+   "warp_spec": 1,
+   "smem_layout": "inferred"
+  }
+ },
+ {
+  "name": "4096",
+  "variant": "kt0_nostore",
+  "grid": [
+   16,
+   32
+  ],
+  "blocks": 512,
+  "full_blocks": 512,
+  "threads": 640,
+  "smem": 73730,
+  "kt": 128,
+  "shape": {
+   "M": 4096,
+   "N": 4096,
+   "K": 4096
+  },
+  "pick": {
+   "block_M": 128,
+   "block_N": 256,
+   "block_K": 32,
+   "num_stages": 3,
+   "threads": 512,
+   "swizzle": 16,
+   "prefetch": 0,
+   "warp_policy": 0,
+   "vec_width": 0,
+   "tma": 1,
+   "warp_spec": 1,
+   "smem_layout": "inferred"
+  }
+ },
+ {
+  "name": "4096",
+  "variant": "noload",
+  "grid": [
+   1,
+   1
+  ],
+  "blocks": 1,
+  "full_blocks": 512,
+  "threads": 640,
+  "smem": 73730,
+  "kt": 128,
+  "shape": {
+   "M": 4096,
+   "N": 4096,
+   "K": 4096
+  },
+  "pick": {
+   "block_M": 128,
+   "block_N": 256,
+   "block_K": 32,
+   "num_stages": 3,
+   "threads": 512,
+   "swizzle": 16,
+   "prefetch": 0,
+   "warp_policy": 0,
+   "vec_width": 0,
+   "tma": 1,
+   "warp_spec": 1,
+   "smem_layout": "inferred"
+  }
+ },
+ {
+  "name": "4096",
+  "variant": "noload",
+  "grid": [
+   16,
+   32
+  ],
+  "blocks": 512,
+  "full_blocks": 512,
+  "threads": 640,
+  "smem": 73730,
+  "kt": 128,
+  "shape": {
+   "M": 4096,
+   "N": 4096,
+   "K": 4096
+  },
+  "pick": {
+   "block_M": 128,
+   "block_N": 256,
+   "block_K": 32,
+   "num_stages": 3,
+   "threads": 512,
+   "swizzle": 16,
+   "prefetch": 0,
+   "warp_policy": 0,
+   "vec_width": 0,
+   "tma": 1,
+   "warp_spec": 1,
+   "smem_layout": "inferred"
+  }
+ },
+ {
+  "name": "4096",
+  "variant": "nocompute",
+  "grid": [
+   1,
+   1
+  ],
+  "blocks": 1,
+  "full_blocks": 512,
+  "threads": 640,
+  "smem": 73730,
+  "kt": 128,
+  "shape": {
+   "M": 4096,
+   "N": 4096,
+   "K": 4096
+  },
+  "pick": {
+   "block_M": 128,
+   "block_N": 256,
+   "block_K": 32,
+   "num_stages": 3,
+   "threads": 512,
+   "swizzle": 16,
+   "prefetch": 0,
+   "warp_policy": 0,
+   "vec_width": 0,
+   "tma": 1,
+   "warp_spec": 1,
+   "smem_layout": "inferred"
+  }
+ },
+ {
+  "name": "4096",
+  "variant": "nocompute",
+  "grid": [
+   16,
+   3
+  ],
+  "blocks": 48,
+  "full_blocks": 512,
+  "threads": 640,
+  "smem": 73730,
+  "kt": 128,
+  "shape": {
+   "M": 4096,
+   "N": 4096,
+   "K": 4096
+  },
+  "pick": {
+   "block_M": 128,
+   "block_N": 256,
+   "block_K": 32,
+   "num_stages": 3,
+   "threads": 512,
+   "swizzle": 16,
+   "prefetch": 0,
+   "warp_policy": 0,
+   "vec_width": 0,
+   "tma": 1,
+   "warp_spec": 1,
+   "smem_layout": "inferred"
+  }
+ },
+ {
+  "name": "4096",
+  "variant": "nocompute",
+  "grid": [
+   16,
+   6
+  ],
+  "blocks": 96,
+  "full_blocks": 512,
+  "threads": 640,
+  "smem": 73730,
+  "kt": 128,
+  "shape": {
+   "M": 4096,
+   "N": 4096,
+   "K": 4096
+  },
+  "pick": {
+   "block_M": 128,
+   "block_N": 256,
+   "block_K": 32,
+   "num_stages": 3,
+   "threads": 512,
+   "swizzle": 16,
+   "prefetch": 0,
+   "warp_policy": 0,
+   "vec_width": 0,
+   "tma": 1,
+   "warp_spec": 1,
+   "smem_layout": "inferred"
+  }
+ },
+ {
+  "name": "4096",
+  "variant": "nocompute",
+  "grid": [
+   16,
+   32
+  ],
+  "blocks": 512,
+  "full_blocks": 512,
+  "threads": 640,
+  "smem": 73730,
+  "kt": 128,
+  "shape": {
+   "M": 4096,
+   "N": 4096,
+   "K": 4096
+  },
+  "pick": {
+   "block_M": 128,
+   "block_N": 256,
+   "block_K": 32,
+   "num_stages": 3,
+   "threads": 512,
+   "swizzle": 16,
+   "prefetch": 0,
+   "warp_policy": 0,
+   "vec_width": 0,
+   "tma": 1,
+   "warp_spec": 1,
+   "smem_layout": "inferred"
+  }
+ },
+ {
+  "name": "4096",
+  "variant": "nocompute_nostore",
+  "grid": [
+   1,
+   1
+  ],
+  "blocks": 1,
+  "full_blocks": 512,
+  "threads": 640,
+  "smem": 73730,
+  "kt": 128,
+  "shape": {
+   "M": 4096,
+   "N": 4096,
+   "K": 4096
+  },
+  "pick": {
+   "block_M": 128,
+   "block_N": 256,
+   "block_K": 32,
+   "num_stages": 3,
+   "threads": 512,
+   "swizzle": 16,
+   "prefetch": 0,
+   "warp_policy": 0,
+   "vec_width": 0,
+   "tma": 1,
+   "warp_spec": 1,
+   "smem_layout": "inferred"
+  }
+ },
+ {
+  "name": "4096",
+  "variant": "nocompute_nostore",
+  "grid": [
+   16,
+   32
+  ],
+  "blocks": 512,
+  "full_blocks": 512,
+  "threads": 640,
+  "smem": 73730,
+  "kt": 128,
+  "shape": {
+   "M": 4096,
+   "N": 4096,
+   "K": 4096
+  },
+  "pick": {
+   "block_M": 128,
+   "block_N": 256,
+   "block_K": 32,
+   "num_stages": 3,
+   "threads": 512,
+   "swizzle": 16,
+   "prefetch": 0,
+   "warp_policy": 0,
+   "vec_width": 0,
+   "tma": 1,
+   "warp_spec": 1,
+   "smem_layout": "inferred"
+  }
+ },
+ {
+  "name": "m32",
+  "variant": "full",
+  "grid": [
+   32,
+   1
+  ],
+  "blocks": 32,
+  "full_blocks": 32,
+  "threads": 256,
+  "smem": 81920,
+  "kt": 32,
+  "shape": {
+   "M": 32,
+   "N": 4096,
+   "K": 4096
+  },
+  "pick": {
+   "block_M": 32,
+   "block_N": 128,
+   "block_K": 128,
+   "num_stages": 2,
+   "threads": 128,
+   "swizzle": 4,
+   "prefetch": 0,
+   "warp_policy": 0,
+   "vec_width": 0,
+   "tma": 1,
+   "warp_spec": 1,
+   "smem_layout": "inferred"
+  }
+ },
+ {
+  "name": "m32",
+  "variant": "kt0",
+  "grid": [
+   1,
+   1
+  ],
+  "blocks": 1,
+  "full_blocks": 32,
+  "threads": 256,
+  "smem": 81920,
+  "kt": 32,
+  "shape": {
+   "M": 32,
+   "N": 4096,
+   "K": 4096
+  },
+  "pick": {
+   "block_M": 32,
+   "block_N": 128,
+   "block_K": 128,
+   "num_stages": 2,
+   "threads": 128,
+   "swizzle": 4,
+   "prefetch": 0,
+   "warp_policy": 0,
+   "vec_width": 0,
+   "tma": 1,
+   "warp_spec": 1,
+   "smem_layout": "inferred"
+  }
+ },
+ {
+  "name": "m32",
+  "variant": "kt0",
+  "grid": [
+   32,
+   1
+  ],
+  "blocks": 32,
+  "full_blocks": 32,
+  "threads": 256,
+  "smem": 81920,
+  "kt": 32,
+  "shape": {
+   "M": 32,
+   "N": 4096,
+   "K": 4096
+  },
+  "pick": {
+   "block_M": 32,
+   "block_N": 128,
+   "block_K": 128,
+   "num_stages": 2,
+   "threads": 128,
+   "swizzle": 4,
+   "prefetch": 0,
+   "warp_policy": 0,
+   "vec_width": 0,
+   "tma": 1,
+   "warp_spec": 1,
+   "smem_layout": "inferred"
+  }
+ },
+ {
+  "name": "m32",
+  "variant": "kt0_nostore",
+  "grid": [
+   1,
+   1
+  ],
+  "blocks": 1,
+  "full_blocks": 32,
+  "threads": 256,
+  "smem": 81920,
+  "kt": 32,
+  "shape": {
+   "M": 32,
+   "N": 4096,
+   "K": 4096
+  },
+  "pick": {
+   "block_M": 32,
+   "block_N": 128,
+   "block_K": 128,
+   "num_stages": 2,
+   "threads": 128,
+   "swizzle": 4,
+   "prefetch": 0,
+   "warp_policy": 0,
+   "vec_width": 0,
+   "tma": 1,
+   "warp_spec": 1,
+   "smem_layout": "inferred"
+  }
+ },
+ {
+  "name": "m32",
+  "variant": "kt0_nostore",
+  "grid": [
+   32,
+   1
+  ],
+  "blocks": 32,
+  "full_blocks": 32,
+  "threads": 256,
+  "smem": 81920,
+  "kt": 32,
+  "shape": {
+   "M": 32,
+   "N": 4096,
+   "K": 4096
+  },
+  "pick": {
+   "block_M": 32,
+   "block_N": 128,
+   "block_K": 128,
+   "num_stages": 2,
+   "threads": 128,
+   "swizzle": 4,
+   "prefetch": 0,
+   "warp_policy": 0,
+   "vec_width": 0,
+   "tma": 1,
+   "warp_spec": 1,
+   "smem_layout": "inferred"
+  }
+ },
+ {
+  "name": "m32",
+  "variant": "noload",
+  "grid": [
+   1,
+   1
+  ],
+  "blocks": 1,
+  "full_blocks": 32,
+  "threads": 256,
+  "smem": 81920,
+  "kt": 32,
+  "shape": {
+   "M": 32,
+   "N": 4096,
+   "K": 4096
+  },
+  "pick": {
+   "block_M": 32,
+   "block_N": 128,
+   "block_K": 128,
+   "num_stages": 2,
+   "threads": 128,
+   "swizzle": 4,
+   "prefetch": 0,
+   "warp_policy": 0,
+   "vec_width": 0,
+   "tma": 1,
+   "warp_spec": 1,
+   "smem_layout": "inferred"
+  }
+ },
+ {
+  "name": "m32",
+  "variant": "noload",
+  "grid": [
+   32,
+   1
+  ],
+  "blocks": 32,
+  "full_blocks": 32,
+  "threads": 256,
+  "smem": 81920,
+  "kt": 32,
+  "shape": {
+   "M": 32,
+   "N": 4096,
+   "K": 4096
+  },
+  "pick": {
+   "block_M": 32,
+   "block_N": 128,
+   "block_K": 128,
+   "num_stages": 2,
+   "threads": 128,
+   "swizzle": 4,
+   "prefetch": 0,
+   "warp_policy": 0,
+   "vec_width": 0,
+   "tma": 1,
+   "warp_spec": 1,
+   "smem_layout": "inferred"
+  }
+ },
+ {
+  "name": "m32",
+  "variant": "nocompute",
+  "grid": [
+   1,
+   1
+  ],
+  "blocks": 1,
+  "full_blocks": 32,
+  "threads": 256,
+  "smem": 81920,
+  "kt": 32,
+  "shape": {
+   "M": 32,
+   "N": 4096,
+   "K": 4096
+  },
+  "pick": {
+   "block_M": 32,
+   "block_N": 128,
+   "block_K": 128,
+   "num_stages": 2,
+   "threads": 128,
+   "swizzle": 4,
+   "prefetch": 0,
+   "warp_policy": 0,
+   "vec_width": 0,
+   "tma": 1,
+   "warp_spec": 1,
+   "smem_layout": "inferred"
+  }
+ },
+ {
+  "name": "m32",
+  "variant": "nocompute",
+  "grid": [
+   32,
+   1
+  ],
+  "blocks": 32,
+  "full_blocks": 32,
+  "threads": 256,
+  "smem": 81920,
+  "kt": 32,
+  "shape": {
+   "M": 32,
+   "N": 4096,
+   "K": 4096
+  },
+  "pick": {
+   "block_M": 32,
+   "block_N": 128,
+   "block_K": 128,
+   "num_stages": 2,
+   "threads": 128,
+   "swizzle": 4,
+   "prefetch": 0,
+   "warp_policy": 0,
+   "vec_width": 0,
+   "tma": 1,
+   "warp_spec": 1,
+   "smem_layout": "inferred"
+  }
+ },
+ {
+  "name": "m32",
+  "variant": "nocompute_nostore",
+  "grid": [
+   1,
+   1
+  ],
+  "blocks": 1,
+  "full_blocks": 32,
+  "threads": 256,
+  "smem": 81920,
+  "kt": 32,
+  "shape": {
+   "M": 32,
+   "N": 4096,
+   "K": 4096
+  },
+  "pick": {
+   "block_M": 32,
+   "block_N": 128,
+   "block_K": 128,
+   "num_stages": 2,
+   "threads": 128,
+   "swizzle": 4,
+   "prefetch": 0,
+   "warp_policy": 0,
+   "vec_width": 0,
+   "tma": 1,
+   "warp_spec": 1,
+   "smem_layout": "inferred"
+  }
+ },
+ {
+  "name": "m32",
+  "variant": "nocompute_nostore",
+  "grid": [
+   32,
+   1
+  ],
+  "blocks": 32,
+  "full_blocks": 32,
+  "threads": 256,
+  "smem": 81920,
+  "kt": 32,
+  "shape": {
+   "M": 32,
+   "N": 4096,
+   "K": 4096
+  },
+  "pick": {
+   "block_M": 32,
+   "block_N": 128,
+   "block_K": 128,
+   "num_stages": 2,
+   "threads": 128,
+   "swizzle": 4,
+   "prefetch": 0,
+   "warp_policy": 0,
+   "vec_width": 0,
+   "tma": 1,
+   "warp_spec": 1,
+   "smem_layout": "inferred"
+  }
+ },
+ {
+  "name": "2048",
+  "variant": "full",
+  "grid": [
+   16,
+   8
+  ],
+  "blocks": 128,
+  "full_blocks": 128,
+  "threads": 384,
+  "smem": 98300,
+  "kt": 32,
+  "shape": {
+   "M": 2048,
+   "N": 2048,
+   "K": 2048
+  },
+  "pick": {
+   "block_M": 256,
+   "block_N": 128,
+   "block_K": 64,
+   "num_stages": 2,
+   "threads": 256,
+   "swizzle": 0,
+   "prefetch": 0,
+   "warp_policy": 0,
+   "vec_width": 0,
+   "tma": 1,
+   "warp_spec": 1,
+   "smem_layout": "inferred"
+  }
+ },
+ {
+  "name": "2048",
+  "variant": "kt0",
+  "grid": [
+   1,
+   1
+  ],
+  "blocks": 1,
+  "full_blocks": 128,
+  "threads": 384,
+  "smem": 98300,
+  "kt": 32,
+  "shape": {
+   "M": 2048,
+   "N": 2048,
+   "K": 2048
+  },
+  "pick": {
+   "block_M": 256,
+   "block_N": 128,
+   "block_K": 64,
+   "num_stages": 2,
+   "threads": 256,
+   "swizzle": 0,
+   "prefetch": 0,
+   "warp_policy": 0,
+   "vec_width": 0,
+   "tma": 1,
+   "warp_spec": 1,
+   "smem_layout": "inferred"
+  }
+ },
+ {
+  "name": "2048",
+  "variant": "kt0",
+  "grid": [
+   16,
+   3
+  ],
+  "blocks": 48,
+  "full_blocks": 128,
+  "threads": 384,
+  "smem": 98300,
+  "kt": 32,
+  "shape": {
+   "M": 2048,
+   "N": 2048,
+   "K": 2048
+  },
+  "pick": {
+   "block_M": 256,
+   "block_N": 128,
+   "block_K": 64,
+   "num_stages": 2,
+   "threads": 256,
+   "swizzle": 0,
+   "prefetch": 0,
+   "warp_policy": 0,
+   "vec_width": 0,
+   "tma": 1,
+   "warp_spec": 1,
+   "smem_layout": "inferred"
+  }
+ },
+ {
+  "name": "2048",
+  "variant": "kt0",
+  "grid": [
+   16,
+   8
+  ],
+  "blocks": 128,
+  "full_blocks": 128,
+  "threads": 384,
+  "smem": 98300,
+  "kt": 32,
+  "shape": {
+   "M": 2048,
+   "N": 2048,
+   "K": 2048
+  },
+  "pick": {
+   "block_M": 256,
+   "block_N": 128,
+   "block_K": 64,
+   "num_stages": 2,
+   "threads": 256,
+   "swizzle": 0,
+   "prefetch": 0,
+   "warp_policy": 0,
+   "vec_width": 0,
+   "tma": 1,
+   "warp_spec": 1,
+   "smem_layout": "inferred"
+  }
+ },
+ {
+  "name": "2048",
+  "variant": "kt0_nostore",
+  "grid": [
+   1,
+   1
+  ],
+  "blocks": 1,
+  "full_blocks": 128,
+  "threads": 384,
+  "smem": 98300,
+  "kt": 32,
+  "shape": {
+   "M": 2048,
+   "N": 2048,
+   "K": 2048
+  },
+  "pick": {
+   "block_M": 256,
+   "block_N": 128,
+   "block_K": 64,
+   "num_stages": 2,
+   "threads": 256,
+   "swizzle": 0,
+   "prefetch": 0,
+   "warp_policy": 0,
+   "vec_width": 0,
+   "tma": 1,
+   "warp_spec": 1,
+   "smem_layout": "inferred"
+  }
+ },
+ {
+  "name": "2048",
+  "variant": "kt0_nostore",
+  "grid": [
+   16,
+   3
+  ],
+  "blocks": 48,
+  "full_blocks": 128,
+  "threads": 384,
+  "smem": 98300,
+  "kt": 32,
+  "shape": {
+   "M": 2048,
+   "N": 2048,
+   "K": 2048
+  },
+  "pick": {
+   "block_M": 256,
+   "block_N": 128,
+   "block_K": 64,
+   "num_stages": 2,
+   "threads": 256,
+   "swizzle": 0,
+   "prefetch": 0,
+   "warp_policy": 0,
+   "vec_width": 0,
+   "tma": 1,
+   "warp_spec": 1,
+   "smem_layout": "inferred"
+  }
+ },
+ {
+  "name": "2048",
+  "variant": "kt0_nostore",
+  "grid": [
+   16,
+   8
+  ],
+  "blocks": 128,
+  "full_blocks": 128,
+  "threads": 384,
+  "smem": 98300,
+  "kt": 32,
+  "shape": {
+   "M": 2048,
+   "N": 2048,
+   "K": 2048
+  },
+  "pick": {
+   "block_M": 256,
+   "block_N": 128,
+   "block_K": 64,
+   "num_stages": 2,
+   "threads": 256,
+   "swizzle": 0,
+   "prefetch": 0,
+   "warp_policy": 0,
+   "vec_width": 0,
+   "tma": 1,
+   "warp_spec": 1,
+   "smem_layout": "inferred"
+  }
+ },
+ {
+  "name": "2048",
+  "variant": "noload",
+  "grid": [
+   1,
+   1
+  ],
+  "blocks": 1,
+  "full_blocks": 128,
+  "threads": 384,
+  "smem": 98300,
+  "kt": 32,
+  "shape": {
+   "M": 2048,
+   "N": 2048,
+   "K": 2048
+  },
+  "pick": {
+   "block_M": 256,
+   "block_N": 128,
+   "block_K": 64,
+   "num_stages": 2,
+   "threads": 256,
+   "swizzle": 0,
+   "prefetch": 0,
+   "warp_policy": 0,
+   "vec_width": 0,
+   "tma": 1,
+   "warp_spec": 1,
+   "smem_layout": "inferred"
+  }
+ },
+ {
+  "name": "2048",
+  "variant": "noload",
+  "grid": [
+   16,
+   8
+  ],
+  "blocks": 128,
+  "full_blocks": 128,
+  "threads": 384,
+  "smem": 98300,
+  "kt": 32,
+  "shape": {
+   "M": 2048,
+   "N": 2048,
+   "K": 2048
+  },
+  "pick": {
+   "block_M": 256,
+   "block_N": 128,
+   "block_K": 64,
+   "num_stages": 2,
+   "threads": 256,
+   "swizzle": 0,
+   "prefetch": 0,
+   "warp_policy": 0,
+   "vec_width": 0,
+   "tma": 1,
+   "warp_spec": 1,
+   "smem_layout": "inferred"
+  }
+ },
+ {
+  "name": "2048",
+  "variant": "nocompute",
+  "grid": [
+   1,
+   1
+  ],
+  "blocks": 1,
+  "full_blocks": 128,
+  "threads": 384,
+  "smem": 98300,
+  "kt": 32,
+  "shape": {
+   "M": 2048,
+   "N": 2048,
+   "K": 2048
+  },
+  "pick": {
+   "block_M": 256,
+   "block_N": 128,
+   "block_K": 64,
+   "num_stages": 2,
+   "threads": 256,
+   "swizzle": 0,
+   "prefetch": 0,
+   "warp_policy": 0,
+   "vec_width": 0,
+   "tma": 1,
+   "warp_spec": 1,
+   "smem_layout": "inferred"
+  }
+ },
+ {
+  "name": "2048",
+  "variant": "nocompute",
+  "grid": [
+   16,
+   3
+  ],
+  "blocks": 48,
+  "full_blocks": 128,
+  "threads": 384,
+  "smem": 98300,
+  "kt": 32,
+  "shape": {
+   "M": 2048,
+   "N": 2048,
+   "K": 2048
+  },
+  "pick": {
+   "block_M": 256,
+   "block_N": 128,
+   "block_K": 64,
+   "num_stages": 2,
+   "threads": 256,
+   "swizzle": 0,
+   "prefetch": 0,
+   "warp_policy": 0,
+   "vec_width": 0,
+   "tma": 1,
+   "warp_spec": 1,
+   "smem_layout": "inferred"
+  }
+ },
+ {
+  "name": "2048",
+  "variant": "nocompute",
+  "grid": [
+   16,
+   6
+  ],
+  "blocks": 96,
+  "full_blocks": 128,
+  "threads": 384,
+  "smem": 98300,
+  "kt": 32,
+  "shape": {
+   "M": 2048,
+   "N": 2048,
+   "K": 2048
+  },
+  "pick": {
+   "block_M": 256,
+   "block_N": 128,
+   "block_K": 64,
+   "num_stages": 2,
+   "threads": 256,
+   "swizzle": 0,
+   "prefetch": 0,
+   "warp_policy": 0,
+   "vec_width": 0,
+   "tma": 1,
+   "warp_spec": 1,
+   "smem_layout": "inferred"
+  }
+ },
+ {
+  "name": "2048",
+  "variant": "nocompute",
+  "grid": [
+   16,
+   8
+  ],
+  "blocks": 128,
+  "full_blocks": 128,
+  "threads": 384,
+  "smem": 98300,
+  "kt": 32,
+  "shape": {
+   "M": 2048,
+   "N": 2048,
+   "K": 2048
+  },
+  "pick": {
+   "block_M": 256,
+   "block_N": 128,
+   "block_K": 64,
+   "num_stages": 2,
+   "threads": 256,
+   "swizzle": 0,
+   "prefetch": 0,
+   "warp_policy": 0,
+   "vec_width": 0,
+   "tma": 1,
+   "warp_spec": 1,
+   "smem_layout": "inferred"
+  }
+ },
+ {
+  "name": "2048",
+  "variant": "nocompute_nostore",
+  "grid": [
+   1,
+   1
+  ],
+  "blocks": 1,
+  "full_blocks": 128,
+  "threads": 384,
+  "smem": 98300,
+  "kt": 32,
+  "shape": {
+   "M": 2048,
+   "N": 2048,
+   "K": 2048
+  },
+  "pick": {
+   "block_M": 256,
+   "block_N": 128,
+   "block_K": 64,
+   "num_stages": 2,
+   "threads": 256,
+   "swizzle": 0,
+   "prefetch": 0,
+   "warp_policy": 0,
+   "vec_width": 0,
+   "tma": 1,
+   "warp_spec": 1,
+   "smem_layout": "inferred"
+  }
+ },
+ {
+  "name": "2048",
+  "variant": "nocompute_nostore",
+  "grid": [
+   16,
+   8
+  ],
+  "blocks": 128,
+  "full_blocks": 128,
+  "threads": 384,
+  "smem": 98300,
+  "kt": 32,
+  "shape": {
+   "M": 2048,
+   "N": 2048,
+   "K": 2048
+  },
+  "pick": {
+   "block_M": 256,
+   "block_N": 128,
+   "block_K": 64,
+   "num_stages": 2,
+   "threads": 256,
+   "swizzle": 0,
+   "prefetch": 0,
+   "warp_policy": 0,
+   "vec_width": 0,
+   "tma": 1,
+   "warp_spec": 1,
+   "smem_layout": "inferred"
+  }
+ },
+ {
+  "name": "8192",
+  "variant": "full",
+  "grid": [
+   64,
+   32
+  ],
+  "blocks": 2048,
+  "full_blocks": 2048,
+  "threads": 640,
+  "smem": 98300,
+  "kt": 128,
+  "shape": {
+   "M": 8192,
+   "N": 8192,
+   "K": 8192
+  },
+  "pick": {
+   "block_M": 256,
+   "block_N": 128,
+   "block_K": 64,
+   "num_stages": 2,
+   "threads": 512,
+   "swizzle": 16,
+   "prefetch": 0,
+   "warp_policy": 0,
+   "vec_width": 0,
+   "tma": 1,
+   "warp_spec": 1,
+   "smem_layout": "inferred"
+  }
+ },
+ {
+  "name": "8192",
+  "variant": "kt0",
+  "grid": [
+   1,
+   1
+  ],
+  "blocks": 1,
+  "full_blocks": 2048,
+  "threads": 640,
+  "smem": 98300,
+  "kt": 128,
+  "shape": {
+   "M": 8192,
+   "N": 8192,
+   "K": 8192
+  },
+  "pick": {
+   "block_M": 256,
+   "block_N": 128,
+   "block_K": 64,
+   "num_stages": 2,
+   "threads": 512,
+   "swizzle": 16,
+   "prefetch": 0,
+   "warp_policy": 0,
+   "vec_width": 0,
+   "tma": 1,
+   "warp_spec": 1,
+   "smem_layout": "inferred"
+  }
+ },
+ {
+  "name": "8192",
+  "variant": "kt0",
+  "grid": [
+   48,
+   1
+  ],
+  "blocks": 48,
+  "full_blocks": 2048,
+  "threads": 640,
+  "smem": 98300,
+  "kt": 128,
+  "shape": {
+   "M": 8192,
+   "N": 8192,
+   "K": 8192
+  },
+  "pick": {
+   "block_M": 256,
+   "block_N": 128,
+   "block_K": 64,
+   "num_stages": 2,
+   "threads": 512,
+   "swizzle": 16,
+   "prefetch": 0,
+   "warp_policy": 0,
+   "vec_width": 0,
+   "tma": 1,
+   "warp_spec": 1,
+   "smem_layout": "inferred"
+  }
+ },
+ {
+  "name": "8192",
+  "variant": "kt0",
+  "grid": [
+   64,
+   32
+  ],
+  "blocks": 2048,
+  "full_blocks": 2048,
+  "threads": 640,
+  "smem": 98300,
+  "kt": 128,
+  "shape": {
+   "M": 8192,
+   "N": 8192,
+   "K": 8192
+  },
+  "pick": {
+   "block_M": 256,
+   "block_N": 128,
+   "block_K": 64,
+   "num_stages": 2,
+   "threads": 512,
+   "swizzle": 16,
+   "prefetch": 0,
+   "warp_policy": 0,
+   "vec_width": 0,
+   "tma": 1,
+   "warp_spec": 1,
+   "smem_layout": "inferred"
+  }
+ },
+ {
+  "name": "8192",
+  "variant": "kt0_nostore",
+  "grid": [
+   1,
+   1
+  ],
+  "blocks": 1,
+  "full_blocks": 2048,
+  "threads": 640,
+  "smem": 98300,
+  "kt": 128,
+  "shape": {
+   "M": 8192,
+   "N": 8192,
+   "K": 8192
+  },
+  "pick": {
+   "block_M": 256,
+   "block_N": 128,
+   "block_K": 64,
+   "num_stages": 2,
+   "threads": 512,
+   "swizzle": 16,
+   "prefetch": 0,
+   "warp_policy": 0,
+   "vec_width": 0,
+   "tma": 1,
+   "warp_spec": 1,
+   "smem_layout": "inferred"
+  }
+ },
+ {
+  "name": "8192",
+  "variant": "kt0_nostore",
+  "grid": [
+   48,
+   1
+  ],
+  "blocks": 48,
+  "full_blocks": 2048,
+  "threads": 640,
+  "smem": 98300,
+  "kt": 128,
+  "shape": {
+   "M": 8192,
+   "N": 8192,
+   "K": 8192
+  },
+  "pick": {
+   "block_M": 256,
+   "block_N": 128,
+   "block_K": 64,
+   "num_stages": 2,
+   "threads": 512,
+   "swizzle": 16,
+   "prefetch": 0,
+   "warp_policy": 0,
+   "vec_width": 0,
+   "tma": 1,
+   "warp_spec": 1,
+   "smem_layout": "inferred"
+  }
+ },
+ {
+  "name": "8192",
+  "variant": "kt0_nostore",
+  "grid": [
+   64,
+   32
+  ],
+  "blocks": 2048,
+  "full_blocks": 2048,
+  "threads": 640,
+  "smem": 98300,
+  "kt": 128,
+  "shape": {
+   "M": 8192,
+   "N": 8192,
+   "K": 8192
+  },
+  "pick": {
+   "block_M": 256,
+   "block_N": 128,
+   "block_K": 64,
+   "num_stages": 2,
+   "threads": 512,
+   "swizzle": 16,
+   "prefetch": 0,
+   "warp_policy": 0,
+   "vec_width": 0,
+   "tma": 1,
+   "warp_spec": 1,
+   "smem_layout": "inferred"
+  }
+ },
+ {
+  "name": "8192",
+  "variant": "noload",
+  "grid": [
+   1,
+   1
+  ],
+  "blocks": 1,
+  "full_blocks": 2048,
+  "threads": 640,
+  "smem": 98300,
+  "kt": 128,
+  "shape": {
+   "M": 8192,
+   "N": 8192,
+   "K": 8192
+  },
+  "pick": {
+   "block_M": 256,
+   "block_N": 128,
+   "block_K": 64,
+   "num_stages": 2,
+   "threads": 512,
+   "swizzle": 16,
+   "prefetch": 0,
+   "warp_policy": 0,
+   "vec_width": 0,
+   "tma": 1,
+   "warp_spec": 1,
+   "smem_layout": "inferred"
+  }
+ },
+ {
+  "name": "8192",
+  "variant": "noload",
+  "grid": [
+   64,
+   32
+  ],
+  "blocks": 2048,
+  "full_blocks": 2048,
+  "threads": 640,
+  "smem": 98300,
+  "kt": 128,
+  "shape": {
+   "M": 8192,
+   "N": 8192,
+   "K": 8192
+  },
+  "pick": {
+   "block_M": 256,
+   "block_N": 128,
+   "block_K": 64,
+   "num_stages": 2,
+   "threads": 512,
+   "swizzle": 16,
+   "prefetch": 0,
+   "warp_policy": 0,
+   "vec_width": 0,
+   "tma": 1,
+   "warp_spec": 1,
+   "smem_layout": "inferred"
+  }
+ },
+ {
+  "name": "8192",
+  "variant": "nocompute",
+  "grid": [
+   1,
+   1
+  ],
+  "blocks": 1,
+  "full_blocks": 2048,
+  "threads": 640,
+  "smem": 98300,
+  "kt": 128,
+  "shape": {
+   "M": 8192,
+   "N": 8192,
+   "K": 8192
+  },
+  "pick": {
+   "block_M": 256,
+   "block_N": 128,
+   "block_K": 64,
+   "num_stages": 2,
+   "threads": 512,
+   "swizzle": 16,
+   "prefetch": 0,
+   "warp_policy": 0,
+   "vec_width": 0,
+   "tma": 1,
+   "warp_spec": 1,
+   "smem_layout": "inferred"
+  }
+ },
+ {
+  "name": "8192",
+  "variant": "nocompute",
+  "grid": [
+   48,
+   1
+  ],
+  "blocks": 48,
+  "full_blocks": 2048,
+  "threads": 640,
+  "smem": 98300,
+  "kt": 128,
+  "shape": {
+   "M": 8192,
+   "N": 8192,
+   "K": 8192
+  },
+  "pick": {
+   "block_M": 256,
+   "block_N": 128,
+   "block_K": 64,
+   "num_stages": 2,
+   "threads": 512,
+   "swizzle": 16,
+   "prefetch": 0,
+   "warp_policy": 0,
+   "vec_width": 0,
+   "tma": 1,
+   "warp_spec": 1,
+   "smem_layout": "inferred"
+  }
+ },
+ {
+  "name": "8192",
+  "variant": "nocompute",
+  "grid": [
+   64,
+   1
+  ],
+  "blocks": 64,
+  "full_blocks": 2048,
+  "threads": 640,
+  "smem": 98300,
+  "kt": 128,
+  "shape": {
+   "M": 8192,
+   "N": 8192,
+   "K": 8192
+  },
+  "pick": {
+   "block_M": 256,
+   "block_N": 128,
+   "block_K": 64,
+   "num_stages": 2,
+   "threads": 512,
+   "swizzle": 16,
+   "prefetch": 0,
+   "warp_policy": 0,
+   "vec_width": 0,
+   "tma": 1,
+   "warp_spec": 1,
+   "smem_layout": "inferred"
+  }
+ },
+ {
+  "name": "8192",
+  "variant": "nocompute",
+  "grid": [
+   64,
+   32
+  ],
+  "blocks": 2048,
+  "full_blocks": 2048,
+  "threads": 640,
+  "smem": 98300,
+  "kt": 128,
+  "shape": {
+   "M": 8192,
+   "N": 8192,
+   "K": 8192
+  },
+  "pick": {
+   "block_M": 256,
+   "block_N": 128,
+   "block_K": 64,
+   "num_stages": 2,
+   "threads": 512,
+   "swizzle": 16,
+   "prefetch": 0,
+   "warp_policy": 0,
+   "vec_width": 0,
+   "tma": 1,
+   "warp_spec": 1,
+   "smem_layout": "inferred"
+  }
+ },
+ {
+  "name": "8192",
+  "variant": "nocompute_nostore",
+  "grid": [
+   1,
+   1
+  ],
+  "blocks": 1,
+  "full_blocks": 2048,
+  "threads": 640,
+  "smem": 98300,
+  "kt": 128,
+  "shape": {
+   "M": 8192,
+   "N": 8192,
+   "K": 8192
+  },
+  "pick": {
+   "block_M": 256,
+   "block_N": 128,
+   "block_K": 64,
+   "num_stages": 2,
+   "threads": 512,
+   "swizzle": 16,
+   "prefetch": 0,
+   "warp_policy": 0,
+   "vec_width": 0,
+   "tma": 1,
+   "warp_spec": 1,
+   "smem_layout": "inferred"
+  }
+ },
+ {
+  "name": "8192",
+  "variant": "nocompute_nostore",
+  "grid": [
+   64,
+   32
+  ],
+  "blocks": 2048,
+  "full_blocks": 2048,
+  "threads": 640,
+  "smem": 98300,
+  "kt": 128,
+  "shape": {
+   "M": 8192,
+   "N": 8192,
+   "K": 8192
+  },
+  "pick": {
+   "block_M": 256,
+   "block_N": 128,
+   "block_K": 64,
+   "num_stages": 2,
+   "threads": 512,
+   "swizzle": 16,
+   "prefetch": 0,
+   "warp_policy": 0,
+   "vec_width": 0,
+   "tma": 1,
+   "warp_spec": 1,
+   "smem_layout": "inferred"
+  }
+ },
+ {
+  "name": "k1024",
+  "variant": "full",
+  "grid": [
+   32,
+   16
+  ],
+  "blocks": 512,
+  "full_blocks": 512,
+  "threads": 640,
+  "smem": 98300,
+  "kt": 32,
+  "shape": {
+   "M": 4096,
+   "N": 4096,
+   "K": 1024
+  },
+  "pick": {
+   "block_M": 256,
+   "block_N": 128,
+   "block_K": 32,
+   "num_stages": 4,
+   "threads": 512,
+   "swizzle": 0,
+   "prefetch": 0,
+   "warp_policy": 0,
+   "vec_width": 0,
+   "tma": 1,
+   "warp_spec": 1,
+   "smem_layout": "inferred"
+  }
+ },
+ {
+  "name": "k1024",
+  "variant": "kt0",
+  "grid": [
+   1,
+   1
+  ],
+  "blocks": 1,
+  "full_blocks": 512,
+  "threads": 640,
+  "smem": 98300,
+  "kt": 32,
+  "shape": {
+   "M": 4096,
+   "N": 4096,
+   "K": 1024
+  },
+  "pick": {
+   "block_M": 256,
+   "block_N": 128,
+   "block_K": 32,
+   "num_stages": 4,
+   "threads": 512,
+   "swizzle": 0,
+   "prefetch": 0,
+   "warp_policy": 0,
+   "vec_width": 0,
+   "tma": 1,
+   "warp_spec": 1,
+   "smem_layout": "inferred"
+  }
+ },
+ {
+  "name": "k1024",
+  "variant": "kt0",
+  "grid": [
+   32,
+   1
+  ],
+  "blocks": 32,
+  "full_blocks": 512,
+  "threads": 640,
+  "smem": 98300,
+  "kt": 32,
+  "shape": {
+   "M": 4096,
+   "N": 4096,
+   "K": 1024
+  },
+  "pick": {
+   "block_M": 256,
+   "block_N": 128,
+   "block_K": 32,
+   "num_stages": 4,
+   "threads": 512,
+   "swizzle": 0,
+   "prefetch": 0,
+   "warp_policy": 0,
+   "vec_width": 0,
+   "tma": 1,
+   "warp_spec": 1,
+   "smem_layout": "inferred"
+  }
+ },
+ {
+  "name": "k1024",
+  "variant": "kt0",
+  "grid": [
+   32,
+   16
+  ],
+  "blocks": 512,
+  "full_blocks": 512,
+  "threads": 640,
+  "smem": 98300,
+  "kt": 32,
+  "shape": {
+   "M": 4096,
+   "N": 4096,
+   "K": 1024
+  },
+  "pick": {
+   "block_M": 256,
+   "block_N": 128,
+   "block_K": 32,
+   "num_stages": 4,
+   "threads": 512,
+   "swizzle": 0,
+   "prefetch": 0,
+   "warp_policy": 0,
+   "vec_width": 0,
+   "tma": 1,
+   "warp_spec": 1,
+   "smem_layout": "inferred"
+  }
+ },
+ {
+  "name": "k1024",
+  "variant": "kt0_nostore",
+  "grid": [
+   1,
+   1
+  ],
+  "blocks": 1,
+  "full_blocks": 512,
+  "threads": 640,
+  "smem": 98300,
+  "kt": 32,
+  "shape": {
+   "M": 4096,
+   "N": 4096,
+   "K": 1024
+  },
+  "pick": {
+   "block_M": 256,
+   "block_N": 128,
+   "block_K": 32,
+   "num_stages": 4,
+   "threads": 512,
+   "swizzle": 0,
+   "prefetch": 0,
+   "warp_policy": 0,
+   "vec_width": 0,
+   "tma": 1,
+   "warp_spec": 1,
+   "smem_layout": "inferred"
+  }
+ },
+ {
+  "name": "k1024",
+  "variant": "kt0_nostore",
+  "grid": [
+   32,
+   1
+  ],
+  "blocks": 32,
+  "full_blocks": 512,
+  "threads": 640,
+  "smem": 98300,
+  "kt": 32,
+  "shape": {
+   "M": 4096,
+   "N": 4096,
+   "K": 1024
+  },
+  "pick": {
+   "block_M": 256,
+   "block_N": 128,
+   "block_K": 32,
+   "num_stages": 4,
+   "threads": 512,
+   "swizzle": 0,
+   "prefetch": 0,
+   "warp_policy": 0,
+   "vec_width": 0,
+   "tma": 1,
+   "warp_spec": 1,
+   "smem_layout": "inferred"
+  }
+ },
+ {
+  "name": "k1024",
+  "variant": "kt0_nostore",
+  "grid": [
+   32,
+   16
+  ],
+  "blocks": 512,
+  "full_blocks": 512,
+  "threads": 640,
+  "smem": 98300,
+  "kt": 32,
+  "shape": {
+   "M": 4096,
+   "N": 4096,
+   "K": 1024
+  },
+  "pick": {
+   "block_M": 256,
+   "block_N": 128,
+   "block_K": 32,
+   "num_stages": 4,
+   "threads": 512,
+   "swizzle": 0,
+   "prefetch": 0,
+   "warp_policy": 0,
+   "vec_width": 0,
+   "tma": 1,
+   "warp_spec": 1,
+   "smem_layout": "inferred"
+  }
+ },
+ {
+  "name": "k1024",
+  "variant": "noload",
+  "grid": [
+   1,
+   1
+  ],
+  "blocks": 1,
+  "full_blocks": 512,
+  "threads": 640,
+  "smem": 98300,
+  "kt": 32,
+  "shape": {
+   "M": 4096,
+   "N": 4096,
+   "K": 1024
+  },
+  "pick": {
+   "block_M": 256,
+   "block_N": 128,
+   "block_K": 32,
+   "num_stages": 4,
+   "threads": 512,
+   "swizzle": 0,
+   "prefetch": 0,
+   "warp_policy": 0,
+   "vec_width": 0,
+   "tma": 1,
+   "warp_spec": 1,
+   "smem_layout": "inferred"
+  }
+ },
+ {
+  "name": "k1024",
+  "variant": "noload",
+  "grid": [
+   32,
+   16
+  ],
+  "blocks": 512,
+  "full_blocks": 512,
+  "threads": 640,
+  "smem": 98300,
+  "kt": 32,
+  "shape": {
+   "M": 4096,
+   "N": 4096,
+   "K": 1024
+  },
+  "pick": {
+   "block_M": 256,
+   "block_N": 128,
+   "block_K": 32,
+   "num_stages": 4,
+   "threads": 512,
+   "swizzle": 0,
+   "prefetch": 0,
+   "warp_policy": 0,
+   "vec_width": 0,
+   "tma": 1,
+   "warp_spec": 1,
+   "smem_layout": "inferred"
+  }
+ },
+ {
+  "name": "k1024",
+  "variant": "nocompute",
+  "grid": [
+   1,
+   1
+  ],
+  "blocks": 1,
+  "full_blocks": 512,
+  "threads": 640,
+  "smem": 98300,
+  "kt": 32,
+  "shape": {
+   "M": 4096,
+   "N": 4096,
+   "K": 1024
+  },
+  "pick": {
+   "block_M": 256,
+   "block_N": 128,
+   "block_K": 32,
+   "num_stages": 4,
+   "threads": 512,
+   "swizzle": 0,
+   "prefetch": 0,
+   "warp_policy": 0,
+   "vec_width": 0,
+   "tma": 1,
+   "warp_spec": 1,
+   "smem_layout": "inferred"
+  }
+ },
+ {
+  "name": "k1024",
+  "variant": "nocompute",
+  "grid": [
+   32,
+   1
+  ],
+  "blocks": 32,
+  "full_blocks": 512,
+  "threads": 640,
+  "smem": 98300,
+  "kt": 32,
+  "shape": {
+   "M": 4096,
+   "N": 4096,
+   "K": 1024
+  },
+  "pick": {
+   "block_M": 256,
+   "block_N": 128,
+   "block_K": 32,
+   "num_stages": 4,
+   "threads": 512,
+   "swizzle": 0,
+   "prefetch": 0,
+   "warp_policy": 0,
+   "vec_width": 0,
+   "tma": 1,
+   "warp_spec": 1,
+   "smem_layout": "inferred"
+  }
+ },
+ {
+  "name": "k1024",
+  "variant": "nocompute",
+  "grid": [
+   32,
+   3
+  ],
+  "blocks": 96,
+  "full_blocks": 512,
+  "threads": 640,
+  "smem": 98300,
+  "kt": 32,
+  "shape": {
+   "M": 4096,
+   "N": 4096,
+   "K": 1024
+  },
+  "pick": {
+   "block_M": 256,
+   "block_N": 128,
+   "block_K": 32,
+   "num_stages": 4,
+   "threads": 512,
+   "swizzle": 0,
+   "prefetch": 0,
+   "warp_policy": 0,
+   "vec_width": 0,
+   "tma": 1,
+   "warp_spec": 1,
+   "smem_layout": "inferred"
+  }
+ },
+ {
+  "name": "k1024",
+  "variant": "nocompute",
+  "grid": [
+   32,
+   16
+  ],
+  "blocks": 512,
+  "full_blocks": 512,
+  "threads": 640,
+  "smem": 98300,
+  "kt": 32,
+  "shape": {
+   "M": 4096,
+   "N": 4096,
+   "K": 1024
+  },
+  "pick": {
+   "block_M": 256,
+   "block_N": 128,
+   "block_K": 32,
+   "num_stages": 4,
+   "threads": 512,
+   "swizzle": 0,
+   "prefetch": 0,
+   "warp_policy": 0,
+   "vec_width": 0,
+   "tma": 1,
+   "warp_spec": 1,
+   "smem_layout": "inferred"
+  }
+ },
+ {
+  "name": "k1024",
+  "variant": "nocompute_nostore",
+  "grid": [
+   1,
+   1
+  ],
+  "blocks": 1,
+  "full_blocks": 512,
+  "threads": 640,
+  "smem": 98300,
+  "kt": 32,
+  "shape": {
+   "M": 4096,
+   "N": 4096,
+   "K": 1024
+  },
+  "pick": {
+   "block_M": 256,
+   "block_N": 128,
+   "block_K": 32,
+   "num_stages": 4,
+   "threads": 512,
+   "swizzle": 0,
+   "prefetch": 0,
+   "warp_policy": 0,
+   "vec_width": 0,
+   "tma": 1,
+   "warp_spec": 1,
+   "smem_layout": "inferred"
+  }
+ },
+ {
+  "name": "k1024",
+  "variant": "nocompute_nostore",
+  "grid": [
+   32,
+   16
+  ],
+  "blocks": 512,
+  "full_blocks": 512,
+  "threads": 640,
+  "smem": 98300,
+  "kt": 32,
+  "shape": {
+   "M": 4096,
+   "N": 4096,
+   "K": 1024
+  },
+  "pick": {
+   "block_M": 256,
+   "block_N": 128,
+   "block_K": 32,
+   "num_stages": 4,
+   "threads": 512,
+   "swizzle": 0,
+   "prefetch": 0,
+   "warp_policy": 0,
+   "vec_width": 0,
+   "tma": 1,
+   "warp_spec": 1,
+   "smem_layout": "inferred"
+  }
+ },
+ {
+  "name": "m128",
+  "variant": "full",
+  "grid": [
+   64,
+   1
+  ],
+  "blocks": 64,
+  "full_blocks": 64,
+  "threads": 256,
+  "smem": 40960,
+  "kt": 128,
+  "shape": {
+   "M": 128,
+   "N": 4096,
+   "K": 4096
+  },
+  "pick": {
+   "block_M": 256,
+   "block_N": 64,
+   "block_K": 32,
+   "num_stages": 2,
+   "threads": 128,
+   "swizzle": 0,
+   "prefetch": 0,
+   "warp_policy": 0,
+   "vec_width": 0,
+   "tma": 1,
+   "warp_spec": 1,
+   "smem_layout": "inferred"
+  }
+ },
+ {
+  "name": "m128",
+  "variant": "kt0",
+  "grid": [
+   1,
+   1
+  ],
+  "blocks": 1,
+  "full_blocks": 64,
+  "threads": 256,
+  "smem": 40960,
+  "kt": 128,
+  "shape": {
+   "M": 128,
+   "N": 4096,
+   "K": 4096
+  },
+  "pick": {
+   "block_M": 256,
+   "block_N": 64,
+   "block_K": 32,
+   "num_stages": 2,
+   "threads": 128,
+   "swizzle": 0,
+   "prefetch": 0,
+   "warp_policy": 0,
+   "vec_width": 0,
+   "tma": 1,
+   "warp_spec": 1,
+   "smem_layout": "inferred"
+  }
+ },
+ {
+  "name": "m128",
+  "variant": "kt0",
+  "grid": [
+   48,
+   1
+  ],
+  "blocks": 48,
+  "full_blocks": 64,
+  "threads": 256,
+  "smem": 40960,
+  "kt": 128,
+  "shape": {
+   "M": 128,
+   "N": 4096,
+   "K": 4096
+  },
+  "pick": {
+   "block_M": 256,
+   "block_N": 64,
+   "block_K": 32,
+   "num_stages": 2,
+   "threads": 128,
+   "swizzle": 0,
+   "prefetch": 0,
+   "warp_policy": 0,
+   "vec_width": 0,
+   "tma": 1,
+   "warp_spec": 1,
+   "smem_layout": "inferred"
+  }
+ },
+ {
+  "name": "m128",
+  "variant": "kt0",
+  "grid": [
+   64,
+   1
+  ],
+  "blocks": 64,
+  "full_blocks": 64,
+  "threads": 256,
+  "smem": 40960,
+  "kt": 128,
+  "shape": {
+   "M": 128,
+   "N": 4096,
+   "K": 4096
+  },
+  "pick": {
+   "block_M": 256,
+   "block_N": 64,
+   "block_K": 32,
+   "num_stages": 2,
+   "threads": 128,
+   "swizzle": 0,
+   "prefetch": 0,
+   "warp_policy": 0,
+   "vec_width": 0,
+   "tma": 1,
+   "warp_spec": 1,
+   "smem_layout": "inferred"
+  }
+ },
+ {
+  "name": "m128",
+  "variant": "kt0_nostore",
+  "grid": [
+   1,
+   1
+  ],
+  "blocks": 1,
+  "full_blocks": 64,
+  "threads": 256,
+  "smem": 40960,
+  "kt": 128,
+  "shape": {
+   "M": 128,
+   "N": 4096,
+   "K": 4096
+  },
+  "pick": {
+   "block_M": 256,
+   "block_N": 64,
+   "block_K": 32,
+   "num_stages": 2,
+   "threads": 128,
+   "swizzle": 0,
+   "prefetch": 0,
+   "warp_policy": 0,
+   "vec_width": 0,
+   "tma": 1,
+   "warp_spec": 1,
+   "smem_layout": "inferred"
+  }
+ },
+ {
+  "name": "m128",
+  "variant": "kt0_nostore",
+  "grid": [
+   48,
+   1
+  ],
+  "blocks": 48,
+  "full_blocks": 64,
+  "threads": 256,
+  "smem": 40960,
+  "kt": 128,
+  "shape": {
+   "M": 128,
+   "N": 4096,
+   "K": 4096
+  },
+  "pick": {
+   "block_M": 256,
+   "block_N": 64,
+   "block_K": 32,
+   "num_stages": 2,
+   "threads": 128,
+   "swizzle": 0,
+   "prefetch": 0,
+   "warp_policy": 0,
+   "vec_width": 0,
+   "tma": 1,
+   "warp_spec": 1,
+   "smem_layout": "inferred"
+  }
+ },
+ {
+  "name": "m128",
+  "variant": "kt0_nostore",
+  "grid": [
+   64,
+   1
+  ],
+  "blocks": 64,
+  "full_blocks": 64,
+  "threads": 256,
+  "smem": 40960,
+  "kt": 128,
+  "shape": {
+   "M": 128,
+   "N": 4096,
+   "K": 4096
+  },
+  "pick": {
+   "block_M": 256,
+   "block_N": 64,
+   "block_K": 32,
+   "num_stages": 2,
+   "threads": 128,
+   "swizzle": 0,
+   "prefetch": 0,
+   "warp_policy": 0,
+   "vec_width": 0,
+   "tma": 1,
+   "warp_spec": 1,
+   "smem_layout": "inferred"
+  }
+ },
+ {
+  "name": "m128",
+  "variant": "noload",
+  "grid": [
+   1,
+   1
+  ],
+  "blocks": 1,
+  "full_blocks": 64,
+  "threads": 256,
+  "smem": 40960,
+  "kt": 128,
+  "shape": {
+   "M": 128,
+   "N": 4096,
+   "K": 4096
+  },
+  "pick": {
+   "block_M": 256,
+   "block_N": 64,
+   "block_K": 32,
+   "num_stages": 2,
+   "threads": 128,
+   "swizzle": 0,
+   "prefetch": 0,
+   "warp_policy": 0,
+   "vec_width": 0,
+   "tma": 1,
+   "warp_spec": 1,
+   "smem_layout": "inferred"
+  }
+ },
+ {
+  "name": "m128",
+  "variant": "noload",
+  "grid": [
+   64,
+   1
+  ],
+  "blocks": 64,
+  "full_blocks": 64,
+  "threads": 256,
+  "smem": 40960,
+  "kt": 128,
+  "shape": {
+   "M": 128,
+   "N": 4096,
+   "K": 4096
+  },
+  "pick": {
+   "block_M": 256,
+   "block_N": 64,
+   "block_K": 32,
+   "num_stages": 2,
+   "threads": 128,
+   "swizzle": 0,
+   "prefetch": 0,
+   "warp_policy": 0,
+   "vec_width": 0,
+   "tma": 1,
+   "warp_spec": 1,
+   "smem_layout": "inferred"
+  }
+ },
+ {
+  "name": "m128",
+  "variant": "nocompute",
+  "grid": [
+   1,
+   1
+  ],
+  "blocks": 1,
+  "full_blocks": 64,
+  "threads": 256,
+  "smem": 40960,
+  "kt": 128,
+  "shape": {
+   "M": 128,
+   "N": 4096,
+   "K": 4096
+  },
+  "pick": {
+   "block_M": 256,
+   "block_N": 64,
+   "block_K": 32,
+   "num_stages": 2,
+   "threads": 128,
+   "swizzle": 0,
+   "prefetch": 0,
+   "warp_policy": 0,
+   "vec_width": 0,
+   "tma": 1,
+   "warp_spec": 1,
+   "smem_layout": "inferred"
+  }
+ },
+ {
+  "name": "m128",
+  "variant": "nocompute",
+  "grid": [
+   48,
+   1
+  ],
+  "blocks": 48,
+  "full_blocks": 64,
+  "threads": 256,
+  "smem": 40960,
+  "kt": 128,
+  "shape": {
+   "M": 128,
+   "N": 4096,
+   "K": 4096
+  },
+  "pick": {
+   "block_M": 256,
+   "block_N": 64,
+   "block_K": 32,
+   "num_stages": 2,
+   "threads": 128,
+   "swizzle": 0,
+   "prefetch": 0,
+   "warp_policy": 0,
+   "vec_width": 0,
+   "tma": 1,
+   "warp_spec": 1,
+   "smem_layout": "inferred"
+  }
+ },
+ {
+  "name": "m128",
+  "variant": "nocompute",
+  "grid": [
+   64,
+   1
+  ],
+  "blocks": 64,
+  "full_blocks": 64,
+  "threads": 256,
+  "smem": 40960,
+  "kt": 128,
+  "shape": {
+   "M": 128,
+   "N": 4096,
+   "K": 4096
+  },
+  "pick": {
+   "block_M": 256,
+   "block_N": 64,
+   "block_K": 32,
+   "num_stages": 2,
+   "threads": 128,
+   "swizzle": 0,
+   "prefetch": 0,
+   "warp_policy": 0,
+   "vec_width": 0,
+   "tma": 1,
+   "warp_spec": 1,
+   "smem_layout": "inferred"
+  }
+ },
+ {
+  "name": "m128",
+  "variant": "nocompute_nostore",
+  "grid": [
+   1,
+   1
+  ],
+  "blocks": 1,
+  "full_blocks": 64,
+  "threads": 256,
+  "smem": 40960,
+  "kt": 128,
+  "shape": {
+   "M": 128,
+   "N": 4096,
+   "K": 4096
+  },
+  "pick": {
+   "block_M": 256,
+   "block_N": 64,
+   "block_K": 32,
+   "num_stages": 2,
+   "threads": 128,
+   "swizzle": 0,
+   "prefetch": 0,
+   "warp_policy": 0,
+   "vec_width": 0,
+   "tma": 1,
+   "warp_spec": 1,
+   "smem_layout": "inferred"
+  }
+ },
+ {
+  "name": "m128",
+  "variant": "nocompute_nostore",
+  "grid": [
+   64,
+   1
+  ],
+  "blocks": 64,
+  "full_blocks": 64,
+  "threads": 256,
+  "smem": 40960,
+  "kt": 128,
+  "shape": {
+   "M": 128,
+   "N": 4096,
+   "K": 4096
+  },
+  "pick": {
+   "block_M": 256,
+   "block_N": 64,
+   "block_K": 32,
+   "num_stages": 2,
+   "threads": 128,
+   "swizzle": 0,
+   "prefetch": 0,
+   "warp_policy": 0,
+   "vec_width": 0,
+   "tma": 1,
+   "warp_spec": 1,
+   "smem_layout": "inferred"
+  }
+ }
+]

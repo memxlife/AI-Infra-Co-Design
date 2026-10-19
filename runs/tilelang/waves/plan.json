@@ -1,0 +1,186 @@
+[
+ {
+  "label": "waves:47",
+  "shape": {
+   "M": 64,
+   "N": 6016,
+   "K": 1024
+  },
+  "holes": {
+   "block_M": 64,
+   "block_N": 128,
+   "block_K": 128,
+   "num_stages": 2,
+   "threads": 128,
+   "swizzle": 8,
+   "prefetch": 0,
+   "warp_policy": 0,
+   "vec_width": 0,
+   "tma": 1,
+   "warp_spec": 1,
+   "smem_layout": "inferred"
+  },
+  "kernel": "waves/w47.py"
+ },
+ {
+  "label": "waves:48",
+  "shape": {
+   "M": 64,
+   "N": 6144,
+   "K": 1024
+  },
+  "holes": {
+   "block_M": 64,
+   "block_N": 128,
+   "block_K": 128,
+   "num_stages": 2,
+   "threads": 128,
+   "swizzle": 8,
+   "prefetch": 0,
+   "warp_policy": 0,
+   "vec_width": 0,
+   "tma": 1,
+   "warp_spec": 1,
+   "smem_layout": "inferred"
+  },
+  "kernel": "waves/w48.py"
+ },
+ {
+  "label": "waves:49",
+  "shape": {
+   "M": 64,
+   "N": 6272,
+   "K": 1024
+  },
+  "holes": {
+   "block_M": 64,
+   "block_N": 128,
+   "block_K": 128,
+   "num_stages": 2,
+   "threads": 128,
+   "swizzle": 8,
+   "prefetch": 0,
+   "warp_policy": 0,
+   "vec_width": 0,
+   "tma": 1,
+   "warp_spec": 1,
+   "smem_layout": "inferred"
+  },
+  "kernel": "waves/w49.py"
+ },
+ {
+  "label": "waves:95",
+  "shape": {
+   "M": 64,
+   "N": 12160,
+   "K": 1024
+  },
+  "holes": {
+   "block_M": 64,
+   "block_N": 128,
+   "block_K": 128,
+   "num_stages": 2,
+   "threads": 128,
+   "swizzle": 8,
+   "prefetch": 0,
+   "warp_policy": 0,
+   "vec_width": 0,
+   "tma": 1,
+   "warp_spec": 1,
+   "smem_layout": "inferred"
+  },
+  "kernel": "waves/w95.py"
+ },
+ {
+  "label": "waves:96",
+  "shape": {
+   "M": 64,
+   "N": 12288,
+   "K": 1024
+  },
+  "holes": {
+   "block_M": 64,
+   "block_N": 128,
+   "block_K": 128,
+   "num_stages": 2,
+   "threads": 128,
+   "swizzle": 8,
+   "prefetch": 0,
+   "warp_policy": 0,
+   "vec_width": 0,
+   "tma": 1,
+   "warp_spec": 1,
+   "smem_layout": "inferred"
+  },
+  "kernel": "waves/w96.py"
+ },
+ {
+  "label": "waves:97",
+  "shape": {
+   "M": 64,
+   "N": 12416,
+   "K": 1024
+  },
+  "holes": {
+   "block_M": 64,
+   "block_N": 128,
+   "block_K": 128,
+   "num_stages": 2,
+   "threads": 128,
+   "swizzle": 8,
+   "prefetch": 0,
+   "warp_policy": 0,
+   "vec_width": 0,
+   "tma": 1,
+   "warp_spec": 1,
+   "smem_layout": "inferred"
+  },
+  "kernel": "waves/w97.py"
+ },
+ {
+  "label": "panel:16",
+  "shape": {
+   "M": 4096,
+   "N": 4096,
+   "K": 4096
+  },
+  "holes": {
+   "block_M": 128,
+   "block_N": 256,
+   "block_K": 32,
+   "num_stages": 3,
+   "threads": 512,
+   "swizzle": 16,
+   "prefetch": 0,
+   "warp_policy": 0,
+   "vec_width": 0,
+   "tma": 1,
+   "warp_spec": 1,
+   "smem_layout": "inferred"
+  },
+  "kernel": "waves/panel16.py"
+ },
+ {
+  "label": "panel:0",
+  "shape": {
+   "M": 4096,
+   "N": 4096,
+   "K": 4096
+  },
+  "holes": {
+   "block_M": 128,
+   "block_N": 256,
+   "block_K": 32,
+   "num_stages": 3,
+   "threads": 512,
+   "swizzle": 0,
+   "prefetch": 0,
+   "warp_policy": 0,
+   "vec_width": 0,
+   "tma": 1,
+   "warp_spec": 1,
+   "smem_layout": "inferred"
+  },
+  "kernel": "waves/panel0.py"
+ }
+]
