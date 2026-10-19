@@ -113,14 +113,36 @@ value inside that spread gets factor 1.0 in `tilelang_terms.yaml`.
   1.043), +0.5 % at M=32. So the T+128 register cliff of round 1 can be removed, at a small cost on the big shape.
 - **SMEM_SWIZZLE** (`T.annotate_layout({A_s: make_swizzled_layout(A_s), ...})`, `annotations.py:45`,
   `layout/swizzle.py:66,129`). The explicit swizzled layout equals the inferred one (+1.3 %, inside the spread). The
-  linear (row-major) layout is the one real cliff among the new knobs: **+36 % at 1024³** (bank conflicts in the
-  shared-memory reads), and nothing at M=32, where the kernel streams B from DRAM and the SMs are idle anyway.
-  Factor 1.36, applied to the per-SM term; at M=32 that over-predicts the linear layout by 37 % (the only bound
-  exception the new knobs introduce), because the model's per-SM term there is really the DRAM time in disguise.
+  linear (row-major) layout first looked like a cliff (+36 % at 1024³) and turned out to be a **wrong answer**: with
+  TMA copies on, the kernel computes garbage (max error 43 at 1024³, 25 at M=32; 31 of 35 such points in the step-3
+  sample). TMA writes the tile in its own swizzled order and the explicit row-major layout reads it as if it were not.
+  With the `cp.async` path (TMA off, or the producer group off) the linear layout is correct and slower (the sample's
+  medians: 109 µs against 74 µs at 1024³). legalize and the MILP now forbid linear + TMA; the factor is withdrawn.
+  Correctness, not time, is what this knob exposed, and the one-knob probe at step 2 missed it because the probe only
+  printed the time; the step-3 sample caught it.
 
-Net: of the seven candidate knobs, one does not work (MAXRREG), one is a cliff the solver must avoid (linear layout),
-one trades the register cliff for 3–4 % (WARP_SPEC), and four are inside the noise at these two shapes. The full
+Net: of the seven candidate knobs, one does not work (MAXRREG), one is a correctness rule rather than a cost (linear
+layout with TMA), one trades the register cliff for 3–4 % (WARP_SPEC), and four are inside the noise at these two
+shapes. The full
 space is 559,872 points; the constraints admit about 31–33 % of random draws (612 / 663 draws for 200 legal points).
 The solver now has 279 binaries over 12 knobs and still answers in ~20 ms. Lines changed to expose the seven knobs
 (`agentic/tilelang/`): the template 18, `knobs.yaml` 48, `tools.py` 41, `cost.py` 15, `solve.py` 14, the probe runner
 78 — about 215 lines, of which the family-specific part (template and knobs.yaml) is 66.
+
+
+### Step 3: the solver over the full space against 200 random legal points
+
+Full space 559,872 points per shape; 200 random legal points each, every one compiled and run (none failed to
+build; 31 computed wrong answers, all of them linear layout + TMA, see step 2). At **1024³** the sample's best is
+61.5 µs (64x256x32, 4 stages, 256 threads, panel 8, cp.async, no producer group); the solver's one compile over the
+full space, 275 binaries in 20 ms, gives 62.5 µs, **+1.6 %**, and it used none of the new knobs: every one at
+TileLang's default. Round 1's pick re-timed in the same session: 64.5 µs, so the round-2 pick is 2.0 µs (3.2 %)
+better, which is one or two timer ticks. At **M=32** the sample's best is 203.8 µs, the solver's pick 206.8 µs,
+**+1.4 %**, again all new knobs at their defaults; round 1's pick re-timed 203.7 µs (+1.5 % for round 2's, inside
+the 0.5 % band's noise once the tie is counted). The bigger space found nothing better than the six-knob space at
+these two shapes: the new knobs move the time by less than the timer's spread, and the model says so (factors 1.0).
+Model on the sample: Spearman 0.67 at 1024³, −0.11 at M=32 (182 points within 10 % of each other), bound broken on
+30 % / 28 %: the envelopes were fitted on the six-knob sweeps and the new knobs' combinations (cp.async paths, other
+thread counts' register budgets) sit below them. The honest summary for the paper: on this family and chip, the
+six knobs TileLang's own autotuner sees are the ones that matter; the extra seven cost 215 lines to expose, and
+what they bought was one correctness rule and one register-cliff escape, not a faster kernel.

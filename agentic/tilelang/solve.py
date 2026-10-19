@@ -104,6 +104,9 @@ def solve_family(T: dict, terms: dict | None = None, time_limit: float = 30.0) -
             for sv in menus["num_stages"]:
                 if pv >= sv:
                     row([(x["prefetch", pv], 1), (x["num_stages", sv], 1)], -np.inf, 1)
+    # correctness rule from the round-2 sample: the linear layout with TMA copies computes wrong answers
+    if "smem_layout" in menus and "linear" in menus["smem_layout"] and "tma" in menus and 1 in menus["tma"] and "warp_spec" in menus and 1 in menus["warp_spec"]:
+        row([(x["smem_layout", "linear"], 1), (x["tma", 1], 1), (x["warp_spec", 1], 1)], -np.inf, 2)
     c = np.zeros(n); c[T_ep] = 1e6                # the objective in microseconds, so the solver's gap tolerances mean something
     # tie-break: a knob value that the model prices the same as TileLang's default costs an epsilon, so the solver
     # returns the default unless a term says otherwise (the pick stays reproducible and the kernel stays the example's)

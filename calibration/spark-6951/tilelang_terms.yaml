@@ -37,7 +37,9 @@ terms:
     the three sweeps (51 keys); per-SM copy rate = best observed; B_HBM = best streaming
     rate at M=32; wave start-up = smallest residual per wave at M=32; no scale, overlap
     max; round-2 knob factors from the 1024^3 curves (runs/tilelang/probe) against
-    the mean of 7 base timings, clamped to 1 inside the base spread'
+    the mean of 7 base timings, clamped to 1 inside the base spread; the linear-layout
+    factor withdrawn: that kernel computed wrong answers (legalize forbids linear
+    + TMA)'
   u_tile:
     128:
       64x64@1024: 0.286166534969388
@@ -147,7 +149,7 @@ terms:
     smem_layout:
       inferred: 1.0
       swizzled: 1.0
-      linear: 1.36
+      linear: 1.0
 fit_detail:
   rate_keys: 51
   wave_startup_us: 0.0

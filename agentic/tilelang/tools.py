@@ -114,8 +114,9 @@ def legalize(family: str, holes: dict, shape: dict, chip: dict | None = None, dt
         return {"ok": False, "reason": f"swizzle panel {holes['swizzle']} is not in the menu"}
     if holes.get("prefetch", 0) >= holes.get("num_stages", 1):
         return {"ok": False, "reason": f"pipeline: a prefetch of {holes['prefetch']} k-steps needs more than {holes['num_stages']} buffers (TileLang's manual schedule infers the depth as max(stage) + 1)"}
-    if holes.get("warp_spec", 1) == 0 and holes.get("tma", 1) == 1:
-        pass                                                        # TileLang drops TMA without the producer group; the kernel builds, so it is allowed
+    if holes.get("smem_layout") == "linear" and holes.get("tma", 1) == 1 and holes.get("warp_spec", 1) == 1:
+        return {"ok": False, "reason": "correctness: the linear shared-memory layout with TMA copies gives wrong answers (31 of 31 such points in the round-2 sample); "
+                                       "TMA writes the tile in its own swizzled order and the explicit row-major layout reads it as if it were not"}
     smem = st * (bm * bk + bk * bn) * dtype_bytes
     reasons = []
     if smem > c["smem_per_block"]:

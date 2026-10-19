@@ -66,5 +66,31 @@ def report():
     (RUNS / "step3.md").write_text(txt + "\n")
 
 
+def oos_report():
+    """R5: the four out-of-sample shapes, solver pick against 30 random legal points each."""
+    from scipy.stats import spearmanr
+    chip = load_chip("spark-6951-gb10"); terms = load_terms(chip)
+    rows = [json.loads(l) for l in open(RUNS / "oos" / "oos.jsonl") if l.strip()]
+    info = json.load(open(RUNS / "oos" / "picks.json"))
+    shapes = {"2048": {"M": 2048, "N": 2048, "K": 2048}, "8192": {"M": 8192, "N": 8192, "K": 8192}, "k1024": {"M": 4096, "N": 4096, "K": 1024}, "m128": {"M": 128, "N": 4096, "K": 4096}}
+    lines = ["## R5: out-of-sample shapes (terms calibrated on 1024^3, 4096^3 and M=32 only)", "",
+             "| shape | solver pick | measured | predicted | sample best (of 30) | gap pick vs sample best | bound broken on the sample | Spearman on the sample | failed / wrong / spill in the sample |", "|---|---|---|---|---|---|---|---|---|"]
+    for name, shape in shapes.items():
+        rs = [r for r in rows if r["label"].startswith(name + ":")]
+        pick = next((r for r in rs if r["label"].endswith(":pick")), None)
+        smp = [r for r in rs if "sample" in r["label"]]
+        good = [r for r in smp if r.get("ok") and r.get("correct")]
+        fail = [r for r in smp if not r.get("ok")]; wrong = [r for r in smp if r.get("ok") and not r.get("correct")]; spill = [r for r in good if r.get("n_spills")]
+        if not good or not pick or not pick.get("ok"):
+            lines.append(f"| {shape['M']}x{shape['N']}x{shape['K']} | {_h(info[name]['pick'])} | {'failed: ' + (pick or {}).get('error', '')[-80:] if pick else '–'} | | | | | | {len(fail)} / {len(wrong)} / {len(spill)} |"); continue
+        best = min(good, key=lambda r: r["latency_us"])
+        pred = [(predict(r["holes"], shape, chip, terms)["time_us"], r["latency_us"]) for r in good]
+        broken = sum(1 for p, m in pred if p > m) / len(pred)
+        rho = float(spearmanr([p for p, _ in pred], [m for _, m in pred]).correlation)
+        lines.append(f"| {shape['M']}x{shape['N']}x{shape['K']} | {_h(info[name]['pick'])} | {pick['latency_us']:.1f} µs | {info[name]['predicted_us']:.1f} µs | {best['latency_us']:.1f} µs ({_h(best['holes'])}) | "
+                     f"{pick['latency_us'] / best['latency_us'] - 1:+.1%} | {broken:.0%} | {rho:.2f} | {len(fail)} / {len(wrong)} / {len(spill)} |")
+    txt = "\n".join(lines); print(txt); (RUNS / "oos.md").write_text(txt + "\n")
+
+
 if __name__ == "__main__":
-    {"picks": picks, "report": report}[sys.argv[1]]()
+    {"picks": picks, "report": report, "oos": oos_report}[sys.argv[1]]()

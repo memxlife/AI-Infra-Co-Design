@@ -1,6 +1,6 @@
 # TileLang round 1: the numbers
 
-Chip spark-6951 (GB10). Family gemm_basic. Terms: R2 lower envelopes: tile rate per (threads, tile) = best observed over the three sweeps (51 keys); per-SM copy rate = best observed; B_HBM = best streaming rate at M=32; wave start-up = smallest residual per wave at M=32; no scale, overlap max; round-2 knob factors from the 1024^3 curves (runs/tilelang/probe) against the mean of 7 base timings, clamped to 1 inside the base spread
+Chip spark-6951 (GB10). Family gemm_basic. Terms: R2 lower envelopes: tile rate per (threads, tile) = best observed over the three sweeps (51 keys); per-SM copy rate = best observed; B_HBM = best streaming rate at M=32; wave start-up = smallest residual per wave at M=32; no scale, overlap max; round-2 knob factors from the 1024^3 curves (runs/tilelang/probe) against the mean of 7 base timings, clamped to 1 inside the base spread; the linear-layout factor withdrawn: that kernel computed wrong answers (legalize forbids linear + TMA)
 
 | shape | grid | removed by constraints | compiled, ran, correct | spill | best measured | solver's pick | pick measured | gap pick vs best | Spearman (all) | bound broken | model pick gap |
 |---|---|---|---|---|---|---|---|---|---|---|---|
@@ -29,11 +29,25 @@ Removed by the constraints: the shared-memory rule, the register rule (launch bo
 |---|---|---|---|---|---|---|---|---|
 | 4096x4096x4096 | 256x128x64, 2 st, 256 th, swz 4 | 1434.5 µs | 1038.0 µs | 95.8 | 168 / 0 | 1941.5 µs (132 of 144) | 1456.3 µs | -26.1% |
 
+## Step 3: the full 12-knob space, solver pick against 200 random legal points
+
+### 1024x1024x1024
+- sample: 200 drawn, 0 failed to build or run, 13 wrong, 0 spill (0.0%); best measured 61.5 µs at {'block_M': 64, 'block_N': 256, 'block_K': 32, 'num_stages': 4, 'threads': 256, 'swizzle': 8, 'prefetch': 1, 'warp_policy': 2, 'vec_width': 0, 'tma': 0, 'warp_spec': 0, 'smem_layout': 'inferred'}
+- model on the sample: Spearman 0.67, bound broken on 30.5%
+- solver's pick (275 binaries, 20 ms): {'block_M': 256, 'block_N': 128, 'block_K': 32, 'num_stages': 3, 'threads': 256, 'swizzle': 0, 'prefetch': 0, 'warp_policy': 0, 'vec_width': 0, 'tma': 1, 'warp_spec': 1, 'smem_layout': 'inferred'} -> measured 62.5 µs (predicted 63.4); gap to sample best +1.6%; new knobs it used: none (all at the round-1 defaults)
+- round 1's pick re-timed in this run: 64.5 µs; round 2 pick vs round 1 pick: -2.0 µs (-3.2%)
+
+### 32x4096x4096
+- sample: 200 drawn, 0 failed to build or run, 18 wrong, 0 spill (0.0%); best measured 203.8 µs at {'block_M': 64, 'block_N': 128, 'block_K': 64, 'num_stages': 3, 'threads': 256, 'swizzle': 16, 'prefetch': 2, 'warp_policy': 2, 'vec_width': 4, 'tma': 0, 'warp_spec': 1, 'smem_layout': 'swizzled'}
+- model on the sample: Spearman -0.11, bound broken on 27.5%
+- solver's pick (275 binaries, 38 ms): {'block_M': 64, 'block_N': 256, 'block_K': 64, 'num_stages': 2, 'threads': 256, 'swizzle': 0, 'prefetch': 0, 'warp_policy': 0, 'vec_width': 0, 'tma': 1, 'warp_spec': 1, 'smem_layout': 'inferred'} -> measured 206.8 µs (predicted 200.4); gap to sample best +1.4%; new knobs it used: none (all at the round-1 defaults)
+- round 1's pick re-timed in this run: 203.7 µs; round 2 pick vs round 1 pick: +3.0 µs (+1.5%)
+
 ## Solver
 
-- 1024: 275 variables, 1145 rows, 20 ms (HiGHS); predicted 63.4 µs
-- 4096: 275 variables, 1145 rows, 21 ms (HiGHS); predicted 1377.4 µs
-- m32: 275 variables, 1145 rows, 37 ms (HiGHS); predicted 200.4 µs
+- 1024: 275 variables, 1146 rows, 20 ms (HiGHS); predicted 63.4 µs
+- 4096: 275 variables, 1146 rows, 21 ms (HiGHS); predicted 1377.4 µs
+- m32: 275 variables, 1146 rows, 38 ms (HiGHS); predicted 200.4 µs
 
 ## Error histograms (measured minus predicted, over measured)
 

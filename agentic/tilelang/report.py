@@ -84,6 +84,10 @@ def main():
         out.append(f"- {shape['M']}x{shape['N']}x{shape['K']}: " + "; ".join(parts))
     out += ["", "## The loop, live on the Spark (Claude Code as the Formulator, the MIP, TileLang, one compile and one run per shape)", ""]
     out += live_rows()
+    for extra in ("step3.md", "oos.md", "splitk.md"):          # round 2 sections, written by step3.py and splitk.py
+        f = RUNS / extra
+        if f.exists():
+            out += ["", f.read_text().rstrip()]
     out += ["", "## Solver", ""]
     for name, p in picks.items():
         out.append(f"- {name}: {p['variables']} variables, {p['constraints']} rows, {p['solver_s'] * 1e3:.0f} ms (HiGHS); predicted {p['predicted_us']:.1f} µs")
