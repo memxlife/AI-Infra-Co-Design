@@ -13,7 +13,7 @@ ROWS = Path(__file__).resolve().parents[1] / "runs" / "tilelang" / "sweep_1024.j
 
 
 def canned_report(rows):
-    def run_kernel(host, src, m, n, k, holes, func="matmul", reps=100, warmup=25, ncu=False):
+    def run_kernel(host, src, m, n, k, holes, func="matmul", reps=100, warmup=25, ncu=False, inout_c=False):
         # the orchestrator renders the solver's point into the source; find that point in the sweep
         import re
         bm = int(re.search(r"alloc_shared\(\((\d+), (\d+)\)", src).group(1)); bk = int(re.search(r"alloc_shared\(\((\d+), (\d+)\)", src).group(2))
