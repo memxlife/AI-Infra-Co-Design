@@ -1,0 +1,1092 @@
+[
+ {
+  "label": "1024:cpasync 256x128x32 st3 th256",
+  "shape": {
+   "M": 1024,
+   "N": 1024,
+   "K": 1024
+  },
+  "holes": {
+   "block_M": 256,
+   "block_N": 128,
+   "block_K": 32,
+   "num_stages": 3,
+   "threads": 256,
+   "swizzle": 0,
+   "warp_spec": 0,
+   "tma": 0
+  },
+  "kernel": "s2/s1_256x128x32_st3_th256.py"
+ },
+ {
+  "label": "1024:cpasync 256x128x32 st4 th256",
+  "shape": {
+   "M": 1024,
+   "N": 1024,
+   "K": 1024
+  },
+  "holes": {
+   "block_M": 256,
+   "block_N": 128,
+   "block_K": 32,
+   "num_stages": 4,
+   "threads": 256,
+   "swizzle": 0,
+   "warp_spec": 0,
+   "tma": 0
+  },
+  "kernel": "s2/s1_256x128x32_st4_th256.py"
+ },
+ {
+  "label": "1024:cpasync 128x256x32 st3 th256",
+  "shape": {
+   "M": 1024,
+   "N": 1024,
+   "K": 1024
+  },
+  "holes": {
+   "block_M": 128,
+   "block_N": 256,
+   "block_K": 32,
+   "num_stages": 3,
+   "threads": 256,
+   "swizzle": 0,
+   "warp_spec": 0,
+   "tma": 0
+  },
+  "kernel": "s2/s1_128x256x32_st3_th256.py"
+ },
+ {
+  "label": "1024:cpasync 128x256x32 st4 th256",
+  "shape": {
+   "M": 1024,
+   "N": 1024,
+   "K": 1024
+  },
+  "holes": {
+   "block_M": 128,
+   "block_N": 256,
+   "block_K": 32,
+   "num_stages": 4,
+   "threads": 256,
+   "swizzle": 0,
+   "warp_spec": 0,
+   "tma": 0
+  },
+  "kernel": "s2/s1_128x256x32_st4_th256.py"
+ },
+ {
+  "label": "1024:cpasync 128x128x32 st3 th128",
+  "shape": {
+   "M": 1024,
+   "N": 1024,
+   "K": 1024
+  },
+  "holes": {
+   "block_M": 128,
+   "block_N": 128,
+   "block_K": 32,
+   "num_stages": 3,
+   "threads": 128,
+   "swizzle": 0,
+   "warp_spec": 0,
+   "tma": 0
+  },
+  "kernel": "s2/s1_128x128x32_st3_th128.py"
+ },
+ {
+  "label": "1024:cpasync 128x128x32 st3 th256",
+  "shape": {
+   "M": 1024,
+   "N": 1024,
+   "K": 1024
+  },
+  "holes": {
+   "block_M": 128,
+   "block_N": 128,
+   "block_K": 32,
+   "num_stages": 3,
+   "threads": 256,
+   "swizzle": 0,
+   "warp_spec": 0,
+   "tma": 0
+  },
+  "kernel": "s2/s1_128x128x32_st3_th256.py"
+ },
+ {
+  "label": "1024:cpasync 128x128x32 st4 th128",
+  "shape": {
+   "M": 1024,
+   "N": 1024,
+   "K": 1024
+  },
+  "holes": {
+   "block_M": 128,
+   "block_N": 128,
+   "block_K": 32,
+   "num_stages": 4,
+   "threads": 128,
+   "swizzle": 0,
+   "warp_spec": 0,
+   "tma": 0
+  },
+  "kernel": "s2/s1_128x128x32_st4_th128.py"
+ },
+ {
+  "label": "1024:cpasync 128x128x32 st4 th256",
+  "shape": {
+   "M": 1024,
+   "N": 1024,
+   "K": 1024
+  },
+  "holes": {
+   "block_M": 128,
+   "block_N": 128,
+   "block_K": 32,
+   "num_stages": 4,
+   "threads": 256,
+   "swizzle": 0,
+   "warp_spec": 0,
+   "tma": 0
+  },
+  "kernel": "s2/s1_128x128x32_st4_th256.py"
+ },
+ {
+  "label": "1024:cpasync 128x128x32 st5 th128",
+  "shape": {
+   "M": 1024,
+   "N": 1024,
+   "K": 1024
+  },
+  "holes": {
+   "block_M": 128,
+   "block_N": 128,
+   "block_K": 32,
+   "num_stages": 5,
+   "threads": 128,
+   "swizzle": 0,
+   "warp_spec": 0,
+   "tma": 0
+  },
+  "kernel": "s2/s1_128x128x32_st5_th128.py"
+ },
+ {
+  "label": "1024:cpasync 128x128x32 st5 th256",
+  "shape": {
+   "M": 1024,
+   "N": 1024,
+   "K": 1024
+  },
+  "holes": {
+   "block_M": 128,
+   "block_N": 128,
+   "block_K": 32,
+   "num_stages": 5,
+   "threads": 256,
+   "swizzle": 0,
+   "warp_spec": 0,
+   "tma": 0
+  },
+  "kernel": "s2/s1_128x128x32_st5_th256.py"
+ },
+ {
+  "label": "1024:cpasync 128x128x64 st3 th128",
+  "shape": {
+   "M": 1024,
+   "N": 1024,
+   "K": 1024
+  },
+  "holes": {
+   "block_M": 128,
+   "block_N": 128,
+   "block_K": 64,
+   "num_stages": 3,
+   "threads": 128,
+   "swizzle": 0,
+   "warp_spec": 0,
+   "tma": 0
+  },
+  "kernel": "s2/s1_128x128x64_st3_th128.py"
+ },
+ {
+  "label": "1024:cpasync 128x128x64 st3 th256",
+  "shape": {
+   "M": 1024,
+   "N": 1024,
+   "K": 1024
+  },
+  "holes": {
+   "block_M": 128,
+   "block_N": 128,
+   "block_K": 64,
+   "num_stages": 3,
+   "threads": 256,
+   "swizzle": 0,
+   "warp_spec": 0,
+   "tma": 0
+  },
+  "kernel": "s2/s1_128x128x64_st3_th256.py"
+ },
+ {
+  "label": "1024:cpasync 64x128x32 st3 th128",
+  "shape": {
+   "M": 1024,
+   "N": 1024,
+   "K": 1024
+  },
+  "holes": {
+   "block_M": 64,
+   "block_N": 128,
+   "block_K": 32,
+   "num_stages": 3,
+   "threads": 128,
+   "swizzle": 0,
+   "warp_spec": 0,
+   "tma": 0
+  },
+  "kernel": "s2/s1_64x128x32_st3_th128.py"
+ },
+ {
+  "label": "1024:cpasync 64x128x32 st3 th256",
+  "shape": {
+   "M": 1024,
+   "N": 1024,
+   "K": 1024
+  },
+  "holes": {
+   "block_M": 64,
+   "block_N": 128,
+   "block_K": 32,
+   "num_stages": 3,
+   "threads": 256,
+   "swizzle": 0,
+   "warp_spec": 0,
+   "tma": 0
+  },
+  "kernel": "s2/s1_64x128x32_st3_th256.py"
+ },
+ {
+  "label": "1024:cpasync 64x128x32 st4 th128",
+  "shape": {
+   "M": 1024,
+   "N": 1024,
+   "K": 1024
+  },
+  "holes": {
+   "block_M": 64,
+   "block_N": 128,
+   "block_K": 32,
+   "num_stages": 4,
+   "threads": 128,
+   "swizzle": 0,
+   "warp_spec": 0,
+   "tma": 0
+  },
+  "kernel": "s2/s1_64x128x32_st4_th128.py"
+ },
+ {
+  "label": "1024:cpasync 64x128x32 st4 th256",
+  "shape": {
+   "M": 1024,
+   "N": 1024,
+   "K": 1024
+  },
+  "holes": {
+   "block_M": 64,
+   "block_N": 128,
+   "block_K": 32,
+   "num_stages": 4,
+   "threads": 256,
+   "swizzle": 0,
+   "warp_spec": 0,
+   "tma": 0
+  },
+  "kernel": "s2/s1_64x128x32_st4_th256.py"
+ },
+ {
+  "label": "1024:cpasync 64x128x32 st5 th128",
+  "shape": {
+   "M": 1024,
+   "N": 1024,
+   "K": 1024
+  },
+  "holes": {
+   "block_M": 64,
+   "block_N": 128,
+   "block_K": 32,
+   "num_stages": 5,
+   "threads": 128,
+   "swizzle": 0,
+   "warp_spec": 0,
+   "tma": 0
+  },
+  "kernel": "s2/s1_64x128x32_st5_th128.py"
+ },
+ {
+  "label": "1024:cpasync 64x128x32 st5 th256",
+  "shape": {
+   "M": 1024,
+   "N": 1024,
+   "K": 1024
+  },
+  "holes": {
+   "block_M": 64,
+   "block_N": 128,
+   "block_K": 32,
+   "num_stages": 5,
+   "threads": 256,
+   "swizzle": 0,
+   "warp_spec": 0,
+   "tma": 0
+  },
+  "kernel": "s2/s1_64x128x32_st5_th256.py"
+ },
+ {
+  "label": "1024:cpasync 64x128x64 st3 th128",
+  "shape": {
+   "M": 1024,
+   "N": 1024,
+   "K": 1024
+  },
+  "holes": {
+   "block_M": 64,
+   "block_N": 128,
+   "block_K": 64,
+   "num_stages": 3,
+   "threads": 128,
+   "swizzle": 0,
+   "warp_spec": 0,
+   "tma": 0
+  },
+  "kernel": "s2/s1_64x128x64_st3_th128.py"
+ },
+ {
+  "label": "1024:cpasync 64x128x64 st3 th256",
+  "shape": {
+   "M": 1024,
+   "N": 1024,
+   "K": 1024
+  },
+  "holes": {
+   "block_M": 64,
+   "block_N": 128,
+   "block_K": 64,
+   "num_stages": 3,
+   "threads": 256,
+   "swizzle": 0,
+   "warp_spec": 0,
+   "tma": 0
+  },
+  "kernel": "s2/s1_64x128x64_st3_th256.py"
+ },
+ {
+  "label": "1024:cpasync 64x128x64 st4 th128",
+  "shape": {
+   "M": 1024,
+   "N": 1024,
+   "K": 1024
+  },
+  "holes": {
+   "block_M": 64,
+   "block_N": 128,
+   "block_K": 64,
+   "num_stages": 4,
+   "threads": 128,
+   "swizzle": 0,
+   "warp_spec": 0,
+   "tma": 0
+  },
+  "kernel": "s2/s1_64x128x64_st4_th128.py"
+ },
+ {
+  "label": "1024:cpasync 64x128x64 st4 th256",
+  "shape": {
+   "M": 1024,
+   "N": 1024,
+   "K": 1024
+  },
+  "holes": {
+   "block_M": 64,
+   "block_N": 128,
+   "block_K": 64,
+   "num_stages": 4,
+   "threads": 256,
+   "swizzle": 0,
+   "warp_spec": 0,
+   "tma": 0
+  },
+  "kernel": "s2/s1_64x128x64_st4_th256.py"
+ },
+ {
+  "label": "m32:gemm_basic 16x128x32 st7 th64 sk1 (63 KB)",
+  "shape": {
+   "M": 32,
+   "N": 4096,
+   "K": 4096
+  },
+  "holes": {
+   "block_M": 16,
+   "block_N": 128,
+   "block_K": 32,
+   "num_stages": 7,
+   "threads": 64,
+   "swizzle": 0
+  },
+  "kernel": "s2/s2_gemm_basic_16x128x32_st7_th64_sk1.py",
+  "inout_c": false
+ },
+ {
+  "label": "m32:gemm_splitk 16x128x32 st7 th64 sk2 (63 KB)",
+  "shape": {
+   "M": 32,
+   "N": 4096,
+   "K": 4096
+  },
+  "holes": {
+   "block_M": 16,
+   "block_N": 128,
+   "block_K": 32,
+   "num_stages": 7,
+   "threads": 64,
+   "swizzle": 0,
+   "split_k": 2
+  },
+  "kernel": "s2/s2_gemm_splitk_16x128x32_st7_th64_sk2.py",
+  "inout_c": true
+ },
+ {
+  "label": "m32:gemm_splitk 16x128x32 st7 th64 sk4 (63 KB)",
+  "shape": {
+   "M": 32,
+   "N": 4096,
+   "K": 4096
+  },
+  "holes": {
+   "block_M": 16,
+   "block_N": 128,
+   "block_K": 32,
+   "num_stages": 7,
+   "threads": 64,
+   "swizzle": 0,
+   "split_k": 4
+  },
+  "kernel": "s2/s2_gemm_splitk_16x128x32_st7_th64_sk4.py",
+  "inout_c": true
+ },
+ {
+  "label": "m32:gemm_basic 16x128x32 st7 th128 sk1 (63 KB)",
+  "shape": {
+   "M": 32,
+   "N": 4096,
+   "K": 4096
+  },
+  "holes": {
+   "block_M": 16,
+   "block_N": 128,
+   "block_K": 32,
+   "num_stages": 7,
+   "threads": 128,
+   "swizzle": 0
+  },
+  "kernel": "s2/s2_gemm_basic_16x128x32_st7_th128_sk1.py",
+  "inout_c": false
+ },
+ {
+  "label": "m32:gemm_splitk 16x128x32 st7 th128 sk2 (63 KB)",
+  "shape": {
+   "M": 32,
+   "N": 4096,
+   "K": 4096
+  },
+  "holes": {
+   "block_M": 16,
+   "block_N": 128,
+   "block_K": 32,
+   "num_stages": 7,
+   "threads": 128,
+   "swizzle": 0,
+   "split_k": 2
+  },
+  "kernel": "s2/s2_gemm_splitk_16x128x32_st7_th128_sk2.py",
+  "inout_c": true
+ },
+ {
+  "label": "m32:gemm_splitk 16x128x32 st7 th128 sk4 (63 KB)",
+  "shape": {
+   "M": 32,
+   "N": 4096,
+   "K": 4096
+  },
+  "holes": {
+   "block_M": 16,
+   "block_N": 128,
+   "block_K": 32,
+   "num_stages": 7,
+   "threads": 128,
+   "swizzle": 0,
+   "split_k": 4
+  },
+  "kernel": "s2/s2_gemm_splitk_16x128x32_st7_th128_sk4.py",
+  "inout_c": true
+ },
+ {
+  "label": "m32:gemm_basic 16x128x64 st5 th64 sk1 (90 KB)",
+  "shape": {
+   "M": 32,
+   "N": 4096,
+   "K": 4096
+  },
+  "holes": {
+   "block_M": 16,
+   "block_N": 128,
+   "block_K": 64,
+   "num_stages": 5,
+   "threads": 64,
+   "swizzle": 0
+  },
+  "kernel": "s2/s2_gemm_basic_16x128x64_st5_th64_sk1.py",
+  "inout_c": false
+ },
+ {
+  "label": "m32:gemm_splitk 16x128x64 st5 th64 sk2 (90 KB)",
+  "shape": {
+   "M": 32,
+   "N": 4096,
+   "K": 4096
+  },
+  "holes": {
+   "block_M": 16,
+   "block_N": 128,
+   "block_K": 64,
+   "num_stages": 5,
+   "threads": 64,
+   "swizzle": 0,
+   "split_k": 2
+  },
+  "kernel": "s2/s2_gemm_splitk_16x128x64_st5_th64_sk2.py",
+  "inout_c": true
+ },
+ {
+  "label": "m32:gemm_splitk 16x128x64 st5 th64 sk4 (90 KB)",
+  "shape": {
+   "M": 32,
+   "N": 4096,
+   "K": 4096
+  },
+  "holes": {
+   "block_M": 16,
+   "block_N": 128,
+   "block_K": 64,
+   "num_stages": 5,
+   "threads": 64,
+   "swizzle": 0,
+   "split_k": 4
+  },
+  "kernel": "s2/s2_gemm_splitk_16x128x64_st5_th64_sk4.py",
+  "inout_c": true
+ },
+ {
+  "label": "m32:gemm_basic 16x128x64 st5 th128 sk1 (90 KB)",
+  "shape": {
+   "M": 32,
+   "N": 4096,
+   "K": 4096
+  },
+  "holes": {
+   "block_M": 16,
+   "block_N": 128,
+   "block_K": 64,
+   "num_stages": 5,
+   "threads": 128,
+   "swizzle": 0
+  },
+  "kernel": "s2/s2_gemm_basic_16x128x64_st5_th128_sk1.py",
+  "inout_c": false
+ },
+ {
+  "label": "m32:gemm_splitk 16x128x64 st5 th128 sk2 (90 KB)",
+  "shape": {
+   "M": 32,
+   "N": 4096,
+   "K": 4096
+  },
+  "holes": {
+   "block_M": 16,
+   "block_N": 128,
+   "block_K": 64,
+   "num_stages": 5,
+   "threads": 128,
+   "swizzle": 0,
+   "split_k": 2
+  },
+  "kernel": "s2/s2_gemm_splitk_16x128x64_st5_th128_sk2.py",
+  "inout_c": true
+ },
+ {
+  "label": "m32:gemm_splitk 16x128x64 st5 th128 sk4 (90 KB)",
+  "shape": {
+   "M": 32,
+   "N": 4096,
+   "K": 4096
+  },
+  "holes": {
+   "block_M": 16,
+   "block_N": 128,
+   "block_K": 64,
+   "num_stages": 5,
+   "threads": 128,
+   "swizzle": 0,
+   "split_k": 4
+  },
+  "kernel": "s2/s2_gemm_splitk_16x128x64_st5_th128_sk4.py",
+  "inout_c": true
+ },
+ {
+  "label": "m32:gemm_basic 16x256x32 st5 th64 sk1 (85 KB)",
+  "shape": {
+   "M": 32,
+   "N": 4096,
+   "K": 4096
+  },
+  "holes": {
+   "block_M": 16,
+   "block_N": 256,
+   "block_K": 32,
+   "num_stages": 5,
+   "threads": 64,
+   "swizzle": 0
+  },
+  "kernel": "s2/s2_gemm_basic_16x256x32_st5_th64_sk1.py",
+  "inout_c": false
+ },
+ {
+  "label": "m32:gemm_splitk 16x256x32 st5 th64 sk2 (85 KB)",
+  "shape": {
+   "M": 32,
+   "N": 4096,
+   "K": 4096
+  },
+  "holes": {
+   "block_M": 16,
+   "block_N": 256,
+   "block_K": 32,
+   "num_stages": 5,
+   "threads": 64,
+   "swizzle": 0,
+   "split_k": 2
+  },
+  "kernel": "s2/s2_gemm_splitk_16x256x32_st5_th64_sk2.py",
+  "inout_c": true
+ },
+ {
+  "label": "m32:gemm_splitk 16x256x32 st5 th64 sk4 (85 KB)",
+  "shape": {
+   "M": 32,
+   "N": 4096,
+   "K": 4096
+  },
+  "holes": {
+   "block_M": 16,
+   "block_N": 256,
+   "block_K": 32,
+   "num_stages": 5,
+   "threads": 64,
+   "swizzle": 0,
+   "split_k": 4
+  },
+  "kernel": "s2/s2_gemm_splitk_16x256x32_st5_th64_sk4.py",
+  "inout_c": true
+ },
+ {
+  "label": "m32:gemm_basic 16x256x32 st5 th128 sk1 (85 KB)",
+  "shape": {
+   "M": 32,
+   "N": 4096,
+   "K": 4096
+  },
+  "holes": {
+   "block_M": 16,
+   "block_N": 256,
+   "block_K": 32,
+   "num_stages": 5,
+   "threads": 128,
+   "swizzle": 0
+  },
+  "kernel": "s2/s2_gemm_basic_16x256x32_st5_th128_sk1.py",
+  "inout_c": false
+ },
+ {
+  "label": "m32:gemm_splitk 16x256x32 st5 th128 sk2 (85 KB)",
+  "shape": {
+   "M": 32,
+   "N": 4096,
+   "K": 4096
+  },
+  "holes": {
+   "block_M": 16,
+   "block_N": 256,
+   "block_K": 32,
+   "num_stages": 5,
+   "threads": 128,
+   "swizzle": 0,
+   "split_k": 2
+  },
+  "kernel": "s2/s2_gemm_splitk_16x256x32_st5_th128_sk2.py",
+  "inout_c": true
+ },
+ {
+  "label": "m32:gemm_splitk 16x256x32 st5 th128 sk4 (85 KB)",
+  "shape": {
+   "M": 32,
+   "N": 4096,
+   "K": 4096
+  },
+  "holes": {
+   "block_M": 16,
+   "block_N": 256,
+   "block_K": 32,
+   "num_stages": 5,
+   "threads": 128,
+   "swizzle": 0,
+   "split_k": 4
+  },
+  "kernel": "s2/s2_gemm_splitk_16x256x32_st5_th128_sk4.py",
+  "inout_c": true
+ },
+ {
+  "label": "m32:gemm_basic 32x128x32 st7 th64 sk1 (70 KB)",
+  "shape": {
+   "M": 32,
+   "N": 4096,
+   "K": 4096
+  },
+  "holes": {
+   "block_M": 32,
+   "block_N": 128,
+   "block_K": 32,
+   "num_stages": 7,
+   "threads": 64,
+   "swizzle": 0
+  },
+  "kernel": "s2/s2_gemm_basic_32x128x32_st7_th64_sk1.py",
+  "inout_c": false
+ },
+ {
+  "label": "m32:gemm_splitk 32x128x32 st7 th64 sk2 (70 KB)",
+  "shape": {
+   "M": 32,
+   "N": 4096,
+   "K": 4096
+  },
+  "holes": {
+   "block_M": 32,
+   "block_N": 128,
+   "block_K": 32,
+   "num_stages": 7,
+   "threads": 64,
+   "swizzle": 0,
+   "split_k": 2
+  },
+  "kernel": "s2/s2_gemm_splitk_32x128x32_st7_th64_sk2.py",
+  "inout_c": true
+ },
+ {
+  "label": "m32:gemm_splitk 32x128x32 st7 th64 sk4 (70 KB)",
+  "shape": {
+   "M": 32,
+   "N": 4096,
+   "K": 4096
+  },
+  "holes": {
+   "block_M": 32,
+   "block_N": 128,
+   "block_K": 32,
+   "num_stages": 7,
+   "threads": 64,
+   "swizzle": 0,
+   "split_k": 4
+  },
+  "kernel": "s2/s2_gemm_splitk_32x128x32_st7_th64_sk4.py",
+  "inout_c": true
+ },
+ {
+  "label": "m32:gemm_basic 32x128x32 st7 th128 sk1 (70 KB)",
+  "shape": {
+   "M": 32,
+   "N": 4096,
+   "K": 4096
+  },
+  "holes": {
+   "block_M": 32,
+   "block_N": 128,
+   "block_K": 32,
+   "num_stages": 7,
+   "threads": 128,
+   "swizzle": 0
+  },
+  "kernel": "s2/s2_gemm_basic_32x128x32_st7_th128_sk1.py",
+  "inout_c": false
+ },
+ {
+  "label": "m32:gemm_splitk 32x128x32 st7 th128 sk2 (70 KB)",
+  "shape": {
+   "M": 32,
+   "N": 4096,
+   "K": 4096
+  },
+  "holes": {
+   "block_M": 32,
+   "block_N": 128,
+   "block_K": 32,
+   "num_stages": 7,
+   "threads": 128,
+   "swizzle": 0,
+   "split_k": 2
+  },
+  "kernel": "s2/s2_gemm_splitk_32x128x32_st7_th128_sk2.py",
+  "inout_c": true
+ },
+ {
+  "label": "m32:gemm_splitk 32x128x32 st7 th128 sk4 (70 KB)",
+  "shape": {
+   "M": 32,
+   "N": 4096,
+   "K": 4096
+  },
+  "holes": {
+   "block_M": 32,
+   "block_N": 128,
+   "block_K": 32,
+   "num_stages": 7,
+   "threads": 128,
+   "swizzle": 0,
+   "split_k": 4
+  },
+  "kernel": "s2/s2_gemm_splitk_32x128x32_st7_th128_sk4.py",
+  "inout_c": true
+ },
+ {
+  "label": "m32:gemm_basic 32x128x64 st3 th64 sk1 (60 KB)",
+  "shape": {
+   "M": 32,
+   "N": 4096,
+   "K": 4096
+  },
+  "holes": {
+   "block_M": 32,
+   "block_N": 128,
+   "block_K": 64,
+   "num_stages": 3,
+   "threads": 64,
+   "swizzle": 0
+  },
+  "kernel": "s2/s2_gemm_basic_32x128x64_st3_th64_sk1.py",
+  "inout_c": false
+ },
+ {
+  "label": "m32:gemm_splitk 32x128x64 st3 th64 sk2 (60 KB)",
+  "shape": {
+   "M": 32,
+   "N": 4096,
+   "K": 4096
+  },
+  "holes": {
+   "block_M": 32,
+   "block_N": 128,
+   "block_K": 64,
+   "num_stages": 3,
+   "threads": 64,
+   "swizzle": 0,
+   "split_k": 2
+  },
+  "kernel": "s2/s2_gemm_splitk_32x128x64_st3_th64_sk2.py",
+  "inout_c": true
+ },
+ {
+  "label": "m32:gemm_splitk 32x128x64 st3 th64 sk4 (60 KB)",
+  "shape": {
+   "M": 32,
+   "N": 4096,
+   "K": 4096
+  },
+  "holes": {
+   "block_M": 32,
+   "block_N": 128,
+   "block_K": 64,
+   "num_stages": 3,
+   "threads": 64,
+   "swizzle": 0,
+   "split_k": 4
+  },
+  "kernel": "s2/s2_gemm_splitk_32x128x64_st3_th64_sk4.py",
+  "inout_c": true
+ },
+ {
+  "label": "m32:gemm_basic 32x128x64 st3 th128 sk1 (60 KB)",
+  "shape": {
+   "M": 32,
+   "N": 4096,
+   "K": 4096
+  },
+  "holes": {
+   "block_M": 32,
+   "block_N": 128,
+   "block_K": 64,
+   "num_stages": 3,
+   "threads": 128,
+   "swizzle": 0
+  },
+  "kernel": "s2/s2_gemm_basic_32x128x64_st3_th128_sk1.py",
+  "inout_c": false
+ },
+ {
+  "label": "m32:gemm_splitk 32x128x64 st3 th128 sk2 (60 KB)",
+  "shape": {
+   "M": 32,
+   "N": 4096,
+   "K": 4096
+  },
+  "holes": {
+   "block_M": 32,
+   "block_N": 128,
+   "block_K": 64,
+   "num_stages": 3,
+   "threads": 128,
+   "swizzle": 0,
+   "split_k": 2
+  },
+  "kernel": "s2/s2_gemm_splitk_32x128x64_st3_th128_sk2.py",
+  "inout_c": true
+ },
+ {
+  "label": "m32:gemm_splitk 32x128x64 st3 th128 sk4 (60 KB)",
+  "shape": {
+   "M": 32,
+   "N": 4096,
+   "K": 4096
+  },
+  "holes": {
+   "block_M": 32,
+   "block_N": 128,
+   "block_K": 64,
+   "num_stages": 3,
+   "threads": 128,
+   "swizzle": 0,
+   "split_k": 4
+  },
+  "kernel": "s2/s2_gemm_splitk_32x128x64_st3_th128_sk4.py",
+  "inout_c": true
+ },
+ {
+  "label": "m32:gemm_basic 32x256x32 st5 th64 sk1 (90 KB)",
+  "shape": {
+   "M": 32,
+   "N": 4096,
+   "K": 4096
+  },
+  "holes": {
+   "block_M": 32,
+   "block_N": 256,
+   "block_K": 32,
+   "num_stages": 5,
+   "threads": 64,
+   "swizzle": 0
+  },
+  "kernel": "s2/s2_gemm_basic_32x256x32_st5_th64_sk1.py",
+  "inout_c": false
+ },
+ {
+  "label": "m32:gemm_splitk 32x256x32 st5 th64 sk2 (90 KB)",
+  "shape": {
+   "M": 32,
+   "N": 4096,
+   "K": 4096
+  },
+  "holes": {
+   "block_M": 32,
+   "block_N": 256,
+   "block_K": 32,
+   "num_stages": 5,
+   "threads": 64,
+   "swizzle": 0,
+   "split_k": 2
+  },
+  "kernel": "s2/s2_gemm_splitk_32x256x32_st5_th64_sk2.py",
+  "inout_c": true
+ },
+ {
+  "label": "m32:gemm_splitk 32x256x32 st5 th64 sk4 (90 KB)",
+  "shape": {
+   "M": 32,
+   "N": 4096,
+   "K": 4096
+  },
+  "holes": {
+   "block_M": 32,
+   "block_N": 256,
+   "block_K": 32,
+   "num_stages": 5,
+   "threads": 64,
+   "swizzle": 0,
+   "split_k": 4
+  },
+  "kernel": "s2/s2_gemm_splitk_32x256x32_st5_th64_sk4.py",
+  "inout_c": true
+ },
+ {
+  "label": "m32:gemm_basic 32x256x32 st5 th128 sk1 (90 KB)",
+  "shape": {
+   "M": 32,
+   "N": 4096,
+   "K": 4096
+  },
+  "holes": {
+   "block_M": 32,
+   "block_N": 256,
+   "block_K": 32,
+   "num_stages": 5,
+   "threads": 128,
+   "swizzle": 0
+  },
+  "kernel": "s2/s2_gemm_basic_32x256x32_st5_th128_sk1.py",
+  "inout_c": false
+ },
+ {
+  "label": "m32:gemm_splitk 32x256x32 st5 th128 sk2 (90 KB)",
+  "shape": {
+   "M": 32,
+   "N": 4096,
+   "K": 4096
+  },
+  "holes": {
+   "block_M": 32,
+   "block_N": 256,
+   "block_K": 32,
+   "num_stages": 5,
+   "threads": 128,
+   "swizzle": 0,
+   "split_k": 2
+  },
+  "kernel": "s2/s2_gemm_splitk_32x256x32_st5_th128_sk2.py",
+  "inout_c": true
+ },
+ {
+  "label": "m32:gemm_splitk 32x256x32 st5 th128 sk4 (90 KB)",
+  "shape": {
+   "M": 32,
+   "N": 4096,
+   "K": 4096
+  },
+  "holes": {
+   "block_M": 32,
+   "block_N": 256,
+   "block_K": 32,
+   "num_stages": 5,
+   "threads": 128,
+   "swizzle": 0,
+   "split_k": 4
+  },
+  "kernel": "s2/s2_gemm_splitk_32x256x32_st5_th128_sk4.py",
+  "inout_c": true
+ }
+]

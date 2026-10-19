@@ -403,3 +403,37 @@ of sample (38 % over at K=1024, 32 % under at 2048³). Round 3's is a looser bou
 held out) and under on every row but one: that is what making every term an envelope buys and costs. The pick's own
 error is the number the solver acts on: 6–32 % under, held out, which is why the picks are right to within a few
 percent on four shapes and wrong by 24 % at M=128, where the model under-predicts the most.
+
+### Step 3 (S2): the third family for 1024³ and M=32, both refuted
+
+The Formulator (Claude Code, live, from the step-0 table; replies in `tests/fixtures/tilelang_model_replies.json`)
+asked for the two structures the counters pointed at, and the solver's sub-spaces were run in full (58 kernels,
+`runs/tilelang/s2/`), every one correct.
+
+**1024³: every warp computes, copies through `cp.async`, no producer group.** This is cuBLASLt's own structure here
+(CUTLASS sm80, 256x128x32, 3 stages, 8 warps, 218 registers, 47 µs under ncu). TileLang builds the same shape of
+kernel from `gemm_basic` with warp specialization off: 128x256x32, 3 stages, 256 threads, 202 registers, no TMA, no
+producer. It runs in **61.5 µs**, the same as the TMA kernel (62.5), **+80 % against cuBLASLt's 34.2 µs**. Twenty-two
+configurations over 3–5 stages and 128–256 threads, all between 61.5 and 75 µs. Same tile, same waves, same bytes,
+same warp count, same register count, same copy instruction: what is left is the code inside the k-loop. TileLang's
+pipeline on this path issues one `cp.async` group and one barrier per stage per operand and lowers `T.gemm` through
+its `mma` template; CUTLASS's mainloop keeps more fragments in flight and overlaps the next stage's loads with the
+current `mma`s at the instruction level. That is codegen, not a knob the family exposes, and not something the brief
+lets us fork. **Finding: 1024³ cannot be matched from TileLang on this path; the 1.8x is in the generated
+mainloop.** The gap closes with K: at 4096³ the two tie, because the per-tile cost that the mainloop pays is
+amortized over 128 steps instead of 32.
+
+**M=32: ~100 KB of B staged per SM with few warps, split-K so every SM has a block.** cuBLASLt's kernel: 48 blocks of
+96 threads, 7 stages, 101 KB, split along K, 149 µs (161 under ncu). TileLang: 36 configurations at 60–101 KB staged,
+3/5/7 stages, 64 or 128 threads, split 1/2/4, TMA on. Best **201.7 µs** (32x128x32, 7 stages, 64 threads, 70 KB),
+**+35 % against cuBLASLt**; the whole set sits between 201 and 230 µs, exactly where the round-1 sweep and the
+round-2 split-K probe sat. Staging depth, warp count and split-K each move the time by less than the noise band.
+The counters say why: our streaming kernels stall with warps asleep on the TMA barrier, and the per-block streaming
+rate is what the K-series and the per-block cap measured, bytes in flight over 1.8 µs. cuBLASLt's kernel streams
+the same 34 MB with the same tile bytes in flight per block at a 35 % higher rate. The difference is in how the
+copies are issued and waited for, which TileLang's TMA path fixes per copy. **Finding: M=32 cannot be matched from
+TileLang's TMA path by any menu or structure we can name; the 35 % is in the copy pipeline's issue and wait.**
+
+Both findings have the same shape as step 0's: the family picks the right tile, the compiler's mainloop and copy
+pipeline set the per-tile and per-block rates, and those are the terms the model carries as envelopes rather than
+explains. For the paper, that is the boundary of what a wrapped compiler can reach, measured.
