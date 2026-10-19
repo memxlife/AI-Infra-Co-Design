@@ -15,8 +15,9 @@ def matmul(A, B, dtype=T.float16, accum_dtype=T.float32):
         B_shared = T.alloc_shared((32, 256), dtype)
         C_local = T.alloc_fragment((128, 256), accum_dtype)
 
+        T.use_swizzle(panel_size=8)
         T.clear(C_local)
-        for k in T.Pipelined(T.ceildiv(K, 32), num_stages=4):
+        for k in T.Pipelined(T.ceildiv(K, 32), num_stages=3):
             T.copy(A[by * 128, k * 32], A_shared)
             T.copy(B[k * 32, bx * 256], B_shared)
             T.gemm(A_shared, B_shared, C_local)

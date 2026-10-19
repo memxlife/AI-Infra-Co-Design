@@ -150,16 +150,20 @@ def fit(chip: dict, out: Path | None = None, overlap: str = "max", exclude: tupl
             prol = ser["t_prologue"]                             # the designated experiment wins over the sweep pairs
         # with the prologue known, every rate is re-taken net of it and of the tile's start-up (series A), so the rate is the
         # asymptotic one and the start-up is charged per wave in predict()
-        rate = {}; copy_best = 0.0
+        rate = {}; rate_1 = {}; copy_best = 0.0
         for r, shape, waves, fl, by, key in meas:
             su = ser["tile_startup"].get(f"{key[1]}x{key[2]}", 0.0)
             tile_s = max(1e-9, (r["latency_ms"] * 1e-3 - t["launch_s"] - prol) / waves - su)
-            rate[key] = max(rate.get(key, 0.0), fl / tile_s)
+            (rate if waves >= 3 else rate_1)[key] = max((rate if waves >= 3 else rate_1).get(key, 0.0), fl / tile_s)
             copy_best = max(copy_best, by / tile_s)
     u_tile = {}
     for (th, bm, bn, K), v in rate.items():
         u_tile.setdefault(th, {})[f"{bm}x{bn}@{K}"] = float(min(1.0, v / F))
         d = u_tile[th]; d[f"{bm}x{bn}"] = max(d.get(f"{bm}x{bn}", 0.0), float(min(1.0, v / F)))
+    for (th, bm, bn, K), v in (rate_1 if prologue else {}).items():     # single-wave rows: a key of their own, used only for single-wave predictions
+        u_tile.setdefault(th, {})[f"{bm}x{bn}@{K}:1wave"] = float(min(1.0, v / F))
+        if f"{bm}x{bn}@{K}" not in u_tile[th] and not prologue:
+            u_tile[th][f"{bm}x{bn}@{K}"] = float(min(1.0, v / F))
     # series A measured the asymptotic rate of five tiles at 256 threads (net of the start-up): the stand-in for a (tile, K) the
     # sweeps never saw, for any thread count (a rate observed is a rate the tile reaches)
     for tile, v in ser.get("tile_rate_inf", {}).items():
@@ -194,30 +198,16 @@ def fit(chip: dict, out: Path | None = None, overlap: str = "max", exclude: tupl
             else:
                 hi = mid
         L_eff = lo if L_eff is None else min(L_eff, lo)
-    # the traffic term as an envelope: l2_bytes_effective is raised until no row's DRAM term exceeds its measured time
+    # the traffic term is a chip-spec term: the microbenchmark's effective L2 and DRAM rate (calibration/spark-6951/contract.yaml),
+    # never raised from the sweeps. Where a shape's rows contradict it the bound breaks and the report says so.
     l2_eff = t["l2_bytes_effective"]
-    probe_terms = {**t, "B_HBM": b_hbm, "B_L2_chip": max(t["B_L2_chip"], l2_chip), "t_prologue": prol if prologue else 0.0, "R_block": 0.0,
-                   "L_block": (L_eff or 0.0) if block_cap else 0.0, "tile_startup": ser["tile_startup"]}
-    for r, shape, waves, fl, by, key in meas + streaming:
-        secs = r["latency_ms"] * 1e-3 - t["launch_s"] - (prol if prologue else 0.0)
-        probe_terms["l2_bytes_effective"] = l2_eff
-        if predict(r["holes"], shape, chip, probe_terms)["terms"]["t_dram"] <= secs * (1 + 1e-6):     # the row that set a rate sits exactly on it
-            continue
-        lo, hi = l2_eff, 4096 * t["l2_bytes_effective"]
-        for _ in range(40):
-            mid = (lo + hi) / 2; probe_terms["l2_bytes_effective"] = mid
-            if predict(r["holes"], shape, chip, probe_terms)["terms"]["t_dram"] <= secs * (1 + 1e-6):
-                hi = mid
-            else:
-                lo = mid
-        l2_eff = hi
     terms = {**t, "u_warps": u_warps, "u_tile": u_tile, "l2_bytes_effective": float(l2_eff), "B_L2_chip": float(max(t["B_L2_chip"], l2_chip)), "B_L2_per_sm": float(max(t["B_L2_per_sm"], copy_best)), "B_HBM": float(b_hbm),
              "R_block": 0.0, "L_block": float(L_eff or 0.0) if block_cap else 0.0, "t_prologue": float(prol) if prologue else 0.0,
              "t_tile_fixed": {128: 0.0, 256: 0.0, 512: 0.0}, "t_fill": {2: 0.0, 3: 0.0, 4: 0.0, 5: 0.0}, "t_step": {2: 0.0, 3: 0.0, 4: 0.0, 5: 0.0},
              "t_wave_startup": 0.0, "tile_startup": ser["tile_startup"], "knob_factors": {}}                 # the warp_spec factor (1.043) was inside the base spread; a factor on top of a rate fitted from the same rows breaks the bound by itself
-    terms["source"] = (f"round 3 envelopes over shapes {sorted(use)}: tile rate per (threads, tile, K) net of the tile start-up (series A) and the prologue "
+    terms["source"] = (f"round 3 envelopes over shapes {sorted(use)} with chip-spec defaults (microbenchmark L2 and B_HBM for the traffic term, the series' start-up + asymptotic rate for an uncalibrated (tile, K)): tile rate per (threads, tile, K) net of the tile start-up (series A) and the prologue "
                        f"{prol * 1e6:.1f} us (series B); B_HBM {b_hbm / 1e9:.0f} GB/s; per-block streaming = bytes in flight / {(L_eff or 0) * 1e6:.1f} us; no least squares, no scale")
-    terms["fit"] = {"shapes": sorted(use), "rate_keys": len(rate), "streaming_rows": len(streaming), "tile_rows": len(meas), "series": {k: (round(v * 1e6, 2) if isinstance(v, float) else {a: round(b * 1e6, 2) for a, b in v.items()}) for k, v in ser.items() if k != "tile_rate_inf"}, "prologue_us": prol * 1e6, "R_block_GBps": r_block / 1e9, "L_block_us": (L_eff or 0.0) * 1e6, "B_HBM_GBps": b_hbm / 1e9, "l2_eff_MB": l2_eff / 1e6}
+    terms["fit"] = {"shapes": sorted(use), "rate_keys": len(rate), "streaming_rows": len(streaming), "tile_rows": len(meas), "l2_policy": "chip-spec (microbenchmark), not fitted", "series": {k: (round(v * 1e6, 2) if isinstance(v, float) else {a: round(b * 1e6, 2) for a, b in v.items()}) for k, v in ser.items() if k != "tile_rate_inf"}, "prologue_us": prol * 1e6, "R_block_GBps": r_block / 1e9, "L_block_us": (L_eff or 0.0) * 1e6, "B_HBM_GBps": b_hbm / 1e9, "l2_eff_MB": l2_eff / 1e6}
     if out:
         out.write_text(yaml.safe_dump({"chip": chip["name"], "family": "gemm_basic", "terms": {k: v for k, v in terms.items() if k != "fit"}, "fit_detail": terms["fit"]}, sort_keys=False))
     return terms

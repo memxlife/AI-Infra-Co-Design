@@ -355,3 +355,29 @@ bound breaks on 65 % of its rows because the K=1024 tile rates come from the sin
 prologue, yet the pick is within 3 %. The pattern: the model transfers across shapes that share a regime and a K,
 and not across a regime boundary; each failing fold is the one shape that alone holds its mechanism. That is the
 finding, not a third term.
+
+**Addition: chip-spec defaults for every term** (no GPU but the picks). Each term now has a value that stands in when
+no fitting shape calibrates it: the traffic term is the microbenchmark's (effective L2 16.8 MB, B_HBM 235 GB/s, B
+re-read once per panel of rows and nothing kept between panels: ncu's 770 MB at 4096³ panel 0 against 783 from
+the count), never raised from the sweeps; a padded tile is priced at its tile class's rate; a (tile, K) the sweeps never
+saw takes the series' start-up plus asymptotic rate; and a single-wave row's rate serves only single-wave predictions.
+The "kept fraction of L2" form was withdrawn: it made the panel look free in the 4096³ fold. Leave-one-shape-out with
+the defaults, picks run on the Spark (`runs/tilelang/loso/`):
+
+| shape | bound broken (LOSO, defaults) | LOSO pick | measured | predicted | best measured (sweep / sample) | pick gap |
+|---|---|---|---|---|---|---|
+| 1024x1024x1024 | 16% | 64x128x64, 4 st, 256 th, swz 8 | 67.6 µs | 55.2 µs | 61.5 µs | +10.0% |
+| 4096x4096x4096 | 38% | 128x256x32, 3 st, 256 th, swz 8 | 1437.5 µs | 1359.7 µs | 1377.4 µs | +4.4% |
+| 32x4096x4096 | 26% | 16x256x64, 2 st, 128 th, swz 0 | 203.7 µs | 168.4 µs | 200.4 µs | +1.7% |
+| 2048x2048x2048 | 0% | 128x256x32, 4 st, 512 th, swz 0 | 258.0 µs | 219.2 µs | 242.7 µs | +6.3% |
+| 8192x8192x8192 | 25% | 128x256x32, 3 st, 512 th, swz 16 | 11953.2 µs | 10087.2 µs | 11539.2 µs | +3.6% |
+| 4096x4096x1024 | 60% | 128x256x32, 4 st, 512 th, swz 0 | 456.7 µs | 431.0 µs | 461.8 µs | -1.1% |
+| 128x4096x4096 | 10% | 256x64x32, 2 st, 128 th, swz 0 | 257.0 µs | 175.1 µs | 207.9 µs | +23.6% |
+
+Pass both: ['2048']. The defaults fix what they were asked to fix: the 4096³ fold now picks a panel (8) and the pick
+is 2.7 % off the best, and 1024³'s pick moves to a panelled 64x128 kernel 6 % off. They cost bound coverage: the plain
+re-read count over-charges small-tile, low-panel rows at 4096³ and 8192³ where L2 does absorb part of the re-reads,
+so those folds' bound-broken rates rise to 38 % and 25 %. M=128 stays at +24 %: the padded 256-row tile is priced
+right as work, and the kernel is slow for a reason the model does not hold (64 blocks streaming 36 MB at 139 GB/s with
+the warps asleep on the TMA barrier). K=1024's fold still breaks the bound on 60 %: its single-wave twin, 1024³, is
+the only source of K=1024 tile rates once the series' asymptotic rate is a bound rather than a fit.

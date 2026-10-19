@@ -93,8 +93,10 @@ def traffic_bytes(h: dict, shape: dict, terms: dict, chip: dict | None = None, b
         # A rows). B is streamed once per panel of rows; between two panels the whole of B passes through L2 again and
         # L2 keeps the fraction that fits, so each later panel re-reads only (1 - kept) of B. Measured DRAM bytes for
         # panels 0 / 4 / 8 / 16 at 128x128: 770 / 245 / 170 / 211 MB; this bound gives 422 / 208 / 144 / 112 MB.
-        kept = min(1.0, terms["l2_bytes_effective"] / b_bytes)
-        b_reads = 1.0 + max(0.0, tiles_m / p - 1.0) * (1.0 - kept)
+        # chip-spec default (round 3): B is re-read once per panel of rows and L2 keeps nothing between panels; ncu at
+        # 4096^3 measured 770 MB for panel 0 against 783 MB from this count. (A "kept" fraction of L2 / B was tried in
+        # round 3 and withdrawn: it made the panel look free in the 4096^3 fold.)
+        b_reads = max(1.0, tiles_m / p)
         dram = a_bytes + b_bytes * b_reads + c_bytes
     return {"l2_reads": l2_reads, "dram": dram, "c_bytes": c_bytes, "panel": p, "wave_blocks": W}
 
@@ -119,9 +121,12 @@ def predict(h: dict, shape: dict, chip: dict, terms: dict | None = None) -> dict
     flops_tile = 2.0 * bm * bn * (k_steps * bk)
     u = t["u_warps"].get(th, t["u_warps"].get(str(th), 1.0))
     ut = (t.get("u_tile") or {}).get(th) or (t.get("u_tile") or {}).get(str(th))      # R2: the rate by (threads, tile) when known
-    if ut and f"{bm}x{bn}@{K}" in ut:
+    waves_ = math.ceil(tiles / (sms * bps))
+    if ut and waves_ == 1 and f"{bm}x{bn}@{K}:1wave" in ut:                 # a single-wave prediction may use single-wave rows
+        u = ut[f"{bm}x{bn}@{K}:1wave"]
+    elif ut and f"{bm}x{bn}@{K}" in ut:                                     # many-wave rows at this K
         u = ut[f"{bm}x{bn}@{K}"]
-    elif ut and f"{bm}x{bn}" in ut:
+    elif ut and f"{bm}x{bn}" in ut:                                         # the tile class: the series' asymptotic rate or the best over K
         u = ut[f"{bm}x{bn}"]
     t_compute_tile = flops_tile / (t["F_tc_per_sm"] * u) / bps if bps else math.inf
     bytes_tile = k_steps * (bm + bn) * bk * 2

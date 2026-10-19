@@ -10,7 +10,7 @@ def matmul(A, B, dtype=T.float16, accum_dtype=T.float32):
     B: T.Tensor((K, N), dtype)
     C = T.empty((M, N), dtype)
 
-    with T.Kernel(T.ceildiv(N, 256), T.ceildiv(M, 16), threads=256) as (bx, by):
+    with T.Kernel(T.ceildiv(N, 256), T.ceildiv(M, 16), threads=128) as (bx, by):
         A_shared = T.alloc_shared((16, 64), dtype)
         B_shared = T.alloc_shared((64, 256), dtype)
         C_local = T.alloc_fragment((16, 256), accum_dtype)
