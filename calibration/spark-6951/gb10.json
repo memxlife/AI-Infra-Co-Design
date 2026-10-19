@@ -154,7 +154,7 @@
  },
  "cpasync_t0_us": {
   "value": 0.22,
-  "source": "probe: tileload.cu, one block of 128-256 threads, 3 stages: time per k-tile = 0.22 us + bytes / 71 GB/s (4 KB 0.275 us ... 24 KB 0.556 us); independent of the stage count (2-5): the loop's serial issue, wait and two barriers, not memory latency. A second resident block fills it (2 blocks/SM: 0.22 + 2 x bytes/71 per round). The ablation's single-block 'bubble' (0.22 us per k-tile at block_K 32) is the same cost"
+  "source": "WITHDRAWN Oct 20: an artifact of tileload.cu's run-time address division (loopsteps.cu shows no fixed per-k-tile cost); kept only so the analytical model's history is reproducible. probe: tileload.cu, one block of 128-256 threads, 3 stages: time per k-tile = 0.22 us + bytes / 71 GB/s (4 KB 0.275 us ... 24 KB 0.556 us); independent of the stage count (2-5): the loop's serial issue, wait and two barriers, not memory latency. A second resident block fills it (2 blocks/SM: 0.22 + 2 x bytes/71 per round). The ablation's single-block 'bubble' (0.22 us per k-tile at block_K 32) is the same cost"
  },
  "cpasync_r_GBs": {
   "value": 71,
@@ -212,9 +212,9 @@
    "mio_ldsm_clk": 11.7,
    "mio_ldgsts_clk": 6.0,
    "smem_array_clk_per_512B": 4.0,
-   "l2_return_clk_per_512B": 8.0,
-   "l2_aggregate_B_per_clk_cpasync": 892.9
+   "l2_return_clk_per_512B": 16.7,
+   "l2_aggregate_B_per_clk_cpasync": 817.7
   },
-  "source": "probe: instlat.cu (ldmatrix latency 38.4 cycles per dependent hop incl. the add; ldmatrix 4.0 cycles per x4 per SM with 8+ warps, 11.7 per warp alone; bar.sync 14.6 + ~2 cycles per warp; cp.async 16 B round trip from L2 350 cycles; cp.async 16.0 B per clock per SM within a block = one warp instruction per 32 cycles), mma_rate.cu (HMMA.16816 one per 16 cycles per sub-partition; 29-cycle dependent latency), mlp_stream (DRAM ~0.62 us = 1560 cycles). default_var_latency and rbar_release are assumptions, not measured; cpq.cu: one warp issues a 16 B x 32-lane cp.async every 6 cycles; 4 warps one every 4 cycles per SM (the shared-memory array, 128 B per clock, also used by ldmatrix); 4 warps x 64 copies land at ~64 B per clock per SM (the L2 return path); instlat's earlier 16 B/clk cp.async figure was the probe's own bank conflicts (lanes 128 B apart) and is withdrawn; the chip's L2 serves cp.async tile traffic at 2.25 TB/s with all SMs loading (tileload.cu, 96-192 blocks) = 893 B per clock, shared by the active SMs"
+  "source": "probe: instlat.cu (ldmatrix latency 38.4 cycles per dependent hop incl. the add; ldmatrix 4.0 cycles per x4 per SM with 8+ warps, 11.7 per warp alone; bar.sync 14.6 + ~2 cycles per warp; cp.async 16 B round trip from L2 350 cycles; cp.async 16.0 B per clock per SM within a block = one warp instruction per 32 cycles), mma_rate.cu (HMMA.16816 one per 16 cycles per sub-partition; 29-cycle dependent latency), mlp_stream (DRAM ~0.62 us = 1560 cycles). default_var_latency and rbar_release are assumptions, not measured; cpq.cu: one warp issues a 16 B x 32-lane cp.async every 6 cycles; 4 warps one every 4 cycles per SM (the shared-memory array, 128 B per clock, also used by ldmatrix); 4 warps x 64 copies land at ~64 B per clock per SM (the L2 return path); instlat's earlier 16 B/clk cp.async figure was the probe's own bank conflicts (lanes 128 B apart) and is withdrawn; the chip's L2 serves cp.async tile traffic at 2.25 TB/s with all SMs loading (tileload.cu, 96-192 blocks) = 893 B per clock, shared by the active SMs; loopsteps.cu (Oct 20): TileLang's loop shape (copy, commit, wait, two barriers) with compile-time addressing moves 78 GB/s per SM (30.7 B per clock: the port) up to ~24 SMs; the chip's L2 saturates at 2.07-2.10 TB/s; commit, wait and barriers cost nothing measurable. TileLang's own loads-only kernels confirm 76-80 GB/s with one block. tileload.cu's 37.8 GB/s single-block figure (and the 0.22 us per k-tile fixed cost derived from it) came from run-time integer division in that probe's address code and is withdrawn"
  }
 }

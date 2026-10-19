@@ -1,0 +1,22 @@
+RESULT mode=0 threads=128 pitch=2048 cycles_per_ktile=611 bytes_per_clk=26.8
+RESULT mode=1 threads=128 pitch=2048 cycles_per_ktile=551 bytes_per_clk=29.7
+RESULT mode=2 threads=128 pitch=2048 cycles_per_ktile=514 bytes_per_clk=31.9
+RESULT mode=3 threads=128 pitch=2048 cycles_per_ktile=513 bytes_per_clk=31.9
+RESULT mode=4 threads=128 pitch=2048 cycles_per_ktile=513 bytes_per_clk=31.9
+RESULT mode=4 threads=128 pitch=64 cycles_per_ktile=513 bytes_per_clk=31.9
+RESULT mode=0 threads=256 pitch=2048 cycles_per_ktile=516 bytes_per_clk=31.7
+RESULT mode=1 threads=256 pitch=2048 cycles_per_ktile=533 bytes_per_clk=30.8
+RESULT mode=2 threads=256 pitch=2048 cycles_per_ktile=514 bytes_per_clk=31.9
+RESULT mode=3 threads=256 pitch=2048 cycles_per_ktile=513 bytes_per_clk=31.9
+RESULT mode=4 threads=256 pitch=2048 cycles_per_ktile=513 bytes_per_clk=31.9
+RESULT mode=4 threads=256 pitch=64 cycles_per_ktile=513 bytes_per_clk=31.9
+RESULT mode=4 threads=128 blocks=1 cycles_per_ktile=533 ns_per_ktile=210 clock_GHz=2.54 block0_GBs=78.1 chip_GBs=74 per_SM_GBs=74.4
+RESULT mode=4 threads=128 blocks=8 cycles_per_ktile=533 ns_per_ktile=210 clock_GHz=2.54 block0_GBs=78.1 chip_GBs=602 per_SM_GBs=75.3
+RESULT mode=4 threads=128 blocks=16 cycles_per_ktile=533 ns_per_ktile=210 clock_GHz=2.54 block0_GBs=78.1 chip_GBs=1215 per_SM_GBs=75.9
+RESULT mode=4 threads=128 blocks=24 cycles_per_ktile=533 ns_per_ktile=210 clock_GHz=2.54 block0_GBs=78.0 chip_GBs=1814 per_SM_GBs=75.6
+RESULT mode=4 threads=128 blocks=32 cycles_per_ktile=620 ns_per_ktile=244 clock_GHz=2.54 block0_GBs=67.1 chip_GBs=2072 per_SM_GBs=64.7
+RESULT mode=4 threads=128 blocks=40 cycles_per_ktile=778 ns_per_ktile=306 clock_GHz=2.54 block0_GBs=53.5 chip_GBs=2085 per_SM_GBs=52.1
+RESULT mode=4 threads=128 blocks=48 cycles_per_ktile=941 ns_per_ktile=371 clock_GHz=2.54 block0_GBs=44.2 chip_GBs=2077 per_SM_GBs=43.3
+RESULT mode=4 threads=128 blocks=96 cycles_per_ktile=1883 ns_per_ktile=741 clock_GHz=2.54 block0_GBs=22.1 chip_GBs=2097 per_SM_GBs=43.7
+RESULT mode=4 threads=256 blocks=32 cycles_per_ktile=626 ns_per_ktile=246 clock_GHz=2.54 block0_GBs=66.5 chip_GBs=2061 per_SM_GBs=64.4
+RESULT mode=4 threads=256 blocks=48 cycles_per_ktile=939 ns_per_ktile=370 clock_GHz=2.54 block0_GBs=44.3 chip_GBs=2071 per_SM_GBs=43.1

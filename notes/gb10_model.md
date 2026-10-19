@@ -95,3 +95,34 @@ Each line is one change, in the order made, and the set it moved most.
   spreads over a kernel's waves is assumed proportional to each wave's reads.
 - **TMA with small tiles** moves about 40 GB/s per SM, not the 33 measured on big tiles. It only affects kernels that
   lose anyway.
+
+## Oct 20, later: the instruction-level SM simulator
+
+`agentic/gb10/sim/` runs a kernel's real machine code (nvdisasm with encodings) on one simulated SM. It computes no
+values. Each warp issues under the compiler's own control bits (stall count, the six dependency counters it sets and
+waits on); four sub-partitions issue one instruction per cycle; the tensor pipe, the shared-memory array, the memory
+issue slot, the copy path, copy groups and the block barrier are modeled as resources and events. Latencies and
+throughputs come from probes (`instlat.cu`, `cpq.cu`, `loopsteps.cu`); two small values are assumptions and marked.
+
+Against the 22 ablated cp.async kernels, each in three variants (`python -m agentic.gb10.sim.validate`):
+
+| Variant | Median error | Within 10 % |
+|---|---:|---:|
+| mma alone (one block) | 6 % | 20 of 22 |
+| Loads alone (full grid) | 15 % | 6 of 22 |
+| Whole kernel | 19 % | 6 of 22 |
+
+With two or more blocks per SM the whole kernel is within 13 %; with one block per SM the simulator is 12 to 28 %
+too fast. The probes behind that split:
+
+- One block alone, the copy loop TileLang generates moves 78 GB/s, the SM's port. Commit, wait and both barriers cost
+  nothing measurable (`loopsteps.cu`). TileLang's own loads-only kernels confirm it (76-80 GB/s with one block).
+- With every SM loading, the L2 delivers 2.07-2.10 TB/s for this traffic; each SM gets its share past about 24 SMs.
+- Withdrawn: the 0.22 µs fixed cost per k-tile (`cpasync_t0_us`) and the 16 B per clock copy limit. Both came from
+  my own probes: run-time integer division in `tileload.cu`'s address code, and lanes 128 bytes apart in
+  `instlat.cu`'s writes (bank conflicts). The analytical model still carries t0; its ranking was tested with it, but
+  its explanation was wrong.
+- Open: at 32 SMs TileLang's loads-only kernels get 42 GB/s per SM where the lean probe gets 65. TileLang's blocks
+  read the same A rows and B columns as their neighbours at the same time; the probe's blocks don't. The hypothesis is
+  contention on the L2 slices holding those shared lines. The probe to test it: the lean loop with blocks sharing
+  panels the way a GEMM grid does.
