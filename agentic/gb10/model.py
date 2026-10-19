@@ -104,6 +104,39 @@ def dram_waves(h: dict, shape: dict, resident_blocks: int = SMS) -> tuple[float,
     return out
 
 
+_kslice_cache = {}
+
+
+def dram_waves_kslice(h: dict, shape: dict, resident_blocks: int = SMS) -> tuple[float, list]:
+    """DRAM traffic at k-slice granularity: the blocks of a wave (launch order) walk k in lockstep; at each k-step each
+    block reads its A slice (block_M x block_K) and B slice (block_K x block_N). Slices pass through an LRU of the L2's
+    measured effective capacity; a slice already there is a hit (neighbours in a wave share A rows and B columns). Between
+    waves only what is still resident carries over. Checked against ncu's L2 read misses (agentic/gb10, Oct 20)."""
+    from collections import OrderedDict
+    M, N, K = shape["M"], shape["N"], shape["K"]; bm, bn, bk = h["block_M"], h["block_N"], h["block_K"]; panel = int(h.get("swizzle", 0) or 0)
+    key = (M, N, K, bm, bn, bk, panel, resident_blocks)
+    if key in _kslice_cache: return _kslice_cache[key]
+    tiles_m, tiles_n, KT = math.ceil(M / bm), math.ceil(N / bn), math.ceil(K / bk)
+    a_sz, b_sz = bm * bk * 2, bk * bn * 2; cap = C["l2_effective_bytes"]
+    lru = OrderedDict(); used = 0.0; per_wave = []; total = 0.0
+    order = list(launch_order(tiles_m, tiles_n, panel))
+    for w in range(0, len(order), resident_blocks):
+        wave = order[w:w + resident_blocks]; rows = sorted({r for r, _ in wave}); cols = sorted({c for _, c in wave}); reads = 0.0
+        for k in range(KT):
+            for kind, ids, sz in (("A", rows, a_sz), ("B", cols, b_sz)):
+                for i in ids:
+                    t = (kind, i, k)
+                    if t in lru: lru.move_to_end(t)
+                    else:
+                        lru[t] = sz; used += sz; reads += sz
+                        while used > cap: _, v = lru.popitem(last=False); used -= v
+        per_wave.append(reads); total += reads
+    c_over = max(0.0, M * N * 2 - cap)
+    per_wave = [b + c_over / len(per_wave) for b in per_wave]
+    out = (total + c_over, per_wave); _kslice_cache[key] = out
+    return out
+
+
 def dirty_extra_us(read_bytes: float) -> float:
     pts = C["dirty_l2_extra_us"]; mb = read_bytes / 1048576
     if mb <= pts[0][0]: return pts[0][1] * mb / pts[0][0]

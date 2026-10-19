@@ -1,0 +1,11 @@
+s4096x4096x4096_128x128x32_st3_th128_p0:  gpu__time_duration.sum ms 2.13  lts__t_sectors_op_read_lookup_miss.sum sector 12,593,071  lts__t_sectors_op_write_lookup_miss.sum sector 265,766 
+s4096x4096x4096_256x128x32_st3_th256_p0:  gpu__time_duration.sum ms 2.17  lts__t_sectors_op_read_lookup_miss.sum sector 12,787,127  lts__t_sectors_op_write_lookup_miss.sum sector 347,291 
+s4096x4096x4096_64x128x32_st3_th256_p0:  gpu__time_duration.sum ms 3.51  lts__t_sectors_op_read_lookup_miss.sum sector 23,413,355  lts__t_sectors_op_write_lookup_miss.sum sector 354,128 
+s4096x4096x4096_128x128x64_st3_th128_p0:  gpu__time_duration.sum ms 3.47  lts__t_sectors_op_read_lookup_miss.sum sector 22,667,149  lts__t_sectors_op_write_lookup_miss.sum sector 265,898 
+s4096x4096x4096_128x256x32_st3_th256_p8:  gpu__time_duration.sum ms 1.71  lts__t_sectors_op_read_lookup_miss.sum sector 6,061,801  lts__t_sectors_op_write_lookup_miss.sum sector 262,861 
+s4096x4096x4096_256x128x32_st3_th256_p8:  gpu__time_duration.sum ms 1.78  lts__t_sectors_op_read_lookup_miss.sum sector 6,857,349  lts__t_sectors_op_write_lookup_miss.sum sector 340,412 
+s4096x4096x1024_128x128x32_st3_th128_p0:  gpu__time_duration.sum us 563.20  lts__t_sectors_op_read_lookup_miss.sum sector 559,125  lts__t_sectors_op_write_lookup_miss.sum sector 265,162 
+s2048x2048x2048_128x128x32_st3_th128_p0:  gpu__time_duration.sum us 257.66  lts__t_sectors_op_read_lookup_miss.sum sector 526,727  lts__t_sectors_op_write_lookup_miss.sum sector 66,390 
+s128x4096x4096_64x128x32_st3_th128_p0:  gpu__time_duration.sum us 209.02  lts__t_sectors_op_read_lookup_miss.sum sector 1,083,087  lts__t_sectors_op_write_lookup_miss.sum sector 8,531 
+s128x4096x4096_64x64x64_st4_th128_p0:  gpu__time_duration.sum us 309.22  lts__t_sectors_op_read_lookup_hit.sum sector 2,428,924  lts__t_sectors_op_read_lookup_miss.sum sector 1,583,783 
+s32x4096x4096_32x64x64_st4_th128_p0:  gpu__time_duration.sum us 188.96  lts__t_sectors_op_read_lookup_hit.sum sector 516,844  lts__t_sectors_op_read_lookup_miss.sum sector 925,516 

@@ -175,3 +175,29 @@ per warp; copies: one 128-byte line per cycle in the load unit's address stage (
 cycles to L2, 30.7 B per clock per SM port, 2.08 TB/s chip L2, writes into the shared array; stores: a port per SM
 pair and a chip limit, by store width. Two values are assumptions (default latency of other variable-latency
 instructions, 20 cycles; read-barrier release of non-memory instructions, 8 cycles).
+
+### Oct 20, beyond 1024³ on the cp.async path
+
+- **Blocks per SM do not change the L2's rate.** `l2share.cu`: 2.08-2.14 TB/s with 1, 2, 3 or 4 blocks resident on
+  every SM, for 8-16 KB tiles. The two earlier misses came from my wave split (a 64-block second wave simulated as 48
+  SMs x 2); sharing the L2 and store limits by blocks in flight fixes both (+16 % to +4 %, +12 % to +1 %): 21 of 22
+  kernels at 1024³ within 10 %.
+- **DRAM in the copy path, and traffic at k-slice level.** Copies miss the L2 in the proportion the traffic
+  simulation gives for their wave; a miss pays the DRAM round trip and this SM's share of the DRAM rate. The traffic
+  simulation now walks each wave's k-steps in lockstep through an LRU of 16.8 MB (`dram_waves_kslice` in
+  `agentic/gb10/model.py`). Against ncu's L2 read misses on 18 kernels: 403/403, 409/413, 749/772, 725/767 MB at 4096³
+  (the old panel-level count said 250-441), 3138/3219 at 8192³; median within 6 %. Panelled orders and one multi-wave
+  decode kernel come out 20-35 % high: the real L2 keeps reused lines better than strict LRU over lockstep waves.
+  Capacity is not the cause (16.8, 20 and 24 MB all give a median near 6 %).
+- **25 new kernels at five shapes**, warm (`python -m agentic.gb10.sim.shapes`):
+
+| Shape | Kernels | Median error | Rank correlation | Regret of the simulator's pick |
+|---|---:|---:|---:|---:|
+| 4096³ (with and without panels) | 7 | 7 % | 0.93 | 0 % |
+| 4096×4096×1024 | 5 | 5 % | ties | 0 % |
+| 2048³ | 5 | 10 % | ties | 0 % |
+| M=32 | 3 | 3 % | 0.50 | 0.6 % |
+| M=128 | 5 | 3 % | 0.70 | 0.6 % |
+
+  All 25: median 7 %, 20 within 10 %. Outlier: M=128 with 64x64 tiles (+43 %), the LRU over-count above (69 MB
+  simulated, 51 MB measured).

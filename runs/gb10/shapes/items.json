@@ -1,0 +1,461 @@
+[
+{
+"name": "s2048x2048x2048_128x128x32_st3_th128_p0",
+"shape": {
+"M": 2048,
+"N": 2048,
+"K": 2048
+},
+"holes": {
+"block_M": 128,
+"block_N": 128,
+"block_K": 32,
+"num_stages": 3,
+"threads": 128,
+"swizzle": 0
+},
+"legal": true
+},
+{
+"name": "s2048x2048x2048_256x128x32_st3_th256_p0",
+"shape": {
+"M": 2048,
+"N": 2048,
+"K": 2048
+},
+"holes": {
+"block_M": 256,
+"block_N": 128,
+"block_K": 32,
+"num_stages": 3,
+"threads": 256,
+"swizzle": 0
+},
+"legal": true
+},
+{
+"name": "s2048x2048x2048_128x256x32_st3_th256_p0",
+"shape": {
+"M": 2048,
+"N": 2048,
+"K": 2048
+},
+"holes": {
+"block_M": 128,
+"block_N": 256,
+"block_K": 32,
+"num_stages": 3,
+"threads": 256,
+"swizzle": 0
+},
+"legal": true
+},
+{
+"name": "s2048x2048x2048_64x128x32_st3_th256_p0",
+"shape": {
+"M": 2048,
+"N": 2048,
+"K": 2048
+},
+"holes": {
+"block_M": 64,
+"block_N": 128,
+"block_K": 32,
+"num_stages": 3,
+"threads": 256,
+"swizzle": 0
+},
+"legal": true
+},
+{
+"name": "s2048x2048x2048_128x128x64_st3_th128_p0",
+"shape": {
+"M": 2048,
+"N": 2048,
+"K": 2048
+},
+"holes": {
+"block_M": 128,
+"block_N": 128,
+"block_K": 64,
+"num_stages": 3,
+"threads": 128,
+"swizzle": 0
+},
+"legal": true
+},
+{
+"name": "s4096x4096x4096_128x128x32_st3_th128_p0",
+"shape": {
+"M": 4096,
+"N": 4096,
+"K": 4096
+},
+"holes": {
+"block_M": 128,
+"block_N": 128,
+"block_K": 32,
+"num_stages": 3,
+"threads": 128,
+"swizzle": 0
+},
+"legal": true
+},
+{
+"name": "s4096x4096x4096_256x128x32_st3_th256_p0",
+"shape": {
+"M": 4096,
+"N": 4096,
+"K": 4096
+},
+"holes": {
+"block_M": 256,
+"block_N": 128,
+"block_K": 32,
+"num_stages": 3,
+"threads": 256,
+"swizzle": 0
+},
+"legal": true
+},
+{
+"name": "s4096x4096x4096_128x256x32_st3_th256_p0",
+"shape": {
+"M": 4096,
+"N": 4096,
+"K": 4096
+},
+"holes": {
+"block_M": 128,
+"block_N": 256,
+"block_K": 32,
+"num_stages": 3,
+"threads": 256,
+"swizzle": 0
+},
+"legal": true
+},
+{
+"name": "s4096x4096x4096_64x128x32_st3_th256_p0",
+"shape": {
+"M": 4096,
+"N": 4096,
+"K": 4096
+},
+"holes": {
+"block_M": 64,
+"block_N": 128,
+"block_K": 32,
+"num_stages": 3,
+"threads": 256,
+"swizzle": 0
+},
+"legal": true
+},
+{
+"name": "s4096x4096x4096_128x128x64_st3_th128_p0",
+"shape": {
+"M": 4096,
+"N": 4096,
+"K": 4096
+},
+"holes": {
+"block_M": 128,
+"block_N": 128,
+"block_K": 64,
+"num_stages": 3,
+"threads": 128,
+"swizzle": 0
+},
+"legal": true
+},
+{
+"name": "s4096x4096x4096_128x256x32_st3_th256_p8",
+"shape": {
+"M": 4096,
+"N": 4096,
+"K": 4096
+},
+"holes": {
+"block_M": 128,
+"block_N": 256,
+"block_K": 32,
+"num_stages": 3,
+"threads": 256,
+"swizzle": 8
+},
+"legal": true
+},
+{
+"name": "s4096x4096x4096_256x128x32_st3_th256_p8",
+"shape": {
+"M": 4096,
+"N": 4096,
+"K": 4096
+},
+"holes": {
+"block_M": 256,
+"block_N": 128,
+"block_K": 32,
+"num_stages": 3,
+"threads": 256,
+"swizzle": 8
+},
+"legal": true
+},
+{
+"name": "s4096x4096x1024_128x128x32_st3_th128_p0",
+"shape": {
+"M": 4096,
+"N": 4096,
+"K": 1024
+},
+"holes": {
+"block_M": 128,
+"block_N": 128,
+"block_K": 32,
+"num_stages": 3,
+"threads": 128,
+"swizzle": 0
+},
+"legal": true
+},
+{
+"name": "s4096x4096x1024_256x128x32_st3_th256_p0",
+"shape": {
+"M": 4096,
+"N": 4096,
+"K": 1024
+},
+"holes": {
+"block_M": 256,
+"block_N": 128,
+"block_K": 32,
+"num_stages": 3,
+"threads": 256,
+"swizzle": 0
+},
+"legal": true
+},
+{
+"name": "s4096x4096x1024_128x256x32_st3_th256_p0",
+"shape": {
+"M": 4096,
+"N": 4096,
+"K": 1024
+},
+"holes": {
+"block_M": 128,
+"block_N": 256,
+"block_K": 32,
+"num_stages": 3,
+"threads": 256,
+"swizzle": 0
+},
+"legal": true
+},
+{
+"name": "s4096x4096x1024_64x128x32_st3_th256_p0",
+"shape": {
+"M": 4096,
+"N": 4096,
+"K": 1024
+},
+"holes": {
+"block_M": 64,
+"block_N": 128,
+"block_K": 32,
+"num_stages": 3,
+"threads": 256,
+"swizzle": 0
+},
+"legal": true
+},
+{
+"name": "s4096x4096x1024_128x128x64_st3_th128_p0",
+"shape": {
+"M": 4096,
+"N": 4096,
+"K": 1024
+},
+"holes": {
+"block_M": 128,
+"block_N": 128,
+"block_K": 64,
+"num_stages": 3,
+"threads": 128,
+"swizzle": 0
+},
+"legal": true
+},
+{
+"name": "s32x4096x4096_32x128x64_st4_th128_p0",
+"shape": {
+"M": 32,
+"N": 4096,
+"K": 4096
+},
+"holes": {
+"block_M": 32,
+"block_N": 128,
+"block_K": 64,
+"num_stages": 4,
+"threads": 128,
+"swizzle": 0
+},
+"legal": true
+},
+{
+"name": "s32x4096x4096_32x256x64_st3_th256_p0",
+"shape": {
+"M": 32,
+"N": 4096,
+"K": 4096
+},
+"holes": {
+"block_M": 32,
+"block_N": 256,
+"block_K": 64,
+"num_stages": 3,
+"threads": 256,
+"swizzle": 0
+},
+"legal": false
+},
+{
+"name": "s32x4096x4096_32x64x64_st4_th128_p0",
+"shape": {
+"M": 32,
+"N": 4096,
+"K": 4096
+},
+"holes": {
+"block_M": 32,
+"block_N": 64,
+"block_K": 64,
+"num_stages": 4,
+"threads": 128,
+"swizzle": 0
+},
+"legal": true
+},
+{
+"name": "s32x4096x4096_16x128x128_st3_th128_p0",
+"shape": {
+"M": 32,
+"N": 4096,
+"K": 4096
+},
+"holes": {
+"block_M": 16,
+"block_N": 128,
+"block_K": 128,
+"num_stages": 3,
+"threads": 128,
+"swizzle": 0
+},
+"legal": false
+},
+{
+"name": "s32x4096x4096_64x128x32_st3_th128_p0",
+"shape": {
+"M": 32,
+"N": 4096,
+"K": 4096
+},
+"holes": {
+"block_M": 64,
+"block_N": 128,
+"block_K": 32,
+"num_stages": 3,
+"threads": 128,
+"swizzle": 0
+},
+"legal": true
+},
+{
+"name": "s128x4096x4096_64x128x32_st3_th128_p0",
+"shape": {
+"M": 128,
+"N": 4096,
+"K": 4096
+},
+"holes": {
+"block_M": 64,
+"block_N": 128,
+"block_K": 32,
+"num_stages": 3,
+"threads": 128,
+"swizzle": 0
+},
+"legal": true
+},
+{
+"name": "s128x4096x4096_128x128x64_st3_th128_p0",
+"shape": {
+"M": 128,
+"N": 4096,
+"K": 4096
+},
+"holes": {
+"block_M": 128,
+"block_N": 128,
+"block_K": 64,
+"num_stages": 3,
+"threads": 128,
+"swizzle": 0
+},
+"legal": true
+},
+{
+"name": "s128x4096x4096_64x64x64_st4_th128_p0",
+"shape": {
+"M": 128,
+"N": 4096,
+"K": 4096
+},
+"holes": {
+"block_M": 64,
+"block_N": 64,
+"block_K": 64,
+"num_stages": 4,
+"threads": 128,
+"swizzle": 0
+},
+"legal": true
+},
+{
+"name": "s128x4096x4096_128x256x32_st3_th256_p0",
+"shape": {
+"M": 128,
+"N": 4096,
+"K": 4096
+},
+"holes": {
+"block_M": 128,
+"block_N": 256,
+"block_K": 32,
+"num_stages": 3,
+"threads": 256,
+"swizzle": 0
+},
+"legal": true
+},
+{
+"name": "s128x4096x4096_64x256x32_st3_th128_p0",
+"shape": {
+"M": 128,
+"N": 4096,
+"K": 4096
+},
+"holes": {
+"block_M": 64,
+"block_N": 256,
+"block_K": 32,
+"num_stages": 3,
+"threads": 128,
+"swizzle": 0
+},
+"legal": true
+}
+]

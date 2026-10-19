@@ -1,0 +1,27 @@
+import tilelang
+import tilelang.language as T
+from tilelang.cuda.language import copy as cuda_copy
+
+
+@tilelang.jit(pass_configs={'tl.disable_warp_specialized': True})
+def matmul(A, B, dtype=T.float16, accum_dtype=T.float32):
+    M, N, K = T.const("M, N, K")
+
+    A: T.Tensor((M, K), dtype)
+    B: T.Tensor((K, N), dtype)
+    C = T.empty((M, N), dtype)
+
+    with T.Kernel(T.ceildiv(N, 256), T.ceildiv(M, 64), threads=128) as (bx, by):
+        A_shared = T.alloc_shared((64, 32), dtype)
+        B_shared = T.alloc_shared((32, 256), dtype)
+        C_local = T.alloc_fragment((64, 256), accum_dtype)
+
+        T.clear(C_local)
+        for k in T.Pipelined(T.ceildiv(K, 32), num_stages=3):
+            cuda_copy(A[by * 64, k * 32], A_shared, disable_tma=True)
+            cuda_copy(B[k * 32, bx * 256], B_shared, disable_tma=True)
+            T.gemm(A_shared, B_shared, C_local)
+
+        T.copy(C_local, C[by * 64, bx * 256])
+
+    return C

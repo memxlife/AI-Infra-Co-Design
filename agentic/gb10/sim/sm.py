@@ -33,7 +33,8 @@ class Warp:
 
 
 class SM:
-    def __init__(self, ins: list[Ins], threads: int, blocks: int, trips: int, mem: str = "l2", stats: bool = True, active_sms: int = 1, copy_lines: list | None = None):
+    def __init__(self, ins: list[Ins], threads: int, blocks: int, trips: int, mem: str = "l2", stats: bool = True, active_sms: int = 1, copy_lines: list | None = None,
+                 miss_frac: float = 0.0, dram_clk_per_512B: float = 0.0):
         self.ins = ins; self.trips = trips; self.mem = mem
         # this SM's share of the chip's L2 return bandwidth (or its own return path, if fewer SMs are pulling)
         self.ret_clk = max(P["l2_return_clk_per_512B"], 512 * active_sms / P["l2_aggregate_B_per_clk_cpasync"])
@@ -47,6 +48,9 @@ class SM:
         self.copy_lines = copy_lines or [4]; self.lsu_free = 0
         # the store path is shared with the partner SM of the pair when the chip runs more than one block
         self.stg_share = 2 if active_sms >= 2 else 1; self.stg_free = 0; self.active_sms = active_sms
+        # copies that miss the L2 (this wave's share, from the launch-order L2 simulation) pay the DRAM round trip and
+        # this SM's share of the DRAM rate; misses are spread evenly over the copies
+        self.miss_frac = miss_frac; self.miss_acc = 0.0; self.dram_clk = dram_clk_per_512B; self.dram_free = 0
         self.events = []            # (time, seq, kind, warp, arg)
         self.seq = 0; self.bar_arrived = {}; self.last_issue = [None] * 4
         self.count = {"issued": 0, "HMMA": 0, "LDSM": 0, "LDGSTS": 0, "BAR": 0}
@@ -87,8 +91,14 @@ class SM:
                 lines = self.copy_lines[w.ncopy % len(self.copy_lines)]; w.ncopy += 1
                 t_lsu = max(now, self.lsu_free); self.lsu_free = t_lsu + lines * P["lsu_clk_per_line"]; self.busy["lsu"] = self.busy.get("lsu", 0) + lines
                 lsu_done = self.lsu_free
-                lat = P["ldgsts_l2_latency_clk"] if self.mem == "l2" else P["ldgsts_dram_latency_clk"]
-                ret = max(lsu_done + lat, self.fill_free); self.fill_free = ret + self.ret_clk; self.busy["fill"] += self.ret_clk
+                self.miss_acc += self.miss_frac
+                if self.miss_acc >= 1.0:
+                    self.miss_acc -= 1.0
+                    t_d = max(lsu_done + P["ldgsts_dram_latency_clk"], self.dram_free); self.dram_free = t_d + self.dram_clk
+                    self.busy["dram"] = self.busy.get("dram", 0) + self.dram_clk; arrive = t_d
+                else:
+                    arrive = lsu_done + P["ldgsts_l2_latency_clk"]
+                ret = max(arrive, self.fill_free); self.fill_free = ret + self.ret_clk; self.busy["fill"] += self.ret_clk
                 w.pending[w.gid] = w.pending.get(w.gid, 0) + 1
                 self.ev(ret, "write", w, w.gid); self.count["LDGSTS"] += 1
             elif x.base == "LDGDEPBAR":
