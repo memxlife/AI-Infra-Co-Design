@@ -24,14 +24,24 @@ from .cost import default_terms, predict, launched_threads
 ROOT = Path(__file__).resolve().parents[2]
 RUNS = ROOT / "runs" / "tilelang"
 SHAPES = {"1024": {"M": 1024, "N": 1024, "K": 1024}, "4096": {"M": 4096, "N": 4096, "K": 4096}, "m32": {"M": 32, "N": 4096, "K": 4096}}
+# round 3: the four out-of-sample shapes, whose rows are the solver's pick plus 30 random points (runs/tilelang/oos/oos.jsonl)
+SHAPES7 = {**SHAPES, "2048": {"M": 2048, "N": 2048, "K": 2048}, "8192": {"M": 8192, "N": 8192, "K": 8192},
+           "k1024": {"M": 4096, "N": 4096, "K": 1024}, "m128": {"M": 128, "N": 4096, "K": 4096}}
 
 
 def rows(name):
+    """The measured rows of a shape: the sweep (three shapes), the 200-point samples (1024^3, M=32) and the out-of-sample
+    runs (the four others), all in one form: holes, latency_ms."""
+    out = []
     f = RUNS / f"sweep_{name}.jsonl"
-    if not f.exists():
-        return []
-    rs = [json.loads(l) for l in f.read_text().splitlines() if l.strip()]
-    return [r for r in rs if r.get("ok") and r.get("correct") and not r.get("n_spills")]
+    if f.exists():
+        out += [r for r in (json.loads(l) for l in f.read_text().splitlines() if l.strip()) if r.get("ok") and r.get("correct") and not r.get("n_spills")]
+    for f, prefix in ((RUNS / "sample" / "sample.jsonl", name + ":"), (RUNS / "oos" / "oos.jsonl", name + ":")):
+        if f.exists():
+            for r in (json.loads(l) for l in f.read_text().splitlines() if l.strip()):
+                if r["label"].startswith(prefix) and r.get("ok") and r.get("correct") and not r.get("n_spills") and "latency_us" in r:
+                    out.append({**r, "latency_ms": r["latency_us"] * 1e-3})
+    return out
 
 
 def spearman(a, b):
@@ -43,60 +53,171 @@ RATE_TILES = ((128, 256), (256, 128))          # the fixed tiles of the rate exp
 SERIES_TILE = (128, 128)                         # the fixed tile of the STAGES x THREADS series (the brief's u_occ row)
 
 
-def fit(chip: dict, out: Path | None = None, overlap: str = "max") -> dict:
-    """R2: every term a lower bound on its own, no global scale. Each rate is the best any configuration reached (so
-    the time it predicts is never above what that configuration took), the per-tile costs are lower envelopes, and
-    the three bounds combine by max (TMA copies and the producer warps overlap the tensor work by construction).
-      rate[threads][BM x BN]   best tile rate observed for that thread count and tile, over every sweep shape
-      B_L2_per_sm              best per-SM copy rate observed (bytes of A and B tiles per second)
-      B_HBM                    best streaming rate on the decode sweep
-      t_wave_startup           the decode term: the smallest residual per wave on the M = 32 rows after the DRAM bound,
-                               charged per wave (two waves there, the second one-third full)
-    The per-k-step and fill costs are zero: a lower envelope cannot carry them without breaking the bound somewhere."""
+def series_rows(prefix: str) -> list[dict]:
+    f = RUNS / "series.jsonl"
+    if not f.exists():
+        return []
+    return [r for r in (json.loads(l) for l in f.read_text().splitlines() if l.strip()) if r["label"].startswith(prefix) and r.get("ok") and r.get("correct")]
+
+
+def series_terms(chip: dict, t: dict) -> dict:
+    """Mechanism 1 and the per-tile start-up from the two designated series (runs/tilelang/series.jsonl):
+      B (wave series, one tile, K = 1024, M = N growing): t = P + waves x T; the envelope P = min over pairs (t_a - t_b x waves_a / waves_b)
+        ... taken as P = min over the series of (t_w - waves_w x T_min) with T_min = min_w t_w / waves_w, floored at 0.
+      A (K series per tile, many waves): per wave t/waves = s + K x c; the marginal cost c from the two longest K (asymptotic rate),
+        s = min over K of (t/waves - K x c) >= 0 (the start-up a tile pays before its pipeline is full)."""
+    out = {"t_prologue": 0.0, "tile_startup": {}, "tile_rate_inf": {}}
+    B = series_rows("B:")
+    if len(B) >= 2:
+        pts = []
+        for r in B:
+            p = predict(r["holes"], r["shape"], chip, t); pts.append((p["waves"], r["latency_us"] * 1e-6 - t["launch_s"]))
+        # pairs: the single-wave point against every point of >= 8 waves (a partial last wave then weighs under 12 %):
+        # t1 = P + T, t_w = P + w T  =>  P = (w t1 - t_w) / (w - 1); the envelope is the smallest P over the pairs
+        ones = [tt for w, tt in pts if w == 1]; many = [(w, tt) for w, tt in pts if w >= 8]
+        cands = [(w * t1 - tw) / (w - 1) for t1 in ones for w, tw in many]
+        out["t_prologue"] = float(max(0.0, min(cands))) if cands else 0.0
+    A = series_rows("A:")
+    by_tile = {}
+    for r in A:
+        by_tile.setdefault(r["label"].split(":")[1], []).append(r)
+    for tile, rs in by_tile.items():
+        rs.sort(key=lambda r: r["shape"]["K"])
+        per_wave = []
+        for r in rs:
+            p = predict(r["holes"], r["shape"], chip, t)
+            per_wave.append((r["shape"]["K"], (r["latency_us"] * 1e-6 - t["launch_s"] - out["t_prologue"]) / p["waves"], p["terms"]["flops_tile"] / r["shape"]["K"]))
+        (K1, t1, fpk), (K2, t2, _) = per_wave[-2], per_wave[-1]
+        c = (t2 - t1) / (K2 - K1)                                  # seconds per unit of K per wave, asymptotic
+        s_ = max(0.0, min(tt - K * c for K, tt, _ in per_wave))
+        out["tile_startup"][tile] = float(s_)
+        out["tile_rate_inf"][tile] = float(fpk / c) if c > 0 else 0.0   # flops per second at the asymptote
+    return out
+
+
+def fit(chip: dict, out: Path | None = None, overlap: str = "max", exclude: tuple = (), prologue: bool = True, block_cap: bool = True) -> dict:
+    """R2's envelopes plus round 3's two mechanisms, every term a minimum (or a best rate) over its series.
+      rate[threads][tile@K]   the best tile rate observed for that key, over the many-wave rows (waves >= 3) when the key has
+                              any, so the per-launch prologue is not folded into it
+      t_prologue              mechanism 1: the smallest (measured - launch - waves x tile time) over every row (>= 0)
+      B_HBM, R_block          the best chip-wide and the best per-block DRAM streaming rate observed (bytes the model charges
+                              over measured time, per resident block)
+      B_L2_per_sm             best per-SM copy rate observed
+    `exclude` names shapes left out of the fit (leave-one-shape-out)."""
     import numpy as np
     t = {**default_terms(chip), "overlap": overlap, "scale": 1.0}
     F = t["F_tc_per_sm"]
-    rate, copy_best = {}, 0.0
-    for name, shape in SHAPES.items():
+    use = {n: sh for n, sh in SHAPES7.items() if n not in exclude and rows(n)}
+    # pass 1: tile rates from many-wave rows; keys seen only in single-wave rows wait for the prologue
+    rate_many, rate_any, copy_best = {}, {}, 0.0
+    meas, streaming = [], []                                     # (row, shape, waves, flops_tile, bytes_tile, key); the DRAM-bound rows apart
+    for name, shape in use.items():
         for r in rows(name):
             h = r["holes"]; p = predict(h, shape, chip, t); tt = p["terms"]
-            # every row counts, whatever its longest term: the rate a row shows is a rate the tile can reach
-            tile_s = max(1e-9, (r["latency_ms"] * 1e-3 - t["launch_s"]) / p["waves"])
             key = (h["threads"], h["block_M"], h["block_N"], shape["K"])
-            rate[key] = max(rate.get(key, 0.0), tt["flops_tile"] / tile_s)
+            secs = r["latency_ms"] * 1e-3 - t["launch_s"]
+            # the regime filter: a row that streams at >= 60 % of the chip's DRAM rate is DRAM-bound; its time says nothing
+            # about the tile (it sets the DRAM and per-block rates instead)
+            if tt["dram_bytes"] / max(1e-9, secs) >= 0.6 * t["B_HBM"]:
+                streaming.append((r, shape, p["waves"], tt["flops_tile"], tt["bytes_tile"], key)); continue
+            meas.append((r, shape, p["waves"], tt["flops_tile"], tt["bytes_tile"], key))
+            tile_s = max(1e-9, secs / p["waves"])
+            rate_any[key] = max(rate_any.get(key, 0.0), tt["flops_tile"] / tile_s)
+            if p["waves"] >= 3:
+                rate_many[key] = max(rate_many.get(key, 0.0), tt["flops_tile"] / tile_s)
             copy_best = max(copy_best, tt["bytes_tile"] / tile_s)
-    # the rate table is keyed by thread count, tile and K: a short K never reaches the long-K rate (the per-tile start-up
-    # is not amortized), and a long-K rate applied to a short K would predict below what any short-K row measured only
-    # by luck. A K not in the table takes the best over the K's seen (still a bound, looser).
+    rate = dict(rate_any); rate.update(rate_many)              # many-wave rates win where they exist
+    ser = series_terms(chip, t)
+    # mechanism 1: the prologue from the wave series when it was run; else from the pair structure below. For a key seen both in single-wave rows (t1 = P + T) and in
+    # many-wave rows (t_w = P + w T): T <= t_w / w for every many-wave row (an upper bound on the tile time, since the
+    # prologue is folded in), so P >= t1 - min_w t_w / w. The envelope takes the smallest such P over the keys (>= 0).
+    prol = 0.0
+    if prologue:
+        by_key = {}
+        for r, shape, waves, fl, by, key in meas:
+            p = predict(r["holes"], shape, chip, t)
+            secs = r["latency_ms"] * 1e-3 - t["launch_s"]
+            if p["terms"]["dram_bytes"] / max(1e-9, secs) >= 0.4 * t["B_HBM"]:
+                continue
+            by_key.setdefault(key, []).append((waves, p["tiles"], secs))
+        cands = []
+        for key, pts in by_key.items():
+            ones = [tt for w, tiles, tt in pts if w == 1 and tiles <= chip["sms"]]; many = [tt / w for w, tiles, tt in pts if w >= 3]
+            if ones and many:
+                cands.append(min(ones) - min(many))
+        prol = float(max(0.0, min(cands))) if cands else 0.0
+        if ser["t_prologue"] > 0:
+            prol = ser["t_prologue"]                             # the designated experiment wins over the sweep pairs
+        # with the prologue known, every rate is re-taken net of it and of the tile's start-up (series A), so the rate is the
+        # asymptotic one and the start-up is charged per wave in predict()
+        rate = {}; copy_best = 0.0
+        for r, shape, waves, fl, by, key in meas:
+            su = ser["tile_startup"].get(f"{key[1]}x{key[2]}", 0.0)
+            tile_s = max(1e-9, (r["latency_ms"] * 1e-3 - t["launch_s"] - prol) / waves - su)
+            rate[key] = max(rate.get(key, 0.0), fl / tile_s)
+            copy_best = max(copy_best, by / tile_s)
     u_tile = {}
     for (th, bm, bn, K), v in rate.items():
         u_tile.setdefault(th, {})[f"{bm}x{bn}@{K}"] = float(min(1.0, v / F))
         d = u_tile[th]; d[f"{bm}x{bn}"] = max(d.get(f"{bm}x{bn}", 0.0), float(min(1.0, v / F)))
-    u_warps = {th: float(max(d.values())) for th, d in u_tile.items()}        # the fallback when a tile is not in the table
-    # B_HBM: the best streaming rate any configuration reached on any shape (modeled bytes over measured time), capped by
-    # the contract's measured bandwidth. A rate below the best observed would predict a time above a measured one.
-    b_hbm = 0.0
-    for name, shape in SHAPES.items():
-        for r in rows(name):
-            b_hbm = max(b_hbm, predict(r["holes"], shape, chip, t)["terms"]["dram_bytes"] / (r["latency_ms"] * 1e-3 - t["launch_s"]))
-    b_hbm = min(t["B_HBM"], b_hbm) if b_hbm else t["B_HBM"]
-    terms = {**t, "u_warps": u_warps, "u_tile": u_tile, "B_L2_per_sm": float(max(t["B_L2_per_sm"], copy_best)), "B_HBM": float(b_hbm),
-             "t_tile_fixed": {128: 0.0, 256: 0.0, 512: 0.0}, "t_fill": {2: 0.0, 3: 0.0, 4: 0.0, 5: 0.0}, "t_step": {2: 0.0, 3: 0.0, 4: 0.0, 5: 0.0}}
-    # the decode term: a start-up per wave, as the smallest residual per wave over every sweep row (a lower envelope over
-    # all shapes, so adding it breaks no bound); what the M = 32 rows alone would give is kept beside it for the record
-    resid, resid_m32 = [], []
-    for name, shape in SHAPES.items():
-        for r in rows(name):
-            p = predict(r["holes"], shape, chip, terms)
-            x = (r["latency_ms"] * 1e-3 - p["time_s"]) / p["waves"]
-            resid.append(x)
-            if name == "m32":
-                resid_m32.append(x)
-    terms["t_wave_startup"] = float(max(0.0, min(resid))) if resid else 0.0
-    terms["t_wave_startup_m32_only"] = float(max(0.0, min(resid_m32))) if resid_m32 else 0.0
-    terms["source"] = (f"R2 lower envelopes: tile rate per (threads, tile) = best observed over the three sweeps ({len(rate)} keys); per-SM copy rate = best observed; "
-                       f"B_HBM = best streaming rate at M=32; wave start-up = smallest residual per wave at M=32; no scale, overlap {overlap}")
-    terms["fit"] = {"rate_keys": len(rate), "wave_startup_us": terms["t_wave_startup"] * 1e6, "wave_startup_m32_only_us": terms["t_wave_startup_m32_only"] * 1e6, "B_HBM_GBps": b_hbm / 1e9}
+    # series A measured the asymptotic rate of five tiles at 256 threads (net of the start-up): the stand-in for a (tile, K) the
+    # sweeps never saw, for any thread count (a rate observed is a rate the tile reaches)
+    for tile, v in ser.get("tile_rate_inf", {}).items():
+        if v > 0:
+            for th in (128, 256, 512):
+                d = u_tile.setdefault(th, {}); d[tile] = max(d.get(tile, 0.0), float(min(1.0, v / F)))
+    u_warps = {th: float(max(d.values())) for th, d in u_tile.items()}
+    # DRAM: the best chip-wide rate and (mechanism 2) the best per-block rate, over every row
+    b_hbm, r_block, l2_chip = 0.0, 0.0, 0.0
+    for r, shape, waves, fl, by, key in meas + streaming:
+        p = predict(r["holes"], shape, chip, t)
+        secs = r["latency_ms"] * 1e-3 - t["launch_s"] - prol
+        if secs <= 0:
+            continue
+        b_hbm = max(b_hbm, p["terms"]["dram_bytes"] / secs)
+        l2_chip = max(l2_chip, p["terms"]["l2_read_bytes"] / secs)
+    b_hbm = min(t["B_HBM"], b_hbm) if b_hbm else t["B_HBM"]    # capped by the contract's measured bandwidth before anything uses it
+    L_eff = None
+    base = {**t, "B_HBM": b_hbm, "t_prologue": prol if prologue else 0.0, "R_block": 0.0, "l2_bytes_effective": 64e9, "tile_startup": ser["tile_startup"]}
+    for r, shape, waves, fl, by, key in streaming:               # the per-block rate is only observable where streaming is the limit
+        secs = r["latency_ms"] * 1e-3 - t["launch_s"] - prol
+        if secs <= 0:
+            continue
+        p = predict(r["holes"], shape, chip, t)
+        r_block = max(r_block, (p["terms"]["dram_bytes"] / p["tiles"]) / (secs / p["waves"]))
+        # the largest latency this row allows under the per-wave formula (bisection); the envelope keeps the smallest over rows
+        lo, hi = 1e-7, 1e-3
+        for _ in range(40):
+            mid = (lo + hi) / 2
+            if predict(r["holes"], shape, chip, {**base, "L_block": mid})["terms"]["t_dram"] <= secs * (1 + 1e-6):
+                lo = mid
+            else:
+                hi = mid
+        L_eff = lo if L_eff is None else min(L_eff, lo)
+    # the traffic term as an envelope: l2_bytes_effective is raised until no row's DRAM term exceeds its measured time
+    l2_eff = t["l2_bytes_effective"]
+    probe_terms = {**t, "B_HBM": b_hbm, "B_L2_chip": max(t["B_L2_chip"], l2_chip), "t_prologue": prol if prologue else 0.0, "R_block": 0.0,
+                   "L_block": (L_eff or 0.0) if block_cap else 0.0, "tile_startup": ser["tile_startup"]}
+    for r, shape, waves, fl, by, key in meas + streaming:
+        secs = r["latency_ms"] * 1e-3 - t["launch_s"] - (prol if prologue else 0.0)
+        probe_terms["l2_bytes_effective"] = l2_eff
+        if predict(r["holes"], shape, chip, probe_terms)["terms"]["t_dram"] <= secs * (1 + 1e-6):     # the row that set a rate sits exactly on it
+            continue
+        lo, hi = l2_eff, 4096 * t["l2_bytes_effective"]
+        for _ in range(40):
+            mid = (lo + hi) / 2; probe_terms["l2_bytes_effective"] = mid
+            if predict(r["holes"], shape, chip, probe_terms)["terms"]["t_dram"] <= secs * (1 + 1e-6):
+                hi = mid
+            else:
+                lo = mid
+        l2_eff = hi
+    terms = {**t, "u_warps": u_warps, "u_tile": u_tile, "l2_bytes_effective": float(l2_eff), "B_L2_chip": float(max(t["B_L2_chip"], l2_chip)), "B_L2_per_sm": float(max(t["B_L2_per_sm"], copy_best)), "B_HBM": float(b_hbm),
+             "R_block": 0.0, "L_block": float(L_eff or 0.0) if block_cap else 0.0, "t_prologue": float(prol) if prologue else 0.0,
+             "t_tile_fixed": {128: 0.0, 256: 0.0, 512: 0.0}, "t_fill": {2: 0.0, 3: 0.0, 4: 0.0, 5: 0.0}, "t_step": {2: 0.0, 3: 0.0, 4: 0.0, 5: 0.0},
+             "t_wave_startup": 0.0, "tile_startup": ser["tile_startup"], "knob_factors": {}}                 # the warp_spec factor (1.043) was inside the base spread; a factor on top of a rate fitted from the same rows breaks the bound by itself
+    terms["source"] = (f"round 3 envelopes over shapes {sorted(use)}: tile rate per (threads, tile, K) net of the tile start-up (series A) and the prologue "
+                       f"{prol * 1e6:.1f} us (series B); B_HBM {b_hbm / 1e9:.0f} GB/s; per-block streaming = bytes in flight / {(L_eff or 0) * 1e6:.1f} us; no least squares, no scale")
+    terms["fit"] = {"shapes": sorted(use), "rate_keys": len(rate), "streaming_rows": len(streaming), "tile_rows": len(meas), "series": {k: (round(v * 1e6, 2) if isinstance(v, float) else {a: round(b * 1e6, 2) for a, b in v.items()}) for k, v in ser.items() if k != "tile_rate_inf"}, "prologue_us": prol * 1e6, "R_block_GBps": r_block / 1e9, "L_block_us": (L_eff or 0.0) * 1e6, "B_HBM_GBps": b_hbm / 1e9, "l2_eff_MB": l2_eff / 1e6}
     if out:
         out.write_text(yaml.safe_dump({"chip": chip["name"], "family": "gemm_basic", "terms": {k: v for k, v in terms.items() if k != "fit"}, "fit_detail": terms["fit"]}, sort_keys=False))
     return terms
@@ -113,14 +234,16 @@ def load_terms(chip: dict) -> dict | None:
     return None
 
 
-def test(chip: dict, terms: dict) -> dict:
+def test(chip: dict, terms: dict, shapes: dict | None = None) -> dict:
     report = {}
-    for name, shape in SHAPES.items():
+    for name, shape in (shapes or SHAPES7).items():
         rs = rows(name)
         if not rs:
             continue
         pairs = []
         for r in rs:
+            if r["holes"].get("smem_layout") == "linear":          # out of the menu since round 3; still a measured point, not a candidate
+                continue
             p = predict(r["holes"], shape, chip, terms)
             if p["ok"]:
                 pairs.append((p["time_us"], r["latency_ms"] * 1e3, r["holes"]))

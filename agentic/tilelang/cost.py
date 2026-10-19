@@ -59,6 +59,9 @@ def default_terms(chip: dict) -> dict:
         "t_fill": {2: 0.0, 3: 0.0, 4: 0.0, 5: 0.0},                       # per tile: filling the pipeline, by depth (seconds)
         "launch_s": chip["launch_s"],
         "overlap": "max",                                                 # how copy and tensor time combine per tile: max | sum
+        "t_prologue": 0.0,                                                # round 3, mechanism 1: paid once per launch (seconds)
+        "R_block": 0.0,                                                   # round 3, mechanism 2: a fixed per-block DRAM streaming rate (bytes/s); 0 = off
+        "L_block": 0.0,                                                   # round 3, mechanism 2: per-block rate = bytes in flight / this latency (s); 0 = off
         "scale": 1.0,                                                     # one-sided deflation of the per-SM time (calibrate.py)
         "swizzle_penalty": {0: 1.0, 4: 1.0, 8: 1.0, 16: 1.0},             # bank-conflict / traversal factor by SWZ
         # round 2: one factor per new knob value on the per-SM time, from the knob curves (calibrate.fit_knob_curves);
@@ -130,7 +133,8 @@ def predict(h: dict, shape: dict, chip: dict, terms: dict | None = None) -> dict
         t_tile = (t_compute_tile + t_copy_tile) * swz + k_steps * step
     else:                                        # perfect overlap: the longer of the two
         t_tile = max(t_compute_tile, t_copy_tile) * swz + k_steps * step
-    t_sm = waves * (t_tile + t_pipe + t.get("t_wave_startup", 0.0))
+    startup = (t.get("tile_startup") or {}).get(f"{bm}x{bn}", 0.0)       # round 3: the start-up a tile pays before its pipeline is full (series A)
+    t_sm = waves * (t_tile + t_pipe + t.get("t_wave_startup", 0.0) + startup)
     kf = 1.0
     for knob, table in (t.get("knob_factors") or {}).items():
         if knob in h:
@@ -141,8 +145,21 @@ def predict(h: dict, shape: dict, chip: dict, terms: dict | None = None) -> dict
         tr["dram"] += 2.0 * M * N * 4 * sk - M * N * 2
         tr["atomic_bytes"] = 2.0 * M * N * 4 * sk
     t_dram = tr["dram"] / t["B_HBM"]
+    R_block = t.get("R_block", 0.0) or 0.0
+    L_block = t.get("L_block", 0.0) or 0.0
+    if L_block > 0:                                                      # mechanism 2 in the brief's form: bytes in flight / latency
+        R_block = st * (bm + bn) * bk * 2 / L_block
+    if R_block > 0:
+        # mechanism 2: each wave streams its share of the bytes at min(chip rate, blocks in the wave x per-block rate)
+        per_wave = sms * bps
+        t_dram = 0.0
+        left = tiles
+        while left > 0:
+            blocks_w = min(per_wave, left)
+            t_dram += tr["dram"] * (blocks_w / tiles) / min(t["B_HBM"], blocks_w * R_block)
+            left -= blocks_w
     t_l2 = tr["l2_reads"] / t["B_L2_chip"]
-    time = max(t_sm, t_dram, t_l2) * t.get("scale", 1.0) + t["launch_s"]     # one-sided deflation (calibrate.py)
+    time = max(t_sm, t_dram, t_l2) * t.get("scale", 1.0) + t["launch_s"] + t.get("t_prologue", 0.0)   # mechanism 1: the prologue, once per launch
     bound = max(("tensor", t_sm) if t_compute_tile >= t_copy_tile else ("copy", t_sm), ("dram", t_dram), ("l2", t_l2), key=lambda x: x[1])[0]
     return {"ok": True, "time_s": time, "time_us": time * 1e6, "bound": bound, "waves": waves, "tiles": tiles, "blocks_per_sm": bps,
             "terms": {"t_sm": t_sm, "t_compute_tile": t_compute_tile, "t_copy_tile": t_copy_tile, "t_pipe": t_pipe, "t_dram": t_dram, "t_l2": t_l2,

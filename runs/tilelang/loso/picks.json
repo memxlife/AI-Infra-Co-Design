@@ -1,0 +1,135 @@
+{
+ "1024": {
+  "pick": {
+   "block_M": 64,
+   "block_N": 128,
+   "block_K": 32,
+   "num_stages": 5,
+   "threads": 128,
+   "swizzle": 0,
+   "prefetch": 0,
+   "warp_policy": 0,
+   "vec_width": 0,
+   "tma": 1,
+   "warp_spec": 1,
+   "smem_layout": "inferred"
+  },
+  "predicted_us": 54.852467290190766,
+  "solver_ms": 35.67045903764665,
+  "terms_source": "round 3 envelopes over shapes ['2048', '4096', '8192', 'k1024', 'm128', 'm32']: tile rate per (threads, tile, K) net of the tile start-up (series A) and the pro"
+ },
+ "4096": {
+  "pick": {
+   "block_M": 128,
+   "block_N": 256,
+   "block_K": 32,
+   "num_stages": 4,
+   "threads": 256,
+   "swizzle": 0,
+   "prefetch": 0,
+   "warp_policy": 0,
+   "vec_width": 0,
+   "tma": 1,
+   "warp_spec": 1,
+   "smem_layout": "inferred"
+  },
+  "predicted_us": 1359.7120046615598,
+  "solver_ms": 23.78174988552928,
+  "terms_source": "round 3 envelopes over shapes ['1024', '2048', '8192', 'k1024', 'm128', 'm32']: tile rate per (threads, tile, K) net of the tile start-up (series A) and the pro"
+ },
+ "m32": {
+  "pick": {
+   "block_M": 16,
+   "block_N": 256,
+   "block_K": 64,
+   "num_stages": 2,
+   "threads": 256,
+   "swizzle": 0,
+   "prefetch": 0,
+   "warp_policy": 0,
+   "vec_width": 0,
+   "tma": 1,
+   "warp_spec": 1,
+   "smem_layout": "inferred"
+  },
+  "predicted_us": 168.43364748993363,
+  "solver_ms": 31.003082869574428,
+  "terms_source": "round 3 envelopes over shapes ['1024', '2048', '4096', '8192', 'k1024', 'm128']: tile rate per (threads, tile, K) net of the tile start-up (series A) and the pr"
+ },
+ "2048": {
+  "pick": {
+   "block_M": 128,
+   "block_N": 256,
+   "block_K": 32,
+   "num_stages": 4,
+   "threads": 512,
+   "swizzle": 0,
+   "prefetch": 0,
+   "warp_policy": 0,
+   "vec_width": 0,
+   "tma": 1,
+   "warp_spec": 1,
+   "smem_layout": "inferred"
+  },
+  "predicted_us": 219.15811598300934,
+  "solver_ms": 21.477875066921115,
+  "terms_source": "round 3 envelopes over shapes ['1024', '4096', '8192', 'k1024', 'm128', 'm32']: tile rate per (threads, tile, K) net of the tile start-up (series A) and the pro"
+ },
+ "8192": {
+  "pick": {
+   "block_M": 128,
+   "block_N": 256,
+   "block_K": 64,
+   "num_stages": 2,
+   "threads": 512,
+   "swizzle": 4,
+   "prefetch": 0,
+   "warp_policy": 0,
+   "vec_width": 0,
+   "tma": 1,
+   "warp_spec": 1,
+   "smem_layout": "inferred"
+  },
+  "predicted_us": 10087.239448590713,
+  "solver_ms": 25.484833167865872,
+  "terms_source": "round 3 envelopes over shapes ['1024', '2048', '4096', 'k1024', 'm128', 'm32']: tile rate per (threads, tile, K) net of the tile start-up (series A) and the pro"
+ },
+ "k1024": {
+  "pick": {
+   "block_M": 128,
+   "block_N": 256,
+   "block_K": 32,
+   "num_stages": 4,
+   "threads": 512,
+   "swizzle": 0,
+   "prefetch": 0,
+   "warp_policy": 0,
+   "vec_width": 0,
+   "tma": 1,
+   "warp_spec": 1,
+   "smem_layout": "inferred"
+  },
+  "predicted_us": 451.07197389006615,
+  "solver_ms": 18.074207939207554,
+  "terms_source": "round 3 envelopes over shapes ['1024', '2048', '4096', '8192', 'm128', 'm32']: tile rate per (threads, tile, K) net of the tile start-up (series A) and the prol"
+ },
+ "m128": {
+  "pick": {
+   "block_M": 256,
+   "block_N": 64,
+   "block_K": 32,
+   "num_stages": 2,
+   "threads": 128,
+   "swizzle": 0,
+   "prefetch": 0,
+   "warp_policy": 0,
+   "vec_width": 0,
+   "tma": 1,
+   "warp_spec": 1,
+   "smem_layout": "inferred"
+  },
+  "predicted_us": 175.11650499471358,
+  "solver_ms": 20.740750012919307,
+  "terms_source": "round 3 envelopes over shapes ['1024', '2048', '4096', '8192', 'k1024', 'm32']: tile rate per (threads, tile, K) net of the tile start-up (series A) and the pro"
+ }
+}

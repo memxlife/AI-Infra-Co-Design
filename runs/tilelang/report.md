@@ -1,12 +1,12 @@
 # TileLang round 1: the numbers
 
-Chip spark-6951 (GB10). Family gemm_basic. Terms: R2 lower envelopes: tile rate per (threads, tile) = best observed over the three sweeps (51 keys); per-SM copy rate = best observed; B_HBM = best streaming rate at M=32; wave start-up = smallest residual per wave at M=32; no scale, overlap max; round-2 knob factors from the 1024^3 curves (runs/tilelang/probe) against the mean of 7 base timings, clamped to 1 inside the base spread; the linear-layout factor withdrawn: that kernel computed wrong answers (legalize forbids linear + TMA)
+Chip spark-6951 (GB10). Family gemm_basic. Terms: round 3 envelopes over shapes ['1024', '2048', '4096', '8192', 'k1024', 'm128', 'm32']: tile rate per (threads, tile, K) net of the tile start-up (series A) and the prologue 21.6 us (series B); B_HBM 235 GB/s; per-block streaming = bytes in flight / 1.8 us; no least squares, no scale
 
 | shape | grid | removed by constraints | compiled, ran, correct | spill | best measured | solver's pick | pick measured | gap pick vs best | Spearman (all) | bound broken | model pick gap |
 |---|---|---|---|---|---|---|---|---|---|---|---|
-| 1024x1024x1024 | 1296 | 792 (61%) | 512 of 512 | 8 (1.6%) | 63.4 µs (33.9 TF/s) | 256x128x32, 3 st, 256 th, swz 0 | None | False | 0.776 | 0.8% | +0.0% |
-| 4096x4096x4096 | 1296 | 792 (61%) | 510 of 512 | 6 (1.2%) | 1377.4 µs (99.8 TF/s) | 128x256x32, 2 st, 256 th, swz 16 | None | False | 0.85 | 1.0% | +0.0% |
-| 32x4096x4096 | 1296 | 828 (64%) | 468 of 468 | 0 (0.0%) | 200.4 µs (5.4 TF/s) | 64x256x64, 2 st, 256 th, swz 0 | None | False | 0.097 | 0.9% | +0.0% |
+| 1024x1024x1024 | 1296 | 792 (61%) | 512 of 512 | 8 (1.6%) | 63.4 µs (33.9 TF/s) | 64x128x64, 4 st, 128 th, swz 8 | None | False | 0.147 | 0.2% | +0.1% |
+| 4096x4096x4096 | 1296 | 792 (61%) | 510 of 512 | 6 (1.2%) | 1377.4 µs (99.8 TF/s) | 128x256x32, 2 st, 256 th, swz 16 | None | False | 0.524 | 1.6% | +0.0% |
+| 32x4096x4096 | 1296 | 828 (64%) | 468 of 468 | 0 (0.0%) | 200.4 µs (5.4 TF/s) | 32x128x128, 2 st, 256 th, swz 16 | None | False | 0.392 | 0.2% | +0.0% |
 
 Removed by the constraints: the shared-memory rule, the register rule (launch bounds), the tile-per-thread rule. Spill: ptxas spill bytes > 0 among the configurations that ran. The solver's pick: the MILP over J-hat's tables with the calibrated terms, found in the sweep table (one compile and one profile instead of the grid). Bound broken: the share of points where J-hat predicted a slower time than measured (the one-sided test; 5 % allowed).
 
@@ -88,14 +88,44 @@ gemm_basic base (16x256x32, 4 stages, 256 threads): 203.7 µs, correct True.
 
 Best correct split-K kernel: 208.8 µs (+2.5% against the gemm_basic base; the noise band at M=32 is 0.5 %); DRAM floor for B once: 142.6 µs.
 
+## Step 2 (round 3): the model before and after the two mechanisms
+
+Before = round 2's envelopes (commit a690de4); after = round 3's: the per-launch prologue (21.6 µs, from the wave series), the tile start-up per tile class (from the K series), the per-block streaming cap (bytes in flight over 1.82 µs), the effective L2 as an envelope (39 MB). In-sample on all seven shapes; the leave-one-shape-out numbers are in the findings note.
+
+| shape | bound broken, before | after | model pick gap, before | after | error histogram before (measured−predicted over measured) | after |
+|---|---|---|---|---|---|---|
+| 1024 | 7% | 0% | +0.1% | +0.1% | {'+0%': 538, '+10%': 52, '+20%': 4, '+30%': 1, '+40%': 4, '-10%': 39, '-20%': 4, '-30%': 4} | {'+0%': 269, '+10%': 180, '+20%': 187, '+30%': 8, '+40%': 1, '-10%': 1} |
+| 4096 | 1% | 2% | +0.0% | +0.0% | {'+0%': 203, '+10%': 128, '+20%': 134, '+30%': 17, '+40%': 5, '+50%': 10, '+60%': 2, '-10%': 5} | {'+0%': 170, '+10%': 111, '+20%': 53, '+30%': 36, '+40%': 16, '+50%': 45, '+60%': 21, '+70%': 44, '-10%': 8} |
+| m32 | 5% | 0% | +0.0% | +0.0% | {'+0%': 556, '+10%': 10, '-10%': 28, '-20%': 1} | {'+0%': 6, '+10%': 403, '+20%': 176, '+30%': 9, '-10%': 1} |
+| 2048 | 0% | 0% | +0.0% | +0.0% | {'+0%': 2, '+10%': 8, '+20%': 6, '+30%': 4} | {'+0%': 15, '+10%': 4, '+20%': 1} |
+| 8192 | 55% | 20% | +0.0% | +0.0% | {'+0%': 4, '+10%': 2, '+20%': 1, '+30%': 1, '+50%': 1, '-10%': 4, '-20%': 3, '-30%': 2, '-40%': 1, '-70%': 1} | {'+0%': 5, '+10%': 3, '+20%': 4, '+30%': 3, '+50%': 1, '-10%': 4} |
+| k1024 | 95% | 15% | +36.1% | +0.0% | {'+10%': 1, '-110%': 2, '-120%': 1, '-40%': 3, '-50%': 3, '-60%': 2, '-70%': 2, '-80%': 4, '-90%': 2} | {'+0%': 9, '+10%': 6, '+20%': 2, '-10%': 3} |
+| m128 | 15% | 0% | +0.0% | +0.0% | {'+0%': 14, '+10%': 2, '+20%': 1, '-10%': 1, '-20%': 1, '-50%': 1} | {'+10%': 10, '+20%': 7, '+30%': 3} |
+
+## Step 2: leave-one-shape-out, the solver's pick measured
+
+| shape | bound broken (LOSO) | LOSO pick | measured | predicted | best measured (sweep / sample) | pick gap |
+|---|---|---|---|---|---|---|
+| 1024x1024x1024 | 16% | 64x128x32, 5 st, 128 th, swz 0 | 70.7 µs | 54.9 µs | 61.5 µs | +15.0% |
+| 4096x4096x4096 | 38% | 128x256x32, 4 st, 256 th, swz 0 | 2025.4 µs | 1359.7 µs | 1377.4 µs | +47.0% |
+| 32x4096x4096 | 22% | 16x256x64, 2 st, 256 th, swz 0 | 202.8 µs | 168.4 µs | 200.4 µs | +1.2% |
+| 2048x2048x2048 | 0% | 128x256x32, 4 st, 512 th, swz 0 | 249.8 µs | 219.2 µs | 242.7 µs | +2.9% |
+| 8192x8192x8192 | 5% | 128x256x64, 2 st, 512 th, swz 4 | 11631.6 µs | 10087.2 µs | 11539.2 µs | +0.8% |
+| 4096x4096x1024 | 65% | 128x256x32, 4 st, 512 th, swz 0 | 476.2 µs | 451.1 µs | 461.8 µs | +3.1% |
+| 128x4096x4096 | 0% | 256x64x32, 2 st, 128 th, swz 0 | 258.0 µs | 175.1 µs | 207.9 µs | +24.1% |
+
 ## Solver
 
-- 1024: 275 variables, 1146 rows, 20 ms (HiGHS); predicted 63.4 µs
-- 4096: 275 variables, 1146 rows, 21 ms (HiGHS); predicted 1377.4 µs
-- m32: 275 variables, 1146 rows, 38 ms (HiGHS); predicted 200.4 µs
+- 1024: 274 variables, 1145 rows, 27 ms (HiGHS); predicted 54.9 µs
+- 4096: 274 variables, 1145 rows, 23 ms (HiGHS); predicted 1377.4 µs
+- m32: 274 variables, 1145 rows, 29 ms (HiGHS); predicted 168.4 µs
 
 ## Error histograms (measured minus predicted, over measured)
 
-- 1024: {'+0%': 455, '+10%': 41, '+20%': 4, '-10%': 4}; median measured/predicted 1.04
-- 4096: {'+0%': 203, '+10%': 128, '+20%': 134, '+30%': 17, '+40%': 5, '+50%': 10, '+60%': 2, '-10%': 5}; median measured/predicted 1.14
-- m32: {'+0%': 455, '+10%': 9, '-10%': 4}; median measured/predicted 1.03
+- 1024: {'+0%': 269, '+10%': 180, '+20%': 187, '+30%': 8, '+40%': 1, '-10%': 1}; median measured/predicted 1.2
+- 4096: {'+0%': 170, '+10%': 111, '+20%': 53, '+30%': 36, '+40%': 16, '+50%': 45, '+60%': 21, '+70%': 44, '-10%': 8}; median measured/predicted 1.18
+- m32: {'+0%': 6, '+10%': 403, '+20%': 176, '+30%': 9, '-10%': 1}; median measured/predicted 1.23
+- 2048: {'+0%': 15, '+10%': 4, '+20%': 1}; median measured/predicted 1.0
+- 8192: {'+0%': 5, '+10%': 3, '+20%': 4, '+30%': 3, '+50%': 1, '-10%': 4}; median measured/predicted 1.13
+- k1024: {'+0%': 9, '+10%': 6, '+20%': 2, '-10%': 3}; median measured/predicted 1.08
+- m128: {'+10%': 10, '+20%': 7, '+30%': 3}; median measured/predicted 1.26

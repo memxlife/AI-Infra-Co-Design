@@ -1,0 +1,495 @@
+[
+ {
+  "label": "A:128x128:K=256",
+  "shape": {
+   "M": 4096,
+   "N": 4096,
+   "K": 256
+  },
+  "holes": {
+   "block_M": 128,
+   "block_N": 128,
+   "block_K": 64,
+   "num_stages": 3,
+   "threads": 256,
+   "swizzle": 8
+  },
+  "kernel": "series/A_128x128_K256.py"
+ },
+ {
+  "label": "A:128x128:K=512",
+  "shape": {
+   "M": 4096,
+   "N": 4096,
+   "K": 512
+  },
+  "holes": {
+   "block_M": 128,
+   "block_N": 128,
+   "block_K": 64,
+   "num_stages": 3,
+   "threads": 256,
+   "swizzle": 8
+  },
+  "kernel": "series/A_128x128_K512.py"
+ },
+ {
+  "label": "A:128x128:K=1024",
+  "shape": {
+   "M": 4096,
+   "N": 4096,
+   "K": 1024
+  },
+  "holes": {
+   "block_M": 128,
+   "block_N": 128,
+   "block_K": 64,
+   "num_stages": 3,
+   "threads": 256,
+   "swizzle": 8
+  },
+  "kernel": "series/A_128x128_K1024.py"
+ },
+ {
+  "label": "A:128x128:K=2048",
+  "shape": {
+   "M": 4096,
+   "N": 4096,
+   "K": 2048
+  },
+  "holes": {
+   "block_M": 128,
+   "block_N": 128,
+   "block_K": 64,
+   "num_stages": 3,
+   "threads": 256,
+   "swizzle": 8
+  },
+  "kernel": "series/A_128x128_K2048.py"
+ },
+ {
+  "label": "A:128x128:K=4096",
+  "shape": {
+   "M": 4096,
+   "N": 4096,
+   "K": 4096
+  },
+  "holes": {
+   "block_M": 128,
+   "block_N": 128,
+   "block_K": 64,
+   "num_stages": 3,
+   "threads": 256,
+   "swizzle": 8
+  },
+  "kernel": "series/A_128x128_K4096.py"
+ },
+ {
+  "label": "A:256x128:K=256",
+  "shape": {
+   "M": 4096,
+   "N": 4096,
+   "K": 256
+  },
+  "holes": {
+   "block_M": 256,
+   "block_N": 128,
+   "block_K": 64,
+   "num_stages": 2,
+   "threads": 256,
+   "swizzle": 8
+  },
+  "kernel": "series/A_256x128_K256.py"
+ },
+ {
+  "label": "A:256x128:K=512",
+  "shape": {
+   "M": 4096,
+   "N": 4096,
+   "K": 512
+  },
+  "holes": {
+   "block_M": 256,
+   "block_N": 128,
+   "block_K": 64,
+   "num_stages": 2,
+   "threads": 256,
+   "swizzle": 8
+  },
+  "kernel": "series/A_256x128_K512.py"
+ },
+ {
+  "label": "A:256x128:K=1024",
+  "shape": {
+   "M": 4096,
+   "N": 4096,
+   "K": 1024
+  },
+  "holes": {
+   "block_M": 256,
+   "block_N": 128,
+   "block_K": 64,
+   "num_stages": 2,
+   "threads": 256,
+   "swizzle": 8
+  },
+  "kernel": "series/A_256x128_K1024.py"
+ },
+ {
+  "label": "A:256x128:K=2048",
+  "shape": {
+   "M": 4096,
+   "N": 4096,
+   "K": 2048
+  },
+  "holes": {
+   "block_M": 256,
+   "block_N": 128,
+   "block_K": 64,
+   "num_stages": 2,
+   "threads": 256,
+   "swizzle": 8
+  },
+  "kernel": "series/A_256x128_K2048.py"
+ },
+ {
+  "label": "A:256x128:K=4096",
+  "shape": {
+   "M": 4096,
+   "N": 4096,
+   "K": 4096
+  },
+  "holes": {
+   "block_M": 256,
+   "block_N": 128,
+   "block_K": 64,
+   "num_stages": 2,
+   "threads": 256,
+   "swizzle": 8
+  },
+  "kernel": "series/A_256x128_K4096.py"
+ },
+ {
+  "label": "A:128x256:K=256",
+  "shape": {
+   "M": 4096,
+   "N": 4096,
+   "K": 256
+  },
+  "holes": {
+   "block_M": 128,
+   "block_N": 256,
+   "block_K": 64,
+   "num_stages": 2,
+   "threads": 256,
+   "swizzle": 8
+  },
+  "kernel": "series/A_128x256_K256.py"
+ },
+ {
+  "label": "A:128x256:K=512",
+  "shape": {
+   "M": 4096,
+   "N": 4096,
+   "K": 512
+  },
+  "holes": {
+   "block_M": 128,
+   "block_N": 256,
+   "block_K": 64,
+   "num_stages": 2,
+   "threads": 256,
+   "swizzle": 8
+  },
+  "kernel": "series/A_128x256_K512.py"
+ },
+ {
+  "label": "A:128x256:K=1024",
+  "shape": {
+   "M": 4096,
+   "N": 4096,
+   "K": 1024
+  },
+  "holes": {
+   "block_M": 128,
+   "block_N": 256,
+   "block_K": 64,
+   "num_stages": 2,
+   "threads": 256,
+   "swizzle": 8
+  },
+  "kernel": "series/A_128x256_K1024.py"
+ },
+ {
+  "label": "A:128x256:K=2048",
+  "shape": {
+   "M": 4096,
+   "N": 4096,
+   "K": 2048
+  },
+  "holes": {
+   "block_M": 128,
+   "block_N": 256,
+   "block_K": 64,
+   "num_stages": 2,
+   "threads": 256,
+   "swizzle": 8
+  },
+  "kernel": "series/A_128x256_K2048.py"
+ },
+ {
+  "label": "A:128x256:K=4096",
+  "shape": {
+   "M": 4096,
+   "N": 4096,
+   "K": 4096
+  },
+  "holes": {
+   "block_M": 128,
+   "block_N": 256,
+   "block_K": 64,
+   "num_stages": 2,
+   "threads": 256,
+   "swizzle": 8
+  },
+  "kernel": "series/A_128x256_K4096.py"
+ },
+ {
+  "label": "A:64x128:K=256",
+  "shape": {
+   "M": 4096,
+   "N": 4096,
+   "K": 256
+  },
+  "holes": {
+   "block_M": 64,
+   "block_N": 128,
+   "block_K": 32,
+   "num_stages": 4,
+   "threads": 256,
+   "swizzle": 8
+  },
+  "kernel": "series/A_64x128_K256.py"
+ },
+ {
+  "label": "A:64x128:K=512",
+  "shape": {
+   "M": 4096,
+   "N": 4096,
+   "K": 512
+  },
+  "holes": {
+   "block_M": 64,
+   "block_N": 128,
+   "block_K": 32,
+   "num_stages": 4,
+   "threads": 256,
+   "swizzle": 8
+  },
+  "kernel": "series/A_64x128_K512.py"
+ },
+ {
+  "label": "A:64x128:K=1024",
+  "shape": {
+   "M": 4096,
+   "N": 4096,
+   "K": 1024
+  },
+  "holes": {
+   "block_M": 64,
+   "block_N": 128,
+   "block_K": 32,
+   "num_stages": 4,
+   "threads": 256,
+   "swizzle": 8
+  },
+  "kernel": "series/A_64x128_K1024.py"
+ },
+ {
+  "label": "A:64x128:K=2048",
+  "shape": {
+   "M": 4096,
+   "N": 4096,
+   "K": 2048
+  },
+  "holes": {
+   "block_M": 64,
+   "block_N": 128,
+   "block_K": 32,
+   "num_stages": 4,
+   "threads": 256,
+   "swizzle": 8
+  },
+  "kernel": "series/A_64x128_K2048.py"
+ },
+ {
+  "label": "A:64x128:K=4096",
+  "shape": {
+   "M": 4096,
+   "N": 4096,
+   "K": 4096
+  },
+  "holes": {
+   "block_M": 64,
+   "block_N": 128,
+   "block_K": 32,
+   "num_stages": 4,
+   "threads": 256,
+   "swizzle": 8
+  },
+  "kernel": "series/A_64x128_K4096.py"
+ },
+ {
+  "label": "A:64x64:K=256",
+  "shape": {
+   "M": 4096,
+   "N": 4096,
+   "K": 256
+  },
+  "holes": {
+   "block_M": 64,
+   "block_N": 64,
+   "block_K": 64,
+   "num_stages": 3,
+   "threads": 256,
+   "swizzle": 8
+  },
+  "kernel": "series/A_64x64_K256.py"
+ },
+ {
+  "label": "A:64x64:K=512",
+  "shape": {
+   "M": 4096,
+   "N": 4096,
+   "K": 512
+  },
+  "holes": {
+   "block_M": 64,
+   "block_N": 64,
+   "block_K": 64,
+   "num_stages": 3,
+   "threads": 256,
+   "swizzle": 8
+  },
+  "kernel": "series/A_64x64_K512.py"
+ },
+ {
+  "label": "A:64x64:K=1024",
+  "shape": {
+   "M": 4096,
+   "N": 4096,
+   "K": 1024
+  },
+  "holes": {
+   "block_M": 64,
+   "block_N": 64,
+   "block_K": 64,
+   "num_stages": 3,
+   "threads": 256,
+   "swizzle": 8
+  },
+  "kernel": "series/A_64x64_K1024.py"
+ },
+ {
+  "label": "A:64x64:K=2048",
+  "shape": {
+   "M": 4096,
+   "N": 4096,
+   "K": 2048
+  },
+  "holes": {
+   "block_M": 64,
+   "block_N": 64,
+   "block_K": 64,
+   "num_stages": 3,
+   "threads": 256,
+   "swizzle": 8
+  },
+  "kernel": "series/A_64x64_K2048.py"
+ },
+ {
+  "label": "A:64x64:K=4096",
+  "shape": {
+   "M": 4096,
+   "N": 4096,
+   "K": 4096
+  },
+  "holes": {
+   "block_M": 64,
+   "block_N": 64,
+   "block_K": 64,
+   "num_stages": 3,
+   "threads": 256,
+   "swizzle": 8
+  },
+  "kernel": "series/A_64x64_K4096.py"
+ },
+ {
+  "label": "B:256x128:MN=1024",
+  "shape": {
+   "M": 1024,
+   "N": 1024,
+   "K": 1024
+  },
+  "holes": {
+   "block_M": 256,
+   "block_N": 128,
+   "block_K": 64,
+   "num_stages": 2,
+   "threads": 256,
+   "swizzle": 8
+  },
+  "kernel": "series/B_MN1024.py"
+ },
+ {
+  "label": "B:256x128:MN=2048",
+  "shape": {
+   "M": 2048,
+   "N": 2048,
+   "K": 1024
+  },
+  "holes": {
+   "block_M": 256,
+   "block_N": 128,
+   "block_K": 64,
+   "num_stages": 2,
+   "threads": 256,
+   "swizzle": 8
+  },
+  "kernel": "series/B_MN2048.py"
+ },
+ {
+  "label": "B:256x128:MN=4096",
+  "shape": {
+   "M": 4096,
+   "N": 4096,
+   "K": 1024
+  },
+  "holes": {
+   "block_M": 256,
+   "block_N": 128,
+   "block_K": 64,
+   "num_stages": 2,
+   "threads": 256,
+   "swizzle": 8
+  },
+  "kernel": "series/B_MN4096.py"
+ },
+ {
+  "label": "B:256x128:MN=8192",
+  "shape": {
+   "M": 8192,
+   "N": 8192,
+   "K": 1024
+  },
+  "holes": {
+   "block_M": 256,
+   "block_N": 128,
+   "block_K": 64,
+   "num_stages": 2,
+   "threads": 256,
+   "swizzle": 8
+  },
+  "kernel": "series/B_MN8192.py"
+ }
+]

@@ -277,3 +277,78 @@ activity, stalled on memory (scoreboard) as a streaming kernel should be; it mov
 showed 256 blocks do no better. The design hint for S2 is not block count but bytes in flight per SM: cuBLASLt keeps
 101 KB of B staged per SM with 3 warps, ours keeps 83 KB with 12 warps and a producer that issues one TMA box at a
 time. **4096³:** tie; closed. Not done at 2048³ in step 0; the step-2 profiles cover it.
+
+### Step 2: the model round (S3 widened)
+
+The per-term breakdown of each solver pick against the counters (`runs/tilelang/ncu/`, all seven shapes):
+
+| shape | measured | predicted | longest term | model DRAM MB / ncu | model L2 MB / ncu | tensor active | waves | top stall |
+|---|---|---|---|---|---|---|---|---|
+| 1024³ | 62 µs | 63 | tensor | 6 / 5 | 25 / 25 | 69 % | 1 | fixed latency |
+| M=32 | 207 | 200 | DRAM | 34 / 34 | 38 / 42 | 42 % | 1 | sleeping (barrier) 14.8 |
+| 4096³ | 1434 | 1379 | tensor | 151 / 203 | 1611 / 1611 | 82 % | 11 | fixed latency |
+| 2048³ | 243 | 190 | tensor | 25 / 20 | 201 / 201 | 65 % | 3 | fixed latency |
+| 8192³ | 11539 | 10755 | tensor | 755 / 2080 | 12885 / 12887 | 81 % | 43 | fixed latency |
+| 4096×4096×1024 | 462 | **677** | tensor | 50 / 30 | 403 / 403 | 61 % | 11 | sleeping 7.4 |
+| 128×4096×4096 | 259 | 210 | DRAM | 36 / 36 | 101 / 168 | 36 % | 2 | sleeping 13.8 |
+
+The traffic terms agree with the counters where they matter (DRAM bytes within 20 % on the DRAM-bound shapes, L2
+bytes exact except the padded M=128 tile). The two disagreements are in the per-SM term and in how the DRAM term is
+spent, and they are the two mechanisms named here before coding:
+
+1. **Per-launch prologue.** At 4096×4096×1024 the pick's tile (256x128, K=1024) is the same work as at 1024³, where the
+   sweep measured it as one wave of 63 µs; here it runs 11 waves in 462 µs, 42 µs per wave. The single-wave sweep rows
+   folded a once-per-launch cost (descriptor fetch, first-wave fill, last-wave drain, about 20 µs) into the tile
+   rate. Mechanism: a kernel's time is a prologue paid once plus waves times the tile time; the prologue is the
+   smallest value consistent with every row, the tile time comes from the many-wave rows.
+2. **Per-wave DRAM with a per-block cap.** At M=128 the DRAM bytes match the model but stream at 139 GB/s against the
+   235 GB/s the model charges; the kernel is 64 blocks on 48 SMs, so its second wave is 16 blocks streaming alone,
+   and the top stall is warps sleeping on the TMA barrier. Mechanism: each wave streams its share of the bytes at
+   min(chip rate, blocks in the wave times a per-block rate), with the per-block rate the best any block was seen to
+   reach; a partial last wave therefore costs more than its share of bytes.
+
+Rules kept: every term a minimum (or maximum rate) over its series, no least squares, no global scale; validation
+leave-one-shape-out over the seven shapes.
+
+**What was built.** Two designated experiments, 29 kernels in three minutes (`runs/tilelang/series.jsonl`): a K
+series per tile at 4096² (K = 256 … 4096, five tiles) and a wave series at one tile and K = 1024 (M = N = 1024 … 8192,
+1 to 43 waves). From them, as envelopes: the per-launch prologue, **21.6 µs** (the one-wave point against the
+11- and 43-wave points: P = (w·t₁ − t_w)/(w − 1), the smallest over the pairs); the start-up a tile pays before its
+pipeline is full, per tile class (2.0 / 6.8 / 8.9 / 1.7 / 1.7 µs for 128x128 / 256x128 / 128x256 / 64x128 / 64x64), charged
+per wave; the tiles' asymptotic rates (1.4–2.4 TFLOP/s per SM). Mechanism 2 in the brief's form: a block streams at
+bytes-in-flight / 1.82 µs, the latency being the smallest any streaming row allows under the per-wave formula; a
+wave streams its bytes at min(chip rate, blocks × that). The sweep rates are then re-taken net of the prologue and
+the start-up, rows that stream at over 60 % of the DRAM rate set only the DRAM terms, and the effective L2 is the
+smallest value under which no row's DRAM term exceeds its time (39 MB). No least squares, no scale.
+
+**In-sample (all seven shapes in the fit):** bound broken 0 / 2 / 0 / 0 / 20 / 15 / 0 % at 1024³ / 4096³ / M=32 /
+2048³ / 8192³ / 4096×4096×1024 / M=128; the model's favourite among the measured rows is the best row on every
+shape (gap ≤ 0.1 %). Before the mechanisms (round 2's terms) it was 0 / 1 / 1 / 0 / 20 / 20 / 0 % and the favourite was
+97 % off at 2048³ and K=1024 (`runs/tilelang/step2_model.md` has the histograms side by side).
+
+**Leave-one-shape-out, the solver's pick measured on the Spark** (`runs/tilelang/loso/`):
+
+| shape | bound broken (LOSO) | LOSO pick | measured | predicted | best measured (sweep / sample) | pick gap |
+|---|---|---|---|---|---|---|
+| 1024x1024x1024 | 16% | 64x128x32, 5 st, 128 th, swz 0 | 70.7 µs | 54.9 µs | 61.5 µs | +15.0% |
+| 4096x4096x4096 | 38% | 128x256x32, 4 st, 256 th, swz 0 | 2025.4 µs | 1359.7 µs | 1377.4 µs | +47.0% |
+| 32x4096x4096 | 22% | 16x256x64, 2 st, 256 th, swz 0 | 202.8 µs | 168.4 µs | 200.4 µs | +1.2% |
+| 2048x2048x2048 | 0% | 128x256x32, 4 st, 512 th, swz 0 | 249.8 µs | 219.2 µs | 242.7 µs | +2.9% |
+| 8192x8192x8192 | 5% | 128x256x64, 2 st, 512 th, swz 4 | 11631.6 µs | 10087.2 µs | 11539.2 µs | +0.8% |
+| 4096x4096x1024 | 65% | 128x256x32, 4 st, 512 th, swz 0 | 476.2 µs | 451.1 µs | 461.8 µs | +3.1% |
+| 128x4096x4096 | 0% | 256x64x32, 2 st, 128 th, swz 0 | 258.0 µs | 175.1 µs | 207.9 µs | +24.1% |
+
+Pass both criteria (bound ≤ 10 %, pick ≤ 10 %): **2048³ and 8192³**. Pass the pick only: M=32 (+1.2 %), K=1024
+(+3.1 %). Fail both: 1024³, 4096³, M=128.
+
+**Why the rest fail, and the stop.** Two mechanisms are in; the brief says stop here and report. The failures have one
+shape each. 4096³ left out: the fit has no row where the traversal panel matters (the other six shapes are either
+L2-resident or already panelled), so the effective-L2 envelope says panels are free, the solver picks panel 0, and the
+kernel takes 47 % longer: a term the other shapes cannot teach. 1024³ left out: the single-wave rate for its tiles is
+not in the fit and the prologue is charged with a tile rate from eleven-wave rows; the pick is a small-tile kernel
+15 % off. M=128 left out: the padded 256-row tile is priced as its full-tile rate from 4096³; the M=32 rows do not
+contain it (block_M ≤ 64 there), and the per-block cap does not bite at 64 blocks; +24 % again. K=1024 left out: the
+bound breaks on 65 % of its rows because the K=1024 tile rates come from the single-wave 1024³ sweep even net of the
+prologue, yet the pick is within 3 %. The pattern: the model transfers across shapes that share a regime and a K,
+and not across a regime boundary; each failing fold is the one shape that alone holds its mechanism. That is the
+finding, not a third term.

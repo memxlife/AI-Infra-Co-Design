@@ -81,10 +81,10 @@ knobs:
     round: 2
   - name: smem_layout
     kind: menu
-    menu: ["inferred", "swizzled", "linear"]
-    binds: "annotate_layout({A_s: make_swizzled_layout | make_linear_layout}) (tilelang/language/annotations.py:45, tilelang/layout/swizzle.py:66,129)"
+    menu: ["inferred", "swizzled"]
+    binds: "annotate_layout({A_s: make_swizzled_layout}) (tilelang/language/annotations.py:45, tilelang/layout/swizzle.py:66); make_linear_layout (swizzle.py:129) is out of the menu since round 3: wrong answers with TMA (tile-ai/tilelang#3571), 1.1-2x slower on the cp.async path"
     enters: []
-    meaning: the shared-memory layout of the A and B tiles (bank-conflict penalty on or off)
+    meaning: the shared-memory layout of the A and B tiles
     round: 2
 skinny_menus:   # when M < 64 the block_M menu is replaced by this one
   block_M: [16, 32, 64]
