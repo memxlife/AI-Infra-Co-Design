@@ -1,0 +1,6 @@
+layout=inferred  TMA=on   max|err|=   0.062  ok   (CUtensorMap in source: True)
+layout=inferred  TMA=off  max|err|=   0.062  ok   (CUtensorMap in source: False)
+layout=swizzled  TMA=on   max|err|=   0.062  ok   (CUtensorMap in source: True)
+layout=swizzled  TMA=off  max|err|=   0.062  ok   (CUtensorMap in source: False)
+layout=linear    TMA=on   max|err|=  23.293  WRONG   (CUtensorMap in source: True)
+layout=linear    TMA=off  max|err|=   0.062  ok   (CUtensorMap in source: False)

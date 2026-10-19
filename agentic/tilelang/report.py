@@ -47,6 +47,36 @@ def main():
                    f"{n['best']['latency_us']:.1f} µs ({n['best']['tflops']:.1f} TF/s) | {_h(p['pick'])} | {p['measured_us'] and f'{p[chr(109)+chr(101)+chr(97)+chr(115)+chr(117)+chr(114)+chr(101)+chr(100)+chr(95)+chr(117)+chr(115)]:.1f} µs'} | "
                    f"{p['gap'] is not None and f'{p[chr(103)+chr(97)+chr(112)]:+.1%}'} | {t.get('spearman_all')} | {t.get('broken_bound_fraction', 0):.1%} | {t.get('model_pick_gap')} |")
     out += ["", "Removed by the constraints: the shared-memory rule, the register rule (launch bounds), the tile-per-thread rule. Spill: ptxas spill bytes > 0 among the configurations that ran. The solver's pick: the MILP over J-hat's tables with the calibrated terms, found in the sweep table (one compile and one profile instead of the grid). Bound broken: the share of points where J-hat predicted a slower time than measured (the one-sided test; 5 % allowed).", ""]
+    # S1 (round 3): cuBLASLt at every shape, next to our pick measured the same way (CUDA events, median)
+    lt = cublaslt_results()
+    out += ["", "## cuBLASLt at every shape (S1)", "",
+            "| shape | cuBLASLt (CUDA 13, best heuristic candidate) | our solver's pick, measured | our time vs cuBLASLt | best kernel we measured in the family |", "|---|---|---|---|---|"]
+    picks_m, bests = {}, {}
+    for name, shape in SHAPES.items():
+        key = (shape["M"], shape["N"], shape["K"])
+        rows_ = [r for r in load_rows(RUNS / f"sweep_{name}.jsonl") if r.get("ok") and r.get("correct")] if (RUNS / f"sweep_{name}.jsonl").exists() else []
+        if rows_:
+            bests[key] = min(r["latency_ms"] for r in rows_) * 1e3
+    pk = RUNS / "sample" / "sample_picks.jsonl"
+    if pk.exists():
+        for r in (json.loads(l) for l in pk.read_text().splitlines() if l.strip()):
+            if r["label"].endswith(":pick") and r.get("ok"):
+                picks_m[(r["shape"]["M"], r["shape"]["N"], r["shape"]["K"])] = r["latency_us"]
+    f4 = RUNS / "oos" / "oos.jsonl"
+    if f4.exists():
+        for r in (json.loads(l) for l in f4.read_text().splitlines() if l.strip()):
+            key = (r["shape"]["M"], r["shape"]["N"], r["shape"]["K"])
+            if r["label"].endswith(":pick") and r.get("ok"):
+                picks_m[key] = r["latency_us"]
+            if r.get("ok") and r.get("correct"):
+                bests[key] = min(bests.get(key, 1e18), r["latency_us"])
+    picks_m.setdefault((4096, 4096, 4096), 1434.5)                    # the quick end-to-end run of round 1
+    for key in ((1024,) * 3, (2048,) * 3, (4096,) * 3, (8192,) * 3, (4096, 4096, 1024), (32, 4096, 4096), (128, 4096, 4096)):
+        l = lt.get(key); o = picks_m.get(key); b = bests.get(key)
+        lus = l["ms"] * 1e3 if l else None
+        out.append(f"| {key[0]}x{key[1]}x{key[2]} | {f'{lus:.1f} µs ({l[chr(116)+chr(102)+chr(108)+chr(111)+chr(112)+chr(115)]:.1f} TF/s)' if l else 'not run'} | "
+                   f"{f'{o:.1f} µs' if o else '–'} | {f'{o / lus - 1:+.1%}' if l and o else '–'} | {f'{b:.1f} µs' if b else '–'} |")
+    out += ["", "Same timing on both sides: CUDA events, median over the measured window after warm-up; cuBLASLt's number is the fastest of its heuristic's candidates (`agentic/tilelang/baselines/cublaslt_gemm.cu`). The within-session noise band is 1.4 % at 1024^3 and 0.3-0.5 % at 4096^3."]
     out += ["", "## Two claims about TileLang's autotuner, kept apart (R4)", "",
             "**The menu claim.** TileLang's autotuner list (`example_gemm_autotune.py`, 144 configurations) has no traversal-panel knob. "
             "At 4096^3 its best is 1941.5 µs after 132 compiles; the best of our menu, which has the panel, is 1377.4 µs (exhaustive, 504 "

@@ -11,6 +11,20 @@ Chip spark-6951 (GB10). Family gemm_basic. Terms: R2 lower envelopes: tile rate 
 Removed by the constraints: the shared-memory rule, the register rule (launch bounds), the tile-per-thread rule. Spill: ptxas spill bytes > 0 among the configurations that ran. The solver's pick: the MILP over J-hat's tables with the calibrated terms, found in the sweep table (one compile and one profile instead of the grid). Bound broken: the share of points where J-hat predicted a slower time than measured (the one-sided test; 5 % allowed).
 
 
+## cuBLASLt at every shape (S1)
+
+| shape | cuBLASLt (CUDA 13, best heuristic candidate) | our solver's pick, measured | our time vs cuBLASLt | best kernel we measured in the family |
+|---|---|---|---|---|
+| 1024x1024x1024 | 34.2 µs (62.8 TF/s) | 62.5 µs | +82.6% | 63.4 µs |
+| 2048x2048x2048 | 183.9 µs (93.4 TF/s) | 242.7 µs | +32.0% | 242.7 µs |
+| 4096x4096x4096 | 1456.3 µs (94.4 TF/s) | 1434.5 µs | -1.5% | 1377.4 µs |
+| 8192x8192x8192 | 11198.8 µs (98.2 TF/s) | 11539.2 µs | +3.0% | 11539.2 µs |
+| 4096x4096x1024 | 400.8 µs (85.7 TF/s) | 461.8 µs | +15.2% | 461.8 µs |
+| 32x4096x4096 | 148.9 µs (7.2 TF/s) | 206.8 µs | +38.9% | 200.4 µs |
+| 128x4096x4096 | 155.4 µs (27.6 TF/s) | 258.9 µs | +66.6% | 207.9 µs |
+
+Same timing on both sides: CUDA events, median over the measured window after warm-up; cuBLASLt's number is the fastest of its heuristic's candidates (`agentic/tilelang/baselines/cublaslt_gemm.cu`). The within-session noise band is 1.4 % at 1024^3 and 0.3-0.5 % at 4096^3.
+
 ## Two claims about TileLang's autotuner, kept apart (R4)
 
 **The menu claim.** TileLang's autotuner list (`example_gemm_autotune.py`, 144 configurations) has no traversal-panel knob. At 4096^3 its best is 1941.5 µs after 132 compiles; the best of our menu, which has the panel, is 1377.4 µs (exhaustive, 504 legal points) and the loop's one compile gave 1434.5 µs. The difference is the panel, a knob the list does not contain; it says nothing about the solver.

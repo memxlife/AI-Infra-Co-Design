@@ -10,3 +10,7 @@ RESULT M=32 N=4096 K=4096 cublaslt_best_ms=0.1489 tflops=7.21 algo=0 candidates=
 algo 1: median 1.4564 ms (min 1.4278)
 algo 2: median 2.8485 ms (min 2.8440)
 RESULT M=4096 N=4096 K=4096 cublaslt_best_ms=1.4563 tflops=94.37 algo=0 candidates=3
+RESULT M=2048 N=2048 K=2048 cublaslt_best_ms=0.1839 tflops=93.43 algo=0 candidates=7
+RESULT M=8192 N=8192 K=8192 cublaslt_best_ms=11.1988 tflops=98.18 algo=0 candidates=3
+RESULT M=4096 N=4096 K=1024 cublaslt_best_ms=0.4008 tflops=85.73 algo=1 candidates=3
+RESULT M=128 N=4096 K=4096 cublaslt_best_ms=0.1554 tflops=27.64 algo=1 candidates=4

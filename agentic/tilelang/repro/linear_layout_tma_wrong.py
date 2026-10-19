@@ -39,3 +39,5 @@ for layout in ("inferred", "swizzled", "linear"):
         k = build(layout, disable_tma); C = k(A, B).float(); err = (C - ref).abs().max().item()
         src = k.get_kernel_source()
         print(f"layout={layout:9s} TMA={'off' if disable_tma else 'on ':3s}  max|err|={err:8.3f}  {'WRONG' if err > 1 else 'ok'}   (CUtensorMap in source: {'CUtensorMap' in src})")
+        if layout == "linear" and not disable_tma:
+            open("failing_linear_tma.cu", "w").write(src)        # the generated CUDA of the failing point

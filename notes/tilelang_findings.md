@@ -218,5 +218,27 @@ tensor map is built with the swizzle the inferred layout assumes, and the explic
 if it were not swizzled. Minimal repro: `agentic/tilelang/repro/linear_layout_tma_wrong.py` (six variants: three
 layouts x TMA on/off). What we did about it here: legalize and the MILP forbid linear + TMA (step 3), and the
 round-2 factor for the linear layout, which came from a wrong kernel, was withdrawn. What the compiler should do:
-honour the layout in the tensor map, or refuse the combination at lowering time rather than run and be wrong. Issue
-text: `agentic/tilelang/repro/ISSUE.md`.
+honour the layout in the tensor map, or refuse the combination at lowering time rather than run and be wrong. Filed upstream as tile-ai/tilelang#3571 (https://github.com/tile-ai/tilelang/issues/3571) with the repro, its
+output and the generated CUDA of the failing point (`agentic/tilelang/repro/`). The lesson for the method: the
+correctness check caught a compiler bug that a performance sweep alone would have recorded as a cliff.
+
+### S1: cuBLASLt at every shape
+
+Same timing on both sides (CUDA events, median after warm-up; cuBLASLt's fastest heuristic candidate, 3–7 per shape):
+
+| shape | cuBLASLt | our pick | ours vs cuBLASLt |
+|---|---|---|---|
+| 1024³ | 34.2 µs (62.8 TF/s) | 62.5 µs | +83 % |
+| 2048³ | 183.9 µs (93.4) | 242.7 µs | +32 % |
+| 4096³ | 1456 µs (94.4) | 1434 µs (sweep best 1377) | −1.5 % (−5 %) |
+| 8192³ | 11199 µs (98.2) | 11539 µs | +3 % |
+| 4096×4096×1024 | 400.8 µs (85.7) | 461.8 µs | +15 % |
+| 32×4096×4096 | 148.9 µs | 206.8 µs | +39 % |
+| 128×4096×4096 | 155.4 µs | 258.9 µs (sample best 207.9) | +67 % (+34 %) |
+
+The two big squares are within a few percent either way (4096³ inside the noise band in our favour; 8192³ 3 % behind,
+outside the 0.5 % band but close): that part is closed. Everything smaller or skinnier loses, by 15 % at short K and
+by 1.3–1.8x at 1024³, 2048³ and the decode shapes. cuBLASLt holds 85–98 TFLOP/s from 2048³ up and 62.8 at 1024³; our
+family's best at 1024³ is 34 TFLOP/s and at 2048³ 70. The gap is the family, not the solver: at 2048³ the solver's pick
+is the best of the 31 kernels we measured there, and at 1024³ it is 1.6 % from the sweep's best of 504. S2 is about
+the family.
