@@ -340,3 +340,22 @@ Also: file the linear-SMEM + TMA wrong-answer bug upstream with TileLang after L
 Not in round 3: more knobs on `gemm_basic`, attention, the console, the graph layer. The graph layer (TVM Relax above TileLang) starts after S2 and S3, because it will use the kernel solver's bound as its cost and that bound has to hold out of sample first.
 
 Report back per item: the done-when number, the ledger run id, and anything TileLang did that this section did not expect, with file and line.
+
+### 11.1 Round 3, revised order (Oct 19, after S1)
+
+Section 11 still defines S1–S5; the order and the scope of S3 change. Working rules unchanged.
+
+- **Step 0, profile cuBLASLt (one hour).** cuBLASLt at 1024³ and M=32×4096×4096 under ncu: kernel name (tile shape,
+  stages, warp specialization, split-K), achieved occupancy, blocks per SM, tensor-pipe active %, DRAM bytes, L2
+  bytes, top stall reason; the same counters for our pick beside them. One table in the findings note. 4096³ only if
+  it costs nothing extra.
+- **Step 1, S1.** The cuBLASLt table for all seven shapes.
+- **Step 2, S3 widened into a model round.** For each shape where the bound breaks, profile the solver's pick with ncu
+  and compare `predict()["terms"]` against the counters; the term that disagrees is missing a mechanism; write the
+  mechanism in one sentence before coding it. Candidates: per-wave start-up, per-block bytes-in-flight cap, per-launch
+  prologue. Every term a minimum over its series; no least squares; no global scale. Leave-one-shape-out over the
+  seven shapes. Report bound-broken % and pick-to-sample-best gap per shape. Done when both ≤ 10 % on all seven. If two
+  mechanisms are added and a shape still fails, stop and report.
+- **Step 3, S2.** With step 0's table as the design hint: the third family for 1024³ and M=32. Done when each is within
+  10 % of cuBLASLt, or a one-paragraph finding on why it cannot be matched from TileLang.
+- **Step 4, S4 then S5** as written in Section 11.
