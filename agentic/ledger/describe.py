@@ -234,6 +234,11 @@ def _baselines_for(wl: dict) -> dict | None:
     fx = f.with_name(f"baseline_fix_{name}.json")
     if fx.exists():
         kinds = {**kinds, **{k: v for k, v in json.load(open(fx))["kinds"].items() if v.get("latency_ms")}}
+    kinds = {k: v for k, v in kinds.items() if k != "cublas"}           # R1: torch.matmul was a fallback kernel
+    from ..tilelang.report import cublaslt_results
+    lt = cublaslt_results().get((wl.get("M"), wl.get("N"), wl.get("K")))
+    if lt:
+        kinds["cublasLt"] = {"latency_ms": lt["ms"], "config": f"cuBLASLt (CUDA 13), algo {lt['algo']} of {lt['candidates']}"}
     return {k: {"latency_ms": v.get("latency_ms"), "config": v.get("config")} for k, v in kinds.items()}
 
 

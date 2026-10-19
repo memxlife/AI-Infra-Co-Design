@@ -82,13 +82,13 @@ def traffic_bytes(h: dict, shape: dict, terms: dict, chip: dict | None = None, b
     if a_bytes + b_bytes <= terms["l2_bytes_effective"]:
         dram = a_bytes + b_bytes + c_bytes
     else:
-        # B: once per panel of rows (fractional: a bound, L2 may absorb more). A: the panel's row-panels of A are reused
-        # across the columns a wave covers; ncu on the 4096^3 swizzle series shows L2 keeps them (measured DRAM bytes
-        # 245 / 170 / 211 MB for panels 4 / 8 / 16 against B-only re-reads of 256 / 128 / 64 MB plus A once), so A is
-        # charged once while the panel's A rows fit the effective L2, else once per group of columns
-        a_panel = p * bm * K * 2
-        a_reads = 1.0 if a_panel <= 0.75 * terms["l2_bytes_effective"] else max(1.0, tiles_n / cols_per_wave)   # 0.75: ncu shows a panel at the L2 edge (16 rows x 128 x 4096 x 2 B) is not kept
-        dram = a_bytes * a_reads + b_bytes * max(1.0, tiles_m / p) + c_bytes
+        # R2: a lower bound on DRAM traffic. A comes once (ncu on the 4096^3 swizzle series shows L2 keeps the panel's
+        # A rows). B is streamed once per panel of rows; between two panels the whole of B passes through L2 again and
+        # L2 keeps the fraction that fits, so each later panel re-reads only (1 - kept) of B. Measured DRAM bytes for
+        # panels 0 / 4 / 8 / 16 at 128x128: 770 / 245 / 170 / 211 MB; this bound gives 422 / 208 / 144 / 112 MB.
+        kept = min(1.0, terms["l2_bytes_effective"] / b_bytes)
+        b_reads = 1.0 + max(0.0, tiles_m / p - 1.0) * (1.0 - kept)
+        dram = a_bytes + b_bytes * b_reads + c_bytes
     return {"l2_reads": l2_reads, "dram": dram, "c_bytes": c_bytes, "panel": p, "wave_blocks": W}
 
 
@@ -110,17 +110,22 @@ def predict(h: dict, shape: dict, chip: dict, terms: dict | None = None) -> dict
     k_steps = math.ceil(K / bk)
     flops_tile = 2.0 * bm * bn * (k_steps * bk)
     u = t["u_warps"].get(th, t["u_warps"].get(str(th), 1.0))
+    ut = (t.get("u_tile") or {}).get(th) or (t.get("u_tile") or {}).get(str(th))      # R2: the rate by (threads, tile) when known
+    if ut and f"{bm}x{bn}@{K}" in ut:
+        u = ut[f"{bm}x{bn}@{K}"]
+    elif ut and f"{bm}x{bn}" in ut:
+        u = ut[f"{bm}x{bn}"]
     t_compute_tile = flops_tile / (t["F_tc_per_sm"] * u) / bps if bps else math.inf
     bytes_tile = k_steps * (bm + bn) * bk * 2
     t_copy_tile = bytes_tile / t["B_L2_per_sm"]
     swz = t["swizzle_penalty"].get(h.get("swizzle", 0), t["swizzle_penalty"].get(str(h.get("swizzle", 0)), 1.0))
     fixed = _lookup(t["t_tile_fixed"], th); step = _lookup(t["t_step"], st); fill = _lookup(t.get("t_fill", {}), st)
-    t_pipe = (fixed + fill) if (fixed or fill) else min(st, k_steps) * t["t_tile_latency"]   # per tile: start-up and filling the pipeline
+    t_pipe = fixed + fill                                                 # per tile: start-up and filling the pipeline (0 under R2's envelopes)
     if t.get("overlap", "max") == "sum":        # copies and tensor work charged one after the other
         t_tile = (t_compute_tile + t_copy_tile) * swz + k_steps * step
     else:                                        # perfect overlap: the longer of the two
         t_tile = max(t_compute_tile, t_copy_tile) * swz + k_steps * step
-    t_sm = waves * (t_tile + t_pipe)
+    t_sm = waves * (t_tile + t_pipe + t.get("t_wave_startup", 0.0))
     tr = traffic_bytes(h, shape, t, chip, bps)
     t_dram = tr["dram"] / t["B_HBM"]
     t_l2 = tr["l2_reads"] / t["B_L2_chip"]

@@ -56,8 +56,14 @@ def main():
         fx = RUNS / f"baseline_fix_{name}.json"                      # the rerun of carver (fixed mapping) and cuBLAS (second opinion)
         if fx.exists():
             b = {**b, **{k: v for k, v in json.load(open(fx))["kinds"].items() if v.get("latency_ms")}}
+        # R1: torch.matmul was a fallback kernel (no sm_121 kernels in torch's cuBLAS); the baseline is cuBLASLt from the
+        # Spark's CUDA 13 toolkit (agentic/tilelang/baselines/cublaslt_gemm.cu), best of its heuristic's candidates
+        lt = cublaslt_results().get((shape["M"], shape["N"], shape["K"]))
+        b = {k: v for k, v in b.items() if k != "cublas"}
+        if lt:
+            b["cublasLt"] = {"latency_ms": lt["ms"], "config": f"cuBLASLt CUDA 13, algo {lt['algo']} of {lt['candidates']} candidates"}
         parts = []
-        for k in ("cublas", "autotune", "carver"):
+        for k in ("cublasLt", "autotune", "carver"):
             v = b.get(k, {})
             if v.get("latency_ms"):
                 us = v["latency_ms"] * 1e3
@@ -79,6 +85,17 @@ def main():
     print("\n".join(out))
 
 
+def cublaslt_results() -> dict:
+    """RESULT lines of runs/tilelang/cublaslt.log: {(M, N, K): {ms, tflops, algo, candidates}}."""
+    import re
+    f = RUNS / "cublaslt.log"
+    out = {}
+    if f.exists():
+        for m in re.finditer(r"RESULT M=(\d+) N=(\d+) K=(\d+) cublaslt_best_ms=([\d.]+) tflops=([\d.]+) algo=(\d+) candidates=(\d+)", f.read_text()):
+            out[(int(m[1]), int(m[2]), int(m[3]))] = {"ms": float(m[4]), "tflops": float(m[5]), "algo": int(m[6]), "candidates": int(m[7])}
+    return out
+
+
 def live_rows() -> list[str]:
     """The measured events of the live run in runs/gemm-tilelang.db, with the baselines of the same shape when they exist."""
     from ..ledger import Ledger
@@ -86,7 +103,7 @@ def live_rows() -> list[str]:
     if not db.exists():
         return ["- not run yet"]
     L = Ledger(str(db))
-    rows = ["| shape | our pick | measured | predicted | TFLOP/s | regs / spills | autotuner (compiles) | cuBLAS | our time vs autotuner |", "|---|---|---|---|---|---|---|---|---|"]
+    rows = ["| shape | our pick | measured | predicted | TFLOP/s | regs / spills | autotuner (compiles) | cuBLASLt | our time vs autotuner |", "|---|---|---|---|---|---|---|---|---|"]
     names = {(1024, 1024, 1024): "1024", (4096, 4096, 4096): "4096", (32, 4096, 4096): "m32", (2048, 2048, 2048): "new_2048", (16, 4096, 4096): "new_m16",
              (128, 4096, 4096): "new_m128", (4096, 4096, 1024): "new_k1024", (8192, 8192, 8192): "new_8192"}
     import sqlite3
@@ -100,9 +117,8 @@ def live_rows() -> list[str]:
             for f in (RUNS / f"baseline_{name}.json", RUNS / f"baseline_{name.replace('new_', 'new_') if name else ''}.json"):
                 if name and f.exists():
                     k = json.load(open(f))["kinds"]; auto = auto or k.get("autotune"); cub = cub or k.get("cublas")
-            fx = RUNS / f"baseline_fix_{name}.json"
-            if name and fx.exists():
-                k = json.load(open(fx))["kinds"]; cub = k.get("cublas") or cub
+            lt = cublaslt_results().get(key)
+            cub = {"latency_ms": lt["ms"]} if lt else None
             flops = 2.0 * wl["M"] * wl["N"] * wl["K"]
             a_us = auto and auto.get("latency_ms") and auto["latency_ms"] * 1e3
             rows.append(f"| {wl['M']}x{wl['N']}x{wl['K']} | {_h(m['design'])} | {m['measured_cost']:.1f} µs | {m['predicted_cost']:.1f} µs | {flops / (m['measured_cost'] * 1e-6) / 1e12:.1f} | {d.get('n_regs')} / {d.get('n_spills')} | "

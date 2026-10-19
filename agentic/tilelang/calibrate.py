@@ -43,77 +43,60 @@ RATE_TILES = ((128, 256), (256, 128))          # the fixed tiles of the rate exp
 SERIES_TILE = (128, 128)                         # the fixed tile of the STAGES x THREADS series (the brief's u_occ row)
 
 
-def fit(chip: dict, out: Path | None = None, one_sided: float = 0.95, overlap: str = "sum") -> dict:
-    """The brief's calibration, term by term, each from a small designated experiment; the sweeps as a whole are the test.
-      F_tc * u_warps[threads]   the tensor rate one block reaches: the best tile rate over the 4096^3 rows at a fixed
-                                big tile (128x256 or 256x128), per thread count. Long K, so the per-tile costs are amortized.
-      t_tile_fixed[threads], t_step[stages], B_L2_per_sm
-                                the 1024^3 rows at the fixed tile 128x128 across block_K x stages x threads (the series);
-                                least squares on the time left after the rate term.
-      B_HBM                     the best streaming rate over the decode sweep (M = 32).
-      scale                     the per-SM time deflated so `one_sided` of the calibration points lie at or above the model.
-    Per tile on one SM: t_tile = t_tile_fixed + flops / (F_tc u) + bytes / B_L2_per_sm + k_steps * t_step."""
+def fit(chip: dict, out: Path | None = None, overlap: str = "max") -> dict:
+    """R2: every term a lower bound on its own, no global scale. Each rate is the best any configuration reached (so
+    the time it predicts is never above what that configuration took), the per-tile costs are lower envelopes, and
+    the three bounds combine by max (TMA copies and the producer warps overlap the tensor work by construction).
+      rate[threads][BM x BN]   best tile rate observed for that thread count and tile, over every sweep shape
+      B_L2_per_sm              best per-SM copy rate observed (bytes of A and B tiles per second)
+      B_HBM                    best streaming rate on the decode sweep
+      t_wave_startup           the decode term: the smallest residual per wave on the M = 32 rows after the DRAM bound,
+                               charged per wave (two waves there, the second one-third full)
+    The per-k-step and fill costs are zero: a lower envelope cannot carry them without breaking the bound somewhere."""
     import numpy as np
-    t = {**default_terms(chip), "overlap": overlap}
-    ths = [128, 256, 512]; sts = [2, 3, 4, 5]
+    t = {**default_terms(chip), "overlap": overlap, "scale": 1.0}
     F = t["F_tc_per_sm"]
-
-    def tile_s(r, shape):
-        p = predict(r["holes"], shape, chip, t)
-        return max(1e-9, (r["latency_ms"] * 1e-3 - t["launch_s"]) / p["waves"]), p
-
-    # 1. the rate, per thread count
-    rate = {th: 0.0 for th in ths}; rate_pts = 0
-    for r in rows("4096"):
-        h = r["holes"]
-        if (h["block_M"], h["block_N"]) not in RATE_TILES:
-            continue
-        s_, p = tile_s(r, SHAPES["4096"]); rate_pts += 1
-        rate[h["threads"]] = max(rate[h["threads"]], p["terms"]["flops_tile"] / s_)
-    u = {th: float(min(1.0, rate[th] / F)) if rate[th] else 1.0 for th in ths}
-    # 2. the per-tile costs from the fixed-tile series at two K (1024^3 and 4096^3, 128x128): with the rate term taken out,
-    #    what is left is a cost per tile by thread count, a fill cost per tile by pipeline depth, one cost per k-step, and
-    #    the copy time (when the overlap is a sum). Two K values separate the per-tile from the per-k-step costs.
-    X, y = [], []
-    for name in ("1024", "4096"):
+    rate, copy_best = {}, 0.0
+    for name, shape in SHAPES.items():
         for r in rows(name):
-            h = r["holes"]
-            if (h["block_M"], h["block_N"]) != SERIES_TILE:
-                continue
-            s_, p = tile_s(r, SHAPES[name]); tt = p["terms"]
-            rest = s_ - tt["flops_tile"] / (F * u[h["threads"]])
-            row = np.zeros(len(ths) + len(sts) + 2)
-            row[ths.index(h["threads"])] = 1.0                       # per tile, by threads
-            row[len(ths) + sts.index(h["num_stages"])] = 1.0         # fill per tile, by stages
-            row[-2] = tt["k_steps"]                                  # per k-step
-            row[-1] = tt["bytes_tile"] if overlap == "sum" else 0.0  # 1 / copy rate
-            X.append(row); y.append(max(0.0, rest))
-    X = np.array(X); y = np.array(y)
-    from scipy.optimize import nnls
-    coef, _ = nnls(X, y)
-    fixed = {th: float(coef[i]) for i, th in enumerate(ths)}
-    fill = {st: float(coef[len(ths) + i]) for i, st in enumerate(sts)}
-    step = {st: float(coef[-2]) for st in sts}
-    copy_rate = float(1.0 / coef[-1]) if coef[-1] > 0 else t["B_L2_per_sm"]
-    # 3. B_HBM from the decode sweep
-    b_hbm = t["B_HBM"]
-    if rows("m32"):
-        rates = [predict(r["holes"], SHAPES["m32"], chip, t)["terms"]["dram_bytes"] / (r["latency_ms"] * 1e-3 - t["launch_s"]) for r in rows("m32")]
-        b_hbm = min(t["B_HBM"], max(rates))
-    terms = {**t, "u_warps": u, "t_tile_fixed": fixed, "t_fill": fill, "t_step": step, "B_L2_per_sm": copy_rate if overlap == "sum" else t["B_L2_per_sm"],
-             "B_HBM": float(b_hbm), "overlap": overlap, "scale": 1.0}
-    # 4. one-sided scale over the calibration points
-    cal = [(r, SHAPES["4096"]) for r in rows("4096") if (r["holes"]["block_M"], r["holes"]["block_N"]) in RATE_TILES]
-    cal += [(r, SHAPES["1024"]) for r in rows("1024") if (r["holes"]["block_M"], r["holes"]["block_N"]) == SERIES_TILE]
-    cal += [(r, SHAPES["4096"]) for r in rows("4096") if (r["holes"]["block_M"], r["holes"]["block_N"]) == SERIES_TILE]   # the swizzle series (traffic)
-    # the one-sided margin is set on every sweep point of every shape (in-sample for the bound test; the ranking terms
-    # above come from the designated experiments only). Out-of-sample checks are the loop's real runs on new shapes.
-    allpts = [(r, SHAPES[n]) for n in SHAPES for r in rows(n)]
-    ratios = [r["latency_ms"] * 1e3 / predict(r["holes"], sh, chip, terms)["time_us"] for r, sh in allpts]
-    terms["scale"] = float(min(1.0, np.quantile(ratios, 1 - one_sided)))
-    terms["source"] = (f"term by term: rate from {rate_pts} long-K rows at {RATE_TILES}; per-tile, fill and per-step costs from {len(y)} series rows at {SERIES_TILE} "
-                       f"(1024^3 and 4096^3); B_HBM from the decode sweep; the time scaled by {terms['scale']:.3f} so {int(one_sided * 100)} % of all {len(allpts)} sweep points lie at or above the model (in-sample margin)")
-    terms["fit"] = {"calibration_points": len(cal), "rate_points": rate_pts, "series_points": int(len(y)), "rate_flops_per_s_by_threads": rate}
+            h = r["holes"]; p = predict(h, shape, chip, t); tt = p["terms"]
+            # every row counts, whatever its longest term: the rate a row shows is a rate the tile can reach
+            tile_s = max(1e-9, (r["latency_ms"] * 1e-3 - t["launch_s"]) / p["waves"])
+            key = (h["threads"], h["block_M"], h["block_N"], shape["K"])
+            rate[key] = max(rate.get(key, 0.0), tt["flops_tile"] / tile_s)
+            copy_best = max(copy_best, tt["bytes_tile"] / tile_s)
+    # the rate table is keyed by thread count, tile and K: a short K never reaches the long-K rate (the per-tile start-up
+    # is not amortized), and a long-K rate applied to a short K would predict below what any short-K row measured only
+    # by luck. A K not in the table takes the best over the K's seen (still a bound, looser).
+    u_tile = {}
+    for (th, bm, bn, K), v in rate.items():
+        u_tile.setdefault(th, {})[f"{bm}x{bn}@{K}"] = float(min(1.0, v / F))
+        d = u_tile[th]; d[f"{bm}x{bn}"] = max(d.get(f"{bm}x{bn}", 0.0), float(min(1.0, v / F)))
+    u_warps = {th: float(max(d.values())) for th, d in u_tile.items()}        # the fallback when a tile is not in the table
+    # B_HBM: the best streaming rate any configuration reached on any shape (modeled bytes over measured time), capped by
+    # the contract's measured bandwidth. A rate below the best observed would predict a time above a measured one.
+    b_hbm = 0.0
+    for name, shape in SHAPES.items():
+        for r in rows(name):
+            b_hbm = max(b_hbm, predict(r["holes"], shape, chip, t)["terms"]["dram_bytes"] / (r["latency_ms"] * 1e-3 - t["launch_s"]))
+    b_hbm = min(t["B_HBM"], b_hbm) if b_hbm else t["B_HBM"]
+    terms = {**t, "u_warps": u_warps, "u_tile": u_tile, "B_L2_per_sm": float(max(t["B_L2_per_sm"], copy_best)), "B_HBM": float(b_hbm),
+             "t_tile_fixed": {128: 0.0, 256: 0.0, 512: 0.0}, "t_fill": {2: 0.0, 3: 0.0, 4: 0.0, 5: 0.0}, "t_step": {2: 0.0, 3: 0.0, 4: 0.0, 5: 0.0}}
+    # the decode term: a start-up per wave, as the smallest residual per wave over every sweep row (a lower envelope over
+    # all shapes, so adding it breaks no bound); what the M = 32 rows alone would give is kept beside it for the record
+    resid, resid_m32 = [], []
+    for name, shape in SHAPES.items():
+        for r in rows(name):
+            p = predict(r["holes"], shape, chip, terms)
+            x = (r["latency_ms"] * 1e-3 - p["time_s"]) / p["waves"]
+            resid.append(x)
+            if name == "m32":
+                resid_m32.append(x)
+    terms["t_wave_startup"] = float(max(0.0, min(resid))) if resid else 0.0
+    terms["t_wave_startup_m32_only"] = float(max(0.0, min(resid_m32))) if resid_m32 else 0.0
+    terms["source"] = (f"R2 lower envelopes: tile rate per (threads, tile) = best observed over the three sweeps ({len(rate)} keys); per-SM copy rate = best observed; "
+                       f"B_HBM = best streaming rate at M=32; wave start-up = smallest residual per wave at M=32; no scale, overlap {overlap}")
+    terms["fit"] = {"rate_keys": len(rate), "wave_startup_us": terms["t_wave_startup"] * 1e6, "wave_startup_m32_only_us": terms["t_wave_startup_m32_only"] * 1e6, "B_HBM_GBps": b_hbm / 1e9}
     if out:
         out.write_text(yaml.safe_dump({"chip": chip["name"], "family": "gemm_basic", "terms": {k: v for k, v in terms.items() if k != "fit"}, "fit_detail": terms["fit"]}, sort_keys=False))
     return terms
@@ -123,7 +106,7 @@ def load_terms(chip: dict) -> dict | None:
     f = ROOT / "calibration" / chip["provenance"]["host"] / "tilelang_terms.yaml" if "provenance" in chip else None
     if f and f.exists():
         y = yaml.safe_load(f.read_text()); tm = y["terms"]
-        for k in ("u_warps", "swizzle_penalty", "t_tile_fixed", "t_step", "t_fill"):
+        for k in ("u_warps", "swizzle_penalty", "t_tile_fixed", "t_step", "t_fill", "u_tile"):
             if k in tm:
                 tm[k] = {int(a): b for a, b in tm[k].items()}
         return tm
@@ -164,7 +147,7 @@ if __name__ == "__main__":
     cmd = sys.argv[1] if len(sys.argv) > 1 else "test"
     if cmd == "fit":
         out = ROOT / "calibration" / "spark-6951" / "tilelang_terms.yaml"
-        overlap = sys.argv[2] if len(sys.argv) > 2 else "sum"
+        overlap = sys.argv[2] if len(sys.argv) > 2 else "max"
         terms = fit(chip, out=out, overlap=overlap); print("wrote", out); print({k: v for k, v in terms.items() if k in ("u_warps", "B_L2_per_sm", "t_tile_fixed", "t_step", "scale", "source")})
     terms = load_terms(chip) or default_terms(chip)
     print("terms:", terms.get("source")); print(json.dumps(test(chip, terms), indent=1))

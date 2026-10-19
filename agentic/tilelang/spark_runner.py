@@ -13,6 +13,15 @@ from __future__ import annotations
 import argparse, importlib.util, json, os, re, subprocess, sys, tempfile, time
 
 
+def smi_state():
+    """R3: the SM clock, temperature and power at this moment, from nvidia-smi."""
+    try:
+        out = subprocess.run(["nvidia-smi", "--query-gpu=clocks.sm,temperature.gpu,power.draw", "--format=csv,noheader,nounits"], capture_output=True, text=True, timeout=10).stdout.strip().split(", ")
+        return {"sm_mhz": float(out[0]), "temp_c": float(out[1]), "power_w": float(out[2])}
+    except Exception as e:
+        return {"error": str(e)[:100]}
+
+
 def dynamic_smem(k, holes):
     """Bytes of dynamic shared memory the kernel launches with. TileLang keeps it as the device function's
     `dyn_shared_memory_buf` attribute, present only when the kernel was compiled in this process (a cache hit has no
@@ -95,7 +104,9 @@ def main():
     diff = (C.float() - ref.float()).abs(); tol = a.atol + a.rtol * ref.float().abs()
     rep["correct"] = bool((diff <= tol).all()); rep["max_abs_err"] = float(diff.max()); rep["mismatches"] = int((diff > tol).sum())
     p = k.get_profiler()
+    rep["clock_before"] = smi_state()
     lat = p.do_bench(backend="event", warmup=a.warmup, rep=a.reps, return_mode="median")
+    rep["clock_after"] = smi_state()
     rep["latency_ms"] = float(lat); rep["tflops"] = 2.0 * a.m * a.n * a.k / (lat * 1e-3) / 1e12
     rep["timing"] = {"backend": "cuda events", "warmup_ms": a.warmup, "rep_ms": a.reps, "statistic": "median"}
     src = k.get_kernel_source(); host = k.get_host_source()

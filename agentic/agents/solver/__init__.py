@@ -58,7 +58,7 @@ def _terms_of(T: dict) -> dict | None:
     if not tv:
         return None
     tv = dict(tv)
-    for k in ("u_warps", "swizzle_penalty", "t_tile_fixed", "t_step", "t_fill"):
+    for k in ("u_warps", "swizzle_penalty", "t_tile_fixed", "t_step", "t_fill", "u_tile"):
         if isinstance(tv.get(k), dict):
             tv[k] = {int(a): b for a, b in tv[k].items()}
     return tv

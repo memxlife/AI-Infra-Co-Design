@@ -45,3 +45,38 @@ for `sm_121` rather than a timing artifact, but that is a guess until someone pr
    TFLOP/s, 86 % of the measured tensor peak. J-hat's traffic term models the panel (`cost.traffic_bytes`).
 3. **One block per SM, always.** Because of the register budget above, no configuration of this family runs two
    blocks on an SM; occupancy is the thread count, not the block count. The per-tile model is fitted by thread count.
+
+## Round 2
+
+### Step 1: R1, R2, R3
+
+**R1, the baseline was a fallback kernel.** `torch.matmul` in FP16 (torch 2.11, cu128) measured 201 / 491 / 10807 µs at
+1024³ / M=32 / 4096³: torch's cuBLAS has no `sm_121` kernels. The baseline is now cuBLASLt from the Spark's CUDA 13
+toolkit (`agentic/tilelang/baselines/cublaslt_gemm.cu`: FP16 in, FP32 accumulate, row-major, the heuristic's
+candidates each timed with CUDA events, best kept): **34.2 µs (62.8 TFLOP/s), 148.9 µs (7.2), 1456 µs (94.4)**. That
+changes the story at the small and skinny shapes: cuBLASLt is 1.8x faster than the best kernel in the `gemm_basic`
+family at 1024³ and 1.35x at M=32 (it sits at the DRAM floor, 143 µs); at 4096³ the family's best (1377 µs) is 5 %
+faster than cuBLASLt. The torch row is removed from `report.md` and the console. 118 lines for the harness.
+
+**R2, the scale is gone.** `scale: 1.0`, `overlap: max`. Every term is now a lower bound on its own: the tensor rate
+is the best any configuration reached, per thread count, tile and K (a table of 65 keys from the three sweeps; a K
+not in the table takes the best over the K's seen); the per-SM copy rate and the DRAM rate are the best observed;
+the DRAM traffic charges A once and B once per panel less the fraction L2 keeps (an envelope under the four ncu
+counts); the per-tile fixed, fill and per-step costs are zero (an envelope cannot carry them). The decode term the
+brief asked for came out empty: the smallest residual per wave over the M=32 rows is 0 once the DRAM rate is the
+best observed, so no start-up term is added (`t_wave_startup: 0`). One-sided test with no scale: **bound broken on
+0.8 % / 1.0 % / 0.9 %** of the sweep points at 1024³ / 4096³ / M=32. Ranking: Spearman 0.78 / 0.85 / 0.10 (the M=32
+sweep is 468 points within 30 % of each other, mostly ties for the model). What changed in the model when the scale
+came out: the rate became a table over (threads, tile, K) instead of one number per thread count, and the fitted
+per-tile costs that the scale had been cancelling disappeared.
+
+**R3, the noise band.** One configuration, five timings in a row (`agentic/tilelang/spark_noise.py`), SM clock and
+temperature recorded each time: **spread 1.4 % at 1024³ (62.5–63.4 µs), 0.3 % at 4096³ (1351.6–1355.8 µs)** with the
+clock at 2405 MHz throughout, 41–42 °C. Pinning the clock (`nvidia-smi -lgc 2418,2418`, allowed without a password)
+does not shrink it (1.3 % / 0.5 %) and shifts 4096³ up by 2 %, so the sweeps stay unpinned. The larger differences
+seen between sessions (60.2 / 62.5 / 63.4 µs for one config) are between processes minutes apart, not within one. Every
+`kernel_report` now carries the clock and temperature before and after timing. The ranking test is restated: the
+solver's pick is inside the noise band of the sweep's best when its gap is under 1.4 % (1024³) or 0.5 % (4096³);
+today the gaps are +1.7 % / +2.7 % / +2.7 %, so the picks are just outside the within-session band and inside the
+between-session one. The gaps at 4096³ and M=32 are ties in the model broken the wrong way: the MILP returns one of
+several points with the same bound.

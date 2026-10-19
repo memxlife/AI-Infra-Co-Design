@@ -1,0 +1,90 @@
+{
+ "shape": {
+  "M": 4096,
+  "N": 4096,
+  "K": 4096
+ },
+ "holes": {
+  "block_M": 256,
+  "block_N": 128,
+  "block_K": 64,
+  "num_stages": 2,
+  "threads": 256,
+  "swizzle": 4
+ },
+ "runs": [
+  {
+   "i": 0,
+   "latency_us": 1386.4959478378296,
+   "before": {
+    "sm_mhz": 2405.0,
+    "temp_c": 43.0,
+    "power_w": 11.84
+   },
+   "after": {
+    "sm_mhz": 2405.0,
+    "temp_c": 43.0,
+    "power_w": 19.4
+   }
+  },
+  {
+   "i": 1,
+   "latency_us": 1379.3280124664307,
+   "before": {
+    "sm_mhz": 2405.0,
+    "temp_c": 43.0,
+    "power_w": 11.12
+   },
+   "after": {
+    "sm_mhz": 2405.0,
+    "temp_c": 43.0,
+    "power_w": 18.82
+   }
+  },
+  {
+   "i": 2,
+   "latency_us": 1383.5840225219727,
+   "before": {
+    "sm_mhz": 2405.0,
+    "temp_c": 43.0,
+    "power_w": 11.16
+   },
+   "after": {
+    "sm_mhz": 2405.0,
+    "temp_c": 43.0,
+    "power_w": 18.71
+   }
+  },
+  {
+   "i": 3,
+   "latency_us": 1379.2959451675415,
+   "before": {
+    "sm_mhz": 2405.0,
+    "temp_c": 43.0,
+    "power_w": 11.18
+   },
+   "after": {
+    "sm_mhz": 2405.0,
+    "temp_c": 43.0,
+    "power_w": 18.71
+   }
+  },
+  {
+   "i": 4,
+   "latency_us": 1384.4480514526367,
+   "before": {
+    "sm_mhz": 2405.0,
+    "temp_c": 43.0,
+    "power_w": 11.17
+   },
+   "after": {
+    "sm_mhz": 2405.0,
+    "temp_c": 43.0,
+    "power_w": 18.91
+   }
+  }
+ ],
+ "min_us": 1379.2959451675415,
+ "max_us": 1386.4959478378296,
+ "spread": 0.0052200564320614385
+}
