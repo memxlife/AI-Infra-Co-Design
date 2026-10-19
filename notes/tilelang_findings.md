@@ -19,9 +19,22 @@ integer holes), FP16 in, FP32 accumulate, on spark-6951. Pinned versions: `agent
 | the carver's chip model as the first draft of the GB10 chip cross-check | on `sm_121a` `CUDA("cuda")` reports `smem_cap` 49152 (the 48 KB default, not the 99 KB opt-in), `sm_partition` 4, `compute_max_core` 48; its hints carry no warp split (`hint.warp == []`), `thread` holds the block's thread grid, every hint has `pipeline_stage` 1 and no rasterization | `tilelang/carver/arch/cuda.py`; `spark_baseline.py` |
 | the dynamic shared-memory size is in the host source | the host code has no number; it is the device function's `dyn_shared_memory_buf` attribute, present only when the kernel was compiled in this process (a cache hit has no artifact) | `tilelang/jit/adapter/wrapper.py:488`; `spark_runner.dynamic_smem` |
 
-## The three numbers of the brief, per shape
+## The loop, live
 
-See `runs/tilelang/report.md` (written by `agentic/tilelang/report.py`) for the table.
+Claude Code is the Formulator: it reads `knobs.inventory` and the shape, writes the family, the menus to search and the
+regime it expects (`tests/fixtures/tilelang_model_replies.json`, one entry per shape, written in the session). The MIP
+(`agentic/tilelang/solve.py`, HiGHS, ~20 ms) picks the six numbers from the calibrated time model. `template.render`
+fills the holes, TileLang compiles the kernel on the Spark, the kernel runs once against torch, and the time lands in
+the ledger beside the prediction. One compile and one run per shape. TileLang's own autotuner compiles its list of 144
+configurations and times each (12 of them fail at launch). The numbers, per shape, are in `runs/tilelang/report.md`
+(written by `agentic/tilelang/report.py`): the three numbers of the brief for the sweep shapes, and the live loop
+against the autotuner, the carver and cuBLAS for all eight shapes.
+
+Two measurement notes. The same configuration measures 5 % apart between runs minutes apart (63.4 µs in the sweep,
+60.2 µs in the autotuner's run, 62.5 µs in the loop, at 1024^3): differences under 5 % are noise on this box.
+`torch.matmul` in FP16 (cuBLAS through torch 2.11 cu128) is 3 to 8x slower than the TileLang kernels here, checked
+three ways (`do_bench`, an `out=` variant, a plain CUDA-event loop); it looks like torch's cuBLAS has no tuned kernels
+for `sm_121` rather than a timing artifact, but that is a guess until someone profiles it.
 
 ## Cliffs the constraints must know
 

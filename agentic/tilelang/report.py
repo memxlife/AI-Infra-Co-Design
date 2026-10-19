@@ -89,7 +89,9 @@ def live_rows() -> list[str]:
     rows = ["| shape | our pick | measured | predicted | TFLOP/s | regs / spills | autotuner (compiles) | cuBLAS | our time vs autotuner |", "|---|---|---|---|---|---|---|---|---|"]
     names = {(1024, 1024, 1024): "1024", (4096, 4096, 4096): "4096", (32, 4096, 4096): "m32", (2048, 2048, 2048): "new_2048", (16, 4096, 4096): "new_m16",
              (128, 4096, 4096): "new_m128", (4096, 4096, 1024): "new_k1024", (8192, 8192, 8192): "new_8192"}
-    for run in L.runs() if hasattr(L, "runs") else ["tilelang-model-new-shapes"]:
+    import sqlite3
+    runs = [r[0] for r in sqlite3.connect(str(db)).execute("select distinct run from events order by seq").fetchall()] if hasattr(L, "events") else []
+    for run in runs[-1:]:                                   # the latest live run
         for e in L.events(run, kinds=["measured"]):
             m = L.get(e["artifact"]); d = m.get("detail", {})
             T = L.get(L.get(e["artifact"])["contract"]); wl = T["scope"]["workload"]

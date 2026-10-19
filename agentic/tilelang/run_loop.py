@@ -29,7 +29,7 @@ def summarize(L: Ledger, run: str) -> list[dict]:
 
 def main():
     ap = argparse.ArgumentParser(); ap.add_argument("--ledger", default="runs/gemm-tilelang.db"); ap.add_argument("--host", default="dgx-spark")
-    ap.add_argument("--sweep", action="store_true"); ap.add_argument("--new", action="store_true")
+    ap.add_argument("--sweep", action="store_true"); ap.add_argument("--new", action="store_true"); ap.add_argument("--run", default="tilelang-model-new-shapes")
     a = ap.parse_args()
     L = Ledger(a.ledger)
     if a.sweep:
@@ -39,7 +39,7 @@ def main():
             print(run, json.dumps(summarize(L, run)))
     if a.new:
         recs = json.load(open(FIX)); shapes = [r["shape"] for r in recs]
-        run = "tilelang-model-new-shapes"
+        run = a.run
         Orchestrator(L, run, ModelFormulator(shapes, backend="recorded", recorded=FIX), evaluator_backend=f"tilelang:{a.host}", level=5).run_loop()
         for e in L.events(run, kinds=["measured"]):
             m = L.get(e["artifact"]); d = m.get("detail", {})

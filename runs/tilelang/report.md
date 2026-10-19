@@ -20,19 +20,12 @@ Removed by the constraints: the shared-memory rule, the register rule (launch bo
 
 | shape | our pick | measured | predicted | TFLOP/s | regs / spills | autotuner (compiles) | cuBLAS | our time vs autotuner |
 |---|---|---|---|---|---|---|---|---|
-| 1024x1024x1024 | 256x128x32, 4 st, 256 th, swz 0 | 62.5 µs | 30.6 µs | 34.4 | 168 / 0 | 60.2 µs (132 of 144) | 201.5 µs | +3.7% |
-| 4096x4096x4096 | 256x128x64, 2 st, 256 th, swz 4 | 1360.0 µs | 1182.6 µs | 101.1 | 168 / 0 | 1941.5 µs (132 of 144) | 10807.4 µs | -30.0% |
-| 32x4096x4096 | 32x128x32, 5 st, 128 th, swz 0 | 203.7 µs | 146.8 µs | 5.3 | 240 / 0 | 204.6 µs (132 of 144) | 491.2 µs | -0.5% |
-| 2048x2048x2048 | 256x128x32, 4 st, 256 th, swz 0 | 244.7 µs | 167.5 µs | 70.2 | 168 / 0 | – | – | – |
-| 8192x8192x8192 | 256x128x64, 2 st, 512 th, swz 8 | 11435.9 µs | 9188.8 µs | 96.1 | 96 / 0 | – | – | – |
-| 16x4096x4096 | 16x128x64, 4 st, 128 th, swz 0 | 204.6 µs | 145.7 µs | 2.6 | 240 / 0 | – | – | – |
-| 128x4096x4096 | 128x128x64, 2 st, 512 th, swz 0 | 215.0 µs | 153.5 µs | 20.0 | 83 / 0 | – | – | – |
-| 4096x4096x1024 | 256x128x32, 4 st, 512 th, swz 0 | 451.6 µs | 316.4 µs | 76.1 | 96 / 0 | – | – | – |
+| 4096x4096x4096 | 256x128x64, 2 st, 256 th, swz 4 | 1434.5 µs | 1038.0 µs | 95.8 | 168 / 0 | 1941.5 µs (132 of 144) | 10807.4 µs | -26.1% |
 
 ## Solver
 
 - 1024: 258 variables, 1138 rows, 18 ms (HiGHS); predicted 31.5 µs
-- 4096: 258 variables, 1138 rows, 24 ms (HiGHS); predicted 1038.0 µs
+- 4096: 258 variables, 1138 rows, 25 ms (HiGHS); predicted 1038.0 µs
 - m32: 258 variables, 1138 rows, 17 ms (HiGHS); predicted 110.3 µs
 
 ## Error histograms (measured minus predicted, over measured)
