@@ -1,0 +1,198 @@
+[
+ {
+  "label": "F_tc:1024^3 best",
+  "M": 1024,
+  "N": 1024,
+  "K": 1024,
+  "holes": {
+   "block_M": 256,
+   "block_N": 128,
+   "block_K": 64,
+   "num_stages": 2,
+   "threads": 256,
+   "swizzle": 0
+  }
+ },
+ {
+  "label": "F_tc:4096^3 best-1024-config",
+  "M": 4096,
+  "N": 4096,
+  "K": 4096,
+  "holes": {
+   "block_M": 256,
+   "block_N": 128,
+   "block_K": 64,
+   "num_stages": 2,
+   "threads": 256,
+   "swizzle": 0
+  }
+ },
+ {
+  "label": "B_HBM:m32 best",
+  "M": 32,
+  "N": 4096,
+  "K": 4096,
+  "holes": {
+   "block_M": 16,
+   "block_N": 256,
+   "block_K": 32,
+   "num_stages": 5,
+   "threads": 256,
+   "swizzle": 0
+  }
+ },
+ {
+  "label": "B_HBM:m16",
+  "M": 16,
+  "N": 4096,
+  "K": 4096,
+  "holes": {
+   "block_M": 16,
+   "block_N": 256,
+   "block_K": 32,
+   "num_stages": 5,
+   "threads": 256,
+   "swizzle": 0
+  }
+ },
+ {
+  "label": "SWZ:0 at 4096^3 128x128",
+  "M": 4096,
+  "N": 4096,
+  "K": 4096,
+  "holes": {
+   "block_M": 128,
+   "block_N": 128,
+   "block_K": 64,
+   "num_stages": 3,
+   "threads": 256,
+   "swizzle": 0
+  }
+ },
+ {
+  "label": "SWZ:4 at 4096^3 128x128",
+  "M": 4096,
+  "N": 4096,
+  "K": 4096,
+  "holes": {
+   "block_M": 128,
+   "block_N": 128,
+   "block_K": 64,
+   "num_stages": 3,
+   "threads": 256,
+   "swizzle": 4
+  }
+ },
+ {
+  "label": "SWZ:8 at 4096^3 128x128",
+  "M": 4096,
+  "N": 4096,
+  "K": 4096,
+  "holes": {
+   "block_M": 128,
+   "block_N": 128,
+   "block_K": 64,
+   "num_stages": 3,
+   "threads": 256,
+   "swizzle": 8
+  }
+ },
+ {
+  "label": "SWZ:16 at 4096^3 128x128",
+  "M": 4096,
+  "N": 4096,
+  "K": 4096,
+  "holes": {
+   "block_M": 128,
+   "block_N": 128,
+   "block_K": 64,
+   "num_stages": 3,
+   "threads": 256,
+   "swizzle": 16
+  }
+ },
+ {
+  "label": "SWZ:0 at 1024^3 128x128",
+  "M": 1024,
+  "N": 1024,
+  "K": 1024,
+  "holes": {
+   "block_M": 128,
+   "block_N": 128,
+   "block_K": 64,
+   "num_stages": 3,
+   "threads": 256,
+   "swizzle": 0
+  }
+ },
+ {
+  "label": "SWZ:8 at 1024^3 128x128",
+  "M": 1024,
+  "N": 1024,
+  "K": 1024,
+  "holes": {
+   "block_M": 128,
+   "block_N": 128,
+   "block_K": 64,
+   "num_stages": 3,
+   "threads": 256,
+   "swizzle": 8
+  }
+ },
+ {
+  "label": "t_pipe:K=128 128x128",
+  "M": 1024,
+  "N": 1024,
+  "K": 128,
+  "holes": {
+   "block_M": 128,
+   "block_N": 128,
+   "block_K": 64,
+   "num_stages": 3,
+   "threads": 256,
+   "swizzle": 0
+  }
+ },
+ {
+  "label": "t_pipe:K=256 128x128",
+  "M": 1024,
+  "N": 1024,
+  "K": 256,
+  "holes": {
+   "block_M": 128,
+   "block_N": 128,
+   "block_K": 64,
+   "num_stages": 3,
+   "threads": 256,
+   "swizzle": 0
+  }
+ },
+ {
+  "label": "t_pipe:K=512 128x128",
+  "M": 1024,
+  "N": 1024,
+  "K": 512,
+  "holes": {
+   "block_M": 128,
+   "block_N": 128,
+   "block_K": 64,
+   "num_stages": 3,
+   "threads": 256,
+   "swizzle": 0
+  }
+ },
+ {
+  "label": "t_pipe:K=2048 128x128",
+  "M": 1024,
+  "N": 1024,
+  "K": 2048,
+  "holes": {
+   "block_M": 128,
+   "block_N": 128,
+   "block_K": 64,
+   "num_stages": 3,
+   "threads": 256,
+   "swizzle": 0
+  }
+ }
+]

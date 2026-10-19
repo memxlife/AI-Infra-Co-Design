@@ -52,32 +52,38 @@ def solve_family(T: dict, terms: dict | None = None, time_limit: float = 30.0) -
         row([(zi, 1) for zi in prod.values()], 1, 1)
     link(z, ("block_M", "block_N", "block_K", "threads")); link(w, ("num_stages", "block_K"))
     link(v, ("block_M", "block_N", "swizzle")); link(s, ("num_stages", "block_M", "block_N", "block_K"))
-    # tables: evaluate J-hat's pieces on each product; infeasible combinations get an upper bound of 0
+    # tables: J-hat's pieces on each product, exactly as predict() combines them (so the solver's optimum is predict's)
+    #   per-SM: scale * waves(bm,bn) * [ tile(bm,bn,bk,th) + k_steps(bk) * t_step(st) ] + launch   (z table + s table)
+    #   DRAM and L2: traffic(bm,bn,swz)                                                           (v table)
     ub = np.ones(n)
-    sms = chip["sms"]
-    tile_time, pipe_time, dram_time, l2_time = {}, {}, {}, {}
+    scale = terms.get("scale", 1.0)
+    tile_part, step_part, dram_time, l2_time = {}, {}, {}, {}
+    waves_of, ksteps_of = {}, {}
+    st0, swz0 = menus["num_stages"][0], (menus.get("swizzle") or [0])[0]
     for (bm, bn, bk, th), zi in z.items():
-        h = {"block_M": bm, "block_N": bn, "block_K": bk, "num_stages": min(menus["num_stages"]), "threads": th, "swizzle": 0}
-        p = predict(h, shape, chip, terms)
+        h = {"block_M": bm, "block_N": bn, "block_K": bk, "num_stages": st0, "threads": th, "swizzle": 0}
         lg = legalize(family, h, shape, chip)
+        p = predict(h, shape, chip, terms)
         if not p["ok"] or (not lg["ok"] and ("registers" in lg["reason"] or "tile too small" in lg["reason"])):
             ub[zi] = 0; continue
-        tile_time[zi] = p["waves"] * max(p["terms"]["t_compute_tile"], p["terms"]["t_copy_tile"])
-    for (st, bk), wi in w.items():
-        pipe_time[wi] = min(st, math.ceil(shape["K"] / bk)) * terms["t_tile_latency"] * 1.0
+        tt = p["terms"]
+        combined = (tt["t_compute_tile"] + tt["t_copy_tile"]) if terms.get("overlap", "max") == "sum" else max(tt["t_compute_tile"], tt["t_copy_tile"])
+        tile_part[zi] = scale * p["waves"] * (combined + tt["t_pipe"])
+        waves_of[bm, bn] = p["waves"]; ksteps_of[bk] = tt["k_steps"]
+    from .cost import _lookup
+    for (st, bm, bn, bk), si in s.items():                           # the shared-memory rule and the per-step cost, one table
+        if st * (bm * bk + bk * bn) * 2 + 1024 > chip["smem_bytes_per_block"]:
+            ub[si] = 0; continue
+        if (bm, bn) in waves_of and bk in ksteps_of:
+            step_part[si] = scale * waves_of[bm, bn] * ksteps_of[bk] * _lookup(terms.get("t_step", {}), st)
     for (bm, bn, swz), vi in v.items():
-        h = {"block_M": bm, "block_N": bn, "block_K": menus["block_K"][0], "num_stages": menus["num_stages"][0], "threads": menus["threads"][0], "swizzle": swz}
+        h = {"block_M": bm, "block_N": bn, "block_K": menus["block_K"][0], "num_stages": st0, "threads": menus["threads"][0], "swizzle": swz}
         p = predict(h, shape, chip, terms)
         dram_time[vi] = p["terms"]["t_dram"]; l2_time[vi] = p["terms"]["t_l2"]
-    for (st, bm, bn, bk), si in s.items():                           # the shared-memory rule, one table
-        if st * (bm * bk + bk * bn) * 2 + 1024 > chip["smem_bytes_per_block"]:
-            ub[si] = 0
-    # waves multiply the pipe fill too; approximate with the smallest tile's waves is wrong, so charge pipe per wave via the z table:
-    # T >= sum_z tile_time[z]*z + sum_w pipe_time[w]*w * waves(z) is bilinear; keep the fill once per wave of the chosen z by
-    # bounding waves with the z table's own waves (exact when one wave; a lower bound otherwise, which keeps J-hat one-sided)
-    row([(T_ep, 1)] + [(zi, -t) for zi, t in tile_time.items()] + [(wi, -t) for wi, t in pipe_time.items()], 0, np.inf)
-    row([(T_ep, 1)] + [(vi, -t) for vi, t in dram_time.items()], 0, np.inf)
-    row([(T_ep, 1)] + [(vi, -t) for vi, t in l2_time.items()], 0, np.inf)
+    launch = terms.get("launch_s", 0.0)
+    row([(T_ep, 1)] + [(zi, -t) for zi, t in tile_part.items()] + [(si, -t) for si, t in step_part.items()], launch, np.inf)
+    row([(T_ep, 1)] + [(vi, -t) for vi, t in dram_time.items()], launch, np.inf)
+    row([(T_ep, 1)] + [(vi, -t) for vi, t in l2_time.items()], launch, np.inf)
     c = np.zeros(n); c[T_ep] = 1.0
     integrality = np.ones(n); integrality[T_ep] = 0
     lb = np.zeros(n); ub[T_ep] = np.inf

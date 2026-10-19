@@ -62,23 +62,26 @@ def default_terms(chip: dict) -> dict:
     }
 
 
-def traffic_bytes(h: dict, shape: dict, terms: dict) -> dict:
-    """Global-memory bytes: each A row-panel is read once per N tile, each B column-panel once per M tile, C written once.
-    When A and B fit the effective L2, DRAM sees each byte once; otherwise the swizzle panel decides how much of the
-    re-reading L2 absorbs. The model charges the panel's reuse: with panel p, p consecutive tiles share one A panel."""
+def traffic_bytes(h: dict, shape: dict, terms: dict, chip: dict | None = None, bps: int = 1) -> dict:
+    """Global-memory bytes. The SMs pull A once per N tile and B once per M tile through L2 (l2_reads). What reaches DRAM
+    depends on which blocks run together: a wave of W = SMs x blocks-per-SM blocks walks C in panels of p rows
+    (p = the swizzle panel, or as many rows as a wave covers in TileLang's default N-fastest order). The blocks of one
+    panel share each B column-slice through L2 as they stream it, so B comes from DRAM once per panel of M tiles; an A
+    row-panel comes once per group of columns a wave covers. A lower bound on traffic, which keeps J-hat one-sided."""
     M, N, K = shape["M"], shape["N"], shape["K"]
     bm, bn = h["block_M"], h["block_N"]
     tiles_m, tiles_n = math.ceil(M / bm), math.ceil(N / bn)
     a_bytes, b_bytes, c_bytes = M * K * 2, K * N * 2, M * N * 2
-    l2_reads = a_bytes * tiles_n + b_bytes * tiles_m                      # what the SMs pull through L2
+    l2_reads = a_bytes * tiles_n + b_bytes * tiles_m
+    W = (chip["sms"] if chip else 48) * max(1, bps)
+    p = float(h.get("swizzle", 0) or max(1.0, W / tiles_n))      # rows of tiles that share B at the same time
+    p = max(1.0, min(p, float(tiles_m)))
+    cols_per_wave = max(1.0, W / p)
     if a_bytes + b_bytes <= terms["l2_bytes_effective"]:
         dram = a_bytes + b_bytes + c_bytes
-    else:
-        # the default order walks N tiles fastest for a fixed M row: the A panel stays, B streams. A panel of p M-rows
-        # (use_swizzle) makes p tiles share each B panel. Lower bound on DRAM traffic from that reuse.
-        p = max(1, h.get("swizzle", 0) or 1)
-        dram = a_bytes + b_bytes * math.ceil(tiles_m / p) + c_bytes
-    return {"l2_reads": l2_reads, "dram": dram, "c_bytes": c_bytes}
+    else:                                                        # fractional re-reads: a bound, since L2 may absorb the rest
+        dram = a_bytes * max(1.0, tiles_n / cols_per_wave) + b_bytes * max(1.0, tiles_m / p) + c_bytes
+    return {"l2_reads": l2_reads, "dram": dram, "c_bytes": c_bytes, "panel": p, "wave_blocks": W}
 
 
 def _lookup(table: dict, key):
@@ -110,7 +113,7 @@ def predict(h: dict, shape: dict, chip: dict, terms: dict | None = None) -> dict
     else:                                        # perfect overlap: the longer of the two
         t_tile = max(t_compute_tile, t_copy_tile) * swz + k_steps * step
     t_sm = waves * (t_tile + t_pipe) * t.get("scale", 1.0)
-    tr = traffic_bytes(h, shape, t)
+    tr = traffic_bytes(h, shape, t, chip, bps)
     t_dram = tr["dram"] / t["B_HBM"]
     t_l2 = tr["l2_reads"] / t["B_L2_chip"]
     time = max(t_sm, t_dram, t_l2) + t["launch_s"]
