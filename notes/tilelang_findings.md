@@ -204,3 +204,19 @@ proves), the re-solve changes the pick, the new pick measures 2063 µs. The ledg
 recalibration → new pick. It also fired live in the split-K run: predicted 247.7 µs, measured 205.8 µs, the per-SM
 rate entry for that tile re-fitted, the re-solve kept the same pick (the menus the Formulator left had no better
 point), the second run measured 207.9 µs.
+
+## Round 3
+
+### The linear-layout + TMA wrong-answer bug (filed upstream)
+
+`T.annotate_layout({A_s: make_linear_layout(A_s), B_s: make_linear_layout(B_s)})` on the GEMM operands computes wrong
+results when the copies are lowered to TMA, which is TileLang's default on `sm_121a` at fe6d319c. Evidence: the step-2
+one-knob probe (max error 42.7 at 1024³, 24.5 at M=32, against 0.06 / 0.125 for the inferred layout) and the step-3
+random sample (31 of 35 points with linear layout + TMA + the producer group wrong; 0 of 96 linear points on the
+`cp.async` path wrong). `make_swizzled_layout` and the inferred layout are correct with TMA. The likely cause: the TMA
+tensor map is built with the swizzle the inferred layout assumes, and the explicit row-major layout reads the tile as
+if it were not swizzled. Minimal repro: `agentic/tilelang/repro/linear_layout_tma_wrong.py` (six variants: three
+layouts x TMA on/off). What we did about it here: legalize and the MILP forbid linear + TMA (step 3), and the
+round-2 factor for the linear layout, which came from a wrong kernel, was withdrawn. What the compiler should do:
+honour the layout in the tensor map, or refuse the combination at lowering time rather than run and be wrong. Issue
+text: `agentic/tilelang/repro/ISSUE.md`.
