@@ -1,0 +1,38 @@
+_Z1kILi3EEviijPyPj 40
+_Z1kILi4EEviijPyPj 40
+_Z1kILi1EEviijPyPj 24
+_Z1kILi2EEviijPyPj 24
+_Z1kILi0EEviijPyPj 24
+RESULT ldmatrix.x4 warps=8 stride=48 cycles_per_instr_per_SM=6.11 bytes_per_clk=84
+RESULT ldmatrix.x4 warps=16 stride=48 cycles_per_instr_per_SM=4.05 bytes_per_clk=126
+RESULT ldmatrix.x4 warps=32 stride=48 cycles_per_instr_per_SM=4.01 bytes_per_clk=128
+RESULT ldmatrix.x4.trans warps=8 stride=48 cycles_per_instr_per_SM=6.10 bytes_per_clk=84
+RESULT ldmatrix.x4.trans warps=16 stride=48 cycles_per_instr_per_SM=4.04 bytes_per_clk=127
+RESULT ldmatrix.x4.trans warps=32 stride=48 cycles_per_instr_per_SM=4.01 bytes_per_clk=128
+RESULT LDS.128 warps=8 stride=48 cycles_per_instr_per_SM=6.80 bytes_per_clk=75
+RESULT LDS.128 warps=16 stride=48 cycles_per_instr_per_SM=4.09 bytes_per_clk=125
+RESULT LDS.128 warps=32 stride=48 cycles_per_instr_per_SM=4.01 bytes_per_clk=128
+RESULT STS.128 warps=8 stride=48 cycles_per_instr_per_SM=4.01 bytes_per_clk=128
+RESULT STS.128 warps=16 stride=48 cycles_per_instr_per_SM=4.00 bytes_per_clk=128
+RESULT STS.128 warps=32 stride=48 cycles_per_instr_per_SM=4.00 bytes_per_clk=128
+RESULT stmatrix.x4 warps=8 stride=48 cycles_per_instr_per_SM=4.01 bytes_per_clk=128
+RESULT stmatrix.x4 warps=16 stride=48 cycles_per_instr_per_SM=4.00 bytes_per_clk=128
+RESULT stmatrix.x4 warps=32 stride=48 cycles_per_instr_per_SM=4.00 bytes_per_clk=128
+RESULT ldmatrix.x4 warps=32 stride=16 cycles_per_instr_per_SM=4.01
+RESULT ldmatrix.x4 warps=32 stride=32 cycles_per_instr_per_SM=8.00
+RESULT ldmatrix.x4 warps=32 stride=48 cycles_per_instr_per_SM=4.01
+RESULT ldmatrix.x4 warps=32 stride=64 cycles_per_instr_per_SM=16.00
+RESULT ldmatrix.x4 warps=32 stride=80 cycles_per_instr_per_SM=4.01
+RESULT ldmatrix.x4 warps=32 stride=128 cycles_per_instr_per_SM=32.00
+RESULT ldmatrix.x4 warps=32 stride=144 cycles_per_instr_per_SM=4.01
+RESULT ldmatrix.x4 warps=32 stride=256 cycles_per_instr_per_SM=32.00
+RESULT ldmatrix.x4 warps=32 stride=512 cycles_per_instr_per_SM=32.00
+RESULT ldmatrix.x4.trans warps=32 stride=16 cycles_per_instr_per_SM=4.01
+RESULT ldmatrix.x4.trans warps=32 stride=32 cycles_per_instr_per_SM=8.00
+RESULT ldmatrix.x4.trans warps=32 stride=48 cycles_per_instr_per_SM=4.01
+RESULT ldmatrix.x4.trans warps=32 stride=64 cycles_per_instr_per_SM=16.00
+RESULT ldmatrix.x4.trans warps=32 stride=80 cycles_per_instr_per_SM=4.01
+RESULT ldmatrix.x4.trans warps=32 stride=128 cycles_per_instr_per_SM=32.00
+RESULT ldmatrix.x4.trans warps=32 stride=144 cycles_per_instr_per_SM=4.01
+RESULT ldmatrix.x4.trans warps=32 stride=256 cycles_per_instr_per_SM=32.00
+RESULT ldmatrix.x4.trans warps=32 stride=512 cycles_per_instr_per_SM=32.00

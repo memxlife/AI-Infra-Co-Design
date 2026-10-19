@@ -28,36 +28,13 @@ class WSSM(SM):
         rate_alone = 81e9 / 2.54e9; rate_chip = 1860e9 / 2.54e9 / max(1.0, eq)
         self.tma_clk_per_B = 1.0 / min(rate_alone, rate_chip)
         for w in self.warps:
-            w.tid0 = (w.wid % self.wpb) * 32; w.regs_tid = set(); w.preds = {}; w.role = None
+            w.role = None
             w.k_prod = -1; w.n_full = 0; w.n_empty_arrive = 0
         self.landed = {}            # (block, k) -> time all of k-tile k's TMA bytes are in shared memory
         self.pending_k = {}         # (block, k) -> outstanding landing times
         self.empty_arrives = {}     # (block) -> consumer arrives so far
         self.dealloc = {}           # (block) -> producer-group warps that gave registers back
         self.n_full_done = {}; self.arrived = {}; self.log = []; self.pend = {}; self.land_t = {}
-
-    # --- per-warp evaluation of thread-index comparisons -------------------------------------------------------------
-    def _pred(self, w, tok):
-        neg = tok.startswith("!"); t = tok[1:] if neg else tok
-        if t in ("PT", "UPT"): v = True
-        elif t in w.preds: v = w.preds[t]
-        else: return None
-        return (not v) if neg else v
-
-    def _eval_isetp(self, w, x):
-        m = re.match(r"ISETP\.(\w+)(?:\.U32)?\.(AND|OR)", x.op)
-        args = [a.strip() for a in x.args.split(",")]
-        if not m or len(args) < 4: return
-        cmp, comb = m.group(1), m.group(2); dst = args[0]; a, b = args[2], args[3]
-        if a not in w.regs_tid or not re.match(r"^-?0x[0-9a-f]+$|^-?\d+$", b): w.preds.pop(dst, None); return
-        tid = w.tid0; imm = int(b, 16) if "0x" in b else int(b)
-        v = {"GT": tid > imm, "GE": tid >= imm, "LT": tid < imm, "LE": tid <= imm, "NE": tid != imm, "EQ": tid == imm}.get(cmp)
-        if v is None: return
-        if len(args) >= 5:
-            o = self._pred(w, args[4])
-            if o is None: w.preds.pop(dst, None); return
-            v = (v and o) if comb == "AND" else (v or o)
-        w.preds[dst] = v
 
     def eligible(self, w, now):
         if w.done or w.at_bar or w.ready > now: return False
@@ -83,13 +60,8 @@ class WSSM(SM):
         p = None
         if x.pred:
             p = self._pred(w, x.pred[1:])
-        if x.base == "S2R" and "SR_TID.X" in x.args:
-            w.regs_tid.add(x.args.split(",")[0].strip())
-        elif x.base == "ISETP":
-            self._eval_isetp(w, x)
-        elif x.base == "ELECT":
-            w.preds[x.args.split(",")[0].strip()] = True
-        elif x.base == "USETMAXREG":
+        # thread-index comparisons, ELECT and predicate logic are evaluated by the base simulator (SM._eval_pred_ops)
+        if x.base == "USETMAXREG":
             if "DEALLOC" in x.op: self.dealloc[w.block] = self.dealloc.get(w.block, 0) + 1; w.role = w.role or "producer"
             else: w.role = "consumer"; w.preds["UP0"] = True
         elif x.op.startswith("SYNCS.PHASECHK") and "TRYWAIT" in x.op:
@@ -124,7 +96,7 @@ class WSSM(SM):
         # predicated branches and exits whose predicate is known
         if x.base in ("BRA", "EXIT") and x.pred and p is not None:
             if x.base == "EXIT":
-                if p: w.done = True; return
+                if p: w.done = True; self.exited[w.block] = self.exited.get(w.block, 0) + 1; self.end = max(getattr(self, "end", 0), self.stg_free); return
                 w.pc += 1; w.ready = now + max(1, x.stall); return
             if x.target is not None and self.loop_end != w.pc:
                 if p:

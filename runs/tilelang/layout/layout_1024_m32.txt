@@ -1,0 +1,5 @@
+Loading tilelang libs from dev root: /home/lishang/work/research/tilelang-work/tilelang/build
+1024_inferred {'bm': 256, 'bn': 128, 'bk': 64, 'stages': 2, 'threads': 256, 'shape': {'M': 1024, 'N': 1024, 'K': 1024}, 'layout': 'inferred', 'regs': 168, 'err': 0.0609283447265625, 'warm_us': 36.88010533650716}
+1024_linear {'bm': 256, 'bn': 128, 'bk': 64, 'stages': 2, 'threads': 256, 'shape': {'M': 1024, 'N': 1024, 'K': 1024}, 'layout': 'linear', 'regs': 168, 'err': 34.598514556884766, 'warm_us': 75.55989583333333}
+m32_inferred {'bm': 16, 'bn': 256, 'bk': 32, 'stages': 5, 'threads': 256, 'shape': {'M': 32, 'N': 4096, 'K': 4096}, 'layout': 'inferred', 'regs': 168, 'err': 0.114044189453125, 'warm_us': 121.00949605305989}
+m32_linear {'bm': 16, 'bn': 256, 'bk': 32, 'stages': 5, 'threads': 256, 'shape': {'M': 32, 'N': 4096, 'K': 4096}, 'layout': 'linear', 'regs': 168, 'err': 26.797042846679688, 'warm_us': 139.09343719482422}

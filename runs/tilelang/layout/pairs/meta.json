@@ -1,0 +1,192 @@
+{
+ "cp_128x128x32_st3_th128_inferred": {
+  "bm": 128,
+  "bn": 128,
+  "bk": 32,
+  "stages": 3,
+  "threads": 128,
+  "layout": "inferred",
+  "regs": 202,
+  "err": 0.062286376953125,
+  "warm_us": 38.91285260518392,
+  "smem_ops": {
+   "LDSM.16.M88.4": 24,
+   "LDSM.16.MT88.4": 24,
+   "LDS.U16": 0,
+   "LDS": 6,
+   "LDS.64": 0,
+   "LDS.128": 0
+  }
+ },
+ "cp_128x128x32_st3_th128_linear": {
+  "bm": 128,
+  "bn": 128,
+  "bk": 32,
+  "stages": 3,
+  "threads": 128,
+  "layout": "linear",
+  "regs": 194,
+  "err": 0.062286376953125,
+  "warm_us": 54.98549143473307,
+  "smem_ops": {
+   "LDSM.16.M88.4": 24,
+   "LDSM.16.MT88.4": 24,
+   "LDS.U16": 0,
+   "LDS": 6,
+   "LDS.64": 0,
+   "LDS.128": 0
+  }
+ },
+ "cp_256x128x32_st3_th256_inferred": {
+  "bm": 256,
+  "bn": 128,
+  "bk": 32,
+  "stages": 3,
+  "threads": 256,
+  "layout": "inferred",
+  "regs": 198,
+  "err": 0.062286376953125,
+  "warm_us": 42.92640050252278,
+  "smem_ops": {
+   "LDSM.16.M88.4": 48,
+   "LDSM.16.MT88.4": 12,
+   "LDS.U16": 0,
+   "LDS": 6,
+   "LDS.64": 0,
+   "LDS.128": 0
+  }
+ },
+ "cp_256x128x32_st3_th256_linear": {
+  "bm": 256,
+  "bn": 128,
+  "bk": 32,
+  "stages": 3,
+  "threads": 256,
+  "layout": "linear",
+  "regs": 196,
+  "err": 0.062286376953125,
+  "warm_us": 59.430077870686844,
+  "smem_ops": {
+   "LDSM.16.M88.4": 48,
+   "LDSM.16.MT88.4": 12,
+   "LDS.U16": 0,
+   "LDS": 6,
+   "LDS.64": 0,
+   "LDS.128": 0
+  }
+ },
+ "cp_64x128x32_st3_th256_inferred": {
+  "bm": 64,
+  "bn": 128,
+  "bk": 32,
+  "stages": 3,
+  "threads": 256,
+  "layout": "inferred",
+  "regs": 102,
+  "err": 0.062286376953125,
+  "warm_us": 33.12490781148274,
+  "smem_ops": {
+   "LDSM.16.M88.4": 128,
+   "LDSM.16.MT88.4": 128,
+   "LDS.U16": 0,
+   "LDS": 93,
+   "LDS.64": 0,
+   "LDS.128": 0
+  }
+ },
+ "cp_64x128x32_st3_th256_linear": {
+  "bm": 64,
+  "bn": 128,
+  "bk": 32,
+  "stages": 3,
+  "threads": 256,
+  "layout": "linear",
+  "regs": 80,
+  "err": 0.062286376953125,
+  "warm_us": 73.97450764973958,
+  "smem_ops": {
+   "LDSM.16.M88.4": 128,
+   "LDSM.16.MT88.4": 128,
+   "LDS.U16": 0,
+   "LDS": 93,
+   "LDS.64": 0,
+   "LDS.128": 0
+  }
+ },
+ "cp_128x128x64_st2_th128_inferred": {
+  "bm": 128,
+  "bn": 128,
+  "bk": 64,
+  "stages": 2,
+  "threads": 128,
+  "layout": "inferred",
+  "regs": 194,
+  "err": 0.062286376953125,
+  "warm_us": 46.36735916137695,
+  "smem_ops": {
+   "LDSM.16.M88.4": 32,
+   "LDSM.16.MT88.4": 32,
+   "LDS.U16": 0,
+   "LDS": 6,
+   "LDS.64": 0,
+   "LDS.128": 0
+  }
+ },
+ "cp_128x128x64_st2_th128_linear": {
+  "bm": 128,
+  "bn": 128,
+  "bk": 64,
+  "stages": 2,
+  "threads": 128,
+  "layout": "linear",
+  "regs": 184,
+  "err": 0.062286376953125,
+  "warm_us": 74.88896052042642,
+  "smem_ops": {
+   "LDSM.16.M88.4": 32,
+   "LDSM.16.MT88.4": 32,
+   "LDS.U16": 0,
+   "LDS": 6,
+   "LDS.64": 0,
+   "LDS.128": 0
+  }
+ },
+ "cp_64x64x64_st3_th128_inferred": {
+  "bm": 64,
+  "bn": 64,
+  "bk": 64,
+  "stages": 3,
+  "threads": 128,
+  "layout": "inferred",
+  "regs": 96,
+  "err": 0.062286376953125,
+  "warm_us": 41.354239781697586,
+  "smem_ops": {
+   "LDSM.16.M88.4": 24,
+   "LDSM.16.MT88.4": 24,
+   "LDS.U16": 0,
+   "LDS": 6,
+   "LDS.64": 0,
+   "LDS.128": 0
+  }
+ },
+ "cp_64x64x64_st3_th128_linear": {
+  "bm": 64,
+  "bn": 64,
+  "bk": 64,
+  "stages": 3,
+  "threads": 128,
+  "layout": "linear",
+  "regs": 102,
+  "err": 0.062286376953125,
+  "warm_us": 88.99850845336914,
+  "smem_ops": {
+   "LDSM.16.M88.4": 24,
+   "LDSM.16.MT88.4": 24,
+   "LDS.U16": 0,
+   "LDS": 6,
+   "LDS.64": 0,
+   "LDS.128": 0
+  }
+ }
+}

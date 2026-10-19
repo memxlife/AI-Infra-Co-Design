@@ -277,3 +277,36 @@ Results after these changes:
 The two decode-shape TMA picks are still 20 % slow; their one-block math is right (+4 %, −2 %), so the gap is in how
 few blocks share DRAM there. The analytical model's ncu bottleneck test now expects 5 of 7: the M=128 pick matched
 before only because A rows past M were counted twice.
+
+### Oct 20, the staged C store and shared-memory bank conflicts
+
+- **What the staged store runs** (`runs/tilelang/epilogue/sass/`). Every warp writes its accumulators to shared
+  memory with 16 stmatrix x4; a block barrier; every thread but one exits; that thread fences, issues two TMA store
+  boxes, flushes, and waits until the boxes are read out (TileLang's `tma_store_wait` waits for the read, not the write).
+- **Probe `tmastore.cu`**: stmatrix costs what ldmatrix costs (one warp every 10.8 cycles; 4 cycles per x4 per SM from
+  4 warps up). A TMA store of a 64 KB tile: one block 0.96 µs, two blocks on one SM pair 1.74 µs each, 48 blocks 2.75 µs.
+  So the TMA store uses the pair's store port, 33 bytes per clock (84 GB/s), with 457 cycles of fixed delay, and the
+  chip tops out at 1.22 TB/s. Waiting for the read costs the same as waiting for the write: the TMA unit reads shared
+  memory only as fast as the port drains it, so the block holds its shared memory until the last byte has left.
+- **Simulator**: thread-index tests now live in the base simulator (thread index, ELECT, LOP3 into a predicate,
+  PLOP3), so "only thread 0 stores" works in every kernel; a predicated exit with a known predicate is decided; block
+  barriers can name a thread count (the consumer warps of TMA kernels sync among themselves); stmatrix and TMA store as
+  measured.
+- **Ten kernels** (`python -m agentic.gb10.sim.epilogue`, five tiles x direct/staged at 1024³, warm): all within 10 %.
+  The simulator picks the staged store in all five pairs, as measured. Savings: 3.3-3.6 µs simulated against 2.7-4.4
+  measured, except cp.async 128x128 (1.0 against 4.2). There the staged kernel's main loop, identical apart from
+  instruction order, runs 190 cycles per k-tile slower in the simulator: warps of one block drift apart and wait at
+  the loop-top barrier. The measured saving says the real loops run alike; this is a scheduling detail the simulator
+  gets wrong, kept as a known gap.
+- **Bank conflicts, probe `smem_bw.cu`.** Conflict-free, ldmatrix, LDS.128, STS.128 and stmatrix all move 512 bytes in
+  4 cycles per SM (128 B per clock). With conflicts the cost is exactly 4 cycles times the conflict ways: rows 32 bytes
+  apart 8 cycles, 64 bytes 16, 128 bytes or more 32; the transposed form is the same. (A first version of this probe
+  read 2 cycles; the compiler had dropped half its loads. Each address now depends on the previous load's result
+  through a mask that is zero at run time.)
+- **Simulator**: each ldmatrix holds the shared-memory array 4 x ways cycles, ways from its operand's row stride (A:
+  block_K*2 bytes, plain form; B: block_N*2, transposed form) when the layout is linear; TileLang's inferred and
+  swizzled layouts are conflict-free.
+- **Five layout pairs** (`runs/tilelang/layout/layout_pairs.py`, cp.async path, all correct; `python -m
+  agentic.gb10.sim.layout`): the linear kernels within 8 %; the cost of choosing linear, simulated against measured:
+  1.45x / 1.41x, 1.40x / 1.38x, 2.04x / 2.23x, 1.76x / 1.62x, 2.19x / 2.15x. (Linear with TMA computes wrong answers in
+  this TileLang build, recorded in `notes/tilelang_findings.md`; it stays forbidden.)

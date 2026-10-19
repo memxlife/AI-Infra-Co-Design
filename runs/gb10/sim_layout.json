@@ -1,0 +1,92 @@
+[
+ {
+  "kernel": "cp_128x128x32_st3_th128_inferred",
+  "ways": [
+   1,
+   1
+  ],
+  "sim_us": 34.84,
+  "meas_us": 38.91
+ },
+ {
+  "kernel": "cp_128x128x32_st3_th128_linear",
+  "ways": [
+   4,
+   8
+  ],
+  "sim_us": 50.68,
+  "meas_us": 54.99
+ },
+ {
+  "kernel": "cp_256x128x32_st3_th256_inferred",
+  "ways": [
+   1,
+   1
+  ],
+  "sim_us": 41.05,
+  "meas_us": 42.93
+ },
+ {
+  "kernel": "cp_256x128x32_st3_th256_linear",
+  "ways": [
+   4,
+   8
+  ],
+  "sim_us": 57.51,
+  "meas_us": 59.43
+ },
+ {
+  "kernel": "cp_64x128x32_st3_th256_inferred",
+  "ways": [
+   1,
+   1
+  ],
+  "sim_us": 34.34,
+  "meas_us": 33.12
+ },
+ {
+  "kernel": "cp_64x128x32_st3_th256_linear",
+  "ways": [
+   4,
+   8
+  ],
+  "sim_us": 70.0,
+  "meas_us": 73.97
+ },
+ {
+  "kernel": "cp_128x128x64_st2_th128_inferred",
+  "ways": [
+   1,
+   1
+  ],
+  "sim_us": 41.83,
+  "meas_us": 46.37
+ },
+ {
+  "kernel": "cp_128x128x64_st2_th128_linear",
+  "ways": [
+   8,
+   8
+  ],
+  "sim_us": 73.77,
+  "meas_us": 74.89
+ },
+ {
+  "kernel": "cp_64x64x64_st3_th128_inferred",
+  "ways": [
+   1,
+   1
+  ],
+  "sim_us": 41.29,
+  "meas_us": 41.35
+ },
+ {
+  "kernel": "cp_64x64x64_st3_th128_linear",
+  "ways": [
+   8,
+   8
+  ],
+  "sim_us": 90.25,
+  "meas_us": 89.0
+ }
+]

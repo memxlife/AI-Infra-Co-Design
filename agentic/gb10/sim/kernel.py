@@ -7,7 +7,7 @@ import json, math
 from pathlib import Path
 from .sm import SM, kernel_sass, P
 from .sass import main_loop
-from ..model import dram_split_kslice, C as MC
+from ..model import dram_split_kslice, bank_conflict_ways, C as MC
 
 F = 2.54e3   # cycles per us under load (clock probes 2.52-2.54 GHz)
 
@@ -72,6 +72,13 @@ def dram_clk(read_bytes: float, secs: float, blocks_eq: float) -> float:
     return 512 * (secs / read_bytes) * 2.54e9 * blocks_eq
 
 
+def ldsm_ways(h: dict) -> tuple:
+    """Bank-conflict ways of ldmatrix on A (rows block_K*2 bytes apart) and B (read transposed, rows block_N*2 apart):
+    TileLang's inferred and swizzled layouts are conflict-free; a linear layout keeps the row stride."""
+    if h.get("smem_layout") != "linear": return (1, 1)
+    return (bank_conflict_ways(h["block_K"] * 2), bank_conflict_ways(h["block_N"] * 2))
+
+
 def simulate_kernel(sass_path, h: dict, shape: dict, regs: int, smem: int | None = None, warm: bool = True) -> dict:
     ins = kernel_sass(sass_path)
     M, N, K = shape["M"], shape["N"], shape["K"]; KT = math.ceil(K / h["block_K"])
@@ -86,8 +93,9 @@ def simulate_kernel(sass_path, h: dict, shape: dict, regs: int, smem: int | None
         wv = sp["waves"][w] if w < len(sp["waves"]) else {"A": 0.0, "B": 0.0, "cols": 1, "blocks": n}
         rb, secs = wave_dram(h, shape, wv, warm); traffic += rb
         miss = min(1.0, rb / copy_bytes) if copy_bytes else 0.0
-        sm = SM(ins, h["threads"], R, trips, active_sms=eq, copy_lines=copy_lines(h), miss_frac=miss, dram_clk_per_512B=dram_clk(rb, secs, eq))
+        sm = SM(ins, h["threads"], R, trips, active_sms=eq, copy_lines=copy_lines(h), miss_frac=miss, dram_clk_per_512B=dram_clk(rb, secs, eq),
+                ctile_bytes=min(h["block_M"], M) * min(h["block_N"], N) * 2, ldsm_ways=ldsm_ways(h))
         r = sm.run(); us = r["cycles"] / F; t += us
-        parts.append({"blocks": n, "per_sm": R, "miss_frac": round(miss, 3), "dram_GBs": round(rb / secs / 1e9, 1) if secs else None, "us": round(us, 2), "busy": {k: round(v / max(1, r["cycles"]), 2) for k, v in r["busy"].items()}})
+        parts.append({"counts": {k: v for k, v in r.items() if k in ("STSM", "UTMASTG")}, "blocks": n, "per_sm": R, "miss_frac": round(miss, 3), "dram_GBs": round(rb / secs / 1e9, 1) if secs else None, "us": round(us, 2), "busy": {k: round(v / max(1, r["cycles"]), 2) for k, v in r["busy"].items()}})
         left -= n; w += 1
     return {"us": t, "tiles": tiles, "blocks_per_sm": Rmax, "waves": w, "dram_MB": traffic / 1e6, "parts": parts}

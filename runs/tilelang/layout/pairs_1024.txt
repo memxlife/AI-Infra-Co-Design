@@ -1,0 +1,10 @@
+cp_128x128x32_st3_th128_inferred err 0.062 warm   38.9 us {'LDSM.16.M88.4': 24, 'LDSM.16.MT88.4': 24, 'LDS.U16': 0, 'LDS': 6, 'LDS.64': 0, 'LDS.128': 0}
+cp_128x128x32_st3_th128_linear err 0.062 warm   55.0 us {'LDSM.16.M88.4': 24, 'LDSM.16.MT88.4': 24, 'LDS.U16': 0, 'LDS': 6, 'LDS.64': 0, 'LDS.128': 0}
+cp_256x128x32_st3_th256_inferred err 0.062 warm   42.9 us {'LDSM.16.M88.4': 48, 'LDSM.16.MT88.4': 12, 'LDS.U16': 0, 'LDS': 6, 'LDS.64': 0, 'LDS.128': 0}
+cp_256x128x32_st3_th256_linear err 0.062 warm   59.4 us {'LDSM.16.M88.4': 48, 'LDSM.16.MT88.4': 12, 'LDS.U16': 0, 'LDS': 6, 'LDS.64': 0, 'LDS.128': 0}
+cp_64x128x32_st3_th256_inferred err 0.062 warm   33.1 us {'LDSM.16.M88.4': 128, 'LDSM.16.MT88.4': 128, 'LDS.U16': 0, 'LDS': 93, 'LDS.64': 0, 'LDS.128': 0}
+cp_64x128x32_st3_th256_linear err 0.062 warm   74.0 us {'LDSM.16.M88.4': 128, 'LDSM.16.MT88.4': 128, 'LDS.U16': 0, 'LDS': 93, 'LDS.64': 0, 'LDS.128': 0}
+cp_128x128x64_st2_th128_inferred err 0.062 warm   46.4 us {'LDSM.16.M88.4': 32, 'LDSM.16.MT88.4': 32, 'LDS.U16': 0, 'LDS': 6, 'LDS.64': 0, 'LDS.128': 0}
+cp_128x128x64_st2_th128_linear err 0.062 warm   74.9 us {'LDSM.16.M88.4': 32, 'LDSM.16.MT88.4': 32, 'LDS.U16': 0, 'LDS': 6, 'LDS.64': 0, 'LDS.128': 0}
+cp_64x64x64_st3_th128_inferred err 0.062 warm   41.4 us {'LDSM.16.M88.4': 24, 'LDSM.16.MT88.4': 24, 'LDS.U16': 0, 'LDS': 6, 'LDS.64': 0, 'LDS.128': 0}
+cp_64x64x64_st3_th128_linear err 0.062 warm   89.0 us {'LDSM.16.M88.4': 24, 'LDSM.16.MT88.4': 24, 'LDS.U16': 0, 'LDS': 6, 'LDS.64': 0, 'LDS.128': 0}

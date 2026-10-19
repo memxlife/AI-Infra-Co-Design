@@ -1,0 +1,17 @@
+RESULT stmatrix warps=1 cycles_per_instr_per_SM=10.77 bytes_per_clk=47.5
+RESULT stmatrix warps=2 cycles_per_instr_per_SM=5.85 bytes_per_clk=87.6
+RESULT stmatrix warps=4 cycles_per_instr_per_SM=4.13 bytes_per_clk=124.1
+RESULT stmatrix warps=8 cycles_per_instr_per_SM=4.00 bytes_per_clk=127.9
+RESULT stmatrix warps=16 cycles_per_instr_per_SM=4.00 bytes_per_clk=128.1
+RESULT tma_store wait=full blocks=1 block_us=0.96 GBs_per_block=68.3 chip_GBs=68
+RESULT tma_store wait=full blocks=2 block_us=1.74 GBs_per_block=37.6 chip_GBs=75
+RESULT tma_store wait=full blocks=8 block_us=1.74 GBs_per_block=37.6 chip_GBs=301
+RESULT tma_store wait=full blocks=24 block_us=1.74 GBs_per_block=37.7 chip_GBs=905
+RESULT tma_store wait=full blocks=48 block_us=2.75 GBs_per_block=23.8 chip_GBs=1144
+RESULT tma_store wait=full blocks=96 block_us=2.73 GBs_per_block=24.0 chip_GBs=1152
+RESULT tma_store wait=read blocks=1 block_us=0.96 GBs_per_block=68.3 chip_GBs=68
+RESULT tma_store wait=read blocks=2 block_us=1.74 GBs_per_block=37.6 chip_GBs=75
+RESULT tma_store wait=read blocks=8 block_us=1.75 GBs_per_block=37.5 chip_GBs=300
+RESULT tma_store wait=read blocks=24 block_us=1.73 GBs_per_block=37.8 chip_GBs=907
+RESULT tma_store wait=read blocks=48 block_us=2.76 GBs_per_block=23.8 chip_GBs=1141
+RESULT tma_store wait=read blocks=96 block_us=2.73 GBs_per_block=24.0 chip_GBs=1153

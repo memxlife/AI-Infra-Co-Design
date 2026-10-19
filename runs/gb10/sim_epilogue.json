@@ -1,0 +1,52 @@
+[
+ {
+  "kernel": "cp_128x128x32_direct",
+  "sim_us": 34.84,
+  "meas_us": 38.9
+ },
+ {
+  "kernel": "cp_128x128x32_staged",
+  "sim_us": 33.85,
+  "meas_us": 34.7
+ },
+ {
+  "kernel": "cp_256x128x32_direct",
+  "sim_us": 41.05,
+  "meas_us": 42.3
+ },
+ {
+  "kernel": "cp_256x128x32_staged",
+  "sim_us": 37.5,
+  "meas_us": 37.9
+ },
+ {
+  "kernel": "cp_64x128x32_direct",
+  "sim_us": 34.34,
+  "meas_us": 33.3
+ },
+ {
+  "kernel": "cp_64x128x32_staged",
+  "sim_us": 31.06,
+  "meas_us": 30.6
+ },
+ {
+  "kernel": "tma_128x128x32_direct",
+  "sim_us": 42.16,
+  "meas_us": 45.0
+ },
+ {
+  "kernel": "tma_128x128x32_staged",
+  "sim_us": 38.58,
+  "meas_us": 41.1
+ },
+ {
+  "kernel": "tma_256x128x32_direct",
+  "sim_us": 35.46,
+  "meas_us": 37.8
+ },
+ {
+  "kernel": "tma_256x128x32_staged",
+  "sim_us": 31.95,
+  "meas_us": 35.0
+ }
+]
