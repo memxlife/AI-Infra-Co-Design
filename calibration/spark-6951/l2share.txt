@@ -1,0 +1,13 @@
+RESULT tile_KB=8 threads=128 st=3 R=1 occupancy_limit=4 max_blocks_on_one_SM=1 chip_TBs=2.08 per_SM_GBs=43.3
+RESULT tile_KB=8 threads=128 st=3 R=2 occupancy_limit=4 max_blocks_on_one_SM=2 chip_TBs=2.12 per_SM_GBs=44.2
+RESULT tile_KB=8 threads=128 st=3 R=3 occupancy_limit=4 max_blocks_on_one_SM=3 chip_TBs=2.13 per_SM_GBs=44.4
+RESULT tile_KB=8 threads=128 st=3 R=4 occupancy_limit=4 max_blocks_on_one_SM=4 chip_TBs=2.14 per_SM_GBs=44.5
+RESULT tile_KB=12 threads=128 st=3 R=1 occupancy_limit=2 max_blocks_on_one_SM=1 chip_TBs=2.10 per_SM_GBs=43.7
+RESULT tile_KB=12 threads=128 st=3 R=2 occupancy_limit=2 max_blocks_on_one_SM=2 chip_TBs=2.13 per_SM_GBs=44.5
+RESULT tile_KB=12 threads=128 st=3 R=3 occupancy_limit=2 max_blocks_on_one_SM=4 chip_TBs=1.97 per_SM_GBs=41.1
+RESULT tile_KB=16 threads=128 st=3 R=1 occupancy_limit=2 max_blocks_on_one_SM=1 chip_TBs=2.09 per_SM_GBs=43.5
+RESULT tile_KB=16 threads=128 st=3 R=2 occupancy_limit=2 max_blocks_on_one_SM=2 chip_TBs=2.08 per_SM_GBs=43.3
+RESULT tile_KB=8 threads=256 st=3 R=1 occupancy_limit=4 max_blocks_on_one_SM=1 chip_TBs=1.92 per_SM_GBs=40.0
+RESULT tile_KB=8 threads=256 st=3 R=2 occupancy_limit=4 max_blocks_on_one_SM=2 chip_TBs=2.09 per_SM_GBs=43.5
+RESULT tile_KB=8 threads=256 st=3 R=3 occupancy_limit=4 max_blocks_on_one_SM=3 chip_TBs=2.12 per_SM_GBs=44.1
+RESULT tile_KB=8 threads=256 st=3 R=4 occupancy_limit=4 max_blocks_on_one_SM=4 chip_TBs=2.12 per_SM_GBs=44.3

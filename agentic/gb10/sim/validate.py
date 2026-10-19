@@ -77,8 +77,10 @@ def kernel_us(name: str, variant: str, h: dict, tiles: int, Rmax: int) -> float:
     blocks per SM and number of busy SMs; plus the launch (2.6 us, probe)."""
     left, t = tiles, 2.6
     while left > 0:
-        n = min(left, 48 * Rmax); R = math.ceil(n / 48); act = min(48, n)
-        t += simulate(name, variant, R, act)["us"]; left -= n
+        n = min(left, 48 * Rmax); R = math.ceil(n / 48)
+        # the chip's L2 and store limits are shared by the blocks in flight: an SM holding R blocks gets R/n of them,
+        # i.e. it behaves as one of n/R equal SMs (measured: the L2 rate is the same for 1 to 4 blocks per SM)
+        t += simulate(name, variant, R, n / R)["us"]; left -= n
     return t
 
 
