@@ -437,3 +437,26 @@ TileLang's TMA path by any menu or structure we can name; the 35 % is in the cop
 Both findings have the same shape as step 0's: the family picks the right tile, the compiler's mainloop and copy
 pipeline set the per-tile and per-block rates, and those are the terms the model carries as envelopes rather than
 explains. For the paper, that is the boundary of what a wrapped compiler can reach, measured.
+
+### Step 4 (S4): knob importance, one figure
+
+At each sweep shape's best point, one knob at a time over its menu, the spread of latency (max/min) from the points
+the tables already hold (`runs/tilelang/figures/s4_knob_importance.png`, numbers in the `.json` beside it; the six
+round-1 knobs from the sweeps, the round-2 knobs from step 2's one-knob curves at 1024³ and M=32).
+
+| knob | 1024³ | 4096³ | M=32 |
+|---|---|---|---|
+| swizzle (traversal panel) | 0 % | **43 %** | 0 % |
+| block_N | **15 %** | **35 %** | 0 % |
+| block_M | **13 %** | **19 %** | 1 % |
+| block_K | 3 % | 3 % | – |
+| threads | 0 % | 2 % | 0 % |
+| num_stages | – | – | 1 % |
+| smem_layout (inferred vs swizzled) | 5 % | – | 0 % |
+| tma, warp_spec, warp_policy, vec_width, prefetch | 2–3 % | – | 1 % |
+
+A dash means the other menu values are illegal at that point (shared memory), so the tables hold no second point.
+The space is low-dimensional and the dimension changes with the shape: at 4096³ two knobs (the panel and the tile's
+column count) carry everything, at 1024³ only the tile shape moves the time and by a tenth, and at M=32 nothing in
+the family moves it at all, which is S2's finding seen from the knob side. The seven round-2 knobs never exceed 5 %
+on any shape.

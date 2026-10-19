@@ -80,6 +80,11 @@ def solve_family(T: dict, terms: dict | None = None, time_limit: float = 30.0) -
     for (bm, bn, swz), vi in v.items():
         h = {"block_M": bm, "block_N": bn, "block_K": menus["block_K"][0], "num_stages": st0, "threads": menus["threads"][0], "swizzle": swz}
         p = predict(h, shape, chip, terms)
+        if not p["ok"]:                                          # under a tight cap the probe point may not fit one block per SM: the traffic
+            h2 = {**h, "block_K": 32, "num_stages": 2, "threads": 256}   # terms do not depend on those knobs, so probe the lightest point
+            p = predict(h2, shape, chip, terms)
+        if not p["ok"]:
+            ub[vi] = 0; continue
         dram_time[vi] = scale * p["terms"]["t_dram"]; l2_time[vi] = scale * p["terms"]["t_l2"]
     launch = terms.get("launch_s", 0.0)
     # round 2 knobs: T_sm = base * prod_k f_k[x_k]. Linearized as base + sum_k (f_k[x_k] - 1) * base_lb, with base_lb the

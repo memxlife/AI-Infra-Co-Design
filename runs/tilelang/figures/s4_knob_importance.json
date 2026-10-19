@@ -1,0 +1,112 @@
+{
+ "1024": {
+  "block_M": {
+   "spread": 1.130808139900647,
+   "values": 3
+  },
+  "block_N": {
+   "spread": 1.1469697620012147,
+   "values": 2
+  },
+  "block_K": {
+   "spread": 1.0343434616626108,
+   "values": 2
+  },
+  "threads": {
+   "spread": 1.0020202174614756,
+   "values": 2
+  },
+  "swizzle": {
+   "spread": 1.0025252718268445,
+   "values": 4
+  },
+  "prefetch": {
+   "spread": 1.016145835417592,
+   "values": 2
+  },
+  "warp_policy": {
+   "spread": 1.0333509877060734,
+   "values": 3
+  },
+  "vec_width": {
+   "spread": 1.0338982538750485,
+   "values": 4
+  },
+  "tma": {
+   "spread": 1.0338982538750485,
+   "values": 2
+  },
+  "warp_spec": {
+   "spread": 1.0322745979854424,
+   "values": 2
+  },
+  "smem_layout": {
+   "spread": 1.048250199359691,
+   "values": 2
+  }
+ },
+ "4096": {
+  "block_M": {
+   "spread": 1.1947076888245447,
+   "values": 2
+  },
+  "block_N": {
+   "spread": 1.3522674558286027,
+   "values": 3
+  },
+  "block_K": {
+   "spread": 1.034917715432277,
+   "values": 2
+  },
+  "threads": {
+   "spread": 1.018492650851579,
+   "values": 2
+  },
+  "swizzle": {
+   "spread": 1.43481088292944,
+   "values": 4
+  }
+ },
+ "m32": {
+  "block_M": {
+   "spread": 1.0063866899534488,
+   "values": 2
+  },
+  "num_stages": {
+   "spread": 1.0116557333291696,
+   "values": 4
+  },
+  "threads": {
+   "spread": 1.001277352860921,
+   "values": 2
+  },
+  "swizzle": {
+   "spread": 1.001436984792958,
+   "values": 4
+  },
+  "prefetch": {
+   "spread": 1.0050769863062479,
+   "values": 4
+  },
+  "warp_policy": {
+   "spread": 1.0052356051886622,
+   "values": 3
+  },
+  "vec_width": {
+   "spread": 1.0049167334077604,
+   "values": 4
+  },
+  "tma": {
+   "spread": 1.0053669760073811,
+   "values": 2
+  },
+  "warp_spec": {
+   "spread": 1.0101522876386209,
+   "values": 2
+  },
+  "smem_layout": {
+   "spread": 1.0042829905766377,
+   "values": 2
+  }
+ }
+}
