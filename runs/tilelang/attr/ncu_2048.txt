@@ -1,0 +1,66 @@
+Loading tilelang libs from dev root: /home/lishang/work/research/tilelang-work/tilelang/build
+==WARNING== Note: Running with unmodified GPU clocks. If not controlled otherwise, profiling results may be inconsistent.
+==PROF== Connected to process 3577328 (/usr/bin/python3.12)
+==PROF== Profiling "matmul_kernel": 0%....50%....100% - 15 passes
+==PROF== Disconnected from process 3577328
+[3577328] python3.12@127.0.0.1
+  matmul_kernel (16, 8, 1)x(384, 1, 1), Context 1, Stream 7, Device 0, CC 12.1
+    Warning: Data collection happened without fixed GPU frequencies. Profiling results may be inconsistent.
+    Section: Command line profiler metrics
+    --------------------------------------------------------------------------- --------------- ------------
+    Metric Name                                                                     Metric Unit Metric Value
+    --------------------------------------------------------------------------- --------------- ------------
+    gpc__cycles_elapsed.max                                                               cycle      718,198
+    gpu__time_duration.sum                                                                   us       293.70
+    l1tex__data_bank_conflicts_pipe_lsu_mem_shared.sum                                                 1,420
+    launch__block_size                                                                                   384
+    launch__grid_size                                                                                    128
+    launch__occupancy_limit_registers                                                     block            1
+    launch__occupancy_limit_shared_mem                                                    block            1
+    launch__registers_per_thread                                                register/thread          168
+    launch__shared_mem_per_block_dynamic                                            Kbyte/block        98.30
+    launch__waves_per_multiprocessor                                                                    2.67
+    lts__t_sector_hit_rate.pct                                                                %        90.79
+    lts__t_sectors_op_read.sum                                                           sector    6,295,932
+    lts__t_sectors_op_read_lookup_miss.sum                                               sector      555,452
+    lts__t_sectors_op_write.sum                                                          sector      512,992
+    lts__t_sectors_op_write_lookup_miss.sum                                              sector       77,155
+    lts__t_sectors_srcunit_tex_op_read.sum                                               sector    6,291,456
+    sm__ctas_launched.sum                                                                 block          128
+    sm__cycles_active.avg                                                                 cycle   586,057.02
+    sm__cycles_active.max                                                                 cycle      652,830
+    sm__cycles_active.min                                                                 cycle      471,677
+    sm__cycles_elapsed.avg                                                                cycle   717,809.25
+    sm__cycles_elapsed.max                                                                cycle      718,198
+    sm__inst_executed_pipe_tensor.sum                                                      inst    4,194,304
+    sm__pipe_tensor_cycles_active.avg                                                     cycle 1,398,101.33
+    sm__pipe_tensor_cycles_active.avg.pct_of_peak_sustained_active                            %        59.64
+    sm__pipe_tensor_cycles_active.max                                                     cycle    1,572,864
+    sm__throughput.avg.pct_of_peak_sustained_elapsed                                          %        48.69
+    sm__warps_active.avg.pct_of_peak_sustained_active                                         %        20.16
+    sm__warps_active.avg.per_cycle_active                                                  warp         9.68
+    smsp__average_warp_latency_per_inst_issued.ratio                                      cycle        23.03
+    smsp__average_warps_issue_stalled_barrier_per_issue_active.ratio                       inst         0.02
+    smsp__average_warps_issue_stalled_branch_resolving_per_issue_active.ratio              inst         0.03
+    smsp__average_warps_issue_stalled_dispatch_stall_per_issue_active.ratio                inst         0.03
+    smsp__average_warps_issue_stalled_drain_per_issue_active.ratio                         inst         0.29
+    smsp__average_warps_issue_stalled_imc_miss_per_issue_active.ratio                                (!) n/a
+    smsp__average_warps_issue_stalled_lg_throttle_per_issue_active.ratio                   inst         2.15
+    smsp__average_warps_issue_stalled_long_scoreboard_per_issue_active.ratio               inst         0.29
+    smsp__average_warps_issue_stalled_math_pipe_throttle_per_issue_active.ratio            inst         5.24
+    smsp__average_warps_issue_stalled_membar_per_issue_active.ratio                        inst            0
+    smsp__average_warps_issue_stalled_mio_throttle_per_issue_active.ratio                  inst         0.19
+    smsp__average_warps_issue_stalled_misc_per_issue_active.ratio                          inst         0.30
+    smsp__average_warps_issue_stalled_no_instruction_per_issue_active.ratio                inst         0.09
+    smsp__average_warps_issue_stalled_not_selected_per_issue_active.ratio                  inst         0.14
+    smsp__average_warps_issue_stalled_selected_per_issue_active.ratio                      inst         1.00
+    smsp__average_warps_issue_stalled_short_scoreboard_per_issue_active.ratio              inst         0.04
+    smsp__average_warps_issue_stalled_sleeping_per_issue_active.ratio                      inst         7.20
+    smsp__average_warps_issue_stalled_tex_throttle_per_issue_active.ratio                  inst            0
+    smsp__average_warps_issue_stalled_wait_per_issue_active.ratio                          inst         5.67
+    smsp__cycles_active.avg                                                               cycle   596,202.88
+    smsp__inst_executed.sum                                                                inst   10,856,552
+    smsp__issue_active.avg.pct_of_peak_sustained_active                                       %         9.50
+    smsp__warps_launched.sum                                                               warp        1,536
+    --------------------------------------------------------------------------- --------------- ------------
+

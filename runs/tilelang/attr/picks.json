@@ -1,0 +1,289 @@
+{
+ "1024": {
+  "shape": {
+   "M": 1024,
+   "N": 1024,
+   "K": 1024
+  },
+  "pick": {
+   "block_M": 64,
+   "block_N": 128,
+   "block_K": 128,
+   "num_stages": 2,
+   "threads": 128,
+   "swizzle": 8,
+   "prefetch": 0,
+   "warp_policy": 0,
+   "vec_width": 0,
+   "tma": 1,
+   "warp_spec": 1,
+   "smem_layout": "inferred"
+  },
+  "predicted_us": 54.852467290190766,
+  "terms": {
+   "t_sm": 3.121406573715598e-05,
+   "t_compute_tile": 8.739349453948264e-06,
+   "t_copy_tile": 6.547115743160251e-06,
+   "t_pipe": 0.0,
+   "t_dram": 2.673143001911979e-05,
+   "t_l2": 2.4427948793163527e-05,
+   "dram_bytes": 6291456,
+   "l2_read_bytes": 50331648,
+   "regs_per_thread": 255,
+   "k_steps": 8,
+   "flops_tile": 16777216.0,
+   "bytes_tile": 393216,
+   "knob_factor": 1.0,
+   "launched_threads": 256
+  },
+  "waves": 3,
+  "tiles": 128,
+  "bound": "tensor"
+ },
+ "4096": {
+  "shape": {
+   "M": 4096,
+   "N": 4096,
+   "K": 4096
+  },
+  "pick": {
+   "block_M": 128,
+   "block_N": 256,
+   "block_K": 32,
+   "num_stages": 3,
+   "threads": 512,
+   "swizzle": 16,
+   "prefetch": 0,
+   "warp_policy": 0,
+   "vec_width": 0,
+   "tma": 1,
+   "warp_spec": 1,
+   "smem_layout": "inferred"
+  },
+  "predicted_us": 1437.5679492950442,
+  "terms": {
+   "t_sm": 0.0014139295477420093,
+   "t_compute_tile": 0.00011965381015430798,
+   "t_copy_tile": 5.2376925945282005e-05,
+   "t_pipe": 0.0,
+   "t_dram": 0.0005702705070745555,
+   "t_l2": 0.0007816943613812329,
+   "dram_bytes": 134217728.0,
+   "l2_read_bytes": 1610612736,
+   "regs_per_thread": 96,
+   "k_steps": 128,
+   "flops_tile": 268435456.0,
+   "bytes_tile": 3145728,
+   "knob_factor": 1.0,
+   "launched_threads": 640
+  },
+  "waves": 11,
+  "tiles": 512,
+  "bound": "tensor"
+ },
+ "m32": {
+  "shape": {
+   "M": 32,
+   "N": 4096,
+   "K": 4096
+  },
+  "pick": {
+   "block_M": 32,
+   "block_N": 128,
+   "block_K": 128,
+   "num_stages": 2,
+   "threads": 128,
+   "swizzle": 4,
+   "prefetch": 0,
+   "warp_policy": 0,
+   "vec_width": 0,
+   "tma": 1,
+   "warp_spec": 1,
+   "smem_layout": "inferred"
+  },
+  "predicted_us": 168.43364748993363,
+  "terms": {
+   "t_sm": 2.1823719143867504e-05,
+   "t_compute_tile": 1.4071999625726178e-05,
+   "t_copy_tile": 2.1823719143867504e-05,
+   "t_pipe": 0.0,
+   "t_dram": 0.00014479524593689886,
+   "t_l2": 2.0356623994302938e-05,
+   "dram_bytes": 34078720.0,
+   "l2_read_bytes": 41943040,
+   "regs_per_thread": 255,
+   "k_steps": 32,
+   "flops_tile": 33554432.0,
+   "bytes_tile": 1310720,
+   "knob_factor": 1.0,
+   "launched_threads": 256
+  },
+  "waves": 1,
+  "tiles": 32,
+  "bound": "dram"
+ },
+ "2048": {
+  "shape": {
+   "M": 2048,
+   "N": 2048,
+   "K": 2048
+  },
+  "pick": {
+   "block_M": 256,
+   "block_N": 128,
+   "block_K": 64,
+   "num_stages": 2,
+   "threads": 256,
+   "swizzle": 0,
+   "prefetch": 0,
+   "warp_policy": 0,
+   "vec_width": 0,
+   "tma": 1,
+   "warp_spec": 1,
+   "smem_layout": "inferred"
+  },
+  "predicted_us": 225.5202995105223,
+  "terms": {
+   "t_sm": 0.00020188189795748753,
+   "t_compute_tile": 6.051782044497404e-05,
+   "t_copy_tile": 2.6188462972641002e-05,
+   "t_pipe": 0.0,
+   "t_dram": 0.00010692572007647915,
+   "t_l2": 9.771179517265411e-05,
+   "dram_bytes": 25165824,
+   "l2_read_bytes": 201326592,
+   "regs_per_thread": 168,
+   "k_steps": 32,
+   "flops_tile": 134217728.0,
+   "bytes_tile": 1572864,
+   "knob_factor": 1.0,
+   "launched_threads": 384
+  },
+  "waves": 3,
+  "tiles": 128,
+  "bound": "tensor"
+ },
+ "8192": {
+  "shape": {
+   "M": 8192,
+   "N": 8192,
+   "K": 8192
+  },
+  "pick": {
+   "block_M": 256,
+   "block_N": 128,
+   "block_K": 64,
+   "num_stages": 2,
+   "threads": 512,
+   "swizzle": 16,
+   "prefetch": 0,
+   "warp_policy": 0,
+   "vec_width": 0,
+   "tma": 1,
+   "warp_spec": 1,
+   "smem_layout": "inferred"
+  },
+  "predicted_us": 10724.077776345342,
+  "terms": {
+   "t_sm": 0.010700439374792307,
+   "t_compute_tile": 0.00024207128177989616,
+   "t_copy_tile": 0.00010475385189056401,
+   "t_pipe": 0.0,
+   "t_dram": 0.0022810820282982234,
+   "t_l2": 0.006253554891049863,
+   "dram_bytes": 536870912.0,
+   "l2_read_bytes": 12884901888,
+   "regs_per_thread": 96,
+   "k_steps": 128,
+   "flops_tile": 536870912.0,
+   "bytes_tile": 6291456,
+   "knob_factor": 1.0,
+   "launched_threads": 640
+  },
+  "waves": 43,
+  "tiles": 2048,
+  "bound": "tensor"
+ },
+ "k1024": {
+  "shape": {
+   "M": 4096,
+   "N": 4096,
+   "K": 1024
+  },
+  "pick": {
+   "block_M": 256,
+   "block_N": 128,
+   "block_K": 32,
+   "num_stages": 4,
+   "threads": 512,
+   "swizzle": 0,
+   "prefetch": 0,
+   "warp_policy": 0,
+   "vec_width": 0,
+   "tma": 1,
+   "warp_spec": 1,
+   "smem_layout": "inferred"
+  },
+  "predicted_us": 431.0240149497985,
+  "terms": {
+   "t_sm": 0.00040738561339676374,
+   "t_compute_tile": 3.025891022248702e-05,
+   "t_copy_tile": 1.3094231486320501e-05,
+   "t_pipe": 0.0,
+   "t_dram": 0.0002138514401529583,
+   "t_l2": 0.00019542359034530822,
+   "dram_bytes": 50331648,
+   "l2_read_bytes": 402653184,
+   "regs_per_thread": 96,
+   "k_steps": 32,
+   "flops_tile": 67108864.0,
+   "bytes_tile": 786432,
+   "knob_factor": 1.0,
+   "launched_threads": 640
+  },
+  "waves": 11,
+  "tiles": 512,
+  "bound": "tensor"
+ },
+ "m128": {
+  "shape": {
+   "M": 128,
+   "N": 4096,
+   "K": 4096
+  },
+  "pick": {
+   "block_M": 256,
+   "block_N": 64,
+   "block_K": 32,
+   "num_stages": 2,
+   "threads": 128,
+   "swizzle": 0,
+   "prefetch": 0,
+   "warp_policy": 0,
+   "vec_width": 0,
+   "tma": 1,
+   "warp_spec": 1,
+   "smem_layout": "inferred"
+  },
+  "predicted_us": 175.11650499471358,
+  "terms": {
+   "t_sm": 0.0001435441506518559,
+   "t_compute_tile": 7.177207532592795e-05,
+   "t_copy_tile": 4.364743828773501e-05,
+   "t_pipe": 0.0,
+   "t_dram": 0.0001514781034416788,
+   "t_l2": 4.8855897586327054e-05,
+   "dram_bytes": 35651584.0,
+   "l2_read_bytes": 100663296,
+   "regs_per_thread": 255,
+   "k_steps": 128,
+   "flops_tile": 134217728.0,
+   "bytes_tile": 2621440,
+   "knob_factor": 1.0,
+   "launched_threads": 256
+  },
+  "waves": 2,
+  "tiles": 64,
+  "bound": "dram"
+ }
+}
