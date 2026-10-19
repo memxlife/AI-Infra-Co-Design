@@ -1,0 +1,193 @@
+{
+ "parent": null,
+ "level": 5,
+ "object": "TileLang kernel",
+ "template": "gemm_tilelang",
+ "signature": "gemm_tilelang:gemm_basic:1024x1024x1024",
+ "methods": [],
+ "decisions": {
+  "block_M": {
+   "domain": [
+    64,
+    128,
+    256
+   ],
+   "kind": "software",
+   "meaning": "rows of C per block",
+   "binds": "alloc_shared((block_M, block_K)), Kernel grid rows"
+  },
+  "block_N": {
+   "domain": [
+    64,
+    128,
+    256
+   ],
+   "kind": "software",
+   "meaning": "columns of C per block",
+   "binds": "alloc_shared((block_K, block_N)), Kernel grid columns"
+  },
+  "block_K": {
+   "domain": [
+    32,
+    64,
+    128
+   ],
+   "kind": "software",
+   "meaning": "slice of K per pipeline step",
+   "binds": "alloc_shared, Pipelined bound"
+  },
+  "num_stages": {
+   "domain": [
+    2,
+    3,
+    4,
+    5
+   ],
+   "kind": "software",
+   "meaning": "pipeline depth (tiles in flight)",
+   "binds": "Pipelined(num_stages=)"
+  },
+  "threads": {
+   "domain": [
+    128,
+    256,
+    512
+   ],
+   "kind": "software",
+   "meaning": "threads per block (TileLang adds a producer warp group on sm_121a)",
+   "binds": "Kernel(threads=)"
+  },
+  "swizzle": {
+   "domain": [
+    0,
+    4,
+    8,
+    16
+   ],
+   "kind": "software",
+   "meaning": "thread-block traversal panel (0 = TileLang's default order; no use_swizzle line)",
+   "binds": "use_swizzle(panel_size=)"
+  }
+ },
+ "constraints": [
+  {
+   "id": "smem",
+   "expr": "num_stages * (block_M*block_K + block_K*block_N) * 2 + 1024 <= smem_bytes_per_block",
+   "meaning": "the pipeline's tiles fit the shared memory a block may have"
+  },
+  {
+   "id": "regs",
+   "expr": "block_M*block_N / threads + 40 <= 255",
+   "meaning": "the FP32 accumulators and the rest fit a thread's registers"
+  },
+  {
+   "id": "threads",
+   "expr": "block_M*block_N / threads >= 16",
+   "meaning": "each thread owns at least a fragment"
+  },
+  {
+   "id": "fit",
+   "expr": "blocks_per_sm(block_M, block_N, block_K, num_stages, threads) >= 1",
+   "meaning": "one block fits an SM with TileLang's extra producer warp group"
+  },
+  {
+   "id": "waves",
+   "expr": "tiles = ceil(M/block_M) * ceil(N/block_N); waves = ceil(tiles / (sms * blocks_per_sm))",
+   "meaning": "the tail wave is charged, not hidden"
+  }
+ ],
+ "cost": {
+  "model": "T >= waves * (t_tile + t_pipe), T >= dram_bytes / B_HBM, T >= l2_reads / B_L2; t_tile = max(tensor, copy) * swizzle_penalty",
+  "objective": "time_us",
+  "terms": {
+   "tensor": "2*block_M*block_N*K / (F_tc_per_sm * u_warps[threads])",
+   "copy": "ceil(K/block_K) * (block_M+block_N)*block_K*2 / B_L2_per_sm",
+   "t_pipe": "min(num_stages, K/block_K) * t_tile_latency",
+   "dram_bytes": "A + B once when they fit L2, else B re-read per swizzle panel of M tiles",
+   "l2_reads": "A per N tile + B per M tile"
+  },
+  "numbers": {
+   "F_tc_per_sm": 2524732570000.0,
+   "B_HBM": 235358003500.0,
+   "B_L2_per_sm": 31144000000.0,
+   "B_L2_chip": 1021754980000.0,
+   "l2_bytes_effective": 16777216,
+   "t_tile_latency": 5.002463815e-07,
+   "launch_s": 2.0162399999999997e-06,
+   "source": "contract defaults"
+  },
+  "calibrated": "contract defaults"
+ },
+ "decomposition": null,
+ "preconditions": [
+  {
+   "id": "legal",
+   "expr": "legalize(family, x, shape).ok",
+   "mode": "precheck",
+   "meaning": "the Mac's shared-memory, register and thread rules; TileLang's own passes are the full check at compile time"
+  }
+ ],
+ "program": "import tilelang\nimport tilelang.language as T\n\n\n@tilelang.jit\ndef matmul(A, B, block_M, block_N, block_K, num_stages, threads, swizzle, dtype=T.float16, accum_dtype=T.float32):\n    M, N, K = T.const(\"M, N, K\")\n\n    A: T.Tensor((M, K), dtype)\n    B: T.Tensor((K, N), dtype)\n    C = T.empty((M, N), dtype)\n\n    with T.Kernel(T.ceildiv(N, block_N), T.ceildiv(M, block_M), threads=threads) as (bx, by):\n        A_shared = T.alloc_shared((block_M, block_K), dtype)\n        B_shared = T.alloc_shared((block_K, block_N), dtype)\n        C_local = T.alloc_fragment((block_M, block_N), accum_dtype)\n\n        T.use_swizzle(panel_size=swizzle, enable=swizzle > 0)\n        T.clear(C_local)\n        for k in T.Pipelined(T.ceildiv(K, block_K), num_stages=num_stages):\n            T.copy(A[by * block_M, k * block_K], A_shared)\n            T.copy(B[k * block_K, bx * block_N], B_shared)\n            T.gemm(A_shared, B_shared, C_local)\n\n        T.copy(C_local, C[by * block_M, bx * block_N])\n\n    return C",
+ "backward_map": "forget the tiles, the pipeline and the thread count => C = A B over (M, N, K) in FP16 with FP32 accumulate",
+ "certificate_schema": {
+  "relation": "the compiled kernel's C agrees with torch's A @ B within 1e-2 absolute and relative",
+  "rank": "number of knobs not yet fixed",
+  "obligations": [
+   {
+    "name": "legal",
+    "kind": "precheck",
+    "scope": "every menu point",
+    "meaning": "the constraints admit only points legalize accepts"
+   },
+   {
+    "name": "compiles",
+    "kind": "compile",
+    "scope": "the solver's point",
+    "meaning": "TileLang's passes accept the point"
+   },
+   {
+    "name": "agreement",
+    "kind": "run",
+    "scope": "the solver's point",
+    "meaning": "the kernel's output matches torch on random inputs"
+   }
+  ]
+ },
+ "structure": {
+  "name": "bottleneck_dominance",
+  "bucket": "objective",
+  "regime": "compute-bound: the tensor pipe, one block per SM, is the longest pole for the big square shapes",
+  "move": "epigraph cost over the per-SM tile time, the DRAM time and the L2 time; search the six menus",
+  "obligation": "the dominant term stays dominant across the legal part of the menu",
+  "strength": "observed",
+  "evidence": []
+ },
+ "rationale": "",
+ "status": "proposed",
+ "certificate": null,
+ "provenance": {
+  "formulator": "scripted",
+  "model": null,
+  "prompt_hash": null
+ },
+ "scope": {
+  "workload": {
+   "name": "gemm_1024x1024x1024_fp16",
+   "M": 1024,
+   "N": 1024,
+   "K": 1024,
+   "dtype": "fp16",
+   "accum": "fp32"
+  },
+  "chip": "(spark-6951-gb10 contract)",
+  "structure": {
+   "family": "gemm_basic",
+   "func": "matmul",
+   "layout": "TileLang's inferred layout",
+   "copy_lowering": "TMA (what TileLang picks on sm_121a)",
+   "warp_roles": "one producer warp group added by TileLang",
+   "inputs": "A (M x K) and B (K x N) row by row, FP16",
+   "output": "C (M x N) row by row, FP16, FP32 accumulate"
+  }
+ }
+}

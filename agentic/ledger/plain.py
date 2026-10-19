@@ -11,7 +11,7 @@ from __future__ import annotations
 
 from math import prod
 
-CHECKED_TEMPLATES = {"smem_tiling"}       # the templates the checker and the solver handle (agents/orchestrator.py)
+CHECKED_TEMPLATES = {"smem_tiling", "gemm_tilelang"}       # the templates the checker and the solver handle (agents/orchestrator.py)
 
 RESOURCE_WORDS = {"compute": "the arithmetic units", "DRAM": "memory bandwidth", "copy": "waiting for data copies to arrive",
                   "barrier": "threads waiting for each other", "smem": "shared-memory loads", "compute_queue": "the arithmetic units"}

@@ -13,6 +13,7 @@ import yaml
 HERE = Path(__file__).resolve().parent
 FAMILIES = HERE / "families"
 # the GB10's limits, from the driver on spark-6951 (PINNED.md); the chip contract carries the measured ones
+PRODUCER_THREADS = 128     # the warp group TileLang adds on sm_121a (measured: 128 -> 256, 256 -> 384, 512 -> 640 threads)
 GB10 = {"smem_per_block": 101376, "smem_per_sm": 102400, "regs_per_sm": 65536, "max_regs_per_thread": 255, "max_threads_per_sm": 1536, "sms": 48}
 
 
@@ -64,17 +65,24 @@ def legalize(family: str, holes: dict, shape: dict, chip: dict | None = None, dt
     reasons = []
     if smem > c["smem_per_block"]:
         reasons.append(f"shared memory: {st} stages x ({bm}x{bk} + {bk}x{bn}) x {dtype_bytes} B = {smem} B exceeds the {c['smem_per_block']} B a block may have")
-    acc_regs = bm * bn * 4 // 4 // th            # FP32 accumulators per thread (one 32-bit register each)
-    regs = acc_regs + 40                         # plus addresses, loop state and fragments (the example uses 240 at 128x128x32, 256 threads)
-    if regs > c["max_regs_per_thread"]:
-        reasons.append(f"registers: {bm}x{bn} FP32 accumulators over {th} threads need about {regs} registers per thread, more than {c['max_regs_per_thread']}")
+    # registers: TileLang launches th + 128 threads (its producer warp group) with __launch_bounds__(th + 128, 1), so ptxas
+    # may use floor(65536 / (th + 128)) registers per thread, rounded down to 8 (240, 168, 96 for 128, 256, 512). The FP32
+    # accumulators alone take bm*bn/th; the sweep shows about 24 more for addresses and fragments. Over the budget means
+    # spills, and the 1024^3 sweep measured those at 5x the time.
+    launched = th + PRODUCER_THREADS
+    budget = c["regs_per_sm"] // launched; budget = min(c["max_regs_per_thread"], budget - budget % 8)
+    acc_regs = bm * bn // th                     # FP32 accumulators per thread (one 32-bit register each)
+    regs = acc_regs + 24
+    if regs > budget:
+        reasons.append(f"registers: {bm}x{bn} FP32 accumulators over {th} threads need about {regs} registers per thread, more than the "
+                       f"{budget} ptxas may use under TileLang's launch bounds ({launched} threads); the kernel would spill")
     if bm * bn // th < 16:
         reasons.append(f"tile too small for the threads: {bm}x{bn} over {th} threads leaves {bm * bn // th} values per thread")
     m, n, k = shape["M"], shape["N"], shape["K"]
     waste = 1.0
     for name, tile, ext in (("block_M", bm, m), ("block_N", bn, n), ("block_K", bk, k)):
         waste *= (-(-ext // tile) * tile) / ext        # the padded work over the real work; TileLang predicates the edge tiles
-    blocks = max(1, min(c["smem_per_sm"] // max(1, smem), c["regs_per_sm"] // max(1, regs * th), c["max_threads_per_sm"] // th))
+    blocks = max(1, min(c["smem_per_sm"] // max(1, smem + 1024), c["regs_per_sm"] // max(1, budget * launched), c["max_threads_per_sm"] // launched))
     tiles = -(-m // bm) * -(-n // bn)
     return {"ok": not reasons, "reason": "; ".join(reasons) or None, "smem_bytes_est": smem, "regs_est": regs,
             "blocks_per_sm_est": blocks, "tiles": tiles, "waves": -(-tiles // (c["sms"] * blocks)), "padding_waste": round(waste - 1, 4)}

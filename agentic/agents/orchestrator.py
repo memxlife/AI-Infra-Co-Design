@@ -19,6 +19,8 @@ from ..chips import extrapolation
 from ..ledger import Ledger, rebuild, search
 from . import evaluator as evaluator_svc
 from .evaluator import cuda as cuda_evaluator
+from .evaluator import tilelang as tilelang_evaluator
+from ..tilelang import verify as tilelang_verifier
 from . import solver as solver_svc
 from . import verifier as verifier_svc
 from .evaluator import OptimismRecord, regime_of
@@ -26,7 +28,7 @@ from .formulator import well_formed
 
 MODES = ("observe", "step", "drive")
 STEP_CHECKPOINTS = ("proposed", "admitted")
-CHECKED_TEMPLATES = {"smem_tiling"}        # templates the verifier, solver and evaluator services handle
+CHECKED_TEMPLATES = {"smem_tiling", "gemm_tilelang"}        # templates the verifier, solver and evaluator services handle
 CHECKPOINTS = ("proposed", "solved", "refuted", "regime_flip", "admitted")
 DEFAULT_BREAKPOINTS = frozenset({"refuted", "regime_flip"})
 DEFAULT_PARAMS = {"eps": 0.05, "B": 20, "delta": 0.15, "discrepancy_tol": 0.05}
@@ -333,7 +335,8 @@ class Orchestrator:
             self._append("extrapolating", {"fields": extra, "measured_contract": T["scope"]["chip"].get("name"),
                                            "evaluator": backend, "strength_cap": "observed"}, tid)
 
-        v = self.ledger.put("verdict", verifier_svc.certify_family(T, views["proofs"]), "cert")
+        ver = tilelang_verifier if T["template"] == "gemm_tilelang" else verifier_svc
+        v = self.ledger.put("verdict", ver.certify_family(T, views["proofs"]), "cert")
         V = self.ledger.get(v)
         self._append("family_check", {"verdict": V["verdict"], "reused": bool(V["provenance"].get("reused_from")),
                                       "precondition_is_weakest": V["provenance"].get("precondition_is_weakest"),
@@ -354,7 +357,7 @@ class Orchestrator:
                                 "solver_time": X["solver_time"], "values": X["values"]}, x)
         self._checkpoint("solved", x)
 
-        w = self.ledger.put("verdict", verifier_svc.check_instance(T, X), "inst")
+        w = self.ledger.put("verdict", ver.check_instance(T, X), "inst")
         W = self.ledger.get(w)
         self._append("instance_check", {"verdict": W["verdict"], "checker_time": W["checker_time"],
                                         "failed": [o["obligation"] for o in W["obligations"]
@@ -379,7 +382,13 @@ class Orchestrator:
             return False
 
         t0 = perf_counter()
-        if backend.startswith("cuda:"):
+        if T["template"] == "gemm_tilelang":
+            if not backend.startswith("tilelang:"):
+                raise ValueError(f"template gemm_tilelang needs evaluator_backend 'tilelang:<ssh-alias>', not {backend!r}")
+            kid = self.ledger.put("kernel", tilelang_evaluator.kernel_artifact(T, X), "kern")
+            m = self.ledger.put("measurement", tilelang_evaluator.measure(T, X, backend.split(":", 1)[1], self.ledger.get(kid),
+                                                                          terms=getattr(self.formulator, "terms", None)), "meas")
+        elif backend.startswith("cuda:"):
             kid = self.ledger.put("kernel", cuda_evaluator.kernel_artifact(T, X), "kern")
             m = self.ledger.put("measurement", cuda_evaluator.measure(T, X, backend[5:], self.ledger.get(kid)), "meas")
         else:
@@ -421,7 +430,8 @@ class Orchestrator:
             self._checkpoint("regime_flip", m)          # the architect's stay / descend decision is taken here
             strength = self._handle_regime(T, X, M, views)
         elif strength == "observed":
-            pr = evaluator_svc.probe(T, backend)
+            pr = (tilelang_evaluator.probe(T, terms=getattr(self.formulator, "terms", None)) if T["template"] == "gemm_tilelang"
+                  else evaluator_svc.probe(T, backend))
             if pr["regime_holds_as_bound"] and pr["regime"] == actual:
                 strength = "proved"
             self._append("regime_bound", {"regime": pr["regime"], "holds_as_bound": pr["regime_holds_as_bound"],
@@ -494,7 +504,10 @@ class Orchestrator:
     def _handle_regime(self, T: dict, X: dict, M: dict, views: dict) -> str:
         """Bound, constraint, probe, budget (design §2.4). Returns the template's final strength."""
         tid, actual = T["id"], regime_of(M["dominant_resource"])
-        pr = evaluator_svc.probe(T, self.backend if T["scope"]["chip"].get("kind") == "measured" else "roofline")
+        tl = T["template"] == "gemm_tilelang"
+        terms = getattr(self.formulator, "terms", None)
+        pr = (tilelang_evaluator.probe(T, terms=terms) if tl else
+              evaluator_svc.probe(T, self.backend if T["scope"]["chip"].get("kind") == "measured" else "roofline"))
         if pr["regime_holds_as_bound"] and pr["regime"] == actual:
             self._append("regime_bound", {"regime": actual, "holds_as_bound": True, "strength_now": "proved",
                                           "feasible_designs": pr["feasible_designs"], "note": pr["note"]}, tid)
@@ -515,7 +528,8 @@ class Orchestrator:
         key = f"{T['scope']['workload']['name']}|{T['scope']['chip']['name']}|{T['cost'].get('objective', 'time')}"
         inc = views["incumbents"].get(key)
         incumbent = min(inc["cost"], X["objective"]) if inc else X["objective"]
-        others = [d for d in _feasible_designs(T) if regime_of(d["dominant_resource"]) != actual]
+        designs = tilelang_evaluator.feasible_designs(T, terms=terms) if tl else _feasible_designs(T)
+        others = [d for d in designs if regime_of(d["dominant_resource"]) != actual]
         cap = min((d["time_us"] for d in others), default=float("inf"))
         human = self.overrides.pop("regime", None)
         if human:

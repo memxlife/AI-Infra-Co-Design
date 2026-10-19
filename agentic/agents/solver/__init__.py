@@ -46,6 +46,12 @@ def _solve_smem_tiling(T: dict) -> dict:
     }
 
 
+@backend("gemm_tilelang")
+def _solve_gemm_tilelang(T: dict) -> dict:
+    from ...tilelang.solve import solve_family
+    return solve_family(T, terms=T.get("_terms"))
+
+
 def solve(T: dict) -> dict:
     try:
         fn = BACKENDS[T["template"]]
