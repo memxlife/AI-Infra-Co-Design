@@ -78,6 +78,12 @@ the contributor's inputs and pass rule, rtol = atol = 0.01):
 
 The same fp16 buffer is in TileLang's own examples (pinned commit): `examples/flash_decoding/example_gqa_decode.py`
 line 72, `examples/flash_decoding/example_mha_inference.py` and `examples/deepseek_mla/example_mla_decode.py`.
+TileLang's own `example_gqa_decode.py` shows it too (`repro_tilelang_gqa_decode.py`: batch 4, 32 heads, 8 groups,
+16,384 keys, block_N 64, 8 splits, 1 stage; block_N 128 with 2 stages needs 147 KB of shared memory, more than the
+GB10's 99 KB). Against an fp32 reference at Q, K x 20: 0.1670 as shipped, 0.0013 with the two buffers in fp32. At
+batch 1 and 8,192 keys the error did not show (0.0010): a row goes wrong only when two splits have similar maxima. The
+example's own `ref_program` computes scores in fp16 and is itself off by 0.3958 at x 20, so its check cannot see the
+bug. Reported upstream as tile-ai/tilelang#3585.
 
 **`block_sparse_attention` (timed out after 360 s on the contributor's machine): not reproduced.** With the
 contributor's mask (diagonal blocks plus column 0), inputs (random, zeros, x3) and pass rule, the kernel passes all
