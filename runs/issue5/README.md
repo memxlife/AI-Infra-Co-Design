@@ -45,8 +45,19 @@ Same weights each call is partly warm: the L2 keeps much of a re-read 29 MB set 
 28 MiB, matching). Timed the way decode runs, the kernel sits at the DRAM floor, and their simulator result (130.2 µs)
 is +4 to +6 %. Their own measurement, 75.7 µs (388 GB/s), we could not reproduce: the same protocol gives 97.0 µs here.
 
-## 4. `gqa_decode` (+55 %): a known gap, not yet addressed
+## 4. `gqa_decode` (+55 %): the mask loads were counted as DRAM traffic
 
-268 MB of K and V in 1,089 µs is 246 GB/s, the DRAM ceiling. The simulator's DRAM floor (1,133 µs) is close; its 1-stage
-cp.async loop pays DRAM latency and queueing every step, where the hardware keeps DRAM busy across steps. This is the
-"pipeline depth at the DRAM ceiling" gap in `notes/gb10_simulator_design.md`.
+The loop issues 16 one-byte mask loads (`LDG.E.U8`) per pass. The adapter described each as a 128-byte line read
+from DRAM. The whole mask is 512 KB, 0.2 % of the 268 MB of K and V, and the 8 heads of a batch read the same lines,
+so after the first touch they come from the cache. Replayed with our SM model and the contributor's other inputs
+(`replay_gqa_decode.py`: one SM, 256 loop passes, all K/V copies from DRAM at 1/32 of 237 GB/s):
+
+| Mask loads | Simulated (µs) | vs measured 1,089.3 | DRAM busy |
+|---|---:|---:|---:|
+| 128-byte DRAM reads (as passed) | 1,684.7 | +55 % (reproduces theirs) | 90 % |
+| served from the cache | 1,134.9 | +4.2 % | 100 % |
+
+So this is an input mistake, not a missing overlap mechanism. An earlier comment on the issue said the 1-stage loop
+paid DRAM latency every step; that was wrong. With the right inputs the simulator keeps DRAM busy, as the hardware does
+(246 GB/s). The separate gap in `notes/gb10_simulator_design.md` (2 against 4 stages of a TMA decode GEMM at M = 128)
+is still open.
