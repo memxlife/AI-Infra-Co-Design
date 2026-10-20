@@ -61,3 +61,29 @@ So this is an input mistake, not a missing overlap mechanism. An earlier comment
 paid DRAM latency every step; that was wrong. With the right inputs the simulator keeps DRAM busy, as the hardware does
 (246 GB/s). The separate gap in `notes/gb10_simulator_design.md` (2 against 4 stages of a TMA decode GEMM at M = 128)
 is still open.
+
+## 5. The two cases without a correct result
+
+**`gqa_splitkv` (wrong answers on scaled inputs): the per-split log-sum-exp is kept in fp16.** The kernel stores each
+split's log-sum-exp in `glse = T.alloc_global(..., dtype)` and the merge kernel reads it into
+`lse_local = T.alloc_fragment(..., dtype)`, both fp16. The merge weights each split by `exp2(lse_split - lse_total)`.
+With Q and K scaled by 20 (the contributor's "scaled" check), log-sum-exp values reach the thousands, where fp16 keeps
+only every second integer, so a split's weight can be off by up to 2x. Checked on our GB10 (`check_gqa_splitkv.py`,
+the contributor's inputs and pass rule, rtol = atol = 0.01):
+
+| Kernel | random | zeros | Q, K x 20 |
+|---|---:|---:|---:|
+| as written | 0.000095 pass | 0 pass | 0.314453 FAIL (their number) |
+| `glse` and `lse_local` in fp32 | 0.000031 pass | 0 pass | 0.001953 pass |
+
+The same fp16 buffer is in TileLang's own examples (pinned commit): `examples/flash_decoding/example_gqa_decode.py`
+line 72, `examples/flash_decoding/example_mha_inference.py` and `examples/deepseek_mla/example_mla_decode.py`.
+
+**`block_sparse_attention` (timed out after 360 s on the contributor's machine): not reproduced.** With the
+contributor's mask (diagonal blocks plus column 0), inputs (random, zeros, x3) and pass rule, the kernel passes all
+three checks on our GB10 and runs at 624 µs per call (`check_block_sparse_attention.py`). TileLang's own block-sparse
+example also passes here. Their log stops right after the compile with no output, so where it stalled is unknown;
+their environment differs (driver 580.95.05, a PyTorch that reports support only up to compute capability 12.0).
+One weakness we did see: with a mask that leaves some row blocks no visible key block, the kernel returns NaN
+(0 / 0 in the final normalization). TileLang's example guards the related -inf case; the contributor's copy dropped
+that guard. Their mask never triggers it.
