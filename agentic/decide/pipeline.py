@@ -20,7 +20,8 @@ from .template import name as cfg_name
 ROOT = Path(__file__).resolve().parents[2]
 REMOTE = "~/work/research/AI-Infra-Co-Design-calib/tilelang/decide/run"
 DOMAINS = {"path": ["tma_ws", "cpasync"], "block_M": [16, 32, 64, 128, 256], "block_N": [32, 64, 128, 256], "block_K": [32, 64, 128],
-           "num_stages": [2, 3, 4, 5, 6], "threads": [128, 256], "c_store": ["direct", "staged"], "split_k": [1, 2, 4]}
+           "num_stages": [2, 3, 4, 5, 6], "threads": [128, 256], "c_store": ["direct", "staged"], "split_k": [1, 2, 4],
+           "swizzle": [0, 10]}                                    # TileLang use_swizzle panel; 0 = row-major
 
 
 def regs_est(bm, bn, th, path):
@@ -50,7 +51,7 @@ def columns(shape, timing):
     for vals in itertools.product(*DOMAINS.values()):
         a = dict(zip(DOMAINS, vals))
         if not legal(a, shape): continue
-        h = {k: a[k] for k in ("block_M", "block_N", "block_K", "num_stages", "threads")} | {"swizzle": 0}
+        h = {k: a[k] for k in ("block_M", "block_N", "block_K", "num_stages", "threads", "swizzle")}
         r, _ = regs_est(a["block_M"], a["block_N"], a["threads"], a["path"])
         try:
             p = gemm_us(h, shape, a["path"], r, timing=timing, c_store=a["c_store"], split=a["split_k"])
@@ -61,7 +62,7 @@ def columns(shape, timing):
 
 
 def to_template(a: dict, **extra) -> dict:
-    t = {k: a[k] for k in ("block_M", "block_N", "block_K", "num_stages", "threads", "c_store", "split_k")}
+    t = {k: a[k] for k in ("block_M", "block_N", "block_K", "num_stages", "threads", "c_store", "split_k", "swizzle")}
     t["copy_path"] = "tma" if a["path"] == "tma_ws" else "cpasync"; t["warp_spec"] = 1 if a["path"] == "tma_ws" else 0
     return {**t, **extra}
 

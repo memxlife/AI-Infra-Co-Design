@@ -1,13 +1,14 @@
 """The tier study, run entirely on the Spark (no laptop needed). For each benchmark shape:
   1. per tier (T1, T1+T2, T1+T2+T3): price every legal configuration of that tier's decisions with the analytical model
      (agentic/decide/price.py), the MILP's top 30 (agentic/decide/mip.py), expanded with the decisions the model cannot
-     price (swizzle; prefetch and warp policy on the cp.async path)
+     price (prefetch and warp policy on the cp.async path); swizzle {0, 10} is a priced decision
   2. compile and check every candidate (unified template), save SASS
   3. the simulator scores them (in parallel; skipped for 4096^3 and 8192^3, where one simulation takes minutes)
-  4. per tier, finalists = the simulator's top 5 and the model's top 5; time them all, plus TileLang's default kernel,
+  4. per tier, finalists = the simulator's top 5, the model's 5 best distinct kernels (8 where nothing is simulated) with
+     their prefetch and warp-policy variants, and the smaller tiers' finalists; time them all, plus TileLang's default kernel,
      TileLang's autotuned pick (study/tilelang_autotune.json) and cuBLASLt (study/cublaslt_seq), with one protocol:
      per call in a back-to-back sequence (warm), and cold (a 64 MB read before every call, its time subtracted)
-  5. tier 4 on the best T3 kernel: the same sequences as a CUDA graph; for the cold decode shapes also an L2 persistence
+  5. tier 4 on the best kernel found (T3's finalists include the smaller tiers'): the same sequences as a CUDA graph; for the cold decode shapes also an L2 persistence
      window on the weights (driver API, 18 MB set aside)
 Writes OUT/<shape>.json as it goes and OUT/summary.md at the end. Resumable: finished shapes are skipped.
 python -m agentic.decide.study.run OUT_DIR"""
@@ -49,7 +50,7 @@ def tier_columns(shape, timing, tier):
     for vals in itertools.product(*dom.values()):
         a = dict(zip(dom, vals))
         if not legal(a, sd): continue
-        h = {k: a[k] for k in ("block_M", "block_N", "block_K", "num_stages", "threads")} | {"swizzle": 0}
+        h = {k: a[k] for k in ("block_M", "block_N", "block_K", "num_stages", "threads", "swizzle")}
         r, _ = regs_est(a["block_M"], a["block_N"], a["threads"], a["path"])
         try: p = gemm_us(h, sd, a["path"], r, timing=timing, c_store=a["c_store"], split=a["split_k"])
         except Exception: continue
@@ -58,7 +59,7 @@ def tier_columns(shape, timing, tier):
 
 
 def to_template(a, **extra):
-    t = {k: a[k] for k in ("block_M", "block_N", "block_K", "num_stages", "threads", "c_store", "split_k")}
+    t = {k: a[k] for k in ("block_M", "block_N", "block_K", "num_stages", "threads", "c_store", "split_k", "swizzle")}
     t["copy_path"] = "tma" if a["path"] == "tma_ws" else "cpasync"; t["warp_spec"] = 1 if a["path"] == "tma_ws" else 0
     return {**t, **extra}
 
@@ -70,7 +71,6 @@ def candidates(shape, timing, tier, n=30):
     for rank, s in enumerate(sols):
         c = by[s["pick"]["g"]["column"]]; base = to_template(c["assign"])
         out.append({**base, "_model": c["t"]})
-        if rank < 10: out.append({**base, "swizzle": 10, "_model": c["t"]})                 # T1 knob the model does not price
         if tier >= 2 and base["copy_path"] == "cpasync" and base["split_k"] == 1:
             for pf, wp in ((1, 0), (0, 2), (1, 2)):
                 if pf < base["num_stages"]: out.append({**base, "prefetch": pf, "warp_policy": wp, "_model": c["t"]})
@@ -248,12 +248,16 @@ def run_shape(shape, out_dir):
         with ProcessPoolExecutor(max_workers=12) as ex:
             for (rec, _, _), v in zip(jobs, ex.map(sim_worker, jobs)): rec["sim_us"] = v
         log(tag, "simulated", len(jobs))
+    def base(nm): return re.sub(r"_pf\d+_wp\d+", "", nm)       # prefetch and warp policy: variants the model prices alike
+    def top_distinct(names, k):                                     # the model's k best kernels, with all their variants
+        keep = list(dict.fromkeys(base(n) for n in sorted(names, key=lambda n: recs[n]["model_us"])))[:k]
+        return [n for n in names if base(n) in keep]
     finals = {}
     for tier, cands in cand_by_tier.items():
         names = [cfg_name(c) for c in cands if cfg_name(c) in kernels]
-        by_model = sorted(names, key=lambda n: recs[n]["model_us"])[:5]
-        by_sim = sorted(names, key=lambda n: recs[n].get("sim_us", float("inf")))[:5] if shape not in NO_SIM else sorted(names, key=lambda n: recs[n]["model_us"])[5:8]
-        finals[tier] = list(dict.fromkeys(by_model + by_sim)); res["tiers"][tier]["finalists"] = finals[tier]
+        by_model = top_distinct(names, 5 if shape not in NO_SIM else 8)
+        by_sim = sorted(names, key=lambda n: recs[n].get("sim_us", float("inf")))[:5] if shape not in NO_SIM else []
+        finals[tier] = list(dict.fromkeys(finals.get(tier - 1, []) + by_model + by_sim)); res["tiers"][tier]["finalists"] = finals[tier]
     n = 50 if M * N * K <= 2 ** 33 else 10
     if os.environ.get("STUDY_SMOKE"): n = 5
     timed = {}

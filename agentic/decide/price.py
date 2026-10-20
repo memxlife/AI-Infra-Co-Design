@@ -8,7 +8,8 @@ Terms added here (microseconds):
             memory, then a TMA store at 33 B/clk per pair (chip 482 B/clk) plus 457 cycles; only the last wave's
             stores are exposed, earlier ones overlap the next wave's loads
   split_k   fp32 C added with atomics from mma accumulators: chip 225 B/clk for split x C bytes; after a flush the
-            first split reads each C line from DRAM
+            first split reads each C line from DRAM; when the fp32 C is larger than the L2, every split's adds read and
+            write C in DRAM (a 1:1 mix, dram.cu). Without that term 8192^3 split 8 priced 15.0 ms; measured 31-46 ms
   launch    2.6 us per kernel from a stream, 0.43 us (+0.43 ns per block) inside a CUDA graph
   l2_pin    the bytes of a tensor held in the persisting L2 come at the L2 rate instead of DRAM (8 MB: 37.7 -> 8.0 us)"""
 from __future__ import annotations
@@ -41,6 +42,9 @@ def splitk_extra_us(h: dict, shape: dict, split: int, cold: bool) -> float:
     if split <= 1: return 0.0
     S = _sim(); F = 2.54e3; c32 = shape["M"] * shape["N"] * 4
     t = split * c32 / S["red_chip_B_per_clk_frag"] / F
+    if c32 > P["l2_effective_bytes"]:
+        mix = 1 / (0.5 / P["dram_read_GBs"] + 0.5 / P["dram_write_GBs"])
+        return max(t, 2 * split * c32 / (mix * 1e9) * 1e6)
     if cold: t += c32 / (P["dram_read_GBs"] * 1e9) * 1e6
     return t
 
