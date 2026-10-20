@@ -1,6 +1,6 @@
 """The tier study, run entirely on the Spark (no laptop needed). For each benchmark shape:
   1. per tier (T1, T1+T2, T1+T2+T3): price every legal configuration of that tier's decisions with the analytical model
-     (agentic/decide/price.py), the MILP's top 30 (agentic/decide/mip.py), expanded with the decisions the model cannot
+     (agentic/decide/price.py), the MILP's top 60 (agentic/decide/mip.py), expanded with the decisions the model cannot
      price (prefetch and warp policy on the cp.async path); swizzle {0, 10} is a priced decision
   2. compile and check every candidate (unified template), save SASS
   3. the simulator scores them (in parallel; skipped for 4096^3 and 8192^3, where one simulation takes minutes)
@@ -64,7 +64,7 @@ def to_template(a, **extra):
     return {**t, **extra}
 
 
-def candidates(shape, timing, tier, n=30):
+def candidates(shape, timing, tier, n=60):                 # swizzle doubles the columns: 60 keeps ~30 distinct tile shapes
     cols = tier_columns(shape, timing, tier)
     sols = top_k([{"name": "g", "columns": [{"id": c["id"], "t": c["t"]} for c in cols]}], k=n)
     by = {c["id"]: c for c in cols}; out = []
