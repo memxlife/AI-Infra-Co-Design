@@ -489,5 +489,14 @@
    ]
   },
   "source": "probe: l2persist.cu, a decode-style read of W MB of weights after a 64 MB stream of other traffic, without and with a stream access-policy window marking the weights persisting (18 MB set aside): 3.4-5x faster; the window keeps the weights in the L2 across the other traffic"
+ },
+ "cvt_smsp_clk_per_instr": {
+  "value": {
+   "I2F.F16 (s32 or u32)": 8.0,
+   "F2FP.F16.F32.PACK_AB": 2.0,
+   "I2FP.F32.S32": 2.0
+  },
+  "unit": "cycles per warp instruction per sub-partition",
+  "source": "probe: cvt.cu (Oct 20; issue #5's 4-bit GEMV runs 32 I2F.F16 per loop pass). 8 chains per thread, each conversion folded back into its input (no hoisting), 32 warps per SM on 48 SMs, events around the kernel, MUFU.EX2 as the ruler in the same binary. Cycles per element: scaffold PRMT+IADD3 4.04; I2F.F16+PRMT+IADD3 8.06 (s32 and u32); I2FP.F32.S32+IADD3 4.03; F2FP+PRMT+IADD3+LOP3 8.04; MUFU.EX2+IADD3+2 LOP3 8.23; I2F.F16 and MUFU.EX2 on alternate chains 8.13, so I2F.F16 shares the SFU with MUFU (two units would give about 5). I2FP runs on the ALU with IADD3 at 2 cycles each; F2FP on the ALU at 2. Raw output calibration/spark-6951/cvt.txt"
  }
 }

@@ -208,6 +208,9 @@ and `alumix.cu`; the raw `alu.txt` counts source operations, not instructions):
 | LOP3 (logic), SHF (shift), PRMT (byte permute) | 2.0 | ALU, 2 |
 | HADD2.F32 and F2FP (half to float, float to half) | 2.0 for both together | whichever unit is free |
 | F2I (float to integer) | 0.5 | the SFU's rate |
+| I2F.F16 (integer to fp16) | 0.5 (`cvt.cu`) | SFU, 8; shares it with MUFU |
+| I2FP.F32.S32 (integer to fp32) | 2.0 (`cvt.cu`) | ALU, 2 |
+| F2FP (fp32 to fp16) | 2.0 (`cvt.cu`) | ALU, 2 |
 
 Pairs show which kinds share a unit (`alumix.cu`):
 

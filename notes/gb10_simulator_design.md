@@ -272,7 +272,7 @@ When the counters clear:
 | `LDG` (plain load), L1 hit | end of its L1 time + 45 | end of the address stage |
 | `LDG`, L1 miss | end of its return-path time | end of the address stage |
 | `LDL`, `STL` (spills) | end of its L1 time + 45 | end of its L1 time |
-| `MUFU`, `F2I`, `I2F`, `F2F`, `FRND`, `I2FP`, `F2IP` | issue + 18 | issue + 8 |
+| `MUFU`, `F2I`, `I2F`, `F2F`, `FRND`, `F2IP` | issue + 18 | issue + 8 |
 | `LDGSTS` (cp.async) | none (completion goes through its group) | end of the address stage |
 | `LDGDEPBAR` (commit) | when the group's last copy is in shared memory | |
 | `STG`, `RED` | | when the store port starts it |
@@ -319,9 +319,9 @@ count the count stays right, so the loops really are decided by the values.
 | Tensor pipe | `HMMA`, `IMMA`, `QMMA`, `OMMA`, every shape and type | 16 cycles | `mma_rate.cu`, `mma_types.cu` (16.05-16.10) |
 | FMA unit | `FFMA`, `FADD`, `FMUL` | 1 cycle | `alu.cu`, `alumix.cu` |
 | FMA unit | `IMAD`, `IMUL`, `HFMA2`, `HADD2`, `HMUL2` | 2 cycles (FP32 waits too) | `alu.cu`, `alumix.cu` |
-| ALU unit | `LOP3`, `PRMT`, `SHF`, `IADD3`, `ISETP`, `SEL`, `LEA`, `F2FP`, `IMNMX`, `FMNMX`, `FSETP`, `FSEL`, `PLOP3`, `LOP`, `IABS`, `SHL`, `SHR` | 2 cycles | `alu.cu`, `alumix.cu` |
+| ALU unit | `LOP3`, `PRMT`, `SHF`, `IADD3`, `ISETP`, `SEL`, `LEA`, `F2FP`, `I2FP` (int to fp32), `IMNMX`, `FMNMX`, `FSETP`, `FSEL`, `PLOP3`, `LOP`, `IABS`, `SHL`, `SHR` | 2 cycles | `alu.cu`, `alumix.cu`; `cvt.cu` for `I2FP` and `F2FP` |
 | FMA or ALU, whichever is free | `HADD2.F32` (half to float) | 2 cycles | `alumix.cu` |
-| SFU | `MUFU` (exp2, rsqrt, ...), `F2I`, `I2F`, `F2F`, `FRND`, `I2FP`, `F2IP` | 8 cycles; result after 18 | `sfu.cu` |
+| SFU | `MUFU` (exp2, rsqrt, ...), `F2I`, `I2F` (including `I2F.F16`), `F2F`, `FRND`, `F2IP` | 8 cycles; result after 18 | `sfu.cu`; `cvt.cu` for `I2F.F16` (8.06 cycles, and it shares the unit with `MUFU`) |
 
 Every mma type holds the pipe the same 16 cycles, so the type sets the rate: fp16 and bf16 give 1024 FLOP per clock per
 SM, tf32 512, fp8, int8 and fp4 (through `kind::f8f6f4`) 2048 (`mma_types.cu`). Instructions not in this table (`MOV`,

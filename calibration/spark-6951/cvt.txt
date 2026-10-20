@@ -1,0 +1,8 @@
+mode | ms | cycles per element per sub-partition at 2.52 GHz | by the EX2 ruler (8 x t / t_ex2)
+scaffold only (mov)              |    0.420 |   4.04 |   3.93
+I2F.F16 from s32                 |    0.838 |   8.06 |   7.83
+I2F.F16 from u32                 |    0.838 |   8.05 |   7.83
+int to fp32                      |    0.419 |   4.03 |   3.92
+fp32 to fp16                     |    0.836 |   8.04 |   7.81
+MUFU.EX2 ruler                   |    0.856 |   8.23 |   8.00
+I2F.F16 + MUFU.EX2 alternating   |    0.846 |   8.13 |   7.90

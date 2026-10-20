@@ -20,8 +20,9 @@ P = json.load(open(ROOT / "calibration" / "spark-6951" / "gb10.json"))["sim"]["v
 
 FMA_FP32 = {"FFMA", "FADD", "FMUL"}
 FMA_2 = {"IMAD", "HFMA2", "HADD2", "HMUL2", "IMUL"}
-ALU_2 = {"LOP3", "PRMT", "SHF", "IADD3", "ISETP", "SEL", "LEA", "F2FP", "IMNMX", "FMNMX", "FSETP", "FSEL", "PLOP3", "LOP", "IABS", "SHL", "SHR"}
-XU_OPS = {"F2I", "I2F", "F2F", "FRND", "I2FP", "F2IP"}
+ALU_2 = {"LOP3", "PRMT", "SHF", "IADD3", "ISETP", "SEL", "LEA", "F2FP", "IMNMX", "FMNMX", "FSETP", "FSEL", "PLOP3", "LOP", "IABS", "SHL", "SHR",
+         "I2FP"}                                                     # cvt.cu: I2FP.F32.S32 + IADD3 = 4.03 cycles, one unit
+XU_OPS = {"F2I", "I2F", "F2F", "FRND", "F2IP"}                     # cvt.cu: I2F.F16 8.06 cycles, shares the unit with MUFU
 
 
 def unit(x) -> str | None:
@@ -77,7 +78,7 @@ class SM:
         self.tensor_free = [0] * 4; self.smem_free = 0; self.fill_free = 0; self.mio_free = [0] * 4; self.mufu_free = [0] * 4
         # the arithmetic units of a sub-partition (probes alu.cu, alumix.cu): an FMA unit (FP32 add/multiply 1 cycle;
         # IMAD and packed half math 2 cycles, which also hold off FP32) and an ALU unit (logic, shifts, byte permutes,
-        # integer add/compare, half<->float conversions: 2 cycles); conversions to and from integers use the SFU
+        # integer add/compare, half<->float conversions, int->fp32 I2FP: 2 cycles); I2F (int->fp16), F2I, F2F use the SFU
         self.fma_free = [0] * 4; self.alu_free = [0] * 4
         # lines each copy of a k-tile touches, in program order (A rows then B rows); cycles them per warp
         self.copy_lines = copy_lines or [4]; self.lsu_free = 0
