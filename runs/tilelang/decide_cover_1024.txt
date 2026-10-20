@@ -1,0 +1,30 @@
+kernel.py.j2
+cublaslt_gemm
+run
+tilelang
+{"name": "tma_ws_128x128x32_st3_th128_sw0_pf0_wp0_vw0_inf_direct_sk1", "ok": true, "rel_err": 0.00020749152463395149, "warm_us": 46.831998974084854, "cold_us": 47.15200141072273, "regs": 240, "error": null}
+{"name": "tma_ws_64x128x32_st3_th128_sw0_pf0_wp0_vw0_inf_direct_sk1", "ok": true, "rel_err": 0.00020749152463395149, "warm_us": 38.80000114440918, "cold_us": 43.007999658584595, "regs": 240, "error": null}
+{"name": "tma_ws_256x128x32_st3_th128_sw0_pf0_wp0_vw0_inf_direct_sk1", "ok": true, "rel_err": 0.00020749152463395149, "warm_us": 116.5120005607605, "cold_us": 116.73600226640701, "regs": 240, "error": null}
+{"name": "tma_ws_128x64x32_st3_th128_sw0_pf0_wp0_vw0_inf_direct_sk1", "ok": true, "rel_err": 0.00020749152463395149, "warm_us": 36.67199984192848, "cold_us": 43.007999658584595, "regs": 240, "error": null}
+{"name": "tma_ws_128x256x32_st3_th128_sw0_pf0_wp0_vw0_inf_direct_sk1", "ok": true, "rel_err": 0.00020749152463395149, "warm_us": 112.47999966144562, "cold_us": 113.72799798846245, "regs": 240, "error": null}
+{"name": "tma_ws_128x128x64_st3_th128_sw0_pf0_wp0_vw0_inf_direct_sk1", "ok": true, "rel_err": 0.00020749152463395149, "warm_us": 44.83199864625931, "cold_us": 45.232001692056656, "regs": 240, "error": null}
+{"name": "tma_ws_128x128x32_st2_th128_sw0_pf0_wp0_vw0_inf_direct_sk1", "ok": true, "rel_err": 0.00020749152463395149, "warm_us": 46.879999339580536, "cold_us": 49.15200173854828, "regs": 240, "error": null}
+{"name": "tma_ws_128x128x32_st4_th128_sw0_pf0_wp0_vw0_inf_direct_sk1", "ok": true, "rel_err": 0.00020749152463395149, "warm_us": 46.879999339580536, "cold_us": 47.10400104522705, "regs": 240, "error": null}
+{"name": "tma_ws_128x128x32_st5_th128_sw0_pf0_wp0_vw0_inf_direct_sk1", "ok": true, "rel_err": 0.00020749152463395149, "warm_us": 46.879999339580536, "cold_us": 47.10400104522705, "regs": 240, "error": null}
+{"name": "tma_ws_128x128x32_st6_th128_sw0_pf0_wp0_vw0_inf_direct_sk1", "ok": true, "rel_err": 0.00020749152463395149, "warm_us": 44.95999962091446, "cold_us": 47.10400104522705, "regs": 240, "error": null}
+{"name": "tma_ws_128x128x32_st3_th256_sw0_pf0_wp0_vw0_inf_direct_sk1", "ok": true, "rel_err": 0.00020749152463395149, "warm_us": 40.752001106739044, "cold_us": 45.05600035190582, "regs": 168, "error": null}
+{"name": "tma_ws_128x128x32_st3_th128_sw4_pf0_wp0_vw0_inf_direct_sk1", "ok": true, "rel_err": 0.00020749152463395149, "warm_us": 46.879999339580536, "cold_us": 46.640001237392426, "regs": 240, "error": null}
+{"name": "tma_ws_128x128x32_st3_th128_sw8_pf0_wp0_vw0_inf_direct_sk1", "ok": true, "rel_err": 0.00020749152463395149, "warm_us": 46.879999339580536, "cold_us": 45.13600096106529, "regs": 240, "error": null}
+{"name": "tma_ws_128x128x32_st3_th128_sw16_pf0_wp0_vw0_inf_direct_sk1", "ok": true, "rel_err": 0.00020749152463395149, "warm_us": 46.879999339580536, "cold_us": 45.21600157022476, "regs": 240, "error": null}
+{"name": "tma_ws_128x128x32_st3_th128_sw0_pf1_wp0_vw0_inf_direct_sk1", "ok": true, "rel_err": 0.00020749152463395149, "warm_us": 46.879999339580536, "cold_us": 49.15200173854828, "regs": 240, "error": null}
+{"name": "tma_ws_128x128x32_st3_th128_sw0_pf0_wp1_vw0_inf_direct_sk1", "ok": true, "rel_err": 0.00020749152463395149, "warm_us": 46.879999339580536, "cold_us": 47.21600003540516, "regs": 240, "error": null}
+{"name": "tma_ws_128x128x32_st3_th128_sw0_pf0_wp2_vw0_inf_direct_sk1", "ok": true, "rel_err": 0.00020749152463395149, "warm_us": 46.879999339580536, "cold_us": 47.10400104522705, "regs": 240, "error": null}
+{"name": "tma_ws_128x128x32_st3_th128_sw0_pf0_wp0_vw8_inf_direct_sk1", "ok": true, "rel_err": 0.00020749152463395149, "warm_us": 46.879999339580536, "cold_us": 47.10400104522705, "regs": 240, "error": null}
+{"name": "cpasync_128x128x32_st3_th128_sw0_pf0_wp0_vw0_inf_direct_sk1", "ok": true, "rel_err": 0.00020749152463395149, "warm_us": 40.73600098490715, "cold_us": 40.95999896526337, "regs": 202, "error": null}
+{"name": "tma_128x128x32_st3_th128_sw0_pf0_wp0_vw0_inf_direct_sk1", "ok": true, "rel_err": 0.00020749152463395149, "warm_us": 40.73600098490715, "cold_us": 40.95999896526337, "regs": 202, "error": null}
+{"name": "tma_ws_128x128x32_st3_th128_sw0_pf0_wp0_vw0_swi_direct_sk1", "ok": true, "rel_err": 0.00020749152463395149, "warm_us": 46.879999339580536, "cold_us": 47.18399979174137, "regs": 240, "error": null}
+{"name": "tma_ws_128x128x32_st3_th128_sw0_pf0_wp0_vw0_inf_staged_sk1", "ok": true, "rel_err": 0.00020749152463395149, "warm_us": 42.78400167822838, "cold_us": 43.007999658584595, "regs": 240, "error": null}
+{"name": "cpasync_128x128x32_st3_th128_sw0_pf0_wp0_vw0_inf_direct_sk2", "ok": true, "rel_err": 7.54178756778856e-07, "warm_us": 42.81599819660187, "cold_us": 61.43999844789505, "regs": 202, "error": null}
+{"name": "cpasync_128x128x32_st3_th128_sw0_pf0_wp0_vw0_inf_direct_sk4", "ok": true, "rel_err": 5.226807502367592e-07, "warm_us": 54.975999519228935, "cold_us": 69.63200122117996, "regs": 202, "error": null}
+{"name": "cuBLASLt", "shape": {"M": 1024, "N": 1024, "K": 1024}, "cold": 0, "us": 34.1}
+{"name": "cuBLASLt", "shape": {"M": 1024, "N": 1024, "K": 1024}, "cold": 1, "us": 34.6}

@@ -1,0 +1,562 @@
+{
+ "cover_1024/tma_ws_128x128x32_st3_th128_sw0_pf0_wp0_vw0_inf_direct_sk1": {
+  "code_md5": "00d4d03971a4f5e7e9e3860662aadb8e",
+  "instructions": 1392,
+  "regs": 240,
+  "warm_us": 46.831998974084854,
+  "cold_us": 47.15200141072273,
+  "ok": true
+ },
+ "cover_1024/tma_ws_64x128x32_st3_th128_sw0_pf0_wp0_vw0_inf_direct_sk1": {
+  "code_md5": "7408e9d2b8d502654140cbdb53cd5381",
+  "instructions": 1264,
+  "regs": 240,
+  "warm_us": 38.80000114440918,
+  "cold_us": 43.007999658584595,
+  "ok": true
+ },
+ "cover_1024/tma_ws_256x128x32_st3_th128_sw0_pf0_wp0_vw0_inf_direct_sk1": {
+  "code_md5": "79cd96b0f4b0a0cfc55f8a62a9a88841",
+  "instructions": 2080,
+  "regs": 240,
+  "warm_us": 116.5120005607605,
+  "cold_us": 116.73600226640701,
+  "ok": true
+ },
+ "cover_1024/tma_ws_128x64x32_st3_th128_sw0_pf0_wp0_vw0_inf_direct_sk1": {
+  "code_md5": "30847b7c2f89a30bf6d6bd9ac4341f87",
+  "instructions": 1200,
+  "regs": 240,
+  "warm_us": 36.67199984192848,
+  "cold_us": 43.007999658584595,
+  "ok": true
+ },
+ "cover_1024/tma_ws_128x256x32_st3_th128_sw0_pf0_wp0_vw0_inf_direct_sk1": {
+  "code_md5": "67799979107ce8f4f5e8f3e36161401b",
+  "instructions": 2448,
+  "regs": 240,
+  "warm_us": 112.47999966144562,
+  "cold_us": 113.72799798846245,
+  "ok": true
+ },
+ "cover_1024/tma_ws_128x128x64_st3_th128_sw0_pf0_wp0_vw0_inf_direct_sk1": {
+  "code_md5": "1ac8dbab5d607de7d3b5e4e47b7818bc",
+  "instructions": 1072,
+  "regs": 240,
+  "warm_us": 44.83199864625931,
+  "cold_us": 45.232001692056656,
+  "ok": true
+ },
+ "cover_1024/tma_ws_128x128x32_st2_th128_sw0_pf0_wp0_vw0_inf_direct_sk1": {
+  "code_md5": "4deca466731ba29e267b179692c2156b",
+  "instructions": 1360,
+  "regs": 240,
+  "warm_us": 46.879999339580536,
+  "cold_us": 49.15200173854828,
+  "ok": true
+ },
+ "cover_1024/tma_ws_128x128x32_st4_th128_sw0_pf0_wp0_vw0_inf_direct_sk1": {
+  "code_md5": "9628dd3160776cf3197775f4e087c251",
+  "instructions": 1384,
+  "regs": 240,
+  "warm_us": 46.879999339580536,
+  "cold_us": 47.10400104522705,
+  "ok": true
+ },
+ "cover_1024/tma_ws_128x128x32_st5_th128_sw0_pf0_wp0_vw0_inf_direct_sk1": {
+  "code_md5": "d464975ad18d4aa018fa71bcc59afa9e",
+  "instructions": 1408,
+  "regs": 240,
+  "warm_us": 46.879999339580536,
+  "cold_us": 47.10400104522705,
+  "ok": true
+ },
+ "cover_1024/tma_ws_128x128x32_st6_th128_sw0_pf0_wp0_vw0_inf_direct_sk1": {
+  "code_md5": "56a317c2a87c56de20b1a252df6d8c61",
+  "instructions": 1416,
+  "regs": 240,
+  "warm_us": 44.95999962091446,
+  "cold_us": 47.10400104522705,
+  "ok": true
+ },
+ "cover_1024/tma_ws_128x128x32_st3_th256_sw0_pf0_wp0_vw0_inf_direct_sk1": {
+  "code_md5": "02766e65cc6d4fb6d967371a36d42ffa",
+  "instructions": 1328,
+  "regs": 168,
+  "warm_us": 40.752001106739044,
+  "cold_us": 45.05600035190582,
+  "ok": true
+ },
+ "cover_1024/tma_ws_128x128x32_st3_th128_sw4_pf0_wp0_vw0_inf_direct_sk1": {
+  "code_md5": "a4acad12143258ead01f06526c4eafb9",
+  "instructions": 1496,
+  "regs": 240,
+  "warm_us": 46.879999339580536,
+  "cold_us": 46.640001237392426,
+  "ok": true
+ },
+ "cover_1024/tma_ws_128x128x32_st3_th128_sw8_pf0_wp0_vw0_inf_direct_sk1": {
+  "code_md5": "d97c1cfee6aab424ec8be44f1485b414",
+  "instructions": 1496,
+  "regs": 240,
+  "warm_us": 46.879999339580536,
+  "cold_us": 45.13600096106529,
+  "ok": true
+ },
+ "cover_1024/tma_ws_128x128x32_st3_th128_sw16_pf0_wp0_vw0_inf_direct_sk1": {
+  "code_md5": "ab267b6203492fbd4d337ca0e47df045",
+  "instructions": 1496,
+  "regs": 240,
+  "warm_us": 46.879999339580536,
+  "cold_us": 45.21600157022476,
+  "ok": true
+ },
+ "cover_1024/tma_ws_128x128x32_st3_th128_sw0_pf1_wp0_vw0_inf_direct_sk1": {
+  "code_md5": "00d4d03971a4f5e7e9e3860662aadb8e",
+  "instructions": 1392,
+  "regs": 240,
+  "warm_us": 46.879999339580536,
+  "cold_us": 49.15200173854828,
+  "ok": true
+ },
+ "cover_1024/tma_ws_128x128x32_st3_th128_sw0_pf0_wp1_vw0_inf_direct_sk1": {
+  "code_md5": "dcb9134d504e798fff33b02ba25b6603",
+  "instructions": 1392,
+  "regs": 240,
+  "warm_us": 46.879999339580536,
+  "cold_us": 47.21600003540516,
+  "ok": true
+ },
+ "cover_1024/tma_ws_128x128x32_st3_th128_sw0_pf0_wp2_vw0_inf_direct_sk1": {
+  "code_md5": "8a7925c13c9db842ba7c9b45837e8b4a",
+  "instructions": 1384,
+  "regs": 240,
+  "warm_us": 46.879999339580536,
+  "cold_us": 47.10400104522705,
+  "ok": true
+ },
+ "cover_1024/tma_ws_128x128x32_st3_th128_sw0_pf0_wp0_vw8_inf_direct_sk1": {
+  "code_md5": "00d4d03971a4f5e7e9e3860662aadb8e",
+  "instructions": 1392,
+  "regs": 240,
+  "warm_us": 46.879999339580536,
+  "cold_us": 47.10400104522705,
+  "ok": true
+ },
+ "cover_1024/cpasync_128x128x32_st3_th128_sw0_pf0_wp0_vw0_inf_direct_sk1": {
+  "code_md5": "6441c09b7650241631315c5a869ae503",
+  "instructions": 800,
+  "regs": 202,
+  "warm_us": 40.73600098490715,
+  "cold_us": 40.95999896526337,
+  "ok": true
+ },
+ "cover_1024/tma_128x128x32_st3_th128_sw0_pf0_wp0_vw0_inf_direct_sk1": {
+  "code_md5": "6441c09b7650241631315c5a869ae503",
+  "instructions": 800,
+  "regs": 202,
+  "warm_us": 40.73600098490715,
+  "cold_us": 40.95999896526337,
+  "ok": true
+ },
+ "cover_1024/tma_ws_128x128x32_st3_th128_sw0_pf0_wp0_vw0_swi_direct_sk1": {
+  "code_md5": "00d4d03971a4f5e7e9e3860662aadb8e",
+  "instructions": 1392,
+  "regs": 240,
+  "warm_us": 46.879999339580536,
+  "cold_us": 47.18399979174137,
+  "ok": true
+ },
+ "cover_1024/tma_ws_128x128x32_st3_th128_sw0_pf0_wp0_vw0_inf_staged_sk1": {
+  "code_md5": "db203a6eb2a0f8ba560b95c118b30d0c",
+  "instructions": 1496,
+  "regs": 240,
+  "warm_us": 42.78400167822838,
+  "cold_us": 43.007999658584595,
+  "ok": true
+ },
+ "cover_1024/cpasync_128x128x32_st3_th128_sw0_pf0_wp0_vw0_inf_direct_sk2": {
+  "code_md5": "5bd69c280f597839abee933c28fd3b7b",
+  "instructions": 760,
+  "regs": 202,
+  "warm_us": 42.81599819660187,
+  "cold_us": 61.43999844789505,
+  "ok": true
+ },
+ "cover_1024/cpasync_128x128x32_st3_th128_sw0_pf0_wp0_vw0_inf_direct_sk4": {
+  "code_md5": "3e314629385b6dbcaa92a193b5ba3663",
+  "instructions": 760,
+  "regs": 202,
+  "warm_us": 54.975999519228935,
+  "cold_us": 69.63200122117996,
+  "ok": true
+ },
+ "cover2/cpasync_64x128x32_st3_th256_sw0_pf0_wp0_vw0_inf_direct_sk1": {
+  "code_md5": "cb0edee60497825a63ab545856d26cd6",
+  "instructions": 1552,
+  "regs": 102,
+  "warm_us": 34.60799902677536,
+  "cold_us": 36.86400130391121,
+  "ok": true
+ },
+ "cover2/cpasync_128x128x32_st3_th256_sw0_pf0_wp0_vw0_inf_direct_sk1": {
+  "code_md5": "5388254d5b79d7412a837e79181ad65f",
+  "instructions": 488,
+  "regs": 128,
+  "warm_us": 42.81599819660187,
+  "cold_us": 43.007999658584595,
+  "ok": true
+ },
+ "cover2/cpasync_256x128x32_st3_th256_sw0_pf0_wp0_vw0_inf_direct_sk1": {
+  "code_md5": "1a34d2d703683757781aa425e691fbaf",
+  "instructions": 776,
+  "regs": 198,
+  "warm_us": 42.847998440265656,
+  "cold_us": 44.97599974274635,
+  "ok": true
+ },
+ "cover2/cpasync_64x64x32_st3_th256_sw0_pf0_wp0_vw0_inf_direct_sk1": {
+  "code_md5": "fa0b11ec4f41a973a398c6ae4b704b15",
+  "instructions": 960,
+  "regs": 74,
+  "warm_us": 40.57599976658821,
+  "cold_us": 43.007999658584595,
+  "ok": true
+ },
+ "cover2/cpasync_64x256x32_st3_th256_sw0_pf0_wp0_vw0_inf_direct_sk1": {
+  "code_md5": "5d9cf49d637c0ace4942f19434c3edce",
+  "instructions": 504,
+  "regs": 136,
+  "warm_us": 53.05600166320801,
+  "cold_us": 53.42400074005127,
+  "ok": true
+ },
+ "cover2/cpasync_64x128x64_st3_th256_sw0_pf0_wp0_vw0_inf_direct_sk1": {
+  "code_md5": "13367cd29a640493d741e907c228ea34",
+  "instructions": 480,
+  "regs": 96,
+  "warm_us": 39.744000881910324,
+  "cold_us": 43.007999658584595,
+  "ok": true
+ },
+ "cover2/cpasync_64x128x32_st2_th256_sw0_pf0_wp0_vw0_inf_direct_sk1": {
+  "code_md5": "b7d49f306e474a1ad9ad5745b1cf373a",
+  "instructions": 656,
+  "regs": 80,
+  "warm_us": 32.54399821162224,
+  "cold_us": 34.81600061058998,
+  "ok": true
+ },
+ "cover2/cpasync_64x128x32_st4_th256_sw0_pf0_wp0_vw0_inf_direct_sk1": {
+  "code_md5": "5637ed11ae993f802327fc2d6c2b93ef",
+  "instructions": 448,
+  "regs": 98,
+  "warm_us": 36.67199984192848,
+  "cold_us": 38.91199827194214,
+  "ok": true
+ },
+ "cover2/cpasync_64x128x32_st5_th256_sw0_pf0_wp0_vw0_inf_direct_sk1": {
+  "code_md5": "1a2368689d9000b1efd2ebde7fda2519",
+  "instructions": 1528,
+  "regs": 96,
+  "warm_us": 34.623999148607254,
+  "cold_us": 38.91199827194214,
+  "ok": true
+ },
+ "cover2/cpasync_64x128x32_st6_th256_sw0_pf0_wp0_vw0_inf_direct_sk1": {
+  "code_md5": "89b25378902ced3c37c662f6fd94588c",
+  "instructions": 560,
+  "regs": 94,
+  "warm_us": 38.704000413417816,
+  "cold_us": 40.95999896526337,
+  "ok": true
+ },
+ "cover2/cpasync_64x128x32_st3_th128_sw0_pf0_wp0_vw0_inf_direct_sk1": {
+  "code_md5": "384e9657638c3f496e3669ae3cfd4ff1",
+  "instructions": 512,
+  "regs": 136,
+  "warm_us": 38.736000657081604,
+  "cold_us": 43.007999658584595,
+  "ok": true
+ },
+ "cover2/cpasync_64x128x32_st3_th256_sw4_pf0_wp0_vw0_inf_direct_sk1": {
+  "code_md5": "e8ea548f53f980c2f7b274957204a250",
+  "instructions": 1704,
+  "regs": 106,
+  "warm_us": 34.623999148607254,
+  "cold_us": 36.86400130391121,
+  "ok": true
+ },
+ "cover2/cpasync_64x128x32_st3_th256_sw8_pf0_wp0_vw0_inf_direct_sk1": {
+  "code_md5": "70ec58c61614b9370c9389303e1a204d",
+  "instructions": 1704,
+  "regs": 106,
+  "warm_us": 34.623999148607254,
+  "cold_us": 36.86400130391121,
+  "ok": true
+ },
+ "cover2/cpasync_64x128x32_st3_th256_sw16_pf0_wp0_vw0_inf_direct_sk1": {
+  "code_md5": "c11bdd4b5e001b4527be262a6dc7a392",
+  "instructions": 1704,
+  "regs": 106,
+  "warm_us": 34.60799902677536,
+  "cold_us": 36.86400130391121,
+  "ok": true
+ },
+ "cover2/cpasync_64x128x32_st3_th256_sw0_pf1_wp0_vw0_inf_direct_sk1": {
+  "code_md5": "b7d49f306e474a1ad9ad5745b1cf373a",
+  "instructions": 656,
+  "regs": 80,
+  "warm_us": 32.575998455286026,
+  "cold_us": 34.81600061058998,
+  "ok": true
+ },
+ "cover2/cpasync_64x128x32_st3_th256_sw0_pf0_wp1_vw0_inf_direct_sk1": {
+  "code_md5": "9644c7c4dc3791c30c90836b99b8d6eb",
+  "instructions": 344,
+  "regs": 94,
+  "warm_us": 38.72000053524971,
+  "cold_us": 40.95999896526337,
+  "ok": true
+ },
+ "cover2/cpasync_64x128x32_st3_th256_sw0_pf0_wp2_vw0_inf_direct_sk1": {
+  "code_md5": "603632346b4dd8df3dd7e234b5f9c996",
+  "instructions": 1544,
+  "regs": 100,
+  "warm_us": 32.575998455286026,
+  "cold_us": 34.81600061058998,
+  "ok": true
+ },
+ "cover2/cpasync_64x128x32_st3_th256_sw0_pf0_wp0_vw8_inf_direct_sk1": {
+  "code_md5": "cb0edee60497825a63ab545856d26cd6",
+  "instructions": 1552,
+  "regs": 102,
+  "warm_us": 34.623999148607254,
+  "cold_us": 36.86400130391121,
+  "ok": true
+ },
+ "cover2/cpasync_ws_64x128x32_st3_th256_sw0_pf0_wp0_vw0_inf_direct_sk1": {
+  "code_md5": "cb0edee60497825a63ab545856d26cd6",
+  "instructions": 1552,
+  "regs": 102,
+  "warm_us": 34.591998904943466,
+  "cold_us": 36.86400130391121,
+  "ok": true
+ },
+ "cover2/cpasync_64x128x32_st3_th256_sw0_pf0_wp0_vw0_swi_direct_sk1": {
+  "code_md5": "cb0edee60497825a63ab545856d26cd6",
+  "instructions": 1552,
+  "regs": 102,
+  "warm_us": 34.623999148607254,
+  "cold_us": 36.86400130391121,
+  "ok": true
+ },
+ "cover2/cpasync_64x128x32_st3_th256_sw0_pf0_wp0_vw0_inf_staged_sk1": {
+  "code_md5": "15212cf7e5a77f335c847def2bc725c3",
+  "instructions": 1576,
+  "regs": 96,
+  "warm_us": 30.54399974644184,
+  "cold_us": 32.76799991726875,
+  "ok": true
+ },
+ "cover2/cpasync_64x128x32_st3_th256_sw0_pf0_wp0_vw0_inf_direct_sk2": {
+  "code_md5": "e488494071dcb27b3a50c0c41c80228c",
+  "instructions": 872,
+  "regs": 106,
+  "warm_us": 40.800001472234726,
+  "cold_us": 61.423998326063156,
+  "ok": true
+ },
+ "cover2/cpasync_64x128x32_st3_th256_sw0_pf0_wp0_vw0_inf_direct_sk4": {
+  "code_md5": "3bdad9bc2733bc731db35695f4b64228",
+  "instructions": 520,
+  "regs": 106,
+  "warm_us": 48.96000027656555,
+  "cold_us": 71.6480016708374,
+  "ok": true
+ },
+ "cover2/tma_ws_128x128x32_st4_th128_sw0_pf0_wp0_vw0_inf_direct_sk1": {
+  "code_md5": "61b794f1dbce71719f00d92ad1d4ac66",
+  "instructions": 720,
+  "regs": 240,
+  "warm_us": 136.00000739097595,
+  "cold_us": 150.4960060119629,
+  "ok": true
+ },
+ "cover2/tma_ws_64x128x32_st4_th128_sw0_pf0_wp0_vw0_inf_direct_sk1": {
+  "code_md5": "082f2a9221327dbff92bbe03a737078f",
+  "instructions": 568,
+  "regs": 240,
+  "warm_us": 164.71999883651733,
+  "cold_us": 198.65599274635315,
+  "ok": true
+ },
+ "cover2/tma_ws_256x128x32_st4_th128_sw0_pf0_wp0_vw0_inf_direct_sk1": {
+  "code_md5": "018976fee07ddf8ff24c40dd7f995a70",
+  "instructions": 1424,
+  "regs": 240,
+  "warm_us": 446.4000016450882,
+  "cold_us": 448.4959989786148,
+  "ok": true
+ },
+ "cover2/tma_ws_128x64x32_st4_th128_sw0_pf0_wp0_vw0_inf_direct_sk1": {
+  "code_md5": "e0b633fb63cebc32a706b1d2936d99bb",
+  "instructions": 616,
+  "regs": 240,
+  "warm_us": 146.27200365066528,
+  "cold_us": 164.14399445056915,
+  "ok": true
+ },
+ "cover2/tma_ws_128x256x32_st4_th128_sw0_pf0_wp0_vw0_inf_direct_sk1": {
+  "code_md5": "ca48aa5b4d70436b1894f324153d6dc4",
+  "instructions": 1264,
+  "regs": 240,
+  "warm_us": 351.952001452446,
+  "cold_us": 352.25600004196167,
+  "ok": true
+ },
+ "cover2/tma_ws_128x128x32_st2_th128_sw0_pf0_wp0_vw0_inf_direct_sk1": {
+  "code_md5": "aecb7832744cf983ef1f5e55090e42a5",
+  "instructions": 712,
+  "regs": 240,
+  "warm_us": 153.4080058336258,
+  "cold_us": 165.8560037612915,
+  "ok": true
+ },
+ "cover2/tma_ws_128x128x32_st3_th128_sw0_pf0_wp0_vw0_inf_direct_sk1": {
+  "code_md5": "cb2ebeade577d1688ebbf18a36d0fbde",
+  "instructions": 712,
+  "regs": 240,
+  "warm_us": 139.13600146770477,
+  "cold_us": 154.09600734710693,
+  "ok": true
+ },
+ "cover2/tma_ws_128x128x32_st5_th128_sw0_pf0_wp0_vw0_inf_direct_sk1": {
+  "code_md5": "9e03dfa75df21dfd122cd361d05984a5",
+  "instructions": 712,
+  "regs": 240,
+  "warm_us": 139.0720009803772,
+  "cold_us": 150.52799880504608,
+  "ok": true
+ },
+ "cover2/tma_ws_128x128x32_st6_th128_sw0_pf0_wp0_vw0_inf_direct_sk1": {
+  "code_md5": "9f69fa67da12120785c0402127bfa375",
+  "instructions": 712,
+  "regs": 240,
+  "warm_us": 136.00000739097595,
+  "cold_us": 150.4640057682991,
+  "ok": true
+ },
+ "cover2/tma_ws_128x128x32_st4_th256_sw0_pf0_wp0_vw0_inf_direct_sk1": {
+  "code_md5": "4e38fbed8570602c2a3436761536e61e",
+  "instructions": 656,
+  "regs": 168,
+  "warm_us": 138.07999342679977,
+  "cold_us": 149.9200016260147,
+  "ok": true
+ },
+ "cover2/tma_ws_128x128x32_st4_th128_sw4_pf0_wp0_vw0_inf_direct_sk1": {
+  "code_md5": "87d97f73867110a0083f2b903ef6edc5",
+  "instructions": 824,
+  "regs": 240,
+  "warm_us": 136.00000739097595,
+  "cold_us": 150.4960060119629,
+  "ok": true
+ },
+ "cover2/tma_ws_128x128x32_st4_th128_sw8_pf0_wp0_vw0_inf_direct_sk1": {
+  "code_md5": "2b5c71742c05412c9f0466d21bb8dfa5",
+  "instructions": 824,
+  "regs": 240,
+  "warm_us": 139.0720009803772,
+  "cold_us": 150.52799880504608,
+  "ok": true
+ },
+ "cover2/tma_ws_128x128x32_st4_th128_sw16_pf0_wp0_vw0_inf_direct_sk1": {
+  "code_md5": "d2d461a66e6ea7a62e815e0454586e22",
+  "instructions": 824,
+  "regs": 240,
+  "warm_us": 136.00000739097595,
+  "cold_us": 150.4960060119629,
+  "ok": true
+ },
+ "cover2/tma_ws_128x128x32_st4_th128_sw0_pf1_wp0_vw0_inf_direct_sk1": {
+  "code_md5": "61b794f1dbce71719f00d92ad1d4ac66",
+  "instructions": 720,
+  "regs": 240,
+  "warm_us": 139.0720009803772,
+  "cold_us": 150.55999904870987,
+  "ok": true
+ },
+ "cover2/tma_ws_128x128x32_st4_th128_sw0_pf0_wp1_vw0_inf_direct_sk1": {
+  "code_md5": "fe078ad71ffd921da87b716c54adf4aa",
+  "instructions": 720,
+  "regs": 240,
+  "warm_us": 136.00000739097595,
+  "cold_us": 150.4960060119629,
+  "ok": true
+ },
+ "cover2/tma_ws_128x128x32_st4_th128_sw0_pf0_wp2_vw0_inf_direct_sk1": {
+  "code_md5": "0c79904471f440c8d0853719c14f9fa3",
+  "instructions": 872,
+  "regs": 240,
+  "warm_us": 138.047993183136,
+  "cold_us": 150.4960060119629,
+  "ok": true
+ },
+ "cover2/tma_ws_128x128x32_st4_th128_sw0_pf0_wp0_vw8_inf_direct_sk1": {
+  "code_md5": "61b794f1dbce71719f00d92ad1d4ac66",
+  "instructions": 720,
+  "regs": 240,
+  "warm_us": 135.96800714731216,
+  "cold_us": 150.52800625562668,
+  "ok": true
+ },
+ "cover2/cpasync_128x128x32_st4_th128_sw0_pf0_wp0_vw0_inf_direct_sk1": {
+  "code_md5": "e110d3abfe47c053da19764867f7e9cb",
+  "instructions": 896,
+  "regs": 191,
+  "warm_us": 140.09599387645721,
+  "cold_us": 150.4960060119629,
+  "ok": true
+ },
+ "cover2/tma_128x128x32_st4_th128_sw0_pf0_wp0_vw0_inf_direct_sk1": {
+  "code_md5": "e110d3abfe47c053da19764867f7e9cb",
+  "instructions": 896,
+  "regs": 191,
+  "warm_us": 136.09599322080612,
+  "cold_us": 150.52799880504608,
+  "ok": true
+ },
+ "cover2/tma_ws_128x128x32_st4_th128_sw0_pf0_wp0_vw0_swi_direct_sk1": {
+  "code_md5": "61b794f1dbce71719f00d92ad1d4ac66",
+  "instructions": 720,
+  "regs": 240,
+  "warm_us": 139.0720009803772,
+  "cold_us": 150.4960060119629,
+  "ok": true
+ },
+ "cover2/tma_ws_128x128x32_st4_th128_sw0_pf0_wp0_vw0_inf_staged_sk1": {
+  "code_md5": "a1abba6cce39fc9fc5a51b1f62c0c2a6",
+  "instructions": 824,
+  "regs": 240,
+  "warm_us": 133.93600285053253,
+  "cold_us": 148.44800531864166,
+  "ok": true
+ },
+ "cover2/cpasync_128x128x32_st4_th128_sw0_pf0_wp0_vw0_inf_direct_sk2": {
+  "code_md5": "a396a7052a18b9e237bb8cc8fc9be54e",
+  "instructions": 848,
+  "regs": 191,
+  "warm_us": 162.62400150299072,
+  "cold_us": 168.92799735069275,
+  "ok": true
+ },
+ "cover2/cpasync_128x128x32_st4_th128_sw0_pf0_wp0_vw0_inf_direct_sk4": {
+  "code_md5": "93fe0ecbcef005c1a33a73809fc0da9a",
+  "instructions": 848,
+  "regs": 190,
+  "warm_us": 152.38399803638458,
+  "cold_us": 167.93599724769592,
+  "ok": true
+ }
+}

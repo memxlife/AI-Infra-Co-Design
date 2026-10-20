@@ -1,0 +1,538 @@
+{
+ "shape": {
+  "M": 1024,
+  "N": 1024,
+  "K": 1024
+ },
+ "timing": "warm",
+ "columns": 1078,
+ "shortlist": 96,
+ "compiled": 96,
+ "rows": [
+  {
+   "name": "cpasync_64x128x32_st2_th256_sw0_pf0_wp2_vw0_inf_staged_sk1",
+   "model_us": 37.47638177978278,
+   "sim_us": 28.71507945461691,
+   "measured_us": 30.49599938094616
+  },
+  {
+   "name": "cpasync_128x64x32_st2_th128_sw0_pf0_wp2_vw0_inf_staged_sk1",
+   "model_us": 31.794685066583956,
+   "sim_us": 28.865139575512707,
+   "measured_us": 30.49599938094616
+  },
+  {
+   "name": "cpasync_128x64x32_st2_th128_sw0_pf1_wp0_vw0_inf_staged_sk1",
+   "model_us": 31.794685066583956,
+   "sim_us": 28.88254933215353,
+   "measured_us": 30.49599938094616
+  },
+  {
+   "name": "cpasync_128x64x32_st2_th256_sw0_pf0_wp0_vw0_inf_staged_sk1",
+   "model_us": 37.47638177978278,
+   "sim_us": 28.51750266269182,
+   "measured_us": 30.527999624609947
+  },
+  {
+   "name": "cpasync_128x64x32_st2_th128_sw0_pf0_wp0_vw0_inf_staged_sk1",
+   "model_us": 31.794685066583956,
+   "sim_us": 28.88254933215353,
+   "measured_us": 30.527999624609947
+  },
+  {
+   "name": "cpasync_128x64x32_st2_th256_sw0_pf1_wp0_vw0_inf_staged_sk1",
+   "model_us": 37.47638177978278,
+   "sim_us": 28.51750266269182,
+   "measured_us": 30.559999868273735
+  },
+  {
+   "name": "cpasync_64x128x32_st2_th256_sw0_pf1_wp2_vw0_inf_staged_sk1",
+   "model_us": 37.47638177978278,
+   "sim_us": 28.71507945461691,
+   "measured_us": 30.559999868273735
+  }
+ ],
+ "cublaslt_us": 34.8,
+ "all_sim": [
+  {
+   "name": "cpasync_128x64x32_st2_th128_sw0_pf0_wp0_vw0_inf_staged_sk1",
+   "model_us": 31.794685066583956,
+   "sim_us": 28.88254933215353
+  },
+  {
+   "name": "cpasync_128x64x32_st2_th128_sw0_pf1_wp0_vw0_inf_staged_sk1",
+   "model_us": 31.794685066583956,
+   "sim_us": 28.88254933215353
+  },
+  {
+   "name": "cpasync_128x64x32_st2_th128_sw0_pf0_wp2_vw0_inf_staged_sk1",
+   "model_us": 31.794685066583956,
+   "sim_us": 28.865139575512707
+  },
+  {
+   "name": "cpasync_128x64x32_st2_th128_sw0_pf1_wp2_vw0_inf_staged_sk1",
+   "model_us": 31.794685066583956,
+   "sim_us": 28.865139575512707
+  },
+  {
+   "name": "cpasync_64x128x32_st2_th128_sw0_pf0_wp0_vw0_inf_staged_sk1",
+   "model_us": 31.794685066583956,
+   "sim_us": 28.976084130679823
+  },
+  {
+   "name": "cpasync_64x128x32_st2_th128_sw0_pf1_wp0_vw0_inf_staged_sk1",
+   "model_us": 31.794685066583956,
+   "sim_us": 28.976084130679823
+  },
+  {
+   "name": "cpasync_64x128x32_st2_th128_sw0_pf0_wp2_vw0_inf_staged_sk1",
+   "model_us": 31.794685066583956,
+   "sim_us": 28.960546094946217
+  },
+  {
+   "name": "cpasync_64x128x32_st2_th128_sw0_pf1_wp2_vw0_inf_staged_sk1",
+   "model_us": 31.794685066583956,
+   "sim_us": 28.960546094946217
+  },
+  {
+   "name": "cpasync_128x64x64_st2_th256_sw0_pf0_wp0_vw0_inf_staged_sk1",
+   "model_us": 35.05515251804717,
+   "sim_us": 31.64334276794764
+  },
+  {
+   "name": "cpasync_128x64x64_st2_th256_sw0_pf1_wp0_vw0_inf_staged_sk1",
+   "model_us": 35.05515251804717,
+   "sim_us": 31.64334276794764
+  },
+  {
+   "name": "cpasync_128x64x64_st2_th256_sw0_pf0_wp2_vw0_inf_staged_sk1",
+   "model_us": 35.05515251804717,
+   "sim_us": 33.701994080502594
+  },
+  {
+   "name": "cpasync_128x64x64_st2_th256_sw0_pf1_wp2_vw0_inf_staged_sk1",
+   "model_us": 35.05515251804717,
+   "sim_us": 33.701994080502594
+  },
+  {
+   "name": "cpasync_64x128x64_st2_th256_sw0_pf0_wp0_vw0_inf_staged_sk1",
+   "model_us": 35.05515251804717,
+   "sim_us": 31.51132317281178
+  },
+  {
+   "name": "cpasync_64x128x64_st2_th256_sw0_pf1_wp0_vw0_inf_staged_sk1",
+   "model_us": 35.05515251804717,
+   "sim_us": 31.51132317281178
+  },
+  {
+   "name": "cpasync_64x128x64_st2_th256_sw0_pf0_wp2_vw0_inf_staged_sk1",
+   "model_us": 35.05515251804717,
+   "sim_us": 31.623680738190412
+  },
+  {
+   "name": "cpasync_64x128x64_st2_th256_sw0_pf1_wp2_vw0_inf_staged_sk1",
+   "model_us": 35.05515251804717,
+   "sim_us": 31.623680738190412
+  },
+  {
+   "name": "cpasync_128x64x64_st2_th128_sw0_pf0_wp0_vw0_inf_staged_sk1",
+   "model_us": 35.40086032622207,
+   "sim_us": 31.88252015140925
+  },
+  {
+   "name": "cpasync_128x64x64_st2_th128_sw0_pf1_wp0_vw0_inf_staged_sk1",
+   "model_us": 35.40086032622207,
+   "sim_us": 31.88252015140925
+  },
+  {
+   "name": "cpasync_128x64x64_st2_th128_sw0_pf0_wp2_vw0_inf_staged_sk1",
+   "model_us": 35.40086032622207,
+   "sim_us": 32.215752460391855
+  },
+  {
+   "name": "cpasync_128x64x64_st2_th128_sw0_pf1_wp2_vw0_inf_staged_sk1",
+   "model_us": 35.40086032622207,
+   "sim_us": 32.215752460391855
+  },
+  {
+   "name": "cpasync_64x128x64_st2_th128_sw0_pf0_wp0_vw0_inf_staged_sk1",
+   "model_us": 35.40086032622207,
+   "sim_us": 32.144970037931124
+  },
+  {
+   "name": "cpasync_64x128x64_st2_th128_sw0_pf1_wp0_vw0_inf_staged_sk1",
+   "model_us": 35.40086032622207,
+   "sim_us": 32.144970037931124
+  },
+  {
+   "name": "cpasync_64x128x64_st2_th128_sw0_pf0_wp2_vw0_inf_staged_sk1",
+   "model_us": 35.40086032622207,
+   "sim_us": 31.865437173039375
+  },
+  {
+   "name": "cpasync_64x128x64_st2_th128_sw0_pf1_wp2_vw0_inf_staged_sk1",
+   "model_us": 35.40086032622207,
+   "sim_us": 31.865437173039375
+  },
+  {
+   "name": "cpasync_128x128x32_st3_th128_sw0_pf0_wp0_vw0_inf_staged_sk1",
+   "model_us": 35.81024991491524,
+   "sim_us": 34.025077115574234
+  },
+  {
+   "name": "cpasync_128x128x32_st3_th128_sw0_pf1_wp0_vw0_inf_staged_sk1",
+   "model_us": 35.81024991491524,
+   "sim_us": 32.30204612987307
+  },
+  {
+   "name": "cpasync_128x128x32_st3_th128_sw0_pf0_wp2_vw0_inf_staged_sk1",
+   "model_us": 35.81024991491524,
+   "sim_us": 31.919667564683
+  },
+  {
+   "name": "cpasync_128x128x32_st3_th128_sw0_pf1_wp2_vw0_inf_staged_sk1",
+   "model_us": 35.81024991491524,
+   "sim_us": 31.907620320588542
+  },
+  {
+   "name": "cpasync_128x128x32_st2_th128_sw0_pf0_wp0_vw0_inf_staged_sk1",
+   "model_us": 35.81024991491524,
+   "sim_us": 32.30204612987307
+  },
+  {
+   "name": "cpasync_128x128x32_st2_th128_sw0_pf1_wp0_vw0_inf_staged_sk1",
+   "model_us": 35.81024991491524,
+   "sim_us": 32.30204612987307
+  },
+  {
+   "name": "cpasync_128x128x32_st2_th128_sw0_pf0_wp2_vw0_inf_staged_sk1",
+   "model_us": 35.81024991491524,
+   "sim_us": 31.907620320588542
+  },
+  {
+   "name": "cpasync_128x128x32_st2_th128_sw0_pf1_wp2_vw0_inf_staged_sk1",
+   "model_us": 35.81024991491524,
+   "sim_us": 31.907620320588542
+  },
+  {
+   "name": "cpasync_256x64x32_st2_th128_sw0_pf0_wp0_vw0_inf_staged_sk1",
+   "model_us": 35.92373216599749,
+   "sim_us": 32.36382916063244
+  },
+  {
+   "name": "cpasync_256x64x32_st2_th128_sw0_pf1_wp0_vw0_inf_staged_sk1",
+   "model_us": 35.92373216599749,
+   "sim_us": 32.36382916063244
+  },
+  {
+   "name": "cpasync_256x64x32_st2_th128_sw0_pf0_wp2_vw0_inf_staged_sk1",
+   "model_us": 35.92373216599749,
+   "sim_us": 33.13572940608744
+  },
+  {
+   "name": "cpasync_256x64x32_st2_th128_sw0_pf1_wp2_vw0_inf_staged_sk1",
+   "model_us": 35.92373216599749,
+   "sim_us": 33.13572940608744
+  },
+  {
+   "name": "cpasync_64x256x32_st2_th128_sw0_pf0_wp0_vw0_inf_staged_sk1",
+   "model_us": 35.92373216599749,
+   "sim_us": 33.58717817394891
+  },
+  {
+   "name": "cpasync_64x256x32_st2_th128_sw0_pf1_wp0_vw0_inf_staged_sk1",
+   "model_us": 35.92373216599749,
+   "sim_us": 33.58717817394891
+  },
+  {
+   "name": "cpasync_64x256x32_st2_th128_sw0_pf0_wp2_vw0_inf_staged_sk1",
+   "model_us": 35.92373216599749,
+   "sim_us": 34.79029237269548
+  },
+  {
+   "name": "cpasync_64x256x32_st2_th128_sw0_pf1_wp2_vw0_inf_staged_sk1",
+   "model_us": 35.92373216599749,
+   "sim_us": 34.79029237269548
+  },
+  {
+   "name": "cpasync_128x64x32_st2_th128_sw0_pf0_wp0_vw0_inf_direct_sk1",
+   "model_us": 36.277108737369296,
+   "sim_us": 32.577740903921914
+  },
+  {
+   "name": "cpasync_128x64x32_st2_th128_sw0_pf1_wp0_vw0_inf_direct_sk1",
+   "model_us": 36.277108737369296,
+   "sim_us": 32.577740903921914
+  },
+  {
+   "name": "cpasync_128x64x32_st2_th128_sw0_pf0_wp2_vw0_inf_direct_sk1",
+   "model_us": 36.277108737369296,
+   "sim_us": 32.53278436491949
+  },
+  {
+   "name": "cpasync_128x64x32_st2_th128_sw0_pf1_wp2_vw0_inf_direct_sk1",
+   "model_us": 36.277108737369296,
+   "sim_us": 32.53278436491949
+  },
+  {
+   "name": "cpasync_64x128x32_st2_th128_sw0_pf0_wp0_vw0_inf_direct_sk1",
+   "model_us": 36.277108737369296,
+   "sim_us": 32.582229094503106
+  },
+  {
+   "name": "cpasync_64x128x32_st2_th128_sw0_pf1_wp0_vw0_inf_direct_sk1",
+   "model_us": 36.277108737369296,
+   "sim_us": 32.582229094503106
+  },
+  {
+   "name": "cpasync_64x128x32_st2_th128_sw0_pf0_wp2_vw0_inf_direct_sk1",
+   "model_us": 36.277108737369296,
+   "sim_us": 32.55473650678598
+  },
+  {
+   "name": "cpasync_64x128x32_st2_th128_sw0_pf1_wp2_vw0_inf_direct_sk1",
+   "model_us": 36.277108737369296,
+   "sim_us": 32.55473650678598
+  },
+  {
+   "name": "tma_ws_256x128x64_st2_th256_sw0_pf0_wp0_vw0_inf_staged_sk1",
+   "model_us": 36.29290773166357,
+   "sim_us": 32.9133924630355
+  },
+  {
+   "name": "tma_ws_128x256x64_st2_th256_sw0_pf0_wp0_vw0_inf_staged_sk1",
+   "model_us": 36.29290773166357,
+   "sim_us": 33.04301615620288
+  },
+  {
+   "name": "cpasync_128x64x64_st2_th256_sw0_pf0_wp0_vw0_inf_direct_sk1",
+   "model_us": 36.941582092981015,
+   "sim_us": 34.49590083098129
+  },
+  {
+   "name": "cpasync_128x64x64_st2_th256_sw0_pf1_wp0_vw0_inf_direct_sk1",
+   "model_us": 36.941582092981015,
+   "sim_us": 34.49590083098129
+  },
+  {
+   "name": "cpasync_128x64x64_st2_th256_sw0_pf0_wp2_vw0_inf_direct_sk1",
+   "model_us": 36.941582092981015,
+   "sim_us": 37.71238833900916
+  },
+  {
+   "name": "cpasync_128x64x64_st2_th256_sw0_pf1_wp2_vw0_inf_direct_sk1",
+   "model_us": 36.941582092981015,
+   "sim_us": 37.71238833900916
+  },
+  {
+   "name": "cpasync_64x128x64_st2_th256_sw0_pf0_wp0_vw0_inf_direct_sk1",
+   "model_us": 36.941582092981015,
+   "sim_us": 34.914313760707415
+  },
+  {
+   "name": "cpasync_64x128x64_st2_th256_sw0_pf1_wp0_vw0_inf_direct_sk1",
+   "model_us": 36.941582092981015,
+   "sim_us": 34.914313760707415
+  },
+  {
+   "name": "cpasync_64x128x64_st2_th256_sw0_pf0_wp2_vw0_inf_direct_sk1",
+   "model_us": 36.941582092981015,
+   "sim_us": 35.070051049714635
+  },
+  {
+   "name": "cpasync_64x128x64_st2_th256_sw0_pf1_wp2_vw0_inf_direct_sk1",
+   "model_us": 36.941582092981015,
+   "sim_us": 35.070051049714635
+  },
+  {
+   "name": "cpasync_128x64x64_st2_th128_sw0_pf0_wp0_vw0_inf_direct_sk1",
+   "model_us": 37.287289901155916,
+   "sim_us": 35.16389081731602
+  },
+  {
+   "name": "cpasync_128x64x64_st2_th128_sw0_pf1_wp0_vw0_inf_direct_sk1",
+   "model_us": 37.287289901155916,
+   "sim_us": 35.16389081731602
+  },
+  {
+   "name": "cpasync_128x64x64_st2_th128_sw0_pf0_wp2_vw0_inf_direct_sk1",
+   "model_us": 37.287289901155916,
+   "sim_us": 35.45661272399353
+  },
+  {
+   "name": "cpasync_128x64x64_st2_th128_sw0_pf1_wp2_vw0_inf_direct_sk1",
+   "model_us": 37.287289901155916,
+   "sim_us": 35.45661272399353
+  },
+  {
+   "name": "cpasync_64x128x64_st2_th128_sw0_pf0_wp0_vw0_inf_direct_sk1",
+   "model_us": 37.287289901155916,
+   "sim_us": 35.46257549098434
+  },
+  {
+   "name": "cpasync_64x128x64_st2_th128_sw0_pf1_wp0_vw0_inf_direct_sk1",
+   "model_us": 37.287289901155916,
+   "sim_us": 35.46257549098434
+  },
+  {
+   "name": "cpasync_64x128x64_st2_th128_sw0_pf0_wp2_vw0_inf_direct_sk1",
+   "model_us": 37.287289901155916,
+   "sim_us": 35.11900355630787
+  },
+  {
+   "name": "cpasync_64x128x64_st2_th128_sw0_pf1_wp2_vw0_inf_direct_sk1",
+   "model_us": 37.287289901155916,
+   "sim_us": 35.11900355630787
+  },
+  {
+   "name": "tma_ws_256x128x32_st4_th256_sw0_pf0_wp0_vw0_inf_staged_sk1",
+   "model_us": 37.42837241567843,
+   "sim_us": 32.72262367123119
+  },
+  {
+   "name": "tma_ws_256x128x32_st3_th256_sw0_pf0_wp0_vw0_inf_staged_sk1",
+   "model_us": 37.42837241567843,
+   "sim_us": 32.56228383548486
+  },
+  {
+   "name": "tma_ws_256x128x32_st2_th256_sw0_pf0_wp0_vw0_inf_staged_sk1",
+   "model_us": 37.42837241567843,
+   "sim_us": 32.23051218194155
+  },
+  {
+   "name": "tma_ws_128x256x32_st4_th256_sw0_pf0_wp0_vw0_inf_staged_sk1",
+   "model_us": 37.42837241567843,
+   "sim_us": 32.39688723570499
+  },
+  {
+   "name": "tma_ws_128x256x32_st3_th256_sw0_pf0_wp0_vw0_inf_staged_sk1",
+   "model_us": 37.42837241567843,
+   "sim_us": 32.58917070027186
+  },
+  {
+   "name": "tma_ws_128x256x32_st2_th256_sw0_pf0_wp0_vw0_inf_staged_sk1",
+   "model_us": 37.42837241567843,
+   "sim_us": 35.406412082034635
+  },
+  {
+   "name": "cpasync_128x64x32_st4_th256_sw0_pf0_wp0_vw0_inf_staged_sk1",
+   "model_us": 37.47638177978278,
+   "sim_us": 31.777909379308742
+  },
+  {
+   "name": "cpasync_128x64x32_st4_th256_sw0_pf1_wp0_vw0_inf_staged_sk1",
+   "model_us": 37.47638177978278,
+   "sim_us": 31.893827987196183
+  },
+  {
+   "name": "cpasync_128x64x32_st4_th256_sw0_pf0_wp2_vw0_inf_staged_sk1",
+   "model_us": 37.47638177978278,
+   "sim_us": 34.02002996624438
+  },
+  {
+   "name": "cpasync_128x64x32_st4_th256_sw0_pf1_wp2_vw0_inf_staged_sk1",
+   "model_us": 37.47638177978278,
+   "sim_us": 34.571182401681234
+  },
+  {
+   "name": "cpasync_128x64x32_st3_th256_sw0_pf0_wp0_vw0_inf_staged_sk1",
+   "model_us": 37.47638177978278,
+   "sim_us": 32.29436818107559
+  },
+  {
+   "name": "cpasync_128x64x32_st3_th256_sw0_pf1_wp0_vw0_inf_staged_sk1",
+   "model_us": 37.47638177978278,
+   "sim_us": 31.893827987196183
+  },
+  {
+   "name": "cpasync_128x64x32_st3_th256_sw0_pf0_wp2_vw0_inf_staged_sk1",
+   "model_us": 37.47638177978278,
+   "sim_us": 35.09291720806613
+  },
+  {
+   "name": "cpasync_128x64x32_st3_th256_sw0_pf1_wp2_vw0_inf_staged_sk1",
+   "model_us": 37.47638177978278,
+   "sim_us": 34.571182401681234
+  },
+  {
+   "name": "cpasync_128x64x32_st2_th256_sw0_pf0_wp0_vw0_inf_staged_sk1",
+   "model_us": 37.47638177978278,
+   "sim_us": 28.51750266269182
+  },
+  {
+   "name": "cpasync_128x64x32_st2_th256_sw0_pf1_wp0_vw0_inf_staged_sk1",
+   "model_us": 37.47638177978278,
+   "sim_us": 28.51750266269182
+  },
+  {
+   "name": "cpasync_128x64x32_st2_th256_sw0_pf0_wp2_vw0_inf_staged_sk1",
+   "model_us": 37.47638177978278,
+   "sim_us": 34.571182401681234
+  },
+  {
+   "name": "cpasync_128x64x32_st2_th256_sw0_pf1_wp2_vw0_inf_staged_sk1",
+   "model_us": 37.47638177978278,
+   "sim_us": 34.571182401681234
+  },
+  {
+   "name": "cpasync_64x128x32_st4_th256_sw0_pf0_wp0_vw0_inf_staged_sk1",
+   "model_us": 37.47638177978278,
+   "sim_us": 31.90278474992298
+  },
+  {
+   "name": "cpasync_64x128x32_st4_th256_sw0_pf1_wp0_vw0_inf_staged_sk1",
+   "model_us": 37.47638177978278,
+   "sim_us": 31.54221381396785
+  },
+  {
+   "name": "cpasync_64x128x32_st4_th256_sw0_pf0_wp2_vw0_inf_staged_sk1",
+   "model_us": 37.47638177978278,
+   "sim_us": 31.970669468824234
+  },
+  {
+   "name": "cpasync_64x128x32_st4_th256_sw0_pf1_wp2_vw0_inf_staged_sk1",
+   "model_us": 37.47638177978278,
+   "sim_us": 31.666540656397935
+  },
+  {
+   "name": "cpasync_64x128x32_st3_th256_sw0_pf0_wp0_vw0_inf_staged_sk1",
+   "model_us": 37.47638177978278,
+   "sim_us": 30.639873025179547
+  },
+  {
+   "name": "cpasync_64x128x32_st3_th256_sw0_pf1_wp0_vw0_inf_staged_sk1",
+   "model_us": 37.47638177978278,
+   "sim_us": 31.54221381396785
+  },
+  {
+   "name": "cpasync_64x128x32_st3_th256_sw0_pf0_wp2_vw0_inf_staged_sk1",
+   "model_us": 37.47638177978278,
+   "sim_us": 32.42155646866319
+  },
+  {
+   "name": "cpasync_64x128x32_st3_th256_sw0_pf1_wp2_vw0_inf_staged_sk1",
+   "model_us": 37.47638177978278,
+   "sim_us": 31.666540656397935
+  },
+  {
+   "name": "cpasync_64x128x32_st2_th256_sw0_pf0_wp0_vw0_inf_staged_sk1",
+   "model_us": 37.47638177978278,
+   "sim_us": 31.54221381396785
+  },
+  {
+   "name": "cpasync_64x128x32_st2_th256_sw0_pf1_wp0_vw0_inf_staged_sk1",
+   "model_us": 37.47638177978278,
+   "sim_us": 31.54221381396785
+  },
+  {
+   "name": "cpasync_64x128x32_st2_th256_sw0_pf0_wp2_vw0_inf_staged_sk1",
+   "model_us": 37.47638177978278,
+   "sim_us": 28.71507945461691
+  },
+  {
+   "name": "cpasync_64x128x32_st2_th256_sw0_pf1_wp2_vw0_inf_staged_sk1",
+   "model_us": 37.47638177978278,
+   "sim_us": 28.71507945461691
+  }
+ ]
+}

@@ -1,0 +1,106 @@
+# Tiers 3 and 4 of the decision registry (tiers 1 and 2 come from the TileLang source survey).
+# tier 3: program structures TileLang can express, reached by choosing a skeleton (a different TileLang program)
+# tier 4: decisions backed by GB10 hardware features that no TileLang skeleton can state: our own CUDA/PTX, or settings
+#         at the runtime / launch level, or choices that span kernels. TileLang itself is never changed.
+# The source survey (runs/decide/tilelang_controls_survey.md) moved l2_pin, cluster_multicast and PDL into TileLang's
+# reach (tier 2); their entries stay here with the binder saying so, because their payoff and pricing live here.
+# Fields: domain, binder (where the choice is made), mechanism (what it changes in the hardware), probe (evidence),
+# payoff (measured effect), priced_by (model term or simulator mechanism), status.
+tier3:
+  - name: skeleton
+    domain: [ws_tma, pipelined_cpasync, splitk_atomic, streamk, gemv_splitk, frag_w4a16]
+    binder: {kind: skeleton, families: {ws_tma: gemm_basic, pipelined_cpasync: gemm_pipelined, splitk_atomic: gemm_splitk, streamk: gemm_streamk, gemv_splitk: gemv_splitk, frag_w4a16: gemm_frag_w4a16}}
+    mechanism: "who moves data (TMA producer warp group vs every warp with cp.async), how K is divided (split, stream), how C is reduced (atomics, fix-up)"
+    probe: "ablation sets, runs/tilelang/item5 (split-K, GEMV), runs/tilelang/decode_stages"
+    payoff: "1024^3: cp.async 64x128x32 staged 30.6 us vs TMA picks 41-47 us (same session); split-K decode within 5 %"
+    priced_by: "sim: sm.py (cp.async path), ws.py (TMA path), REDG atomics, LDG + shared atomics (GEMV)"
+    status: "four of six families have templates; streamk does not compile as written at the pinned commit; frag_w4a16 untested"
+  - name: split_k
+    domain: [1, 2, 4, 8]
+    binder: {kind: template, family: gemm_splitk, slot: split_k}
+    mechanism: "more blocks over K (fills the SMs at small M x N); C added with fp32 atomics from accumulators (8 lines per warp instruction, chip 225 B/clk); after a flush each C line is read from DRAM first"
+    probe: "ldg_atomic.cu redfrag/redtile, item5 split-K set"
+    payoff: "1024^3: 1 split best (39 vs 43-82 us); 128x4096x4096: 2 splits best back-to-back"
+    priced_by: "price.splitk_extra_us; sim REDG with the store queue"
+    status: in template, not in the MILP
+  - name: streamk_programs
+    domain: [48, 96, 144]
+    binder: {kind: template, family: gemm_streamk, slot: programs}
+    mechanism: "persistent blocks that split the last wave's work instead of leaving SMs idle"
+    probe: "notes/tilelang_findings.md (skeleton 2)"
+    payoff: "within 10 % of cuBLASLt at 1024^3 (old timing)"
+    priced_by: "sim: block replacement; atomics/fix-up not yet modelled"
+    status: "example needs a fix to compile at the pinned commit"
+  - name: gemv_block
+    domain: {BLOCK_N: [2, 4, 8], reduce_threads: [32, 64]}
+    binder: {kind: template, family: gemv_splitk}
+    mechanism: "rows per block and lanes along K: lines per load, the shared-memory compare-and-swap reduction"
+    probe: "runs/tilelang/item5 GEMV set"
+    payoff: "N=2048 warm: 8.3 (2 rows) to 12.4 us (4x64)"
+    priced_by: "sim gemv.py (LDG lines, L1 hits, CAS loop)"
+    status: "measured; rows-per-block effect at L2-resident sizes not modelled"
+tier4:
+  - name: launch_mode
+    domain: [stream, cuda_graph, pdl]
+    binder: {kind: runtime_or_tilelang, how: "a CUDA graph of the step's kernels (runtime, tier 4); programmatic dependent launch through T.pdl_trigger / T.pdl_sync (tier 2)"}
+    mechanism: "per-kernel launch cost on the host and the front end"
+    probe: "launch.cu"
+    payoff: "2.6 us -> 0.43 us per kernel"
+    priced_by: "price.launch_us"
+    status: "priced; not yet applied to a whole decode step"
+  - name: l2_pin
+    domain: "per tensor: bytes held in the persisting L2 (sum <= 18 MB)"
+    binder: {kind: tilelang_or_runtime, how: "T.annotate_l2_hit_ratio({buf: r}) (TileLang sets the window and the set-aside; tier 2), or cudaDeviceSetLimit + a stream access-policy window"}
+    mechanism: "the L2 keeps a tensor across other traffic instead of by chance"
+    probe: "tier4_query.cu, l2persist.cu, stream_b2b.cu"
+    payoff: "8 MB of weights after 64 MB of other traffic: 37.7 -> 8.0 us (4.7x); 4-16 MB: 3.4-5x"
+    priced_by: "price.pinned_dram_saving_us; a shared budget in the MILP (cross-kernel)"
+    status: "priced; the cross-kernel budget is in the MILP (caps)"
+  - name: cluster_multicast
+    domain: [1, 2, 4, 8]
+    binder: {kind: tilelang, how: "T.Kernel(cluster_dims=) + T.copy_cluster(cluster_mask=) or T.tma_copy(cluster_mask=) (tier 2 per the source survey)"}
+    mechanism: "one L2 read feeds several SMs: fewer L2 bytes per tile for L2-bound shapes"
+    probe: "tier4_query.cu (clusters up to 8, distributed shared memory works); multicast rate not yet measured"
+    payoff: "not measured"
+    priced_by: "not yet (needs a multicast probe: L2 bytes and rate)"
+    status: hypothesis
+  - name: tma_producer_issue
+    domain: [one_box_per_wait, all_boxes_early, prefetch_ahead]
+    binder: {kind: cuda_skeleton, how: "our own producer loop: how many boxes are issued before waiting"}
+    mechanism: "bytes in flight per SM on the TMA path (Little's law against DRAM latency under load)"
+    probe: "dramlat.cu (box latency under load), decode sweep"
+    payoff: "open: same-session timing put TileLang's best decode kernels level with cuBLASLt"
+    priced_by: "sim ws.py (TMA engine, DRAM queue, hand-offs)"
+    status: hypothesis
+  - name: l2_prefetch
+    domain: [off, next_layer]
+    binder: {kind: cuda_skeleton, how: "cp.async.bulk.prefetch.L2 of the next kernel's weights while this one computes"}
+    mechanism: "moves a later kernel's DRAM reads under this kernel's compute"
+    probe: "not yet"
+    payoff: "not measured"
+    priced_by: "not yet"
+    status: hypothesis
+  - name: concurrency
+    domain: [serial, two_streams, priority_streams]
+    binder: {kind: runtime, how: "streams (priorities 0..-5); a DRAM-bound kernel beside a compute-bound one"}
+    mechanism: "two kernels sharing the SMs, the L2 and DRAM at once"
+    probe: "tier4_query.cu (concurrent kernels, priorities); runs/tilelang/timing_check/concurrency.py"
+    payoff: "a DRAM-bound decode GEMM (M=32) with a compute-bound 1024^3 GEMM: serial 180.1 us, two streams 192.4, with priority 192.8 (7 % worse together)"
+    priced_by: "not yet (the simulator runs one kernel at a time)"
+    status: "measured once: a loss for this pair; keep serial unless a model of shared SMs, L2 and DRAM says otherwise"
+  - name: cpu_dram_schedule
+    domain: [ignore, avoid_overlap]
+    binder: {kind: runtime, how: "keep heavy CPU memory traffic out of the GPU's DRAM-bound phases"}
+    mechanism: "the CPU and GPU share the LPDDR5X"
+    probe: "cpuhog.c"
+    payoff: "GPU DRAM rate 237 -> 214 / 171 / 138 GB/s with 2 / 8 / 20 CPU threads copying"
+    priced_by: "kernel.CPU_DRAM_GBs (an input of the simulator)"
+    status: "priced as an environment input, not yet a decision"
+  - name: mma_format
+    domain: [fp16, bf16, fp8_e4m3, fp8_e5m2, int8, fp4_f8f6f4, fp4_block_scaled]
+    binder: {kind: template_or_cuda, how: "the input type of mma.sync (a precision decision made with the model owner)"}
+    mechanism: "tensor work per 16-cycle instruction: fp8/int8/fp4 twice fp16, tf32 half"
+    probe: "mma_types.cu"
+    payoff: "2x tensor rate for fp8/int8/fp4 (f8f6f4 form); block-scaled fp4 not measured"
+    priced_by: "sim: every mma type 16 cycles; FLOP per instruction from the shape"
+    status: "measured; a precision decision, not a free knob"

@@ -1,0 +1,1006 @@
+[
+ {
+  "name": "tma_ws_128x128x32_st3_th128_sw0_pf0_wp0_vw0_inf_direct_sk1",
+  "shape": {
+   "M": 1024,
+   "N": 1024,
+   "K": 1024
+  },
+  "assign": {
+   "block_M": 128,
+   "block_N": 128,
+   "block_K": 32,
+   "num_stages": 3,
+   "threads": 128,
+   "swizzle": 0,
+   "prefetch": 0,
+   "warp_policy": 0,
+   "vec_width": 0,
+   "copy_path": "tma",
+   "warp_spec": 1,
+   "smem_layout": "inferred",
+   "c_store": "direct",
+   "split_k": 1
+  },
+  "compile_s": 0.0,
+  "rel_err": 0.00020749152463395149,
+  "ok": true,
+  "warm_us": 46.831998974084854,
+  "cold_us": 47.15200141072273,
+  "regs": 240,
+  "kernel_name": "matmul_kernel",
+  "sass": "sass/1024x1024x1024_tma_ws_128x128x32_st3_th128_sw0_pf0_wp0_vw0_inf_direct_sk1.sass",
+  "ops": {
+   "HMMA.16816.F32": 64,
+   "LDGSTS.E.BYPASS.128": 0,
+   "UTMALDG.2D": 96,
+   "STSM.16.M88.4": 0,
+   "UTMASTG.2D": 0,
+   "STG.E": 64,
+   "REDG.E.ADD.F32x2.FTZ.RN.STRONG.GPU": 0
+  }
+ },
+ {
+  "name": "tma_ws_64x128x32_st3_th128_sw0_pf0_wp0_vw0_inf_direct_sk1",
+  "shape": {
+   "M": 1024,
+   "N": 1024,
+   "K": 1024
+  },
+  "assign": {
+   "block_M": 64,
+   "block_N": 128,
+   "block_K": 32,
+   "num_stages": 3,
+   "threads": 128,
+   "swizzle": 0,
+   "prefetch": 0,
+   "warp_policy": 0,
+   "vec_width": 0,
+   "copy_path": "tma",
+   "warp_spec": 1,
+   "smem_layout": "inferred",
+   "c_store": "direct",
+   "split_k": 1
+  },
+  "compile_s": 0.0,
+  "rel_err": 0.00020749152463395149,
+  "ok": true,
+  "warm_us": 38.80000114440918,
+  "cold_us": 43.007999658584595,
+  "regs": 240,
+  "kernel_name": "matmul_kernel",
+  "sass": "sass/1024x1024x1024_tma_ws_64x128x32_st3_th128_sw0_pf0_wp0_vw0_inf_direct_sk1.sass",
+  "ops": {
+   "HMMA.16816.F32": 32,
+   "LDGSTS.E.BYPASS.128": 0,
+   "UTMALDG.2D": 96,
+   "STSM.16.M88.4": 0,
+   "UTMASTG.2D": 0,
+   "STG.E": 32,
+   "REDG.E.ADD.F32x2.FTZ.RN.STRONG.GPU": 0
+  }
+ },
+ {
+  "name": "tma_ws_256x128x32_st3_th128_sw0_pf0_wp0_vw0_inf_direct_sk1",
+  "shape": {
+   "M": 1024,
+   "N": 1024,
+   "K": 1024
+  },
+  "assign": {
+   "block_M": 256,
+   "block_N": 128,
+   "block_K": 32,
+   "num_stages": 3,
+   "threads": 128,
+   "swizzle": 0,
+   "prefetch": 0,
+   "warp_policy": 0,
+   "vec_width": 0,
+   "copy_path": "tma",
+   "warp_spec": 1,
+   "smem_layout": "inferred",
+   "c_store": "direct",
+   "split_k": 1
+  },
+  "compile_s": 0.0,
+  "rel_err": 0.00020749152463395149,
+  "ok": true,
+  "warm_us": 116.5120005607605,
+  "cold_us": 116.73600226640701,
+  "regs": 240,
+  "kernel_name": "matmul_kernel",
+  "sass": "sass/1024x1024x1024_tma_ws_256x128x32_st3_th128_sw0_pf0_wp0_vw0_inf_direct_sk1.sass",
+  "ops": {
+   "HMMA.16816.F32": 128,
+   "LDGSTS.E.BYPASS.128": 0,
+   "UTMALDG.2D": 96,
+   "STSM.16.M88.4": 0,
+   "UTMASTG.2D": 0,
+   "STG.E": 128,
+   "REDG.E.ADD.F32x2.FTZ.RN.STRONG.GPU": 0
+  }
+ },
+ {
+  "name": "tma_ws_128x64x32_st3_th128_sw0_pf0_wp0_vw0_inf_direct_sk1",
+  "shape": {
+   "M": 1024,
+   "N": 1024,
+   "K": 1024
+  },
+  "assign": {
+   "block_M": 128,
+   "block_N": 64,
+   "block_K": 32,
+   "num_stages": 3,
+   "threads": 128,
+   "swizzle": 0,
+   "prefetch": 0,
+   "warp_policy": 0,
+   "vec_width": 0,
+   "copy_path": "tma",
+   "warp_spec": 1,
+   "smem_layout": "inferred",
+   "c_store": "direct",
+   "split_k": 1
+  },
+  "compile_s": 0.0,
+  "rel_err": 0.00020749152463395149,
+  "ok": true,
+  "warm_us": 36.67199984192848,
+  "cold_us": 43.007999658584595,
+  "regs": 240,
+  "kernel_name": "matmul_kernel",
+  "sass": "sass/1024x1024x1024_tma_ws_128x64x32_st3_th128_sw0_pf0_wp0_vw0_inf_direct_sk1.sass",
+  "ops": {
+   "HMMA.16816.F32": 64,
+   "LDGSTS.E.BYPASS.128": 0,
+   "UTMALDG.2D": 64,
+   "STSM.16.M88.4": 0,
+   "UTMASTG.2D": 0,
+   "STG.E": 32,
+   "REDG.E.ADD.F32x2.FTZ.RN.STRONG.GPU": 0
+  }
+ },
+ {
+  "name": "tma_ws_128x256x32_st3_th128_sw0_pf0_wp0_vw0_inf_direct_sk1",
+  "shape": {
+   "M": 1024,
+   "N": 1024,
+   "K": 1024
+  },
+  "assign": {
+   "block_M": 128,
+   "block_N": 256,
+   "block_K": 32,
+   "num_stages": 3,
+   "threads": 128,
+   "swizzle": 0,
+   "prefetch": 0,
+   "warp_policy": 0,
+   "vec_width": 0,
+   "copy_path": "tma",
+   "warp_spec": 1,
+   "smem_layout": "inferred",
+   "c_store": "direct",
+   "split_k": 1
+  },
+  "compile_s": 0.0,
+  "rel_err": 0.00020749152463395149,
+  "ok": true,
+  "warm_us": 112.47999966144562,
+  "cold_us": 113.72799798846245,
+  "regs": 240,
+  "kernel_name": "matmul_kernel",
+  "sass": "sass/1024x1024x1024_tma_ws_128x256x32_st3_th128_sw0_pf0_wp0_vw0_inf_direct_sk1.sass",
+  "ops": {
+   "HMMA.16816.F32": 128,
+   "LDGSTS.E.BYPASS.128": 0,
+   "UTMALDG.2D": 160,
+   "STSM.16.M88.4": 0,
+   "UTMASTG.2D": 0,
+   "STG.E": 128,
+   "REDG.E.ADD.F32x2.FTZ.RN.STRONG.GPU": 0
+  }
+ },
+ {
+  "name": "tma_ws_128x128x64_st3_th128_sw0_pf0_wp0_vw0_inf_direct_sk1",
+  "shape": {
+   "M": 1024,
+   "N": 1024,
+   "K": 1024
+  },
+  "assign": {
+   "block_M": 128,
+   "block_N": 128,
+   "block_K": 64,
+   "num_stages": 3,
+   "threads": 128,
+   "swizzle": 0,
+   "prefetch": 0,
+   "warp_policy": 0,
+   "vec_width": 0,
+   "copy_path": "tma",
+   "warp_spec": 1,
+   "smem_layout": "inferred",
+   "c_store": "direct",
+   "split_k": 1
+  },
+  "compile_s": 0.0,
+  "rel_err": 0.00020749152463395149,
+  "ok": true,
+  "warm_us": 44.83199864625931,
+  "cold_us": 45.232001692056656,
+  "regs": 240,
+  "kernel_name": "matmul_kernel",
+  "sass": "sass/1024x1024x1024_tma_ws_128x128x64_st3_th128_sw0_pf0_wp0_vw0_inf_direct_sk1.sass",
+  "ops": {
+   "HMMA.16816.F32": 128,
+   "LDGSTS.E.BYPASS.128": 0,
+   "UTMALDG.2D": 48,
+   "STSM.16.M88.4": 0,
+   "UTMASTG.2D": 0,
+   "STG.E": 64,
+   "REDG.E.ADD.F32x2.FTZ.RN.STRONG.GPU": 0
+  }
+ },
+ {
+  "name": "tma_ws_128x128x32_st2_th128_sw0_pf0_wp0_vw0_inf_direct_sk1",
+  "shape": {
+   "M": 1024,
+   "N": 1024,
+   "K": 1024
+  },
+  "assign": {
+   "block_M": 128,
+   "block_N": 128,
+   "block_K": 32,
+   "num_stages": 2,
+   "threads": 128,
+   "swizzle": 0,
+   "prefetch": 0,
+   "warp_policy": 0,
+   "vec_width": 0,
+   "copy_path": "tma",
+   "warp_spec": 1,
+   "smem_layout": "inferred",
+   "c_store": "direct",
+   "split_k": 1
+  },
+  "compile_s": 0.0,
+  "rel_err": 0.00020749152463395149,
+  "ok": true,
+  "warm_us": 46.879999339580536,
+  "cold_us": 49.15200173854828,
+  "regs": 240,
+  "kernel_name": "matmul_kernel",
+  "sass": "sass/1024x1024x1024_tma_ws_128x128x32_st2_th128_sw0_pf0_wp0_vw0_inf_direct_sk1.sass",
+  "ops": {
+   "HMMA.16816.F32": 64,
+   "LDGSTS.E.BYPASS.128": 0,
+   "UTMALDG.2D": 96,
+   "STSM.16.M88.4": 0,
+   "UTMASTG.2D": 0,
+   "STG.E": 64,
+   "REDG.E.ADD.F32x2.FTZ.RN.STRONG.GPU": 0
+  }
+ },
+ {
+  "name": "tma_ws_128x128x32_st4_th128_sw0_pf0_wp0_vw0_inf_direct_sk1",
+  "shape": {
+   "M": 1024,
+   "N": 1024,
+   "K": 1024
+  },
+  "assign": {
+   "block_M": 128,
+   "block_N": 128,
+   "block_K": 32,
+   "num_stages": 4,
+   "threads": 128,
+   "swizzle": 0,
+   "prefetch": 0,
+   "warp_policy": 0,
+   "vec_width": 0,
+   "copy_path": "tma",
+   "warp_spec": 1,
+   "smem_layout": "inferred",
+   "c_store": "direct",
+   "split_k": 1
+  },
+  "compile_s": 0.0,
+  "rel_err": 0.00020749152463395149,
+  "ok": true,
+  "warm_us": 46.879999339580536,
+  "cold_us": 47.10400104522705,
+  "regs": 240,
+  "kernel_name": "matmul_kernel",
+  "sass": "sass/1024x1024x1024_tma_ws_128x128x32_st4_th128_sw0_pf0_wp0_vw0_inf_direct_sk1.sass",
+  "ops": {
+   "HMMA.16816.F32": 64,
+   "LDGSTS.E.BYPASS.128": 0,
+   "UTMALDG.2D": 96,
+   "STSM.16.M88.4": 0,
+   "UTMASTG.2D": 0,
+   "STG.E": 64,
+   "REDG.E.ADD.F32x2.FTZ.RN.STRONG.GPU": 0
+  }
+ },
+ {
+  "name": "tma_ws_128x128x32_st5_th128_sw0_pf0_wp0_vw0_inf_direct_sk1",
+  "shape": {
+   "M": 1024,
+   "N": 1024,
+   "K": 1024
+  },
+  "assign": {
+   "block_M": 128,
+   "block_N": 128,
+   "block_K": 32,
+   "num_stages": 5,
+   "threads": 128,
+   "swizzle": 0,
+   "prefetch": 0,
+   "warp_policy": 0,
+   "vec_width": 0,
+   "copy_path": "tma",
+   "warp_spec": 1,
+   "smem_layout": "inferred",
+   "c_store": "direct",
+   "split_k": 1
+  },
+  "compile_s": 0.0,
+  "rel_err": 0.00020749152463395149,
+  "ok": true,
+  "warm_us": 46.879999339580536,
+  "cold_us": 47.10400104522705,
+  "regs": 240,
+  "kernel_name": "matmul_kernel",
+  "sass": "sass/1024x1024x1024_tma_ws_128x128x32_st5_th128_sw0_pf0_wp0_vw0_inf_direct_sk1.sass",
+  "ops": {
+   "HMMA.16816.F32": 64,
+   "LDGSTS.E.BYPASS.128": 0,
+   "UTMALDG.2D": 96,
+   "STSM.16.M88.4": 0,
+   "UTMASTG.2D": 0,
+   "STG.E": 64,
+   "REDG.E.ADD.F32x2.FTZ.RN.STRONG.GPU": 0
+  }
+ },
+ {
+  "name": "tma_ws_128x128x32_st6_th128_sw0_pf0_wp0_vw0_inf_direct_sk1",
+  "shape": {
+   "M": 1024,
+   "N": 1024,
+   "K": 1024
+  },
+  "assign": {
+   "block_M": 128,
+   "block_N": 128,
+   "block_K": 32,
+   "num_stages": 6,
+   "threads": 128,
+   "swizzle": 0,
+   "prefetch": 0,
+   "warp_policy": 0,
+   "vec_width": 0,
+   "copy_path": "tma",
+   "warp_spec": 1,
+   "smem_layout": "inferred",
+   "c_store": "direct",
+   "split_k": 1
+  },
+  "compile_s": 1.3,
+  "rel_err": 0.00020749152463395149,
+  "ok": true,
+  "warm_us": 44.95999962091446,
+  "cold_us": 47.10400104522705,
+  "regs": 240,
+  "kernel_name": "matmul_kernel",
+  "sass": "sass/1024x1024x1024_tma_ws_128x128x32_st6_th128_sw0_pf0_wp0_vw0_inf_direct_sk1.sass",
+  "ops": {
+   "HMMA.16816.F32": 64,
+   "LDGSTS.E.BYPASS.128": 0,
+   "UTMALDG.2D": 96,
+   "STSM.16.M88.4": 0,
+   "UTMASTG.2D": 0,
+   "STG.E": 64,
+   "REDG.E.ADD.F32x2.FTZ.RN.STRONG.GPU": 0
+  }
+ },
+ {
+  "name": "tma_ws_128x128x32_st3_th256_sw0_pf0_wp0_vw0_inf_direct_sk1",
+  "shape": {
+   "M": 1024,
+   "N": 1024,
+   "K": 1024
+  },
+  "assign": {
+   "block_M": 128,
+   "block_N": 128,
+   "block_K": 32,
+   "num_stages": 3,
+   "threads": 256,
+   "swizzle": 0,
+   "prefetch": 0,
+   "warp_policy": 0,
+   "vec_width": 0,
+   "copy_path": "tma",
+   "warp_spec": 1,
+   "smem_layout": "inferred",
+   "c_store": "direct",
+   "split_k": 1
+  },
+  "compile_s": 0.0,
+  "rel_err": 0.00020749152463395149,
+  "ok": true,
+  "warm_us": 40.752001106739044,
+  "cold_us": 45.05600035190582,
+  "regs": 168,
+  "kernel_name": "matmul_kernel",
+  "sass": "sass/1024x1024x1024_tma_ws_128x128x32_st3_th256_sw0_pf0_wp0_vw0_inf_direct_sk1.sass",
+  "ops": {
+   "HMMA.16816.F32": 64,
+   "LDGSTS.E.BYPASS.128": 0,
+   "UTMALDG.2D": 96,
+   "STSM.16.M88.4": 0,
+   "UTMASTG.2D": 0,
+   "STG.E": 32,
+   "REDG.E.ADD.F32x2.FTZ.RN.STRONG.GPU": 0
+  }
+ },
+ {
+  "name": "tma_ws_128x128x32_st3_th128_sw4_pf0_wp0_vw0_inf_direct_sk1",
+  "shape": {
+   "M": 1024,
+   "N": 1024,
+   "K": 1024
+  },
+  "assign": {
+   "block_M": 128,
+   "block_N": 128,
+   "block_K": 32,
+   "num_stages": 3,
+   "threads": 128,
+   "swizzle": 4,
+   "prefetch": 0,
+   "warp_policy": 0,
+   "vec_width": 0,
+   "copy_path": "tma",
+   "warp_spec": 1,
+   "smem_layout": "inferred",
+   "c_store": "direct",
+   "split_k": 1
+  },
+  "compile_s": 0.0,
+  "rel_err": 0.00020749152463395149,
+  "ok": true,
+  "warm_us": 46.879999339580536,
+  "cold_us": 46.640001237392426,
+  "regs": 240,
+  "kernel_name": "matmul_kernel",
+  "sass": "sass/1024x1024x1024_tma_ws_128x128x32_st3_th128_sw4_pf0_wp0_vw0_inf_direct_sk1.sass",
+  "ops": {
+   "HMMA.16816.F32": 64,
+   "LDGSTS.E.BYPASS.128": 0,
+   "UTMALDG.2D": 96,
+   "STSM.16.M88.4": 0,
+   "UTMASTG.2D": 0,
+   "STG.E": 64,
+   "REDG.E.ADD.F32x2.FTZ.RN.STRONG.GPU": 0
+  }
+ },
+ {
+  "name": "tma_ws_128x128x32_st3_th128_sw8_pf0_wp0_vw0_inf_direct_sk1",
+  "shape": {
+   "M": 1024,
+   "N": 1024,
+   "K": 1024
+  },
+  "assign": {
+   "block_M": 128,
+   "block_N": 128,
+   "block_K": 32,
+   "num_stages": 3,
+   "threads": 128,
+   "swizzle": 8,
+   "prefetch": 0,
+   "warp_policy": 0,
+   "vec_width": 0,
+   "copy_path": "tma",
+   "warp_spec": 1,
+   "smem_layout": "inferred",
+   "c_store": "direct",
+   "split_k": 1
+  },
+  "compile_s": 0.0,
+  "rel_err": 0.00020749152463395149,
+  "ok": true,
+  "warm_us": 46.879999339580536,
+  "cold_us": 45.13600096106529,
+  "regs": 240,
+  "kernel_name": "matmul_kernel",
+  "sass": "sass/1024x1024x1024_tma_ws_128x128x32_st3_th128_sw8_pf0_wp0_vw0_inf_direct_sk1.sass",
+  "ops": {
+   "HMMA.16816.F32": 64,
+   "LDGSTS.E.BYPASS.128": 0,
+   "UTMALDG.2D": 96,
+   "STSM.16.M88.4": 0,
+   "UTMASTG.2D": 0,
+   "STG.E": 64,
+   "REDG.E.ADD.F32x2.FTZ.RN.STRONG.GPU": 0
+  }
+ },
+ {
+  "name": "tma_ws_128x128x32_st3_th128_sw16_pf0_wp0_vw0_inf_direct_sk1",
+  "shape": {
+   "M": 1024,
+   "N": 1024,
+   "K": 1024
+  },
+  "assign": {
+   "block_M": 128,
+   "block_N": 128,
+   "block_K": 32,
+   "num_stages": 3,
+   "threads": 128,
+   "swizzle": 16,
+   "prefetch": 0,
+   "warp_policy": 0,
+   "vec_width": 0,
+   "copy_path": "tma",
+   "warp_spec": 1,
+   "smem_layout": "inferred",
+   "c_store": "direct",
+   "split_k": 1
+  },
+  "compile_s": 0.0,
+  "rel_err": 0.00020749152463395149,
+  "ok": true,
+  "warm_us": 46.879999339580536,
+  "cold_us": 45.21600157022476,
+  "regs": 240,
+  "kernel_name": "matmul_kernel",
+  "sass": "sass/1024x1024x1024_tma_ws_128x128x32_st3_th128_sw16_pf0_wp0_vw0_inf_direct_sk1.sass",
+  "ops": {
+   "HMMA.16816.F32": 64,
+   "LDGSTS.E.BYPASS.128": 0,
+   "UTMALDG.2D": 96,
+   "STSM.16.M88.4": 0,
+   "UTMASTG.2D": 0,
+   "STG.E": 64,
+   "REDG.E.ADD.F32x2.FTZ.RN.STRONG.GPU": 0
+  }
+ },
+ {
+  "name": "tma_ws_128x128x32_st3_th128_sw0_pf1_wp0_vw0_inf_direct_sk1",
+  "shape": {
+   "M": 1024,
+   "N": 1024,
+   "K": 1024
+  },
+  "assign": {
+   "block_M": 128,
+   "block_N": 128,
+   "block_K": 32,
+   "num_stages": 3,
+   "threads": 128,
+   "swizzle": 0,
+   "prefetch": 1,
+   "warp_policy": 0,
+   "vec_width": 0,
+   "copy_path": "tma",
+   "warp_spec": 1,
+   "smem_layout": "inferred",
+   "c_store": "direct",
+   "split_k": 1
+  },
+  "compile_s": 0.4,
+  "rel_err": 0.00020749152463395149,
+  "ok": true,
+  "warm_us": 46.879999339580536,
+  "cold_us": 49.15200173854828,
+  "regs": 240,
+  "kernel_name": "matmul_kernel",
+  "sass": "sass/1024x1024x1024_tma_ws_128x128x32_st3_th128_sw0_pf1_wp0_vw0_inf_direct_sk1.sass",
+  "ops": {
+   "HMMA.16816.F32": 64,
+   "LDGSTS.E.BYPASS.128": 0,
+   "UTMALDG.2D": 96,
+   "STSM.16.M88.4": 0,
+   "UTMASTG.2D": 0,
+   "STG.E": 64,
+   "REDG.E.ADD.F32x2.FTZ.RN.STRONG.GPU": 0
+  }
+ },
+ {
+  "name": "tma_ws_128x128x32_st3_th128_sw0_pf0_wp1_vw0_inf_direct_sk1",
+  "shape": {
+   "M": 1024,
+   "N": 1024,
+   "K": 1024
+  },
+  "assign": {
+   "block_M": 128,
+   "block_N": 128,
+   "block_K": 32,
+   "num_stages": 3,
+   "threads": 128,
+   "swizzle": 0,
+   "prefetch": 0,
+   "warp_policy": 1,
+   "vec_width": 0,
+   "copy_path": "tma",
+   "warp_spec": 1,
+   "smem_layout": "inferred",
+   "c_store": "direct",
+   "split_k": 1
+  },
+  "compile_s": 1.2,
+  "rel_err": 0.00020749152463395149,
+  "ok": true,
+  "warm_us": 46.879999339580536,
+  "cold_us": 47.21600003540516,
+  "regs": 240,
+  "kernel_name": "matmul_kernel",
+  "sass": "sass/1024x1024x1024_tma_ws_128x128x32_st3_th128_sw0_pf0_wp1_vw0_inf_direct_sk1.sass",
+  "ops": {
+   "HMMA.16816.F32": 64,
+   "LDGSTS.E.BYPASS.128": 0,
+   "UTMALDG.2D": 96,
+   "STSM.16.M88.4": 0,
+   "UTMASTG.2D": 0,
+   "STG.E": 64,
+   "REDG.E.ADD.F32x2.FTZ.RN.STRONG.GPU": 0
+  }
+ },
+ {
+  "name": "tma_ws_128x128x32_st3_th128_sw0_pf0_wp2_vw0_inf_direct_sk1",
+  "shape": {
+   "M": 1024,
+   "N": 1024,
+   "K": 1024
+  },
+  "assign": {
+   "block_M": 128,
+   "block_N": 128,
+   "block_K": 32,
+   "num_stages": 3,
+   "threads": 128,
+   "swizzle": 0,
+   "prefetch": 0,
+   "warp_policy": 2,
+   "vec_width": 0,
+   "copy_path": "tma",
+   "warp_spec": 1,
+   "smem_layout": "inferred",
+   "c_store": "direct",
+   "split_k": 1
+  },
+  "compile_s": 1.3,
+  "rel_err": 0.00020749152463395149,
+  "ok": true,
+  "warm_us": 46.879999339580536,
+  "cold_us": 47.10400104522705,
+  "regs": 240,
+  "kernel_name": "matmul_kernel",
+  "sass": "sass/1024x1024x1024_tma_ws_128x128x32_st3_th128_sw0_pf0_wp2_vw0_inf_direct_sk1.sass",
+  "ops": {
+   "HMMA.16816.F32": 64,
+   "LDGSTS.E.BYPASS.128": 0,
+   "UTMALDG.2D": 96,
+   "STSM.16.M88.4": 0,
+   "UTMASTG.2D": 0,
+   "STG.E": 64,
+   "REDG.E.ADD.F32x2.FTZ.RN.STRONG.GPU": 0
+  }
+ },
+ {
+  "name": "tma_ws_128x128x32_st3_th128_sw0_pf0_wp0_vw8_inf_direct_sk1",
+  "shape": {
+   "M": 1024,
+   "N": 1024,
+   "K": 1024
+  },
+  "assign": {
+   "block_M": 128,
+   "block_N": 128,
+   "block_K": 32,
+   "num_stages": 3,
+   "threads": 128,
+   "swizzle": 0,
+   "prefetch": 0,
+   "warp_policy": 0,
+   "vec_width": 8,
+   "copy_path": "tma",
+   "warp_spec": 1,
+   "smem_layout": "inferred",
+   "c_store": "direct",
+   "split_k": 1
+  },
+  "compile_s": 0.4,
+  "rel_err": 0.00020749152463395149,
+  "ok": true,
+  "warm_us": 46.879999339580536,
+  "cold_us": 47.10400104522705,
+  "regs": 240,
+  "kernel_name": "matmul_kernel",
+  "sass": "sass/1024x1024x1024_tma_ws_128x128x32_st3_th128_sw0_pf0_wp0_vw8_inf_direct_sk1.sass",
+  "ops": {
+   "HMMA.16816.F32": 64,
+   "LDGSTS.E.BYPASS.128": 0,
+   "UTMALDG.2D": 96,
+   "STSM.16.M88.4": 0,
+   "UTMASTG.2D": 0,
+   "STG.E": 64,
+   "REDG.E.ADD.F32x2.FTZ.RN.STRONG.GPU": 0
+  }
+ },
+ {
+  "name": "cpasync_128x128x32_st3_th128_sw0_pf0_wp0_vw0_inf_direct_sk1",
+  "shape": {
+   "M": 1024,
+   "N": 1024,
+   "K": 1024
+  },
+  "assign": {
+   "block_M": 128,
+   "block_N": 128,
+   "block_K": 32,
+   "num_stages": 3,
+   "threads": 128,
+   "swizzle": 0,
+   "prefetch": 0,
+   "warp_policy": 0,
+   "vec_width": 0,
+   "copy_path": "cpasync",
+   "warp_spec": 0,
+   "smem_layout": "inferred",
+   "c_store": "direct",
+   "split_k": 1
+  },
+  "compile_s": 0.0,
+  "rel_err": 0.00020749152463395149,
+  "ok": true,
+  "warm_us": 40.73600098490715,
+  "cold_us": 40.95999896526337,
+  "regs": 202,
+  "kernel_name": "matmul_kernel",
+  "sass": "sass/1024x1024x1024_cpasync_128x128x32_st3_th128_sw0_pf0_wp0_vw0_inf_direct_sk1.sass",
+  "ops": {
+   "HMMA.16816.F32": 192,
+   "LDGSTS.E.BYPASS.128": 24,
+   "UTMALDG.2D": 0,
+   "STSM.16.M88.4": 0,
+   "UTMASTG.2D": 0,
+   "STG.E": 64,
+   "REDG.E.ADD.F32x2.FTZ.RN.STRONG.GPU": 0
+  }
+ },
+ {
+  "name": "tma_128x128x32_st3_th128_sw0_pf0_wp0_vw0_inf_direct_sk1",
+  "shape": {
+   "M": 1024,
+   "N": 1024,
+   "K": 1024
+  },
+  "assign": {
+   "block_M": 128,
+   "block_N": 128,
+   "block_K": 32,
+   "num_stages": 3,
+   "threads": 128,
+   "swizzle": 0,
+   "prefetch": 0,
+   "warp_policy": 0,
+   "vec_width": 0,
+   "copy_path": "tma",
+   "warp_spec": 0,
+   "smem_layout": "inferred",
+   "c_store": "direct",
+   "split_k": 1
+  },
+  "compile_s": 1.0,
+  "rel_err": 0.00020749152463395149,
+  "ok": true,
+  "warm_us": 40.73600098490715,
+  "cold_us": 40.95999896526337,
+  "regs": 202,
+  "kernel_name": "matmul_kernel",
+  "sass": "sass/1024x1024x1024_tma_128x128x32_st3_th128_sw0_pf0_wp0_vw0_inf_direct_sk1.sass",
+  "ops": {
+   "HMMA.16816.F32": 192,
+   "LDGSTS.E.BYPASS.128": 24,
+   "UTMALDG.2D": 0,
+   "STSM.16.M88.4": 0,
+   "UTMASTG.2D": 0,
+   "STG.E": 64,
+   "REDG.E.ADD.F32x2.FTZ.RN.STRONG.GPU": 0
+  }
+ },
+ {
+  "name": "tma_ws_128x128x32_st3_th128_sw0_pf0_wp0_vw0_swi_direct_sk1",
+  "shape": {
+   "M": 1024,
+   "N": 1024,
+   "K": 1024
+  },
+  "assign": {
+   "block_M": 128,
+   "block_N": 128,
+   "block_K": 32,
+   "num_stages": 3,
+   "threads": 128,
+   "swizzle": 0,
+   "prefetch": 0,
+   "warp_policy": 0,
+   "vec_width": 0,
+   "copy_path": "tma",
+   "warp_spec": 1,
+   "smem_layout": "swizzled",
+   "c_store": "direct",
+   "split_k": 1
+  },
+  "compile_s": 0.5,
+  "rel_err": 0.00020749152463395149,
+  "ok": true,
+  "warm_us": 46.879999339580536,
+  "cold_us": 47.18399979174137,
+  "regs": 240,
+  "kernel_name": "matmul_kernel",
+  "sass": "sass/1024x1024x1024_tma_ws_128x128x32_st3_th128_sw0_pf0_wp0_vw0_swi_direct_sk1.sass",
+  "ops": {
+   "HMMA.16816.F32": 64,
+   "LDGSTS.E.BYPASS.128": 0,
+   "UTMALDG.2D": 96,
+   "STSM.16.M88.4": 0,
+   "UTMASTG.2D": 0,
+   "STG.E": 64,
+   "REDG.E.ADD.F32x2.FTZ.RN.STRONG.GPU": 0
+  }
+ },
+ {
+  "name": "tma_ws_128x128x32_st3_th128_sw0_pf0_wp0_vw0_inf_staged_sk1",
+  "shape": {
+   "M": 1024,
+   "N": 1024,
+   "K": 1024
+  },
+  "assign": {
+   "block_M": 128,
+   "block_N": 128,
+   "block_K": 32,
+   "num_stages": 3,
+   "threads": 128,
+   "swizzle": 0,
+   "prefetch": 0,
+   "warp_policy": 0,
+   "vec_width": 0,
+   "copy_path": "tma",
+   "warp_spec": 1,
+   "smem_layout": "inferred",
+   "c_store": "staged",
+   "split_k": 1
+  },
+  "compile_s": 0.0,
+  "rel_err": 0.00020749152463395149,
+  "ok": true,
+  "warm_us": 42.78400167822838,
+  "cold_us": 43.007999658584595,
+  "regs": 240,
+  "kernel_name": "matmul_kernel",
+  "sass": "sass/1024x1024x1024_tma_ws_128x128x32_st3_th128_sw0_pf0_wp0_vw0_inf_staged_sk1.sass",
+  "ops": {
+   "HMMA.16816.F32": 64,
+   "LDGSTS.E.BYPASS.128": 0,
+   "UTMALDG.2D": 96,
+   "STSM.16.M88.4": 16,
+   "UTMASTG.2D": 2,
+   "STG.E": 0,
+   "REDG.E.ADD.F32x2.FTZ.RN.STRONG.GPU": 0
+  }
+ },
+ {
+  "name": "cpasync_128x128x32_st3_th128_sw0_pf0_wp0_vw0_inf_direct_sk2",
+  "shape": {
+   "M": 1024,
+   "N": 1024,
+   "K": 1024
+  },
+  "assign": {
+   "block_M": 128,
+   "block_N": 128,
+   "block_K": 32,
+   "num_stages": 3,
+   "threads": 128,
+   "swizzle": 0,
+   "prefetch": 0,
+   "warp_policy": 0,
+   "vec_width": 0,
+   "copy_path": "cpasync",
+   "warp_spec": 0,
+   "smem_layout": "inferred",
+   "c_store": "direct",
+   "split_k": 2
+  },
+  "compile_s": 2.1,
+  "rel_err": 7.54178756778856e-07,
+  "ok": true,
+  "warm_us": 42.81599819660187,
+  "cold_us": 61.43999844789505,
+  "regs": 202,
+  "kernel_name": "matmul_kernel",
+  "sass": "sass/1024x1024x1024_cpasync_128x128x32_st3_th128_sw0_pf0_wp0_vw0_inf_direct_sk2.sass",
+  "ops": {
+   "HMMA.16816.F32": 192,
+   "LDGSTS.E.BYPASS.128": 24,
+   "UTMALDG.2D": 0,
+   "STSM.16.M88.4": 0,
+   "UTMASTG.2D": 0,
+   "STG.E": 0,
+   "REDG.E.ADD.F32x2.FTZ.RN.STRONG.GPU": 64
+  }
+ },
+ {
+  "name": "cpasync_128x128x32_st3_th128_sw0_pf0_wp0_vw0_inf_direct_sk4",
+  "shape": {
+   "M": 1024,
+   "N": 1024,
+   "K": 1024
+  },
+  "assign": {
+   "block_M": 128,
+   "block_N": 128,
+   "block_K": 32,
+   "num_stages": 3,
+   "threads": 128,
+   "swizzle": 0,
+   "prefetch": 0,
+   "warp_policy": 0,
+   "vec_width": 0,
+   "copy_path": "cpasync",
+   "warp_spec": 0,
+   "smem_layout": "inferred",
+   "c_store": "direct",
+   "split_k": 4
+  },
+  "compile_s": 2.0,
+  "rel_err": 5.226807502367592e-07,
+  "ok": true,
+  "warm_us": 54.975999519228935,
+  "cold_us": 69.63200122117996,
+  "regs": 202,
+  "kernel_name": "matmul_kernel",
+  "sass": "sass/1024x1024x1024_cpasync_128x128x32_st3_th128_sw0_pf0_wp0_vw0_inf_direct_sk4.sass",
+  "ops": {
+   "HMMA.16816.F32": 192,
+   "LDGSTS.E.BYPASS.128": 24,
+   "UTMALDG.2D": 0,
+   "STSM.16.M88.4": 0,
+   "UTMASTG.2D": 0,
+   "STG.E": 0,
+   "REDG.E.ADD.F32x2.FTZ.RN.STRONG.GPU": 64
+  }
+ },
+ {
+  "name": "cuBLASLt",
+  "shape": {
+   "M": 1024,
+   "N": 1024,
+   "K": 1024
+  },
+  "cold": 0,
+  "us": 34.1
+ },
+ {
+  "name": "cuBLASLt",
+  "shape": {
+   "M": 1024,
+   "N": 1024,
+   "K": 1024
+  },
+  "cold": 1,
+  "us": 34.6
+ }
+]

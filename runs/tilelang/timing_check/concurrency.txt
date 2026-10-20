@@ -1,0 +1,3 @@
+RESULT serial             pair_us=  180.1
+RESULT two_streams        pair_us=  192.4
+RESULT priority_compute   pair_us=  192.8

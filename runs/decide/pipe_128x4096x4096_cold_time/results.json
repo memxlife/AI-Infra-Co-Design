@@ -1,0 +1,324 @@
+[
+ {
+  "name": "cpasync_128x128x32_st6_th256_sw0_pf1_wp2_vw0_inf_staged_sk1",
+  "shape": {
+   "M": 128,
+   "N": 4096,
+   "K": 4096
+  },
+  "assign": {
+   "block_M": 128,
+   "block_N": 128,
+   "block_K": 32,
+   "num_stages": 6,
+   "threads": 256,
+   "c_store": "staged",
+   "split_k": 1,
+   "copy_path": "cpasync",
+   "warp_spec": 0,
+   "prefetch": 1,
+   "warp_policy": 2
+  },
+  "compile_s": 0.0,
+  "rel_err": 0.00020809473062399775,
+  "ok": true,
+  "warm_us": 157.26400166749954,
+  "cold_us": 164.0160009264946,
+  "regs": 126,
+  "kernel_name": "matmul_kernel",
+  "sass": "sass/128x4096x4096_cpasync_128x128x32_st6_th256_sw0_pf1_wp2_vw0_inf_staged_sk1.sass",
+  "ops": {
+   "HMMA.16816.F32": 128,
+   "LDGSTS.E.BYPASS.128": 16,
+   "UTMALDG.2D": 0,
+   "STSM.16.M88.4": 8,
+   "UTMASTG.2D": 2,
+   "STG.E": 0,
+   "REDG.E.ADD.F32x2.FTZ.RN.STRONG.GPU": 0
+  }
+ },
+ {
+  "name": "cpasync_128x128x32_st5_th256_sw0_pf1_wp2_vw0_inf_staged_sk1",
+  "shape": {
+   "M": 128,
+   "N": 4096,
+   "K": 4096
+  },
+  "assign": {
+   "block_M": 128,
+   "block_N": 128,
+   "block_K": 32,
+   "num_stages": 5,
+   "threads": 256,
+   "c_store": "staged",
+   "split_k": 1,
+   "copy_path": "cpasync",
+   "warp_spec": 0,
+   "prefetch": 1,
+   "warp_policy": 2
+  },
+  "compile_s": 0.0,
+  "rel_err": 0.00020809473062399775,
+  "ok": true,
+  "warm_us": 155.42399883270264,
+  "cold_us": 163.83999586105347,
+  "regs": 126,
+  "kernel_name": "matmul_kernel",
+  "sass": "sass/128x4096x4096_cpasync_128x128x32_st5_th256_sw0_pf1_wp2_vw0_inf_staged_sk1.sass",
+  "ops": {
+   "HMMA.16816.F32": 128,
+   "LDGSTS.E.BYPASS.128": 16,
+   "UTMALDG.2D": 0,
+   "STSM.16.M88.4": 8,
+   "UTMASTG.2D": 2,
+   "STG.E": 0,
+   "REDG.E.ADD.F32x2.FTZ.RN.STRONG.GPU": 0
+  }
+ },
+ {
+  "name": "cpasync_128x128x32_st4_th256_sw0_pf1_wp2_vw0_inf_staged_sk1",
+  "shape": {
+   "M": 128,
+   "N": 4096,
+   "K": 4096
+  },
+  "assign": {
+   "block_M": 128,
+   "block_N": 128,
+   "block_K": 32,
+   "num_stages": 4,
+   "threads": 256,
+   "c_store": "staged",
+   "split_k": 1,
+   "copy_path": "cpasync",
+   "warp_spec": 0,
+   "prefetch": 1,
+   "warp_policy": 2
+  },
+  "compile_s": 0.0,
+  "rel_err": 0.00020809473062399775,
+  "ok": true,
+  "warm_us": 155.4879993200302,
+  "cold_us": 163.83999586105347,
+  "regs": 126,
+  "kernel_name": "matmul_kernel",
+  "sass": "sass/128x4096x4096_cpasync_128x128x32_st4_th256_sw0_pf1_wp2_vw0_inf_staged_sk1.sass",
+  "ops": {
+   "HMMA.16816.F32": 128,
+   "LDGSTS.E.BYPASS.128": 16,
+   "UTMALDG.2D": 0,
+   "STSM.16.M88.4": 8,
+   "UTMASTG.2D": 2,
+   "STG.E": 0,
+   "REDG.E.ADD.F32x2.FTZ.RN.STRONG.GPU": 0
+  }
+ },
+ {
+  "name": "cpasync_128x128x32_st3_th256_sw0_pf1_wp2_vw0_inf_staged_sk1",
+  "shape": {
+   "M": 128,
+   "N": 4096,
+   "K": 4096
+  },
+  "assign": {
+   "block_M": 128,
+   "block_N": 128,
+   "block_K": 32,
+   "num_stages": 3,
+   "threads": 256,
+   "c_store": "staged",
+   "split_k": 1,
+   "copy_path": "cpasync",
+   "warp_spec": 0,
+   "prefetch": 1,
+   "warp_policy": 2
+  },
+  "compile_s": 0.0,
+  "rel_err": 0.00020809473062399775,
+  "ok": true,
+  "warm_us": 154.09599989652634,
+  "cold_us": 164.14400190114975,
+  "regs": 126,
+  "kernel_name": "matmul_kernel",
+  "sass": "sass/128x4096x4096_cpasync_128x128x32_st3_th256_sw0_pf1_wp2_vw0_inf_staged_sk1.sass",
+  "ops": {
+   "HMMA.16816.F32": 128,
+   "LDGSTS.E.BYPASS.128": 16,
+   "UTMALDG.2D": 0,
+   "STSM.16.M88.4": 8,
+   "UTMASTG.2D": 2,
+   "STG.E": 0,
+   "REDG.E.ADD.F32x2.FTZ.RN.STRONG.GPU": 0
+  }
+ },
+ {
+  "name": "cpasync_64x256x32_st4_th256_sw0_pf1_wp0_vw0_inf_staged_sk1",
+  "shape": {
+   "M": 128,
+   "N": 4096,
+   "K": 4096
+  },
+  "assign": {
+   "block_M": 64,
+   "block_N": 256,
+   "block_K": 32,
+   "num_stages": 4,
+   "threads": 256,
+   "c_store": "staged",
+   "split_k": 1,
+   "copy_path": "cpasync",
+   "warp_spec": 0,
+   "prefetch": 1,
+   "warp_policy": 0
+  },
+  "compile_s": 0.0,
+  "rel_err": 0.00020809473062399775,
+  "ok": true,
+  "warm_us": 153.53600680828094,
+  "cold_us": 161.79199516773224,
+  "regs": 125,
+  "kernel_name": "matmul_kernel",
+  "sass": "sass/128x4096x4096_cpasync_64x256x32_st4_th256_sw0_pf1_wp0_vw0_inf_staged_sk1.sass",
+  "ops": {
+   "HMMA.16816.F32": 64,
+   "LDGSTS.E.BYPASS.128": 10,
+   "UTMALDG.2D": 0,
+   "STSM.16.M88.4": 8,
+   "UTMASTG.2D": 4,
+   "STG.E": 0,
+   "REDG.E.ADD.F32x2.FTZ.RN.STRONG.GPU": 0
+  }
+ },
+ {
+  "name": "cpasync_128x256x32_st4_th256_sw0_pf0_wp0_vw0_inf_staged_sk1",
+  "shape": {
+   "M": 128,
+   "N": 4096,
+   "K": 4096
+  },
+  "assign": {
+   "block_M": 128,
+   "block_N": 256,
+   "block_K": 32,
+   "num_stages": 4,
+   "threads": 256,
+   "c_store": "staged",
+   "split_k": 1,
+   "copy_path": "cpasync",
+   "warp_spec": 0
+  },
+  "compile_s": 0.0,
+  "rel_err": 0.00020809473062399775,
+  "ok": true,
+  "warm_us": 145.24799585342407,
+  "cold_us": 151.5520066022873,
+  "regs": 191,
+  "kernel_name": "matmul_kernel",
+  "sass": "sass/128x4096x4096_cpasync_128x256x32_st4_th256_sw0_pf0_wp0_vw0_inf_staged_sk1.sass",
+  "ops": {
+   "HMMA.16816.F32": 256,
+   "LDGSTS.E.BYPASS.128": 24,
+   "UTMALDG.2D": 0,
+   "STSM.16.M88.4": 16,
+   "UTMASTG.2D": 4,
+   "STG.E": 0,
+   "REDG.E.ADD.F32x2.FTZ.RN.STRONG.GPU": 0
+  }
+ },
+ {
+  "name": "cpasync_128x256x32_st4_th256_sw0_pf1_wp0_vw0_inf_staged_sk1",
+  "shape": {
+   "M": 128,
+   "N": 4096,
+   "K": 4096
+  },
+  "assign": {
+   "block_M": 128,
+   "block_N": 256,
+   "block_K": 32,
+   "num_stages": 4,
+   "threads": 256,
+   "c_store": "staged",
+   "split_k": 1,
+   "copy_path": "cpasync",
+   "warp_spec": 0,
+   "prefetch": 1,
+   "warp_policy": 0
+  },
+  "compile_s": 0.0,
+  "rel_err": 0.00020809473062399775,
+  "ok": true,
+  "warm_us": 178.01600694656372,
+  "cold_us": 184.32000279426575,
+  "regs": 192,
+  "kernel_name": "matmul_kernel",
+  "sass": "sass/128x4096x4096_cpasync_128x256x32_st4_th256_sw0_pf1_wp0_vw0_inf_staged_sk1.sass",
+  "ops": {
+   "HMMA.16816.F32": 128,
+   "LDGSTS.E.BYPASS.128": 12,
+   "UTMALDG.2D": 0,
+   "STSM.16.M88.4": 16,
+   "UTMASTG.2D": 4,
+   "STG.E": 0,
+   "REDG.E.ADD.F32x2.FTZ.RN.STRONG.GPU": 0
+  }
+ },
+ {
+  "name": "cpasync_128x256x32_st4_th256_sw0_pf0_wp2_vw0_inf_staged_sk1",
+  "shape": {
+   "M": 128,
+   "N": 4096,
+   "K": 4096
+  },
+  "assign": {
+   "block_M": 128,
+   "block_N": 256,
+   "block_K": 32,
+   "num_stages": 4,
+   "threads": 256,
+   "c_store": "staged",
+   "split_k": 1,
+   "copy_path": "cpasync",
+   "warp_spec": 0,
+   "prefetch": 0,
+   "warp_policy": 2
+  },
+  "compile_s": 0.0,
+  "rel_err": 0.00020809473062399775,
+  "ok": true,
+  "warm_us": 145.24799585342407,
+  "cold_us": 150.52799880504608,
+  "regs": 194,
+  "kernel_name": "matmul_kernel",
+  "sass": "sass/128x4096x4096_cpasync_128x256x32_st4_th256_sw0_pf0_wp2_vw0_inf_staged_sk1.sass",
+  "ops": {
+   "HMMA.16816.F32": 256,
+   "LDGSTS.E.BYPASS.128": 24,
+   "UTMALDG.2D": 0,
+   "STSM.16.M88.4": 16,
+   "UTMASTG.2D": 4,
+   "STG.E": 0,
+   "REDG.E.ADD.F32x2.FTZ.RN.STRONG.GPU": 0
+  }
+ },
+ {
+  "name": "cuBLASLt",
+  "shape": {
+   "M": 128,
+   "N": 4096,
+   "K": 4096
+  },
+  "cold": 0,
+  "us": 158.1
+ },
+ {
+  "name": "cuBLASLt",
+  "shape": {
+   "M": 128,
+   "N": 4096,
+   "K": 4096
+  },
+  "cold": 1,
+  "us": 151.4
+ }
+]
