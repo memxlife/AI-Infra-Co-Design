@@ -61,9 +61,13 @@ Winning kernels:
 4. **T4: a CUDA graph helps only the shortest kernel** (1024^3: 28.9 to 27.6 us). The L2 pin made decode slower with
    this method (M=32: 128.0 to 200.3 us). One pin run gave a negative time and was dropped. A likely cause is the
    64 MB flush read fighting the pinned window. So this result rules out "pin plus flush", not pinning itself.
-5. **Why the big shapes lose.** The price model can't see L2 reuse from swizzle. At 8192^3 the same kernel takes
-   19.5 ms without swizzle and 12.7 ms with it, but the model gives both the same 21.0 ms. Only the swizzle copies
-   added by hand caught this. TileLang's pick there uses block_K 64 (11.2 ms); every MIP finalist used block_K 32.
+5. **Why the big shapes lose: a bug in the study driver, not the model.** The driver priced every configuration
+   with swizzle fixed at 0 (`run.py` line 52). It then gave the swizzle-10 copy the same price, with a wrong comment
+   saying the model does not price swizzle. The model does price it. At 8192^3, 256x128x32 with 4 stages: the model
+   gives 21.10 ms without swizzle and 11.48 ms with it; measured, 19.5 ms and 12.7 ms. TileLang's pick, 128x256x64
+   with 2 stages: the model gives 28.70 ms and 11.99 ms; measured with swizzle, 11.19 ms. So the MIP ranked the big
+   shapes on swizzle-0 prices, which all sit near 21 ms. The fix is to make swizzle a real decision in the columns
+   and rerun 2048^3, 4096^3 and 8192^3.
 6. **TileLang autotuned can be worse than TileLang's default.** At M=128 cold it takes 192.7 us against 157.6 us.
    Its AutoTuner times warm, with an L2 left dirty by do_bench, so it picks for the wrong case.
 
@@ -72,7 +76,7 @@ Winning kernels:
 - Each tier timed only its own top picks. So raw T1+T2 came out slower than T1 at 2048^3, M=32 and M=128 (table
   above). Fix: carry the smaller tiers' finalists into each bigger tier.
 - Tier 4 was tried on the raw T3 winner, not the overall best. At 8192^3 that was the slow split-K kernel.
-- Price model fixes: L2 reuse from swizzle and tile order; the split-K atomic traffic; block_K 64 at large shapes.
+- Price swizzle in the columns (the bug in item 5). Price model fix: the split-K atomic traffic.
 - One session only. Back-to-back timing of 33-35 MB working sets varies about 10% between sessions.
 
 Files: one JSON per shape here (every candidate: price, simulator time, registers, error, measured times). The tables
