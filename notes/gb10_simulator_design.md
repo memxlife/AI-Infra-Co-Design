@@ -90,8 +90,9 @@ There is an older, separate simulator in `agentic/sim/` (`warp.py`) that is fed 
 | Input | What it is | Where it comes from |
 |---|---|---|
 | SASS file | `nvdisasm -hex` output of the kernel's cubin. `-hex` prints both 64-bit words of every instruction, so the compiler's control bits can be read. | The pipeline compiles with `nvcc ... -gencode arch=compute_121a,code=sm_121a -cubin`, then runs `nvdisasm -hex` (`compile_one` in `agentic/decide/study/run.py`). |
-| Kernel name | Which `.text.<name>` section to read. | Default `matmul_kernel`; the pipeline takes it from the SASS. |
+| Kernel name | Which `.text.<name>` section to read. | Default `matmul_kernel`; the pipeline takes it from the SASS. Both entry points take it: `simulate_kernel(..., kernel=)` and `kernel_us(..., kernel=)`. |
 | Tile config `h` | `block_M`, `block_N`, `block_K`; `num_stages`; `threads` per block (on the TMA path: consumer threads only); `swizzle`, the block launch order (0 = row-major; n = TileLang's panels of n tile rows, walked back and forth); optional `smem_layout` (`"linear"` turns on shared-memory bank conflicts). | The candidate's configuration. Note `swizzle` here is launch order, not a shared-memory layout. |
+| Grid axis `h["grid_x"]` | `"N"` (default): blockIdx.x walks N tiles, as in our template. `"M"`: the kernel was written `T.Kernel(ceildiv(M, bm), ceildiv(N, bn))`, so blockIdx.x walks M and TileLang's swizzle panels run along N. It changes the launch order the L2 replay uses and the grid sizes the block-index evaluator uses. | The kernel source. Issue 5's `gemm` case needs `"M"`: with it the simulator gives 4,893 µs against 5,082 measured. |
 | Copy path | cp.async, or warp-specialized TMA. | Chosen by which entry point you call (Section 10). |
 | Shape | M, N, K. | |
 | Registers | Registers per thread. Used only to work out blocks per SM on the cp.async path. | `cuobjdump -res-usage`. |

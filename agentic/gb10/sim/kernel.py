@@ -128,7 +128,7 @@ def simulate_kernel(sass_path, h: dict, shape: dict, regs: int, smem: int | None
         sm = SM(ins, h["threads"], math.ceil(tiles / 48), trips, active_sms=eq, copy_lines=copy_lines(h), miss_frac=miss,
                 dram_clk_per_512B=dram_clk(rb, secs, eq), ctile_bytes=min(h["block_M"], M) * min(h["block_N"], N) * 2,
                 ldsm_ways=ldsm_ways(h), resident=Rmax, grid_blocks=tiles,
-                grid_dim=(math.ceil(N / h["block_N"]), math.ceil(M / h["block_M"]), split))
+                grid_dim=(math.ceil(M / h["block_M"]), math.ceil(N / h["block_N"]), split) if h.get("grid_x", "N") == "M" else (math.ceil(N / h["block_N"]), math.ceil(M / h["block_M"]), split))
         r = sm.run(); us = r["cycles"] / F
         part = {"counts": {k: v for k, v in r.items() if k in ("STSM", "UTMASTG")}, "blocks": tiles, "per_sm": Rmax, "miss_frac": round(miss, 3),
                 "dram_GBs": round(rb / secs / 1e9, 1) if secs else None, "us": round(us, 2), "busy": {k: round(v / max(1, r["cycles"]), 2) for k, v in r["busy"].items()}}

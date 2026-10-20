@@ -64,6 +64,17 @@ def launch_order(tiles_m: int, tiles_n: int, panel: int):
         yield off % stride + pidx * panel, col
 
 
+def block_order(h: dict, tiles_m: int, tiles_n: int):
+    """(row, col) = (M tile, N tile) of each block in launch order. TileLang rasterizes over (blockIdx.y, blockIdx.x) as
+    (row, col). Our template puts N tiles on blockIdx.x (h["grid_x"] = "N", the default); a kernel written with
+    T.Kernel(ceildiv(M, bm), ceildiv(N, bn)) puts M tiles there (h["grid_x"] = "M"), so its panels run along N."""
+    panel = int(h.get("swizzle", 0) or 0)
+    if h.get("grid_x", "N") == "M":
+        for r, c in launch_order(tiles_n, tiles_m, panel): yield c, r
+    else:
+        yield from launch_order(tiles_m, tiles_n, panel)
+
+
 _traffic_cache = {}
 
 
@@ -77,12 +88,12 @@ def dram_waves(h: dict, shape: dict, resident_blocks: int = SMS) -> tuple[float,
     the measured effective capacity) is a hit; blocks of the same wave share their panels. Plus the part of C that
     overflows the L2 (write-back: the rest is still dirty in the L2 at the end)."""
     M, N, K = shape["M"], shape["N"], shape["K"]; bm, bn = h["block_M"], h["block_N"]; panel = int(h.get("swizzle", 0) or 0)
-    key = (M, N, K, bm, bn, panel, resident_blocks)
+    key = (M, N, K, bm, bn, panel, resident_blocks, h.get("grid_x", "N"))
     if key in _traffic_cache: return _traffic_cache[key]
     per_wave = []
     tiles_m, tiles_n = math.ceil(M / bm), math.ceil(N / bn); a_sz, b_sz = bm * K * 2, bn * K * 2
     cap = C["l2_effective_bytes"]; lru = {}; used = 0.0; clock = 0; reads = 0.0
-    order = list(launch_order(tiles_m, tiles_n, panel))
+    order = list(block_order(h, tiles_m, tiles_n))
     for w in range(0, len(order), resident_blocks):
         wave = order[w:w + resident_blocks]; before = reads
         need = {("A", r) for r, _ in wave} | {("B", c) for _, c in wave}
@@ -121,7 +132,7 @@ def dram_split_kslice(h: dict, shape: dict, resident_blocks: int = SMS, policy: 
     waves only what is still resident carries over. Checked against ncu's L2 read misses (agentic/gb10, Oct 20)."""
     from collections import OrderedDict
     M, N, K = shape["M"], shape["N"], shape["K"]; bm, bn, bk = h["block_M"], h["block_N"], h["block_K"]; panel = int(h.get("swizzle", 0) or 0)
-    key = (M, N, K, bm, bn, bk, panel, resident_blocks, policy)
+    key = (M, N, K, bm, bn, bk, panel, resident_blocks, policy, h.get("grid_x", "N"))
     if key in _kslice_cache: return _kslice_cache[key]
     # per wave: A and B read misses, and the rows and columns of tiles in flight (neighbouring column tiles read
     # neighbouring pieces of the same B rows at the same k-step, so DRAM sees one long run)
@@ -131,7 +142,7 @@ def dram_split_kslice(h: dict, shape: dict, resident_blocks: int = SMS, policy: 
     # stream): two LRU lists, slices seen once (probation) and slices hit at least once (protected); a hit promotes;
     # eviction takes the oldest probation slice first, then the oldest protected one
     prob = OrderedDict(); prot = OrderedDict(); used = 0.0; per_wave = []; total = 0.0
-    order = list(launch_order(tiles_m, tiles_n, panel))
+    order = list(block_order(h, tiles_m, tiles_n))
     for w in range(0, len(order), resident_blocks):
         wave = order[w:w + resident_blocks]; rows = sorted({r for r, _ in wave}); cols = sorted({c for _, c in wave}); reads = {"A": 0.0, "B": 0.0}
         for k in range(KT):
@@ -304,11 +315,11 @@ def dram_waves_stackdist(h: dict, shape: dict, resident_blocks: int = SMS) -> tu
     touched since this slice's previous touch) is computed with a Fenwick tree over access times, and the touch misses
     with probability 1 - hit(distance). First touches miss. Plus the part of C that overflows the L2."""
     M, N, K = shape["M"], shape["N"], shape["K"]; bm, bn, bk = h["block_M"], h["block_N"], h["block_K"]; panel = int(h.get("swizzle", 0) or 0)
-    key = (M, N, K, bm, bn, bk, panel, resident_blocks)
+    key = (M, N, K, bm, bn, bk, panel, resident_blocks, h.get("grid_x", "N"))
     if key in _sd_cache: return _sd_cache[key]
     tiles_m, tiles_n, KT = math.ceil(M / bm), math.ceil(N / bn), math.ceil(K / bk)
     a_sz, b_sz = min(bm, M) * bk * 2, bk * min(bn, N) * 2
-    order = list(launch_order(tiles_m, tiles_n, panel)); waves = [order[w:w + resident_blocks] for w in range(0, len(order), resident_blocks)]
+    order = list(block_order(h, tiles_m, tiles_n)); waves = [order[w:w + resident_blocks] for w in range(0, len(order), resident_blocks)]
     n_acc = sum(KT * (len({r for r, _ in wv}) + len({c for _, c in wv})) for wv in waves) + 1
     tree = [0.0] * (n_acc + 1)
     def add(i, v):

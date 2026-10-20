@@ -14,8 +14,8 @@ F = 2.54e3
 
 
 def ws_sim(name: str, variant: str, h: dict, shape: dict, blocks_eq: float = 1.0, miss: float = 0.0, dclk: float | None = None,
-           sass_path=None, nblocks: int = 1, grid: int | None = None) -> dict:
-    ins = kernel_sass(sass_path or SASS / f"tma_{name}__{variant}.sass"); KT = math.ceil(shape["K"] / h["block_K"])
+           sass_path=None, nblocks: int = 1, grid: int | None = None, kernel: str = "matmul_kernel") -> dict:
+    ins = kernel_sass(sass_path or SASS / f"tma_{name}__{variant}.sass", kernel=kernel); KT = math.ceil(shape["K"] / h["block_K"])
     lp = main_loop(ins); warps = h["threads"] // 32
     if lp:
         body = ins[lp[0]:lp[1] + 1]; n_mma = sum(x.base in ("HMMA", "IMMA", "QMMA", "OMMA") for x in body)
@@ -39,7 +39,8 @@ def ws_sim(name: str, variant: str, h: dict, shape: dict, blocks_eq: float = 1.0
     r["warps_done"] = sum(w.done for w in sm.warps); r["warps"] = len(sm.warps); return r
 
 
-def kernel_us(name, h, shape, variant="full", warm=True, sass_path=None):
+def kernel_us(name, h, shape, variant="full", warm=True, sass_path=None, kernel="matmul_kernel"):
+    """Whole TMA kernel. kernel: the kernel's name in the SASS file (TileLang's GEMM is matmul_kernel)."""
     tiles = math.ceil(shape["M"] / h["block_M"]) * math.ceil(shape["N"] / h["block_N"]); KT = math.ceil(shape["K"] / h["block_K"])
     sp = dram_split_kslice(h, shape, 48)
     from .kernel import FLOW
@@ -49,13 +50,13 @@ def kernel_us(name, h, shape, variant="full", warm=True, sass_path=None):
             r_, s_ = wave_dram(h, shape, wv, warm); rb += r_; secs += s_
         # TMA moves only rows and columns inside the matrix (out-of-range rows of a box are zero-filled, no traffic)
         cb = tiles * KT * (min(h["block_M"], shape["M"]) + min(h["block_N"], shape["N"])) * h["block_K"] * 2; eq = min(48.0, float(tiles))
-        return 2.6 + ws_sim(name, variant, h, shape, eq, min(1.0, rb / cb) if cb else 0.0, dram_clk(rb, secs, eq), sass_path, nblocks=math.ceil(tiles / 48), grid=tiles)["us"]
+        return 2.6 + ws_sim(name, variant, h, shape, eq, min(1.0, rb / cb) if cb else 0.0, dram_clk(rb, secs, eq), sass_path, nblocks=math.ceil(tiles / 48), grid=tiles, kernel=kernel)["us"]
     left, t, w = tiles, 2.6, 0
     while left > 0:
         n = min(left, 48); cb = n * KT * (min(h["block_M"], shape["M"]) + min(h["block_N"], shape["N"])) * h["block_K"] * 2
         wv = sp["waves"][w] if w < len(sp["waves"]) else {"A": 0.0, "B": 0.0, "cols": 1, "blocks": n}
         rb, secs = wave_dram(h, shape, wv, warm)
-        t += ws_sim(name, variant, h, shape, n, min(1.0, rb / cb) if cb else 0.0, dram_clk(rb, secs, n), sass_path)["us"]; left -= n; w += 1
+        t += ws_sim(name, variant, h, shape, n, min(1.0, rb / cb) if cb else 0.0, dram_clk(rb, secs, n), sass_path, kernel=kernel)["us"]; left -= n; w += 1
     return t
 
 
