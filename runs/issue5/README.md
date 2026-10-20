@@ -8,6 +8,56 @@ TileLang's dequantize-GEMV example as packaged in the bundle (`cases/w4_gemv/can
 Their three worst cases, simulated against measured (their numbers): `gemm` +82.0 %, `w4_gemv` +71.9 %,
 `gqa_decode` +54.9 %.
 
+## Status of every case (Oct 21 2026)
+
+20 kernels plus 2 whole-model graphs (out of scope). By the contributor's checks (random, zeros and scaled inputs on
+their GB10), 18 kernels were correct; with our fix and rerun, all 20 are correct now. 10 have a simulator comparison,
+and all 10 are within 10 % once their inputs are right. 8 run correctly but the simulator cannot describe their
+structure yet. Times are the contributor's measurements unless marked otherwise.
+
+**With a simulator comparison (10)**
+
+| Case | Measured | Their error | Status now |
+|---|---:|---:|---|
+| `gemm` | 5,081.9 µs | +82 % | the adapter dropped the kernel's swizzle; with its real launch order −3.7 % (section 1) |
+| `w4_gemv` | 75.7 µs | +72 % | their timing re-read the same weights (partly warm); against rotating-weight timing on our GB10 (122.9-125.3 µs) +4 to +6 %; their 75.7 µs not reproduced, we get 97.0 with their protocol (sections 2, 3) |
+| `gqa_decode` | 1,089.3 µs | +55 % | 1-byte mask loads counted as DRAM traffic; fixed +4.2 % (section 4) |
+| `gemm_basic` | 4,878.5 µs | +3.3 % | reproduced exactly (5,038.0 µs) |
+| `softmax_resident` | 578.2 µs | +8.3 % | not re-checked; mostly the memory floor |
+| `rmsnorm` | 1,169.5 µs | +6.9 % | not re-checked; mostly the memory floor |
+| `elementwise_add` | 857.1 µs | +6.1 % | not re-checked; mostly the memory floor |
+| `rmsnorm_resident` | 1,187.3 µs | +5.3 % | not re-checked; mostly the memory floor |
+| `softmax` | 595.9 µs | +5.1 % | not re-checked; mostly the memory floor |
+| `gemv` | 498.6 µs | +0.2 % | not re-checked |
+
+**Correct and timed, no simulator result yet (8)**
+
+| Case | Measured | What the simulator lacks |
+|---|---:|---|
+| `gemm_splitk` | 25,008.9 µs (with zeroing and conversion) | split-K with its extra kernels |
+| `gemm_persistent` | 5,327.8 µs | persistent blocks (48 blocks looping over tiles) |
+| `conv2d` | 3,497.6 µs | convolution |
+| `grouped_gemm` | 3,048.6 µs | grouped GEMM |
+| `gqa_prefill` | 1,990.1 µs | prefill attention |
+| `cumsum` | 726.6 µs | scan collectives |
+| `gemv_reducer` | 518.5 µs | its copy, loop and reducer pattern |
+| `w4a16` | 206.8 µs | a TMA int4 GEMM |
+
+**Failed in the package, resolved here (2)**
+
+| Case | Their result | Status now |
+|---|---|---|
+| `gqa_splitkv` | wrong on Q, K x 20 (max abs error 0.314) | the split log-sum-exp is kept in fp16; in fp32 it passes (0.002); the same bug is in TileLang's own examples, reported as tile-ai/tilelang#3585; not timed yet (section 5) |
+| `block_sparse_attention` | timed out after 360 s | no hang on our GB10: passes all three checks, 624.2 µs per call (our measurement); returns NaN if a row block sees no keys, which their mask never does (section 5) |
+
+**Out of scope (2):** `llama_network` and `matmul_bias_relu` are whole TVM graphs, included only to mark the boundary.
+
+**Who checked what.** Correctness for 18 kernels comes from the contributor's checks on their machine. We re-ran 3 on
+our GB10: `w4_gemv`, `gqa_splitkv` (as shipped and fixed) and `block_sparse_attention`.
+
+**Open with the contributor (issue #5):** the 75.7 µs `w4_gemv` time, and where their `block_sparse_attention` run
+stalled.
+
 ## 1. `gemm` (+82 %): the swizzle never reached the simulator
 
 The kernel calls `T.use_swizzle(10)`, but its case file has no swizzle, and their adapter reads `p.get("swizzle", 0)`.
