@@ -55,14 +55,15 @@ Winning kernels:
    - wins: 1024^3 1.13x, decode M=32 1.07x, 4096x4096x1024 1.05x;
    - ties: 2048^3 1.01x, 4096^3 1.02x, 8192^3 1.00x (the same kernel TileLang's AutoTuner picked), decode M=128 0.99x
      (TileLang autotuned 152.3, MIP 153.2).
-   - Against cuBLASLt alone MIP is faster on every shape: 1.04x to 1.13x.
+   - Against cuBLASLt alone MIP is faster on every shape: 1.03x to 1.13x.
 2. **The decode wins of run 2 were mostly the timing error.** M=32 went from 1.19x to 1.07x, M=128 from 1.28x to
    0.99x. The new times are physical: the M=32 winner reads at 247 GB/s, M=128 at 226 GB/s.
 3. **cuBLASLt was faster on all-zero inputs.** At 2048^3 it went from 178.4 µs (zeros, run 2) to 194.6 µs (random,
    run 3), while our kernels and TileLang's moved 1-2 %. So run 2's 2048^3 loss was not a gap in our kernel code.
    Other shapes moved 0-3 %.
-4. **What each tier buys** is unchanged: T2 (the cp.async path, warp policy, direct store) pays at 1024^3, 4096^3 and
-   4096x4096x1024; T3 (split-K) never wins; T4 (a graph) saves 1-1.5 µs on the shortest kernel.
+4. **What each tier buys:** T2 (the cp.async path, warp policy, direct store) pays at 1024^3 (32.9 to 29.0 µs) and
+   4096^3 (1,573.1 to 1,510.9); at 4096x4096x1024 its 1.5 % is a tie. T3 (split-K) never wins. T4 (a graph) saves
+   1.3 µs at 1024^3 only; at 4096x4096x1024 the graph measured slower (423.4 against 380.4 µs, one measurement).
 5. **Decode likes depth.** The new M=128 winner is TMA 128x128x32 with 6 stages, the deepest pipeline in the search.
 
 ## Still open
