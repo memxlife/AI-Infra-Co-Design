@@ -1,5 +1,9 @@
 # Tier study, run 2: swizzle priced (Oct 20 2026)
 
+> **Superseded for the decode shapes (Oct 20 2026).** The decode times here were timed "cold" by flushing the L2 and
+> subtracting the flush. That was not cold: part of the weight stayed in the L2. cuBLASLt also got all-zero inputs. See
+> `runs/decide/study_v3/README.md` for fair times.
+
 Same seven shapes, method and baselines as run 1 (`runs/decide/study/README.md`), with four changes to the driver
 (commits 41bbf7e and 8fe2266):
 - Swizzle {0, 10} is a decision the price model prices. Run 1 priced everything at swizzle 0 by mistake.

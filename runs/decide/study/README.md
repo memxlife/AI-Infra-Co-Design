@@ -1,5 +1,9 @@
 # Tier study: MIP-picked GEMM kernels against TileLang and cuBLASLt on the GB10 (Oct 20 2026)
 
+> **Superseded for the decode shapes (Oct 20 2026).** The decode times here were timed "cold" by flushing the L2 and
+> subtracting the flush. That was not cold: part of the weight stayed in the L2. cuBLASLt also got all-zero inputs. See
+> `runs/decide/study_v3/README.md` for fair times.
+
 Seven shapes, fp16 in, fp32 accumulate. Each tier adds decisions to the search:
 - **T1**: TileLang's own tuning knobs (tile sizes, stages, threads, swizzle) on its TMA warp-specialized structure.
 - **T1+T2**: adds the cp.async path, direct or staged C store, prefetch and warp policy.

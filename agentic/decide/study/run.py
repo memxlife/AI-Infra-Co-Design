@@ -7,9 +7,10 @@
   4. per tier, finalists = the simulator's top 5, the model's 5 best distinct kernels (8 where nothing is simulated) with
      their prefetch and warp-policy variants, and the smaller tiers' finalists; time them all, plus TileLang's default kernel,
      TileLang's autotuned pick (study/tilelang_autotune.json) and cuBLASLt (study/cublaslt_seq), with one protocol:
-     per call in a back-to-back sequence (warm), and cold (a 64 MB read before every call, its time subtracted)
-  5. tier 4 on the best kernel found (T3's finalists include the smaller tiers'): the same sequences as a CUDA graph; for the cold decode shapes also an L2 persistence
-     window on the weights (driver API, 18 MB set aside)
+     per call in a back-to-back sequence (warm); decode shapes also with each call reading the next of several
+     weight copies, 256 MB or more in all (rot), as decode does. The older cold time (a 64 MB read before every call,
+     its time subtracted) is kept for reference; at decode sizes it was not cold
+  5. tier 4 on the best kernel found (T3's finalists include the smaller tiers'): the same sequences as a CUDA graph
 Writes OUT/<shape>.json as it goes and OUT/summary.md at the end. Resumable: finished shapes are skipped.
 python -m agentic.decide.study.run OUT_DIR"""
 from __future__ import annotations
@@ -107,6 +108,15 @@ def make_fn(k, a, A, B, M, N):
     return (lambda: k(A, B)), None
 
 
+def make_rot(k, a, A, Bs, M, N):
+    """Each call reads the next of several weight copies (together far larger than the L2), as decode does: every layer
+    has its own weights, so none is still in the L2 when it comes round again. No flush, nothing subtracted."""
+    fns = [make_fn(k, a, A, Bi, M, N)[0] for Bi in Bs]; i = [0]
+    def f():
+        i[0] = (i[0] + 1) % len(fns); return fns[i[0]]()
+    return f
+
+
 # ---------------------------------------------------------------- 3. simulate (worker process)
 def sim_worker(args):
     rec, shape, warm = args
@@ -163,10 +173,12 @@ def graph_seq(fn, cold, n):
     return run(build(True)) - (run(build(False)) if cold else 0.0)
 
 
-def measure(fn, n, decode):
+def measure(fn, n, decode, rot=None):
     for _ in range(5): fn()
     out = {"warm": statistics.median([seq(fn, False, n) for _ in range(3)])}
-    out["cold"] = statistics.median([seq(fn, True, n) for _ in range(3)]) if True else None
+    # flush and subtract: kept for reference only. At decode sizes it is not cold (run 2 measured reads faster than DRAM)
+    out["cold"] = statistics.median([seq(fn, True, n) for _ in range(3)])
+    if rot: out["rot"] = statistics.median([seq(rot, False, n) for _ in range(3)])
     return out
 
 
@@ -192,10 +204,10 @@ class L2Pin:
 
 def cublaslt(shape):
     o = subprocess.run([str(HERE / "cublaslt_seq"), *map(str, shape), "100"], capture_output=True, text=True).stdout
-    m = re.search(r"single_call_median_us=([-\d.]+) seq_warm_stream_us=([-\d.]+) seq_cold_stream_us=([-\d.]+) seq_warm_graph_us=([-\d.]+) seq_cold_graph_us=([-\d.]+)", o)
+    m = re.search(r"single_call_median_us=([-\d.]+) seq_warm_stream_us=([-\d.]+) seq_cold_stream_us=([-\d.]+) seq_warm_graph_us=([-\d.]+) seq_cold_graph_us=([-\d.]+) seq_rot_stream_us=([-\d.]+) seq_rot_graph_us=([-\d.]+)", o)
     if not m: return {"error": o[-300:]}
     v = [x if x > 0 else None for x in map(float, m.groups())]       # a subtraction below zero is noise, not a time
-    return {"single": v[0], "warm": v[1], "cold": v[2], "warm_graph": v[3], "cold_graph": v[4]}
+    return {"single": v[0], "warm": v[1], "cold": v[2], "warm_graph": v[3], "cold_graph": v[4], "rot": v[5], "rot_graph": v[6]}
 
 
 # ---------------------------------------------------------------- TileLang's own kernels
@@ -217,9 +229,10 @@ def tilelang_autotuned(shape):
 def run_shape(shape, out_dir):
     M, N, K = shape; tag = f"{M}x{N}x{K}"; f = out_dir / f"{tag}.json"
     if f.exists(): log(tag, "done before, skipped"); return json.load(open(f))
-    decode = shape in DECODE; timing = "cold" if decode else "warm"; t0 = time.time()
+    decode = shape in DECODE; timing = "cold" if decode else "warm"; t0 = time.time()       # timing: the model's and simulator's mode
+    mkey = "rot" if decode else "warm"                                                           # mkey: which measured time counts
     sass_dir = out_dir / "sass" / tag; sass_dir.mkdir(parents=True, exist_ok=True)
-    res = {"shape": tag, "primary": timing, "tiers": {}}
+    res = {"shape": tag, "primary": mkey, "tiers": {}}
     cand_by_tier = {}; union = {}
     for tier in (1, 2, 3):
         ncols, cands = candidates(shape, timing, tier); cand_by_tier[tier] = cands
@@ -229,6 +242,8 @@ def run_shape(shape, out_dir):
         cand_by_tier = {t: c[:3] for t, c in cand_by_tier.items()}; union = {cfg_name(c): c for cs in cand_by_tier.values() for c in cs}
     log(tag, "candidates:", {t: len(c) for t, c in cand_by_tier.items()}, "unique", len(union))
     A = torch.randn(M, K, device="cuda").half(); B = torch.randn(K, N, device="cuda").half(); ref = A.float() @ B.float()
+    Bs = [B] + [B.clone() for _ in range(-(-(256 << 20) // B.nbytes) - 1)] if decode else None    # weight copies, >= 256 MB in all
+    def rot_of(k, a): return make_rot(k, a, A, Bs, M, N) if decode else None
     with ProcessPoolExecutor(max_workers=10, mp_context=multiprocessing.get_context("spawn")) as ex:     # no CUDA in forked children
         built = dict(zip(union, ex.map(build_worker, [(a, shape, str(sass_dir)) for a in union.values()])))
     log(tag, "built in parallel:", sum("error" not in b for b in built.values()), "of", len(built))
@@ -263,27 +278,24 @@ def run_shape(shape, out_dir):
     timed = {}
     for nm in dict.fromkeys(sum(finals.values(), [])):
         k, a = kernels[nm]; fn, _ = make_fn(k, a, A, B, M, N)
-        try: timed[nm] = measure(fn, n, decode); recs[nm]["measured"] = timed[nm]
+        try: timed[nm] = measure(fn, n, decode, rot_of(k, a)); recs[nm]["measured"] = timed[nm]
         except Exception as e: recs[nm]["measure_error"] = str(e)[:200]
     for tier in (1, 2, 3):
         ok = [x for x in finals[tier] if x in timed]
-        best = min(ok, key=lambda x: timed[x][timing]) if ok else None
-        res["tiers"][tier].update({"best": best, "best_us": timed[best][timing] if best else None, "best_warm_us": timed[best]["warm"] if best else None, "best_cold_us": timed[best]["cold"] if best else None,
+        best = min(ok, key=lambda x: timed[x][mkey]) if ok else None
+        res["tiers"][tier].update({"best": best, "best_us": timed[best][mkey] if best else None, "best_warm_us": timed[best]["warm"] if best else None, "best_cold_us": timed[best]["cold"] if best else None,
                                    "model_top1": min(finals[tier], key=lambda x: recs[x]["model_us"]) if finals[tier] else None})
     log(tag, "tiers:", {t: round(v.get("best_us") or -1, 1) for t, v in res["tiers"].items()})
-    # tier 4: the T3 best with a CUDA graph; decode shapes also with the weights' L2 persistence window
+    # tier 4: the best kernel with a CUDA graph. The L2 pin is left out: with the weights rotating it needs its own
+    # experiment (which layers' weights to keep), and the flush-based test of run 1 and 2 did not measure it.
     b3 = res["tiers"][3]["best"]
     if b3:
         k, a = kernels[b3]; fn, _ = make_fn(k, a, A, B, M, N); t4 = {}
-        try: t4["warm_graph"] = graph_seq(fn, False, n); t4["cold_graph"] = graph_seq(fn, True, n)
+        try:
+            t4["warm_graph"] = graph_seq(fn, False, n)
+            if decode: t4["rot_graph"] = graph_seq(rot_of(k, a), False, n)
         except Exception as e: t4["graph_error"] = str(e)[:200]
-        if decode:
-            try:
-                with L2Pin(B): t4["cold_pin"] = statistics.median([seq(fn, True, n) for _ in range(3)])
-                with L2Pin(B): t4["cold_pin_graph"] = graph_seq(fn, True, n)
-            except Exception as e: t4["pin_error"] = str(e)[:200]
-        cands4 = {"stream": timed[b3][timing], "graph": t4.get(f"{timing}_graph")}
-        if decode: cands4.update({"pin": t4.get("cold_pin"), "pin_graph": t4.get("cold_pin_graph")})
+        cands4 = {"stream": timed[b3][mkey], "graph": t4.get(f"{mkey}_graph")}
         ok4 = {k2: v for k2, v in cands4.items() if v is not None}
         res["tiers"][4] = {"base": b3, **t4, "best_mode": min(ok4, key=ok4.get), "best_us": min(ok4.values())}
     # TileLang's own kernels and cuBLASLt, same protocol
@@ -291,12 +303,12 @@ def run_shape(shape, out_dir):
     for label, a in (("default", TL_DEFAULT),) + ((("autotuned", tilelang_autotuned(shape)[0]),) if tilelang_autotuned(shape) else ()):
         try:
             k, info = compile_one(a, shape, sass_dir); fn, Cbuf = make_fn(k, a, A, B, M, N); out = fn(); torch.cuda.synchronize()
-            err = ((out.float() - ref).norm() / ref.norm()).item(); m = measure(fn, n, decode)
-            res["tilelang"][label] = {"assign": a, "rel_err": err, **m, "us": m[timing]}
+            err = ((out.float() - ref).norm() / ref.norm()).item(); m = measure(fn, n, decode, rot_of(k, a))
+            res["tilelang"][label] = {"assign": a, "rel_err": err, **m, "us": m[mkey]}
         except Exception as e:
             res["tilelang"][label] = {"assign": a, "error": (str(e).strip().splitlines() or ["?"])[-1][:200]}
     if tilelang_autotuned(shape): res["tilelang"]["autotuned"]["tilelang_own_latency_ms"] = tilelang_autotuned(shape)[1]
-    res["cublaslt"] = cublaslt(shape); res["cublaslt"]["us"] = res["cublaslt"].get(timing)
+    res["cublaslt"] = cublaslt(shape); res["cublaslt"]["us"] = res["cublaslt"].get(mkey)
     res["records"] = list(recs.values()); res["wall_s"] = round(time.time() - t0)
     json.dump(res, open(f, "w"), indent=1); log(tag, "written", f, f"{res['wall_s']} s")
     return res
