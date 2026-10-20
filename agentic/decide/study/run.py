@@ -13,7 +13,7 @@ Writes OUT/<shape>.json as it goes and OUT/summary.md at the end. Resumable: fin
 python -m agentic.decide.study.run OUT_DIR"""
 from __future__ import annotations
 
-import ctypes, importlib.util, itertools, json, os, re, statistics, subprocess, sys, tempfile, time, traceback
+import ctypes, importlib.util, itertools, json, multiprocessing, os, re, statistics, subprocess, sys, tempfile, time, traceback
 from concurrent.futures import ProcessPoolExecutor
 from pathlib import Path
 
@@ -78,11 +78,12 @@ def candidates(shape, timing, tier, n=30):
 
 
 # ---------------------------------------------------------------- 2. compile and check
-def compile_one(a, shape, sass_dir):
+def compile_one(a, shape, sass_dir, info=None):
     M, N, K = shape; src = render({k: v for k, v in a.items() if not k.startswith("_")})
     path = os.path.join(tempfile.mkdtemp(), "k.py"); open(path, "w").write(src)
     spec = importlib.util.spec_from_file_location("k" + str(abs(hash(path))), path); mod = importlib.util.module_from_spec(spec); spec.loader.exec_module(mod)
     k = mod.matmul.compile(M=M, N=N, K=K)
+    if info: return k, info                              # built by build_worker; TileLang loaded it from its disk cache
     with tempfile.TemporaryDirectory() as d:
         open(f"{d}/k.cu", "w").write(k.get_kernel_source())
         subprocess.run(f"nvcc -O3 -std=c++20 -w -Xcudafe --diag_suppress=177 -gencode arch=compute_121a,code=sm_121a --expt-relaxed-constexpr -I{TL}/src -I{TL}/3rdparty/cutlass/include -cubin -o {d}/k.cubin {d}/k.cu", shell=True, check=True)
@@ -90,6 +91,14 @@ def compile_one(a, shape, sass_dir):
         res = subprocess.run(["cuobjdump", "-res-usage", f"{d}/k.cubin"], capture_output=True, text=True).stdout
     nm = cfg_name(a); p = sass_dir / f"{nm}.sass"; p.write_text(sass)
     return k, {"regs": int(re.search(r"REG:(\d+)", res).group(1)), "kernel_name": re.search(r"\.text\.(\S+?):", sass).group(1), "sass": str(p)}
+
+
+def build_worker(args):
+    """Build one candidate in a separate process: TileLang keeps the kernel in its disk cache (the main process then
+    loads it in ~0.02 s instead of ~1.8 s) and the cubin gives the SASS and the register count."""
+    a, shape, sass_dir = args
+    try: return compile_one(a, shape, Path(sass_dir))[1]
+    except Exception as e: return {"error": (str(e).strip().splitlines() or ["?"])[-1][:200]}
 
 
 def make_fn(k, a, A, B, M, N):
@@ -220,10 +229,14 @@ def run_shape(shape, out_dir):
         cand_by_tier = {t: c[:3] for t, c in cand_by_tier.items()}; union = {cfg_name(c): c for cs in cand_by_tier.values() for c in cs}
     log(tag, "candidates:", {t: len(c) for t, c in cand_by_tier.items()}, "unique", len(union))
     A = torch.randn(M, K, device="cuda").half(); B = torch.randn(K, N, device="cuda").half(); ref = A.float() @ B.float()
+    with ProcessPoolExecutor(max_workers=10, mp_context=multiprocessing.get_context("spawn")) as ex:     # no CUDA in forked children
+        built = dict(zip(union, ex.map(build_worker, [(a, shape, str(sass_dir)) for a in union.values()])))
+    log(tag, "built in parallel:", sum("error" not in b for b in built.values()), "of", len(built))
     recs, kernels = {}, {}
     for nm, a in union.items():
+        if "error" in built[nm]: recs[nm] = {"name": nm, "ok": False, "error": built[nm]["error"]}; continue
         try:
-            k, info = compile_one(a, shape, sass_dir); fn, Cbuf = make_fn(k, a, A, B, M, N); out = fn(); torch.cuda.synchronize()
+            k, info = compile_one(a, shape, sass_dir, built[nm]); fn, Cbuf = make_fn(k, a, A, B, M, N); out = fn(); torch.cuda.synchronize()
             got = Cbuf if Cbuf is not None else out; err = ((got.float() - ref).norm() / ref.norm()).item()
             recs[nm] = {"name": nm, "assign": {k2: v for k2, v in a.items() if not k2.startswith("_")}, "model_us": a["_model"], "ok": err < 1e-2, "rel_err": err, **info}
             if err < 1e-2: kernels[nm] = (k, a)
