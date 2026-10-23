@@ -1,0 +1,59 @@
+== nvidia-smi -q | head -40
+
+==============NVSMI LOG==============
+
+Timestamp                                 : Fri Oct 23 10:20:46 2026
+Driver Version                            : 570.148.08
+CUDA Version                              : 12.8
+
+Attached GPUs                             : 8
+GPU 00000000:16:00.0
+    Product Name                          : NVIDIA GeForce RTX 5090
+    Product Brand                         : GeForce
+    Product Architecture                  : Blackwell
+    Display Mode                          : Disabled
+    Display Active                        : Disabled
+    Persistence Mode                      : Enabled
+    Addressing Mode                       : None
+    MIG Mode
+        Current                           : N/A
+        Pending                           : N/A
+    Accounting Mode                       : Disabled
+    Accounting Mode Buffer Size           : 4000
+    Driver Model
+        Current                           : N/A
+        Pending                           : N/A
+    Serial Number                         : 0
+    GPU UUID                              : GPU-650da5b4-1754-f0db-f33b-abdc6d6b9e55
+    Minor Number                          : 0
+    VBIOS Version                         : 98.02.2E.80.4F
+    MultiGPU Board                        : No
+    Board ID                              : 0x1600
+    Board Part Number                     : N/A
+    GPU Part Number                       : 2B85-300-A1
+    FRU Part Number                       : N/A
+    Platform Info
+        Chassis Serial Number             : 
+        Slot Number                       : 0
+        Tray Index                        : 0
+        Host ID                           : 1
+        Peer Type                         : Direct Connected
+        Module Id                         : 1
+== driver
+570.148.08
+== nvcc --version
+nvcc: NVIDIA (R) Cuda compiler driver
+Copyright (c) 2005-2025 NVIDIA Corporation
+Built on Fri_Feb_21_20:23:50_PST_2025
+Cuda compilation tools, release 12.8, V12.8.93
+Build cuda_12.8.r12.8/compiler.35583870_0
+== ptxas --version
+ptxas: NVIDIA (R) Ptx optimizing assembler
+Copyright (c) 2005-2025 NVIDIA Corporation
+Built on Fri_Feb_21_20:21:21_PST_2025
+Cuda compilation tools, release 12.8, V12.8.93
+Build cuda_12.8.r12.8/compiler.35583870_0
+== toolkit path
+/usr/local/cuda-12.8
+== torch
+ModuleNotFoundError: No module named 'torch'

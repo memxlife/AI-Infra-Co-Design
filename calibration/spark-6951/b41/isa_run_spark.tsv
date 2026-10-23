@@ -1,0 +1,70 @@
+cubin/01c_mxf4nvf4_4X_ue4m3__sm_121a.cubin	runs
+cubin/01d_mxf4nvf4_2X_ue8m0__sm_121a.cubin	runs
+cubin/02a_mxf4_2X_ue8m0_plan__sm_121a.cubin	runs
+cubin/02b_mxf4_2X_ue8m0__sm_121a.cubin	runs
+cubin/03a_mxf8f6f4_1X_e4m3_plan__sm_121a.cubin	runs
+cubin/03b_mxf8f6f4_1X_e4m3__sm_121a.cubin	runs
+cubin/04a_sp_mxf4nvf4_2X_ue8m0__sm_121a.cubin	runs
+cubin/04b_sp_mxf4nvf4_4X_ue4m3__sm_121a.cubin	runs
+cubin/04c_sp_mxf4_2X_ue8m0__sm_121a.cubin	runs
+cubin/04d_sp_mxf8f6f4_1X_e4m3__sm_121a.cubin	runs
+cubin/05_bf16_m16n8k16__sm_121a.cubin	runs
+cubin/12b_setmaxnreg_wg_dec24_inc232__sm_121a.cubin	runs
+cubin/12_setmaxnreg_inc_232__sm_121a.cubin	runs
+cubin/13_tma_2d_multicast__sm_121a.cubin	runs
+cubin/14_tma_2d_plain__sm_121a.cubin	runs
+cubin/15a_redux_max_s32__sm_121a.cubin	runs
+cubin/15b_redux_add_s32__sm_121a.cubin	runs
+cubin/16a_ldmatrix_x4_trans__sm_121a.cubin	runs
+cubin/16b_stmatrix_x4_trans__sm_121a.cubin	runs
+cubin/01c_mxf4nvf4_4X_ue4m3__sm_121f.cubin	runs
+cubin/01d_mxf4nvf4_2X_ue8m0__sm_121f.cubin	runs
+cubin/02a_mxf4_2X_ue8m0_plan__sm_121f.cubin	runs
+cubin/02b_mxf4_2X_ue8m0__sm_121f.cubin	runs
+cubin/03a_mxf8f6f4_1X_e4m3_plan__sm_121f.cubin	runs
+cubin/03b_mxf8f6f4_1X_e4m3__sm_121f.cubin	runs
+cubin/04d_sp_mxf8f6f4_1X_e4m3__sm_121f.cubin	runs
+cubin/05_bf16_m16n8k16__sm_121f.cubin	runs
+cubin/12b_setmaxnreg_wg_dec24_inc232__sm_121f.cubin	runs
+cubin/12_setmaxnreg_inc_232__sm_121f.cubin	runs
+cubin/13_tma_2d_multicast__sm_121f.cubin	runs
+cubin/14_tma_2d_plain__sm_121f.cubin	runs
+cubin/15a_redux_max_s32__sm_121f.cubin	runs
+cubin/15b_redux_add_s32__sm_121f.cubin	runs
+cubin/16a_ldmatrix_x4_trans__sm_121f.cubin	runs
+cubin/16b_stmatrix_x4_trans__sm_121f.cubin	runs
+cubin/01c_mxf4nvf4_4X_ue4m3__sm_120f.cubin	runs
+cubin/01d_mxf4nvf4_2X_ue8m0__sm_120f.cubin	runs
+cubin/02a_mxf4_2X_ue8m0_plan__sm_120f.cubin	runs
+cubin/02b_mxf4_2X_ue8m0__sm_120f.cubin	runs
+cubin/03a_mxf8f6f4_1X_e4m3_plan__sm_120f.cubin	runs
+cubin/03b_mxf8f6f4_1X_e4m3__sm_120f.cubin	runs
+cubin/04d_sp_mxf8f6f4_1X_e4m3__sm_120f.cubin	runs
+cubin/05_bf16_m16n8k16__sm_120f.cubin	runs
+cubin/12b_setmaxnreg_wg_dec24_inc232__sm_120f.cubin	runs
+cubin/12_setmaxnreg_inc_232__sm_120f.cubin	runs
+cubin/13_tma_2d_multicast__sm_120f.cubin	runs
+cubin/14_tma_2d_plain__sm_120f.cubin	runs
+cubin/15a_redux_max_s32__sm_120f.cubin	runs
+cubin/15b_redux_add_s32__sm_120f.cubin	runs
+cubin/16a_ldmatrix_x4_trans__sm_120f.cubin	runs
+cubin/16b_stmatrix_x4_trans__sm_120f.cubin	runs
+cubin/01c_mxf4nvf4_4X_ue4m3__sm_120a.cubin	load-failed: no kernel image is available for execution on the device
+cubin/01d_mxf4nvf4_2X_ue8m0__sm_120a.cubin	load-failed: no kernel image is available for execution on the device
+cubin/02a_mxf4_2X_ue8m0_plan__sm_120a.cubin	load-failed: no kernel image is available for execution on the device
+cubin/02b_mxf4_2X_ue8m0__sm_120a.cubin	load-failed: no kernel image is available for execution on the device
+cubin/03a_mxf8f6f4_1X_e4m3_plan__sm_120a.cubin	load-failed: no kernel image is available for execution on the device
+cubin/03b_mxf8f6f4_1X_e4m3__sm_120a.cubin	load-failed: no kernel image is available for execution on the device
+cubin/04a_sp_mxf4nvf4_2X_ue8m0__sm_120a.cubin	load-failed: no kernel image is available for execution on the device
+cubin/04b_sp_mxf4nvf4_4X_ue4m3__sm_120a.cubin	load-failed: no kernel image is available for execution on the device
+cubin/04c_sp_mxf4_2X_ue8m0__sm_120a.cubin	load-failed: no kernel image is available for execution on the device
+cubin/04d_sp_mxf8f6f4_1X_e4m3__sm_120a.cubin	load-failed: no kernel image is available for execution on the device
+cubin/05_bf16_m16n8k16__sm_120a.cubin	load-failed: no kernel image is available for execution on the device
+cubin/12b_setmaxnreg_wg_dec24_inc232__sm_120a.cubin	load-failed: no kernel image is available for execution on the device
+cubin/12_setmaxnreg_inc_232__sm_120a.cubin	load-failed: no kernel image is available for execution on the device
+cubin/13_tma_2d_multicast__sm_120a.cubin	load-failed: no kernel image is available for execution on the device
+cubin/14_tma_2d_plain__sm_120a.cubin	load-failed: no kernel image is available for execution on the device
+cubin/15a_redux_max_s32__sm_120a.cubin	load-failed: no kernel image is available for execution on the device
+cubin/15b_redux_add_s32__sm_120a.cubin	load-failed: no kernel image is available for execution on the device
+cubin/16a_ldmatrix_x4_trans__sm_120a.cubin	load-failed: no kernel image is available for execution on the device
+cubin/16b_stmatrix_x4_trans__sm_120a.cubin	load-failed: no kernel image is available for execution on the device

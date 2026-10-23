@@ -1,0 +1,59 @@
+== nvidia-smi -q | head -40
+
+==============NVSMI LOG==============
+
+Timestamp                                              : Fri Oct 23 10:06:38 2026
+Driver Version                                         : 580.159.03
+CUDA Version                                           : 13.0
+
+Attached GPUs                                          : 1
+GPU 0000000F:01:00.0
+    Product Name                                       : NVIDIA GB10
+    Product Brand                                      : NVIDIA RTX
+    Product Architecture                               : Blackwell
+    Display Mode                                       : Requested functionality has been deprecated
+    Display Attached                                   : No
+    Display Active                                     : Disabled
+    Persistence Mode                                   : Enabled
+    Addressing Mode                                    : ATS
+    MIG Mode
+        Current                                        : N/A
+        Pending                                        : N/A
+    Accounting Mode                                    : Disabled
+    Accounting Mode Buffer Size                        : 4000
+    Driver Model
+        Current                                        : N/A
+        Pending                                        : N/A
+    Serial Number                                      : N/A
+    GPU UUID                                           : GPU-753c9421-ce98-5f80-5a6c-01bf96de72fb
+    GPU PDI                                            : 0x8029e769725211f0
+    Minor Number                                       : 0
+    VBIOS Version                                      : 9A.0B.0F.00.16
+    MultiGPU Board                                     : No
+    Board ID                                           : 0xf0100
+    Board Part Number                                  : N/A
+    GPU Part Number                                    : 2E12-275-A1
+    FRU Part Number                                    : N/A
+    Platform Info
+        Chassis Serial Number                          : 
+        Slot Number                                    : 0
+        Tray Index                                     : 0
+        Host ID                                        : 1
+== driver
+580.159.03
+== nvcc --version
+nvcc: NVIDIA (R) Cuda compiler driver
+Copyright (c) 2005-2025 NVIDIA Corporation
+Built on Wed_Aug_20_01:57:39_PM_PDT_2025
+Cuda compilation tools, release 13.0, V13.0.88
+Build cuda_13.0.r13.0/compiler.36424714_0
+== ptxas --version
+ptxas: NVIDIA (R) Ptx optimizing assembler
+Copyright (c) 2005-2025 NVIDIA Corporation
+Built on Wed_Aug_20_01:53:56_PM_PDT_2025
+Cuda compilation tools, release 13.0, V13.0.88
+Build cuda_13.0.r13.0/compiler.36424714_0
+== toolkit path
+/usr/local/cuda-13.0
+== torch
+2.11.0+cu128 12.8

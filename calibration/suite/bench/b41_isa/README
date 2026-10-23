@@ -1,0 +1,5 @@
+Measures: which PTX instructions assemble for sm_120a/f, sm_121a/f, sm_100a, sm_103a, and which run on the GB10 (sm_121a/f) and the RTX 5090 (sm_120a/f).
+How: gen_probes.py writes one probe per instruction; assemble.py takes each probe's PTX from the first virtual target that accepts it (or a valid sibling with only the instruction swapped) and assembles it per target by rewriting only .target; run_isa runs each assembled cubin in its own process.
+Cross-check: a probe that runs also executes its instruction (cuobjdump -sass shows it in the cubin); no timing, so no counter is needed for this item.
+Output: isa_assemble.tsv (probe, target, status, ptxas error), isa_run_<machine>.tsv, isa_versions.txt; table in notes/isa_boundary.md.
+Command: python3 gen_probes.py W/probes && python3 assemble.py W && nvcc -O2 -arch=sm_121a -o W/run_isa run_isa.cu -lcuda && for c in W/cubin/*__sm_121?.cubin; do W/run_isa $c; done

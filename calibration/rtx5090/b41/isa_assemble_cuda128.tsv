@@ -1,0 +1,54 @@
+01a_mxf4nvf4_2X_ue4m3_plan	sm_120a	rejected	Illegal modifier '.scale_vec::2X' for instruction 'mma' with type '.ue4m3'	compute_120a
+01a_mxf4nvf4_2X_ue4m3_plan	sm_100a	rejected	Instruction 'mma with block scale' not supported on .target 'sm_100a'	compute_120a
+01b_mxf4nvf4_2X_ue4m3	sm_120a	rejected	Illegal modifier '.scale_vec::2X' for instruction 'mma' with type '.ue4m3'	compute_120a
+01b_mxf4nvf4_2X_ue4m3	sm_100a	rejected	Instruction 'mma with block scale' not supported on .target 'sm_100a'	compute_120a
+01c_mxf4nvf4_4X_ue4m3	sm_120a	assembles		compute_120a
+01c_mxf4nvf4_4X_ue4m3	sm_100a	rejected	Instruction 'mma with block scale' not supported on .target 'sm_100a'	compute_120a
+01d_mxf4nvf4_2X_ue8m0	sm_120a	assembles		compute_120a
+01d_mxf4nvf4_2X_ue8m0	sm_100a	rejected	Instruction 'mma with block scale' not supported on .target 'sm_100a'	compute_120a
+02a_mxf4_2X_ue8m0_plan	sm_120a	assembles		compute_120a
+02a_mxf4_2X_ue8m0_plan	sm_100a	rejected	Instruction 'mma with block scale' not supported on .target 'sm_100a'	compute_120a
+02b_mxf4_2X_ue8m0	sm_120a	assembles		compute_120a
+02b_mxf4_2X_ue8m0	sm_100a	rejected	Instruction 'mma with block scale' not supported on .target 'sm_100a'	compute_120a
+03a_mxf8f6f4_1X_e4m3_plan	sm_120a	assembles		compute_120a
+03a_mxf8f6f4_1X_e4m3_plan	sm_100a	rejected	Instruction 'mma with block scale' not supported on .target 'sm_100a'	compute_120a
+03b_mxf8f6f4_1X_e4m3	sm_120a	assembles		compute_120a
+03b_mxf8f6f4_1X_e4m3	sm_100a	rejected	Instruction 'mma with block scale' not supported on .target 'sm_100a'	compute_120a
+04a_sp_mxf4nvf4_2X_ue8m0	sm_120a	assembles		compute_120a
+04a_sp_mxf4nvf4_2X_ue8m0	sm_100a	rejected	Instruction 'mma with block scale' not supported on .target 'sm_100a'	compute_120a
+04b_sp_mxf4nvf4_4X_ue4m3	sm_120a	assembles		compute_120a
+04b_sp_mxf4nvf4_4X_ue4m3	sm_100a	rejected	Instruction 'mma with block scale' not supported on .target 'sm_100a'	compute_120a
+04c_sp_mxf4_2X_ue8m0	sm_120a	assembles		compute_120a
+04c_sp_mxf4_2X_ue8m0	sm_100a	rejected	Instruction 'mma with block scale' not supported on .target 'sm_100a'	compute_120a
+04d_sp_mxf8f6f4_1X_e4m3	sm_120a	assembles		compute_120a
+04d_sp_mxf8f6f4_1X_e4m3	sm_100a	rejected	Instruction 'mma with block scale' not supported on .target 'sm_100a'	compute_120a
+05_bf16_m16n8k16	sm_120a	assembles		compute_120a
+05_bf16_m16n8k16	sm_100a	assembles		compute_120a
+06_tcgen05_alloc	sm_120a	rejected	Instruction 'tcgen05.alloc' not supported on .target 'sm_120a'	compute_120a
+06_tcgen05_alloc	sm_100a	assembles		compute_120a
+07_tcgen05_mma_f16	sm_120a	rejected	Instruction 'tcgen05.mma' not supported on .target 'sm_120a'	compute_120a
+07_tcgen05_mma_f16	sm_100a	assembles		compute_120a
+08_tcgen05_cp	sm_120a	rejected	Feature '.128x256b' not supported on .target 'sm_120a'	compute_120a
+08_tcgen05_cp	sm_100a	assembles		compute_120a
+09_tcgen05_ld	sm_120a	rejected	Feature '.16x256b' not supported on .target 'sm_120a'	compute_120a
+09_tcgen05_ld	sm_100a	assembles		compute_120a
+10_tcgen05_ld_red	sm_120a	rejected	Feature '.32x32b' not supported on .target 'sm_120a'	compute_120a
+10_tcgen05_ld_red	sm_100a	rejected	Not a name of any known instruction: 'tcgen05.ld.red'	compute_120a
+11_wgmma_m64n8k16_bf16	sm_120a	rejected	Instruction 'wgmma.fence' not supported on .target 'sm_120a'	compute_120a
+11_wgmma_m64n8k16_bf16	sm_100a	rejected	Instruction 'wgmma.fence' not supported on .target 'sm_100a'	compute_120a
+12_setmaxnreg_inc_232	sm_120a	assembles		compute_120a
+12_setmaxnreg_inc_232	sm_100a	assembles		compute_120a
+12b_setmaxnreg_wg_dec24_inc232	sm_120a	assembles		compute_120a
+12b_setmaxnreg_wg_dec24_inc232	sm_100a	assembles		compute_120a
+13_tma_2d_multicast	sm_120a	assembles		compute_120a
+13_tma_2d_multicast	sm_100a	assembles		compute_120a
+14_tma_2d_plain	sm_120a	assembles		compute_120a
+14_tma_2d_plain	sm_100a	assembles		compute_120a
+15a_redux_max_s32	sm_120a	assembles		compute_120a
+15a_redux_max_s32	sm_100a	assembles		compute_120a
+15b_redux_add_s32	sm_120a	assembles		compute_120a
+15b_redux_add_s32	sm_100a	assembles		compute_120a
+16a_ldmatrix_x4_trans	sm_120a	assembles		compute_120a
+16a_ldmatrix_x4_trans	sm_100a	assembles		compute_120a
+16b_stmatrix_x4_trans	sm_120a	assembles		compute_120a
+16b_stmatrix_x4_trans	sm_100a	assembles		compute_120a
