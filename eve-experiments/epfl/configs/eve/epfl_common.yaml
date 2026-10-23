@@ -1,0 +1,27 @@
+defaults:
+  - runtime: default
+  - loop: epfl_synthesis
+  - driver: codex_max
+  - logger: many_loggers
+  - application: epfl_synthesis
+  - optimizer: epfl_synthesis
+  - evaluation: epfl_synthesis
+  - _self_
+
+label: epfl-synthesis
+loop:
+  max_iterations: 20
+  n_workers_phase2: 2
+  n_parallel_phase2: 1
+  n_solver_examples_phase2: 4
+driver:
+  budget_prompt: false
+  model: gpt-6-astra
+  reasoning_effort: xhigh
+  rollout_max_turns: 24
+  timeout_seconds: 1200
+  web_search: disabled
+  enable_multi_agent: false
+logger:
+  wandb:
+    enabled: false

@@ -1,0 +1,21 @@
+{
+  "abc.tar.gz": "https://codeload.github.com/berkeley-abc/abc/tar.gz/a3001b72edc5de22442e942165487fddf150e3d0",
+  "NangateOpenCellLibrary_typical.lib": "https://raw.githubusercontent.com/The-OpenROAD-Project/OpenROAD-flow-scripts/ef421749a1050a8e9a197e7dfcd05396807f889d/flow/platforms/nangate45/lib/NangateOpenCellLibrary_typical.lib",
+  "NANGATE_LICENSE": "https://raw.githubusercontent.com/The-OpenROAD-Project/OpenROAD-flow-scripts/ef421749a1050a8e9a197e7dfcd05396807f889d/flow/platforms/nangate45/LICENSE",
+  "EPFL_LICENSE": "https://raw.githubusercontent.com/lsils/benchmarks/82d8cc6910419298e713a46644ed59fd3df53038/LICENSE",
+  "adder.aig": "https://raw.githubusercontent.com/lsils/benchmarks/82d8cc6910419298e713a46644ed59fd3df53038/arithmetic/adder.aig",
+  "bar.aig": "https://raw.githubusercontent.com/lsils/benchmarks/82d8cc6910419298e713a46644ed59fd3df53038/arithmetic/bar.aig",
+  "max.aig": "https://raw.githubusercontent.com/lsils/benchmarks/82d8cc6910419298e713a46644ed59fd3df53038/arithmetic/max.aig",
+  "sin.aig": "https://raw.githubusercontent.com/lsils/benchmarks/82d8cc6910419298e713a46644ed59fd3df53038/arithmetic/sin.aig",
+  "square.aig": "https://raw.githubusercontent.com/lsils/benchmarks/82d8cc6910419298e713a46644ed59fd3df53038/arithmetic/square.aig",
+  "multiplier.aig": "https://raw.githubusercontent.com/lsils/benchmarks/82d8cc6910419298e713a46644ed59fd3df53038/arithmetic/multiplier.aig",
+  "arbiter.aig": "https://raw.githubusercontent.com/lsils/benchmarks/82d8cc6910419298e713a46644ed59fd3df53038/random_control/arbiter.aig",
+  "i2c.aig": "https://raw.githubusercontent.com/lsils/benchmarks/82d8cc6910419298e713a46644ed59fd3df53038/random_control/i2c.aig",
+  "priority.aig": "https://raw.githubusercontent.com/lsils/benchmarks/82d8cc6910419298e713a46644ed59fd3df53038/random_control/priority.aig",
+  "cavlc.aig": "https://raw.githubusercontent.com/lsils/benchmarks/82d8cc6910419298e713a46644ed59fd3df53038/random_control/cavlc.aig",
+  "dec.aig": "https://raw.githubusercontent.com/lsils/benchmarks/82d8cc6910419298e713a46644ed59fd3df53038/random_control/dec.aig",
+  "voter.aig": "https://raw.githubusercontent.com/lsils/benchmarks/82d8cc6910419298e713a46644ed59fd3df53038/random_control/voter.aig",
+  "ctrl.aig": "https://raw.githubusercontent.com/lsils/benchmarks/82d8cc6910419298e713a46644ed59fd3df53038/random_control/ctrl.aig",
+  "int2float.aig": "https://raw.githubusercontent.com/lsils/benchmarks/82d8cc6910419298e713a46644ed59fd3df53038/random_control/int2float.aig",
+  "router.aig": "https://raw.githubusercontent.com/lsils/benchmarks/82d8cc6910419298e713a46644ed59fd3df53038/random_control/router.aig"
+}

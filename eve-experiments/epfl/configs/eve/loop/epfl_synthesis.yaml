@@ -1,0 +1,60 @@
+# @package _global_
+# Default Eve parameters
+
+loop:
+  max_iterations: 25
+  n_workers_phase2: 2
+  # Run up to this many Phase 2 workers concurrently.
+  n_parallel_phase2: ${loop.n_workers_phase2}
+  n_solver_examples_phase2: 4
+  n_optimizer_examples_phase2: 4  # See `_build_worker_optimizer_examples`.
+  produce_optimizer_in_phase2: ${loop.n_workers_phase2}
+  # Controls logs stored on produced optimizer candidates:
+  # - none: store no optimizer history logs on the produced optimizer.
+  # - current: store only the current Phase 2 worker's log subtree.
+  optimizer_log_inheritance: current
+  boundary_repair_attempts: 3
+  enable_resume: true  # write checkpoints and lineage snapshots for same-run resume
+  sampling:
+    # From: full optimizer population. Sample: `n_workers_phase2`. To: one
+    # optimizer assigned to each Phase 2 worker.
+    working_optimizer:
+      _target_: scaling_evolve.algorithms.eve.populations.samplers.rank_softmax.RankSoftmaxSampler
+      temperature: 1.0
+      replacement_mode: auto
+    # From: full solver population. Sample: `n_solver_examples_phase2`. To:
+    # `solver_examples/` in each Phase 2 worker workspace.
+    solver_examples:
+      _target_: scaling_evolve.algorithms.eve.populations.samplers.rank_softmax.RankExponentialSumSampler
+      features:
+        score:
+          weight: 1.0
+          temperature: 1.0
+      replacement_mode: no_replacement
+    # From: sampled solver examples. Sample: 1. To: initial `solver/` contents
+    # in each Phase 2 worker workspace.
+    solver_prefill:
+      _target_: scaling_evolve.algorithms.eve.populations.samplers.uniform.UniformSampler
+      replacement_mode: no_replacement
+    # Jointly allocate `n_optimizer_examples_phase2 - 1` reference optimizers
+    # per Phase 2 worker. The default samples independently after excluding
+    # every working optimizer. Swap `_target_` to select another joint policy.
+    optimizer_examples:
+      _target_: scaling_evolve.algorithms.eve.populations.samplers.optimizer_examples.PerWorkerExcludeAllWorkingSampler
+      base_sampler:
+        _target_: scaling_evolve.algorithms.eve.populations.samplers.rank_softmax.RankSoftmaxSampler
+        temperature: 1.0
+        replacement_mode: no_replacement
+    # From: optimizer candidates produced in this Phase 2 iteration. Sample:
+    # `produce_optimizer_in_phase2`. To: optimizer population.
+    produced_optimizers:
+      _target_: scaling_evolve.algorithms.eve.populations.samplers.rank_softmax.RankExponentialSumSampler
+      features:
+        score:
+          weight: 1.0
+          temperature: 1.0
+      replacement_mode: no_replacement
+  workspace_root: ${run_root}
+  artifact_root: ${loop.workspace_root}/artifacts
+  solver_db_path: ${loop.workspace_root}/solver_lineage.db
+  optimizer_db_path: ${loop.workspace_root}/optimizer_lineage.db
