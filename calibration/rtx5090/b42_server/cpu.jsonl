@@ -1,0 +1,3 @@
+{"test": "latency", "memory": "near socket", "ns": {"32KB": 1.9, "1024KB": 7.6, "32768KB": 35.5, "524288KB": 96.4, "2097152KB": 106.3}}
+{"test": "latency", "memory": "far socket", "ns": {"32KB": 1.9, "1024KB": 7.6, "32768KB": 68.4, "524288KB": 125.0, "2097152KB": 185.9}}
+{"test": "bandwidth", "GBs": {"one socket reads its own memory": 234, "one socket reads the far memory": 114, "one socket writes its own memory": 135, "both sockets read their own memory": 392}}

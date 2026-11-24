@@ -1,0 +1,5 @@
+Server: 2 x Intel Xeon Gold 6530 (32 cores each), 504 GiB DRAM in 2 NUMA nodes, 8 x RTX 5090 (GPUs 0-3 on socket 0, 4-7 on socket 1), measured Nov 24 2026.
+gpu_mem.cu: per GPU DRAM read/write/copy bandwidth (4 GB), DRAM latency (pointer chase), PCIe copy bandwidth (256 MB pinned) and 4 B copy latency, host side on the GPU's own socket.
+cpu_mem.c: CPU memory latency (pointer chase, 2 MB pages) and bandwidth (32 cores reading 8 GB), near and far socket.
+Output: calibration/rtx5090/b42_server/{gpu,cpu}.jsonl
+Command: nvcc -O3 -gencode arch=compute_120a,code=sm_120a -o gpu_mem gpu_mem.cu && ./gpu_mem "0-31,64-95" "32-63,96-127"; gcc -O2 -pthread -o cpu_mem cpu_mem.c && ./cpu_mem 32 0 32
